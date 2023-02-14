@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!162 &1
+EditorUserSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 4
+  m_ConfigSettings:
+    RecentlyUsedSceneGuid-0:
+      value: 5a57060350010802590d5574487a0c44104f1a287d7f7f607e794467e6b76c3d
+      flags: 0
+    RecentlyUsedSceneGuid-1:
+      value: 53075105555350095c5e0924147309444615492f7a297f352c7b1f6abae1313b
+      flags: 0
+    RecentlyUsedSceneGuid-2:
+      value: 560856005c5108080b57597b477a0f4444164f792e2b73337e791b30b2b86661
+      flags: 0
+    RecentlyUsedSceneGuid-3:
+      value: 570152565d0358590c0b557214760c4445154b29792b25322f791c32b2b36261
+      flags: 0
+    RecentlyUsedSceneGuid-4:
+      value: 0652505f0653085d0c5c5e7146210c4440164d7a2e7e2764752c1e60b6e4603d
+      flags: 0
+    RecentlyUsedSceneGuid-5:
+      value: 5a50560304005c585a0a0f7348750d44461640792f7972362e784c36b6b36769
+      flags: 0
+    RecentlyUsedSceneGuid-6:
+      value: 010455505d5351085b0d557a11770d44424f4e7b292c25657b7a4f6bb5e33739
+      flags: 0
+    RecentlyUsedSceneGuid-7:
+      value: 06030d535c055e5d550d5d2413755d44474f1a7e787c24312e784935b7b0633e
+      flags: 0
+    RecentlyUsedSceneGuid-8:
+      value: 0255065004540b09555a5f7415745d44154e48732e2a7e627d2c1c6ae0b0656f
+      flags: 0
+    RecentlyUsedSceneGuid-9:
+      value: 06545204540d0b5e5f0a5c7414770f444e151a7b757f7164752b4e66e6b46761
+      flags: 0
+    RecentlyUsedScenePath-0:
+      value: 224247031146466b020215251f2d1f3104041d242d2469142824127cd1e33136e7f479c0e92e3a2e3801fb35123b4e0ffd06103fe40a03070240e80018eb09
+      flags: 0
+    RecentlyUsedScenePath-1:
+      value: 224247031146466b020215251f2d1f3104041d242d2469142824127cd1e33136e7f479cae8373d3d2d4ddf3308272f3af1180606f70509125f1bf30705e6
+      flags: 0
+    RecentlyUsedScenePath-2:
+      value: 224247031146466b020215251f2d1f3104041d242d2469142824127cd1e33136e7f479cae8373d3d2d4ddf330827253af31e0145e305031f08
+      flags: 0
+    RecentlyUsedScenePath-3:
+      value: 224247031146466b020215251f2d1f3104041d242d2469142824127cd1e33136e7f479a4a717362f3a4df70c0b32181cfd060619c00a1802101af4011fec5e061fcc0cdc
+      flags: 0
+    RecentlyUsedScenePath-4:
+      value: 224247031146466b020215251f2d1f3104041d242d2469142824127cd1e33136e7f479a4a717362f3a4df70c0b321813fb081b0ae412441e1f07e917
+      flags: 0
+    RecentlyUsedScenePath-5:
+      value: 22424703114646680e0b0227036c711501572b292926237e38271427fb
+      flags: 0
+    RecentlyUsedScenePath-6:
+      value: 22424703114646680e0b0227036c73150012147a7d66333e243d04
+      flags: 0
+    RecentlyUsedScenePath-7:
+      value: 22424703114646680e0b0227036c73150012146a7c7a68252320092a
+      flags: 0
+    RecentlyUsedScenePath-8:
+      value: 22424703114646680e0b0227036c72111f19352f223d68252320092a
+      flags: 0
+    RecentlyUsedScenePath-9:
+      value: 22424703114646680e0b0227036c73150012146a7c7968252320092a
+      flags: 0
+    UnityEditor.ShaderGraph.FloatingWindowsLayout2:
+      value: 181344140043005e1a220d3b1f364b524c0c5a27130c293326201334cee5322ca0bd30e8eb293a707b0fd0180b3d0a36fc0d3d04e649500d1002ee0b5dbd1d2c27c00ad113cb1e10e41f1addc80993b9859884a69ae6d8f0d1cda9e8fbfefaf9f9dea3fdb9ade882f0ffb0e1e380cafbf2c3adc18e9cd285a2908b81ed829c8395949c9483d58e8e97ddbd90eed2a5a892a2af949aa48bafb19f85bd75a7ed3a7d25658598b7b58bb4b76aaf777690ca2863946c72c6cd81b6b6708f9f879f88769589d91c8f888e64d20f935e796571755c6b546677696a486c781c073c6f23696429450074652134203e56454c514e4352305f78621d06746f0243326d645d4b5f450e471441155070787040736e6130644f727841667b34007c5f3fe12420e62304f4e023e03efadde518f54165ebb4efba505e5a5f5e5d45bf0a809a464a9b8946d4da
+      flags: 0
+    vcSharedLogLevel:
+      value: 0d5e400f0650
+      flags: 0
+  m_VCAutomaticAdd: 1
+  m_VCDebugCom: 0
+  m_VCDebugCmd: 0
+  m_VCDebugOut: 0
+  m_SemanticMergeMode: 2
+  m_DesiredImportWorkerCount: 4
+  m_StandbyImportWorkerCount: 2
+  m_IdleImportWorkerShutdownDelay: 60000
+  m_VCShowFailedCheckout: 1
+  m_VCOverwriteFailedCheckoutAssets: 1
+  m_VCProjectOverlayIcons: 1
+  m_VCHierarchyOverlayIcons: 1
+  m_VCOtherOverlayIcons: 1
+  m_VCAllowAsyncUpdate: 0
+  m_ArtifactGarbageCollection: 1
