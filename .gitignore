@@ -2,13 +2,16 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-[Ll]ibrary/
-[Tt]emp/
-[Oo]bj/
-[Bb]uild/
-[Bb]uilds/
-[Ll]ogs/
-[Mm]emoryCaptures/
+3DTD/[Ll]ibrary/
+3DTD/[Tt]emp/
+3DTD/[Oo]bj/
+3DTD/[Bb]uild/
+3DTD/[Bb]uilds/
+3DTD/[Ll]ogs/
+3DTD/[Mm]emoryCaptures/
+
+# Ignore Skyboxes. Important because it is big.
+3DTD/Assets/Skyboxes/Textures/*
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 ![Aa]ssets/**/*.meta
