@@ -8,6 +8,7 @@ TagManager:
   - WaypointManager
   - Enemy
   - End
+  - Map
   layers:
   - Default
   - TransparentFX
@@ -40,7 +41,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - ExcludeInMain
   m_SortingLayers:
   - name: Default
     uniqueID: 0

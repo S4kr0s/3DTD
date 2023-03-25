@@ -77,13 +77,21 @@ public class Spawner : MonoBehaviour
         }
 
         enemiesInWave = spawnCount;
+        GameObject lastEnemy = null;
 
         for (int i = 0; i < wave.EnemiesToSpawn.Count; i++)
         {
             for (int j = 0; j < wave.EnemySpawnCount[i]; j++)
             {
                 enemyPrefab.GetComponent<Enemy>().data = wave.EnemiesToSpawn[i];
-                AddEnemyToList(Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation));
+
+                if (lastEnemy != null)
+                    lastEnemy.SetActive(true);
+
+                GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+                AddEnemyToList(enemy);
+                enemy.SetActive(false);
+                lastEnemy = enemy;
 
                 if (currentGameState == GameState.IDLE)
                     currentGameState = GameState.PROGRESSING;
@@ -91,6 +99,7 @@ public class Spawner : MonoBehaviour
                 yield return new WaitForSeconds(wave.SpawnDelay);
             }
         }
+        lastEnemy.SetActive(true);
     }
 
     private void AddEnemyToList(GameObject enemy)

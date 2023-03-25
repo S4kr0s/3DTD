@@ -86,11 +86,14 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage, DamageType damageType)
     {
+        HandleDamageTaken(damage);
+        /* DamageTypes rework?
         if (damageType == DamageType.ALL || damageType == data.DamageType)
         {
             // Do armor calculations etc. here in the future.
             HandleDamageTaken(damage);
         }
+        */
     }
 
     public void DestroyWholeEnemy()

@@ -61,13 +61,15 @@ public class UpgradeManager : MonoBehaviour
         targettingSelector.itemList[(int)tower.TargetBehaviour].onValueChanged.Invoke();
         targettingSelector.selectorEvent.Invoke((int)tower.TargetBehaviour);
         // Only respects base stats!
-        damage.text = $"Damage:      {tower.TowerData.BaseDamage}";
-        fireRate.text = $"FireRate:      {tower.TowerData.BaseFireRate}";
-        pierce.text = $"Pierce:      {tower.TowerData.BasePenetration}";
+        damage.text = $"{tower.TowerData.BaseDamage}";
+        fireRate.text = $"{tower.TowerData.BaseFireRate}";
+        pierce.text = $"{tower.TowerData.BasePenetration}";
 
         // Upgrade(s) now here
 
+
         // Sell function as last
+
     }
 
     private void SetNewUI(BuildingBlock buildingBlock)

@@ -34,11 +34,13 @@ public class ProjectileBomb : Projectile
     {
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            Penetration--;
+            Penetration--; 
+            DamageInArea();
             Die();
 
             if (Penetration <= 0)
             {
+                DamageInArea();
                 Die();
                 this.gameObject.GetComponent<PolygonProjectileScript>().HasCollided();
             }
@@ -52,6 +54,7 @@ public class ProjectileBomb : Projectile
             if (collision.gameObject.layer == 2 || collision.gameObject.layer == 9 || collision.gameObject.layer == 0)
                 return;
 
+            DamageInArea();
             Die();
             this.gameObject.GetComponent<PolygonProjectileScript>().HasCollided();
         }
@@ -65,7 +68,7 @@ public class ProjectileBomb : Projectile
         {
             if (hitCollider.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
             {
-                enemy.TakeDamage(1f, DamageType.PROJECTILE);
+                enemy.TakeDamage(1f, DamageType.EXPLOSIVE);
             }
         }
     }
