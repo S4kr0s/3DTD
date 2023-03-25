@@ -16,7 +16,7 @@ MonoBehaviour:
   _name: Basic Tower
   _description: This tower shoots basic projectiles.
   _damageType: 0
-  _baseDamage: 1
+  _baseDamage: 0.5
   _baseFireRate: 1.25
-  _basePenetration: 3
-  _baseCost: 100
+  _basePenetration: 1
+  _baseCost: 50

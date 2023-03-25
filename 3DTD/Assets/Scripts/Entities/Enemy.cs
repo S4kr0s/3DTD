@@ -105,7 +105,6 @@ public class Enemy : MonoBehaviour
     private void HandleDamageTaken(float damage)
     {
         currentHealth -= damage;
-        GameManager.Instance.Money++;
         OnHealthUpdated?.Invoke(currentHealth);
         if (currentHealth <= 0)
             HandleDeathOfSingleShape();
@@ -113,6 +112,7 @@ public class Enemy : MonoBehaviour
 
     private void HandleDeathOfSingleShape()
     {
+        GameManager.Instance.Money++;
         int id = (int)CurrentShape + (int)CurrentColor;
 
         if(id == 0)

@@ -32,7 +32,7 @@ public class ProjectileBasic : Projectile
     {
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            enemy.TakeDamage(1f, DamageType.PROJECTILE);
+            enemy.TakeDamage(towerData.BaseDamage, DamageType.PROJECTILE);
             target = null;
             Penetration--;
 
