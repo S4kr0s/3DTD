@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 
 namespace Michsky.UI.ModernUIPack
 {
@@ -19,3 +20,4 @@ namespace Michsky.UI.ModernUIPack
         }
     }
 }
+#endif

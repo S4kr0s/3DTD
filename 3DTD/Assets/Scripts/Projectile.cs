@@ -12,8 +12,21 @@ public class Projectile : MonoBehaviour
     [SerializeField] public float lifetime;
     public event Action<GameObject> OnProjectileDeath;
 
+    private void Awake()
+    {
+        OnProjectileDeath += Projectile_OnProjectileDeath;
+    }
+
+    private void Projectile_OnProjectileDeath(GameObject obj)
+    {
+        // Play particles for death etc.
+        Destroy(obj);
+    }
+
     public GameObject Target { get { return target; } set { target = value; } }
     public int Penetration { get { return penetration; } set { penetration = value; } }
+
+
 
     protected void Die()
     {

@@ -13,6 +13,8 @@ public class ProjectileLaser : Projectile
 
     private void Update()
     {
+        Start:
+
         lifetime -= Time.deltaTime;
 
         if (lifetime <= 0)
@@ -26,8 +28,15 @@ public class ProjectileLaser : Projectile
                 target = Targetter.GetFirstEnemyInGame(target);
             }
 
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, maxSpeed * Time.deltaTime);
-            transform.LookAt(target.transform, Vector3.right);
+            if (target == null)
+            {
+                goto Start;
+            }
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, target.transform.position, maxSpeed * Time.deltaTime);
+                transform.LookAt(target.transform, Vector3.right);
+            }
         }
         else
         {

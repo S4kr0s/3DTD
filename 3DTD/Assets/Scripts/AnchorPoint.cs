@@ -33,8 +33,8 @@ public class AnchorPoint : MonoBehaviour
                     return LaserTurret;
                 case Building.MINIGUN_TOWER:
                     return MinigunTurret;
-                case Building.SNIPER_TOWER:
-                    return SniperTurret;
+                //case Building.SNIPER_TOWER:
+                //    return SniperTurret;
                 default:
                     return null;
             }

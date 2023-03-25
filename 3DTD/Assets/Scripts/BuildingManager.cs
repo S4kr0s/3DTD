@@ -64,7 +64,7 @@ public class BuildingManager : MonoBehaviour
             case Building.BOMB_TOWER:       return Instance.towerDatas[1].Name;
             case Building.LASER_TOWER:      return Instance.towerDatas[2].Name;
             case Building.MINIGUN_TOWER:    return Instance.towerDatas[3].Name;
-            case Building.SNIPER_TOWER:     return Instance.towerDatas[4].Name;
+            //case Building.SNIPER_TOWER:     return Instance.towerDatas[4].Name;
             default: return string.Empty;
         }
     }
@@ -79,7 +79,7 @@ public class BuildingManager : MonoBehaviour
             case Building.BOMB_TOWER:       return Instance.towerDatas[1].Description;
             case Building.LASER_TOWER:      return Instance.towerDatas[2].Description;
             case Building.MINIGUN_TOWER:    return Instance.towerDatas[3].Description;
-            case Building.SNIPER_TOWER:     return Instance.towerDatas[4].Description;
+            //case Building.SNIPER_TOWER:     return Instance.towerDatas[4].Description;
             default: return string.Empty;
         }
     }
@@ -94,7 +94,7 @@ public class BuildingManager : MonoBehaviour
             case Building.BOMB_TOWER:       return Instance.towerDatas[1].BaseCost;
             case Building.LASER_TOWER:      return Instance.towerDatas[2].BaseCost;
             case Building.MINIGUN_TOWER:    return Instance.towerDatas[3].BaseCost;
-            case Building.SNIPER_TOWER:     return Instance.towerDatas[4].BaseCost;
+            //case Building.SNIPER_TOWER:     return Instance.towerDatas[4].BaseCost;
             default: return 0;
         }
     }
@@ -108,5 +108,5 @@ public enum Building
     BOMB_TOWER,
     LASER_TOWER,
     MINIGUN_TOWER,
-    SNIPER_TOWER
+    //SNIPER_TOWER
 }

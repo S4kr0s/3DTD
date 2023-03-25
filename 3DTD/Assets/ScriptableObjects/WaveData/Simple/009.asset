@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3017a32a3b6a33e45bebd247e0a6280b, type: 3}
+  m_Name: 009
+  m_EditorClassIdentifier: 
+  enemiesToSpawn:
+  - {fileID: 11400000, guid: 1878ab9065a5f0341975535697b836e9, type: 2}
+  - {fileID: 11400000, guid: b44ba95ebc062124798f6e3fcb5f7342, type: 2}
+  - {fileID: 11400000, guid: dbd4492b4c3eb714894d04e04bdac00f, type: 2}
+  - {fileID: 11400000, guid: 3120061cabab40e4a901e57cce82b5d4, type: 2}
+  - {fileID: 11400000, guid: bf604684fdf631d4aac89c2cfdad856e, type: 2}
+  - {fileID: 11400000, guid: c9ee1547254c57c4096734faca44bf1a, type: 2}
+  - {fileID: 11400000, guid: 0f475e09c703b7141b9e1940e46dcce3, type: 2}
+  - {fileID: 11400000, guid: d8a42223384291041a5c0b3a7d78de5a, type: 2}
+  - {fileID: 11400000, guid: 31f8163fda06451459380d8009543072, type: 2}
+  - {fileID: 11400000, guid: 680f7aad4e6e5d04ca76ce819688b9ce, type: 2}
+  - {fileID: 11400000, guid: 6bfaab5d78657974da12852683e68c9d, type: 2}
+  - {fileID: 11400000, guid: ea336835be8a7974583d8a9d5a955ab4, type: 2}
+  - {fileID: 11400000, guid: ef74963f2230c1246b14b3d30c525f05, type: 2}
+  - {fileID: 11400000, guid: 752511806484d6c4594e7a703416b35b, type: 2}
+  - {fileID: 11400000, guid: 3af937299fe97ee43adaf4e2fe602590, type: 2}
+  - {fileID: 11400000, guid: 7ba374e4a5500ef4aa52ded0a8a3876b, type: 2}
+  - {fileID: 11400000, guid: 4a14b1b80427ec44bb15621e932139ea, type: 2}
+  - {fileID: 11400000, guid: bc23ba3fe9e5406489e5ff43a3db232f, type: 2}
+  - {fileID: 11400000, guid: d2cb7f1d3a589e44184bde075b0354e6, type: 2}
+  - {fileID: 11400000, guid: f74dadc8d192697449682db243872d93, type: 2}
+  - {fileID: 11400000, guid: ff613fe5733f0a44c8af5c827c6f1028, type: 2}
+  - {fileID: 11400000, guid: 3795de0fd71792f4e99c301ff11f9286, type: 2}
+  - {fileID: 11400000, guid: e3dd8a635640ca84e89374ddf3876bdf, type: 2}
+  - {fileID: 11400000, guid: 6186ede6f6ca79149929e2d7ead4896c, type: 2}
+  - {fileID: 11400000, guid: a7bbecacb8f49184dad8af010ae4cdae, type: 2}
+  - {fileID: 11400000, guid: 92a702fe4d55d4f43a88e3f4efd81329, type: 2}
+  - {fileID: 11400000, guid: d3ea3a8b5a8031c4ebe274aef7a39bc3, type: 2}
+  - {fileID: 11400000, guid: 9e82c9c5336bbfc47a5e4d9a20fa4c5f, type: 2}
+  - {fileID: 11400000, guid: ed704c62e47edcc4091faf4af3c4d780, type: 2}
+  - {fileID: 11400000, guid: 1faeceff92dab744fa21114870287806, type: 2}
+  enemySpawnCount: 00000000000000001e000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  spawnDelay:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1

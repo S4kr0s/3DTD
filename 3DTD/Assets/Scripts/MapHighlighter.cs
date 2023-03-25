@@ -42,8 +42,12 @@ public class MapHighlighter : MonoBehaviour
             {
                 yield return new WaitForSeconds(0.075f);
                 if (lastMapObject != null)
+                {
                     lastMapObject.GetComponentInChildren<MeshRenderer>().material = origMaterial;
+                    lastMapObject.transform.localScale = Vector3.one;
+                }
 
+                go.transform.localScale = Vector3.one * 1.01f;
                 go.GetComponentInChildren<MeshRenderer>().material = highlightMaterial;
                 lastMapObject = go;
             }
@@ -53,6 +57,7 @@ public class MapHighlighter : MonoBehaviour
             }
         }
         lastMapObject.GetComponentInChildren<MeshRenderer>().material = origMaterial;
+        lastMapObject.transform.localScale = Vector3.one;
 
         if (highlight)
             StartCoroutine(highlightTile());

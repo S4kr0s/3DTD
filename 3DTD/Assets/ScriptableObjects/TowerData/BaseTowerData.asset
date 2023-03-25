@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BaseTowerData
   m_EditorClassIdentifier: 
   _id: 100
-  _name: Laser Tower
-  _description: 'This tower shoots '
+  _name: Basic Tower
+  _description: This tower shoots basic projectiles.
   _damageType: 0
   _baseDamage: 1
   _baseFireRate: 1.25

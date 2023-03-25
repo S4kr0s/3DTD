@@ -81,7 +81,7 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(currentlySelected);
+        //Debug.Log(currentlySelected);
     }
 
     

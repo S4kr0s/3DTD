@@ -7,9 +7,9 @@ public class WaveData : ScriptableObject
 {
     [SerializeField] private List<EnemyData> enemiesToSpawn;
     [SerializeField] private List<int> enemySpawnCount;
-    [SerializeField] private float spawnDelay;
+    [SerializeField] private List<float> spawnDelay;
 
     public List<EnemyData> EnemiesToSpawn => enemiesToSpawn;
     public List<int> EnemySpawnCount => enemySpawnCount;
-    public float SpawnDelay => spawnDelay;
+    public List<float> SpawnDelay => spawnDelay;
 }

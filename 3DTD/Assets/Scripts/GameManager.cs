@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = value;
     }
 
-    private void GameOver()
+    public void GameOver()
     {
         PauseMenu.Instance.GameOver();
     }

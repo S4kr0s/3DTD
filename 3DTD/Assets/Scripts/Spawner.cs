@@ -60,7 +60,15 @@ public class Spawner : MonoBehaviour
         OnWaveStarted?.Invoke(GameManager.Instance.Round);
         if (currentGameState == GameState.IDLE)
         {
-            StartCoroutine(nameof(SpawningWave));
+            if (waves.Count >= GameManager.Instance.Round + 1)
+            {
+                StartCoroutine(nameof(SpawningWave));
+            }
+            else
+            {
+                // Implement Infinite Rounds!
+                GameManager.Instance.GameOver();
+            }
         }
     }
 
@@ -96,7 +104,7 @@ public class Spawner : MonoBehaviour
                 if (currentGameState == GameState.IDLE)
                     currentGameState = GameState.PROGRESSING;
 
-                yield return new WaitForSeconds(wave.SpawnDelay);
+                yield return new WaitForSeconds(wave.SpawnDelay[i]);
             }
         }
         lastEnemy.SetActive(true);

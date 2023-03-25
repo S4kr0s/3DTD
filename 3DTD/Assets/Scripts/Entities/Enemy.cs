@@ -141,7 +141,7 @@ public class Enemy : MonoBehaviour
             item.SetActive(false);
         }
 
-        Debug.Log(((int)shape * 10) + (int)color);
+        //Debug.Log(((int)shape * 10) + (int)color);
         data = allPossibleEnemyData[((int)shape * 10) + (int)color];
         UpdateAllStats(data);
 
