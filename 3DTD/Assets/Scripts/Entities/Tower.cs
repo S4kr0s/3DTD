@@ -30,11 +30,16 @@ public class Tower : MonoBehaviour
     public TowerData TowerData { get { return data; } }
     public int Level { get { return level; } }
 
+    private ProjectilePoolManager projectilePoolManager;
 
     private void Start()
     {
         renderer.enabled = false;
         internalFireRate = GetFireRate();
+
+        // Object Pool
+        projectilePoolManager = gameObject.AddComponent<ProjectilePoolManager>();
+        projectilePoolManager.Setup(projectile, Mathf.RoundToInt(10 / internalFireRate));
 
         //ObjectPool
         /*
@@ -103,6 +108,7 @@ public class Tower : MonoBehaviour
         return false;
     }
 
+    /*
     private void ShootAtTarget()
     {
         foreach (GameObject shootingPoint in shootingPoints)
@@ -110,7 +116,6 @@ public class Tower : MonoBehaviour
             if (internalFireRate <= 0 && target != null)
             {
                 internalFireRate = GetFireRate();
-                //GameObject _projectile = projectilePool.Get();
                 GameObject _projectile = Instantiate(projectile, shootingPoint.transform.position, shootingPoint.transform.rotation);
                 _projectile.GetComponent<Projectile>().Target = target;
                 _projectile.GetComponent<Projectile>().lifetime = 2.5f;
@@ -118,11 +123,6 @@ public class Tower : MonoBehaviour
                 _projectile.transform.position = shootingPoint.transform.position;
                 _projectile.transform.rotation = shootingPoint.transform.rotation;
                 _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
-
-                /*
-                if (shootingPoint.activeSelf)
-                    Instantiate(projectile, shootingPoint.transform.position, shootingPoint.transform.rotation);
-                */
             }
             else
             {
@@ -130,6 +130,42 @@ public class Tower : MonoBehaviour
             }
         }
     }
+    */
+
+    private void ShootAtTarget()
+    {
+        foreach (GameObject shootingPoint in shootingPoints)
+        {
+            if (internalFireRate <= 0 && target != null)
+            {
+                internalFireRate = GetFireRate();
+
+                GameObject _projectile = projectilePoolManager.GetPooledProjectile();
+
+                if (_projectile == null)
+                {
+                    continue;
+                }
+
+                _projectile.transform.position = shootingPoint.transform.position;
+                _projectile.transform.rotation = shootingPoint.transform.rotation;
+
+                Projectile projectileComponent = _projectile.GetComponent<Projectile>();
+                projectileComponent.Target = target;
+                projectileComponent.lifetime = 2.5f;
+                projectileComponent.penetration = TowerData.BasePenetration;
+                projectileComponent.OnProjectileDeath += ReturnToPool;
+
+                _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
+            }
+            else
+            {
+                internalFireRate -= Time.deltaTime;
+            }
+        }
+    }
+
+
 
     public void ChangeTargettingBehaviour(TargetBehaviour targetBehaviour)
     {
@@ -149,5 +185,11 @@ public class Tower : MonoBehaviour
     public void MouseExit()
     {
         renderer.enabled = false;
+    }
+
+    public void ReturnToPool(GameObject obj)
+    {
+        obj.GetComponent<Projectile>().OnProjectileDeath -= ReturnToPool;
+        projectilePoolManager.ReturnToPool(obj);
     }
 }

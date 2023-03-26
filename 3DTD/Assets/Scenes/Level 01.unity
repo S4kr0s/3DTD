@@ -5049,7 +5049,7 @@ MonoBehaviour:
   lives: 0
   round: 0
   gameSpeed: 1
-  difficulty: 3
+  difficulty: 1
   baseStartingMoney: 100
   baseLives: 100
   canvas: {fileID: 1058355899}

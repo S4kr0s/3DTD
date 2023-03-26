@@ -20,13 +20,11 @@ public class Projectile : MonoBehaviour
     private void Projectile_OnProjectileDeath(GameObject obj)
     {
         // Play particles for death etc.
-        Destroy(obj);
+        // Destroy(obj);
     }
 
     public GameObject Target { get { return target; } set { target = value; } }
     public int Penetration { get { return penetration; } set { penetration = value; } }
-
-
 
     protected void Die()
     {

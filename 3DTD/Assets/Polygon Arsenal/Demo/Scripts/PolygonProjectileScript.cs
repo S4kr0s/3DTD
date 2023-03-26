@@ -14,6 +14,11 @@ namespace PolygonArsenal
         [Range(0f, 1f)]
         public float collideOffset = 0.15f;
 
+        // private for storing
+        private GameObject _impactParticle;
+        private GameObject _projectileParticle;
+        private GameObject _muzzleParticle;
+
         void Start()
         {
             VisualsStart();
@@ -21,12 +26,12 @@ namespace PolygonArsenal
 
         public void VisualsStart()
         {
-            projectileParticle = Instantiate(projectileParticle, transform.position, transform.rotation) as GameObject;
-            projectileParticle.transform.parent = transform;
+            _projectileParticle = Instantiate(projectileParticle, transform.position, transform.rotation) as GameObject;
+            _projectileParticle.transform.parent = transform;
             if (muzzleParticle)
             {
-                muzzleParticle = Instantiate(muzzleParticle, transform.position, transform.rotation) as GameObject;
-                Destroy(muzzleParticle, 1.5f); // Lifetime of muzzle effect.
+                _muzzleParticle = Instantiate(muzzleParticle, transform.position, transform.rotation) as GameObject;
+                Destroy(_muzzleParticle, 1.5f); // Lifetime of muzzle effect.
             }
         }
 
@@ -59,7 +64,7 @@ namespace PolygonArsenal
             {
                 transform.position = hit.point + (hit.normal * collideOffset);
 
-                GameObject impactP = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, hit.normal)) as GameObject;
+                GameObject _impactParticle = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, hit.normal)) as GameObject;
 
                 if (hit.transform.tag == "Destructible") // Projectile will destroy objects tagged as Destructible
                 {
@@ -68,13 +73,13 @@ namespace PolygonArsenal
 
                 foreach (GameObject trail in trailParticles)
                 {
-                    GameObject curTrail = transform.Find(projectileParticle.name + "/" + trail.name).gameObject;
+                    GameObject curTrail = transform.Find(_projectileParticle.name + "/" + trail.name).gameObject;
                     curTrail.transform.parent = null;
                     Destroy(curTrail, 3f);
                 }
-                Destroy(projectileParticle, 3f);
-                Destroy(impactP, 5.0f);
-                Destroy(gameObject);
+                Destroy(_projectileParticle, 3f);
+                Destroy(_impactParticle, 5.0f);
+                //Destroy(gameObject);
 
                 ParticleSystem[] trails = GetComponentsInChildren<ParticleSystem>();
                 //Component at [0] is that of the parent i.e. this object (if there is any)
@@ -95,18 +100,18 @@ namespace PolygonArsenal
         public void HasCollided()
         {
 
-            impactParticle = Instantiate(impactParticle, transform.position, Quaternion.identity) as GameObject;
+            _impactParticle = Instantiate(impactParticle, transform.position, Quaternion.identity) as GameObject;
 
             foreach (GameObject trail in trailParticles)
             {
-                GameObject curTrail = transform.Find(projectileParticle.name + "/" + trail.name).gameObject;
+                GameObject curTrail = transform.Find(_projectileParticle.name + "/" + trail.name).gameObject;
                 curTrail.transform.parent = null;
                 Destroy(curTrail, 3f);
             }
 
-            Destroy(projectileParticle, 3f);
-            Destroy(impactParticle, 5f);
-            Destroy(gameObject);
+            Destroy(_projectileParticle, 3f);
+            Destroy(_impactParticle, 5f);
+            //Destroy(gameObject);
 
             ParticleSystem[] trails = GetComponentsInChildren<ParticleSystem>();
             //Component at [0] is that of the parent i.e. this object (if there is any)
@@ -125,49 +130,7 @@ namespace PolygonArsenal
 
         public void HasCollidedWithoutDeath()
         {
-            impactParticle = Instantiate(impactParticle, transform.position, Quaternion.identity) as GameObject;
-
-            //Destroy(impactParticle, 5f);
+            _impactParticle = Instantiate(impactParticle, transform.position, Quaternion.identity) as GameObject;
         }
-
-        //private bool hasCollided = false;
-
-        /*void OnCollisionEnter(Collision hit)
-        {
-            if (!hasCollided)
-            {
-                hasCollided = true;
-                impactParticle = Instantiate(impactParticle, transform.position, Quaternion.FromToRotation(Vector3.up, impactNormal)) as GameObject;
-
-                if (hit.gameObject.tag == "Destructible") // Projectile will destroy objects tagged as Destructible
-                {
-                    Destroy(hit.gameObject);
-                }
-
-                foreach (GameObject trail in trailParticles)
-                {
-                    GameObject curTrail = transform.Find(projectileParticle.name + "/" + trail.name).gameObject;
-                    curTrail.transform.parent = null;
-                    Destroy(curTrail, 3f);
-                }
-                Destroy(projectileParticle, 3f);
-                Destroy(impactParticle, 5f);
-                Destroy(gameObject);
-
-                ParticleSystem[] trails = GetComponentsInChildren<ParticleSystem>();
-                //Component at [0] is that of the parent i.e. this object (if there is any)
-                for (int i = 1; i < trails.Length; i++)
-                {
-
-                    ParticleSystem trail = trails[i];
-
-                    if (trail.gameObject.name.Contains("Trail"))
-                    {
-                    trail.transform.SetParent(null);
-                    Destroy(trail.gameObject, 2f);
-                    }
-                }
-            }
-        }*/
     }
 }

@@ -83,6 +83,4 @@ public class SelectionManager : MonoBehaviour
     {
         //Debug.Log(currentlySelected);
     }
-
-    
 }
