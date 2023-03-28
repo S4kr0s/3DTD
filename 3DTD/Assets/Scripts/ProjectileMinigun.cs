@@ -5,6 +5,9 @@ using PolygonArsenal;
 
 public class ProjectileMinigun : Projectile
 {
+    [SerializeField] private CapsuleCollider capsuleCollider;
+    private Vector3 direction;
+    private Vector3 cachedPosition;
 
     private void Start()
     {
@@ -18,7 +21,36 @@ public class ProjectileMinigun : Projectile
         if(lifetime <= 0)
             Die();
 
-        transform.position += transform.forward * maxSpeed * Time.deltaTime;
+
+        direction = transform.forward * maxSpeed * Time.deltaTime;
+        cachedPosition = transform.position;
+        transform.position += direction;
+
+        if (Physics.SphereCast(cachedPosition, capsuleCollider.radius, direction, out RaycastHit hit, (lifetime / 2) * maxSpeed * Time.deltaTime))
+        {
+            this.gameObject.transform.position = hit.point;
+
+            if (hit.collider.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                enemy.TakeDamage(1f, DamageType.PROJECTILE);
+
+                Penetration--;
+
+                if (Penetration <= 0)
+                {
+                    Die();
+                    this.gameObject.GetComponent<PolygonProjectileScript>().HasCollided();
+                }
+            }
+            else
+            {
+                if (hit.collider.gameObject.layer == 2 || hit.collider.gameObject.layer == 9 || hit.collider.gameObject.layer == 0)
+                    return;
+
+                Die();
+                this.gameObject.GetComponent<PolygonProjectileScript>().HasCollided();
+            }
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

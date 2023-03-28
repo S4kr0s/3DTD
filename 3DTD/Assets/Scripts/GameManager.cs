@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     public event Action<int> OnRoundChanged;
     public event Action<float> OnGameSpeedChanged;
 
+    [SerializeField] private bool isMainMenu = false;
+
     public int Money 
     {
         get 
@@ -113,6 +115,9 @@ public class GameManager : MonoBehaviour
                 lives = Mathf.RoundToInt(baseLives / 2);
                 break;
         }
+
+        if (isMainMenu)
+            GameObject.FindGameObjectWithTag("Spawner").GetComponent<Spawner>().StartNextWave();
     }
 
     private void Start()

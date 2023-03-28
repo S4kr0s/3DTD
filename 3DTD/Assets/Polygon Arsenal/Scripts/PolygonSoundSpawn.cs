@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace PolygonArsenal
 {
@@ -20,6 +21,7 @@ namespace PolygonArsenal
             //Spawn the sound object
             GameObject m_Sound = Instantiate(prefabSound, transform.position, Quaternion.identity);
             AudioSource m_Source = m_Sound.GetComponent<AudioSource>();
+            m_Source.outputAudioMixerGroup = m_Source.outputAudioMixerGroup.audioMixer.FindMatchingGroups("Towers")[0];
 
             //Attach object to parent if true
             if (soundPrefabIsChild)

@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - End
   - Map
+  - Spawner
   layers:
   - Default
   - TransparentFX
