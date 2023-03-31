@@ -5,11 +5,6 @@ using PolygonArsenal;
 
 public class ProjectileBasic : Projectile
 {
-    private void Start()
-    {
-        Penetration = (int)towerData.BasePenetration;
-    }
-
     private void Update()
     {
         lifetime -= Time.deltaTime;
@@ -32,7 +27,7 @@ public class ProjectileBasic : Projectile
     {
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            enemy.TakeDamage(towerData.BaseDamage, DamageType.PROJECTILE);
+            enemy.TakeDamage(damage, DamageType.PROJECTILE);
             target = null;
             Penetration--;
 

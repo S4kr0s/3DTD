@@ -9,11 +9,6 @@ public class ProjectileMinigun : Projectile
     private Vector3 direction;
     private Vector3 cachedPosition;
 
-    private void Start()
-    {
-        Penetration = (int)towerData.BasePenetration;
-    }
-
     private void Update()
     {
         lifetime -= Time.deltaTime;
@@ -57,7 +52,7 @@ public class ProjectileMinigun : Projectile
     {
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            enemy.TakeDamage(1f, DamageType.PROJECTILE);
+            enemy.TakeDamage(damage, DamageType.PROJECTILE);
 
             Penetration--;
 

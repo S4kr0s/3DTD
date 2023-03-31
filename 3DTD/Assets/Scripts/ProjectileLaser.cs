@@ -50,7 +50,7 @@ public class ProjectileLaser : Projectile
     {
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            enemy.TakeDamage(1f, DamageType.PROJECTILE);
+            enemy.TakeDamage(damage, DamageType.PROJECTILE);
 
             Penetration--;
 

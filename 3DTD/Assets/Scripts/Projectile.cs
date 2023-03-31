@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] public TowerData towerData;
     [SerializeField] public GameObject target;
+    [SerializeField] public float damage;
     [SerializeField] public int penetration;
     [SerializeField] public float maxSpeed;
     [SerializeField] public float lifetime;

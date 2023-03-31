@@ -60,10 +60,11 @@ public class UpgradeManager : MonoBehaviour
         targettingSelector.index = (int)tower.TargetBehaviour;
         targettingSelector.itemList[(int)tower.TargetBehaviour].onValueChanged.Invoke();
         targettingSelector.selectorEvent.Invoke((int)tower.TargetBehaviour);
+
         // Only respects base stats!
-        damage.text = $"{tower.TowerData.BaseDamage}";
-        fireRate.text = $"{tower.TowerData.BaseFireRate}";
-        pierce.text = $"{tower.TowerData.BasePenetration}";
+        damage.text = $"{tower.UpdateAndGetDamage}";
+        fireRate.text = $"{tower.UpdateAndGetFireRate}";
+        pierce.text = $"{tower.UpdateAndGetPenetration}";
 
         // Upgrade(s) now here
 

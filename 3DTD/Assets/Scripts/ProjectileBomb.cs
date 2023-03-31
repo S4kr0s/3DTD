@@ -7,11 +7,6 @@ public class ProjectileBomb : Projectile
 {
     [SerializeField] private SphereCollider sphereCollider;
 
-    private void Start()
-    {
-        Penetration = (int)towerData.BasePenetration;
-    }
-
     private void Update()
     {
         lifetime -= Time.deltaTime;
@@ -68,7 +63,7 @@ public class ProjectileBomb : Projectile
         {
             if (hitCollider.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
             {
-                enemy.TakeDamage(1f, DamageType.EXPLOSIVE);
+                enemy.TakeDamage(damage, DamageType.EXPLOSIVE);
             }
         }
     }
