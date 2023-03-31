@@ -27,7 +27,7 @@ public class ProjectileMinigun : Projectile
 
             if (hit.collider.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
             {
-                enemy.TakeDamage(1f, DamageType.PROJECTILE);
+                enemy.TakeDamage(damage, DamageType.PROJECTILE);
 
                 Penetration--;
 

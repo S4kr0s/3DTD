@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11059e2d36e20ae4da89d8b8198cca82, type: 3}
+  m_Name: BaseLevel 1
+  m_EditorClassIdentifier: 
+  IsEnabled: 0
+  baseCost: 50
+  damageModifier: 0.5
+  fireRateModifier: -0.2
+  penetrationModifier: 0

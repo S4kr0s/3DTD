@@ -5047,11 +5047,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   money: 0
   lives: 0
-  round: 45
+  round: 0
   gameSpeed: 1
   difficulty: 1
   baseStartingMoney: 100
   baseLives: 100
+  isMainMenu: 0
   canvas: {fileID: 1058355899}
 --- !u!4 &612380559
 Transform:
@@ -16820,6 +16821,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33678b00297a8d7468f590f82ea30305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  upgrades: []
+  activeUpgrades: []
   targetter: {fileID: 8361684208420881195}
   targetBehaviour: 0
   renderer: {fileID: 0}

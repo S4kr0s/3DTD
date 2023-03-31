@@ -10,8 +10,11 @@ public class Tower : MonoBehaviour
 {
     public TargetBehaviour TargetBehaviour { get { return targetBehaviour; } }
 
-    public Upgrade[] GetActiveUpgrades { get { return upgrades.Where(x => x.IsEnabled).ToArray(); } }
-    [SerializeField] private Upgrade[] upgrades;
+    public UpgradeData[] Upgrades { get { return upgrades; } }
+    public UpgradeData[] ActiveUpgrades { get { return activeUpgrades; } }
+
+    [SerializeField] private UpgradeData[] upgrades;
+    [SerializeField] private UpgradeData[] activeUpgrades;
 
     private float _realDamage;
     public float UpdateAndGetDamage 
@@ -19,7 +22,7 @@ public class Tower : MonoBehaviour
         get 
         {
             _realDamage = TowerData.BaseDamage;
-            foreach (Upgrade upgrade in GetActiveUpgrades)
+            foreach (UpgradeData upgrade in ActiveUpgrades)
                 _realDamage += upgrade.DamageModifier;
             return _realDamage;
         } 
@@ -32,7 +35,7 @@ public class Tower : MonoBehaviour
         get
         {
             _realFireRate = TowerData.BaseFireRate;
-            foreach (Upgrade upgrade in GetActiveUpgrades)
+            foreach (UpgradeData upgrade in ActiveUpgrades)
                 _realFireRate += upgrade.FireRateModifier;
             return _realFireRate;
         }
@@ -45,7 +48,7 @@ public class Tower : MonoBehaviour
         get
         {
             _realPenetration = TowerData.BasePenetration;
-            foreach (Upgrade upgrade in GetActiveUpgrades)
+            foreach (UpgradeData upgrade in ActiveUpgrades)
                 _realPenetration += upgrade.PenetrationModifier;
             return _realPenetration;
         }
@@ -76,7 +79,9 @@ public class Tower : MonoBehaviour
     private void Start()
     {
         renderer.enabled = false;
-        internalFireRate = GetFireRate;
+        internalFireRate = UpdateAndGetFireRate;
+        _realDamage = UpdateAndGetDamage;
+        _realPenetration = UpdateAndGetPenetration;
 
         // Object Pool
         projectilePoolManager = gameObject.AddComponent<ProjectilePoolManager>();
@@ -159,6 +164,7 @@ public class Tower : MonoBehaviour
                     continue;
                 }
 
+                _projectile.SetActive(false);
                 _projectile.transform.position = shootingPoint.transform.position;
                 _projectile.transform.rotation = shootingPoint.transform.rotation;
 
@@ -168,6 +174,7 @@ public class Tower : MonoBehaviour
                 projectileComponent.damage = GetDamage;
                 projectileComponent.penetration = GetPenetration;
                 projectileComponent.OnProjectileDeath += ReturnToPool;
+                _projectile.SetActive(true);
 
                 _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
             }

@@ -6,11 +6,6 @@ public class ProjectileLaser : Projectile
 {
     private bool shouldTargetAnother = true;
 
-    private void Start()
-    {
-        Penetration = (int)towerData.BasePenetration;
-    }
-
     private void Update()
     {
         Start:

@@ -51,6 +51,8 @@ public class Enemy : MonoBehaviour
 
     private Quaternion randomRotation;
 
+    private float _overflowDamage;
+
     private void Start()
     {
         OnShapeOrColorChanged += HandleShapeOrColorChanged;
@@ -105,9 +107,12 @@ public class Enemy : MonoBehaviour
     private void HandleDamageTaken(float damage)
     {
         currentHealth -= damage;
+        _overflowDamage = currentHealth * -1;
         OnHealthUpdated?.Invoke(currentHealth);
         if (currentHealth <= 0)
+        {
             HandleDeathOfSingleShape();
+        }
     }
 
     private void HandleDeathOfSingleShape()
@@ -146,6 +151,9 @@ public class Enemy : MonoBehaviour
         UpdateAllStats(data);
 
         allPossibleShapes[((int)CurrentShape * 10) + (int)CurrentColor].SetActive(true);
+
+        if (_overflowDamage > 0)
+            TakeDamage(_overflowDamage, DamageType.ALL);
     }
 }
 

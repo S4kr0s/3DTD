@@ -1,8 +1,13 @@
 using UnityEngine;
 
-public class Upgrade : MonoBehaviour
+
+[CreateAssetMenu(fileName = "BaseUpgradeData", menuName = "TowerDefense/UpgradeData", order = 0)]
+public class UpgradeData : ScriptableObject
 {
     public bool IsEnabled = false;
+
+    public float BaseCost { get { return BaseCost; } }
+    [SerializeField] private float baseCost;
 
     public float DamageModifier { get { return damageModifier; } }
     [SerializeField] private float damageModifier;
