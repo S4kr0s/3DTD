@@ -19,4 +19,5 @@ MonoBehaviour:
   _baseDamage: 10
   _baseFireRate: 5
   _basePenetration: 5
-  _baseCost: 350
+  _baseCost: 225
+  _lifetime: 2

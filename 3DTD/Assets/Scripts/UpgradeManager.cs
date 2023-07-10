@@ -32,6 +32,13 @@ public class UpgradeManager : MonoBehaviour
     private void Start()
     {
         SelectionManager.OnSelectionChange += HandleSelectionChanged;
+
+        CheckReferences();
+    }
+
+    private void OnDestroy()
+    {
+        SelectionManager.OnSelectionChange -= HandleSelectionChanged;
     }
 
     private void HandleSelectionChanged(Selectable oldSelection, Selectable newSelection)
@@ -99,5 +106,26 @@ public class UpgradeManager : MonoBehaviour
         damage.enabled = true;
         fireRate.enabled = true;
         pierce.enabled = true;
+    }
+
+    private void CheckReferences()
+    {
+        if (parentBackground == null)
+            parentBackground = this.gameObject.GetComponent<Image>();
+
+        if (title == null)
+            title = GameObject.Find("Title").GetComponent<TMP_Text>();
+
+        if (targettingSelector == null)
+            targettingSelector = GameObject.Find("Horizontal Selector").GetComponent<HorizontalSelector>();
+
+        if (damage == null)
+            damage = GameObject.Find("DamageText").GetComponent<TMP_Text>();
+
+        if (pierce == null)
+            pierce = GameObject.Find("PierceText").GetComponent<TMP_Text>();
+
+        if (fireRate == null)
+            fireRate = GameObject.Find("FireRateText").GetComponent<TMP_Text>();
     }
 }

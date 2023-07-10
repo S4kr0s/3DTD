@@ -7,7 +7,8 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private List<WaveData> waves;
-    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Transform[] spawnPoints;
+    [SerializeField] private Waypoints[] waypoints;
     [SerializeField] private bool autoPlay = false;
     [SerializeField] private GameState currentGameState;
 
@@ -21,7 +22,7 @@ public class Spawner : MonoBehaviour
     public static Spawner Instance { get { return instance; } }
     public List<GameObject> EnemiesAlive { get { return enemiesAlive; } }
 
-    private void Awake()
+    private void Start()
     {
         if (instance != null && instance != this)
         {
@@ -31,10 +32,7 @@ public class Spawner : MonoBehaviour
         {
             instance = this;
         }
-    }
 
-    private void Start()
-    {
         currentGameState = GameState.IDLE;
     }
 
@@ -62,7 +60,10 @@ public class Spawner : MonoBehaviour
         {
             if (waves.Count >= GameManager.Instance.Round + 1)
             {
-                StartCoroutine(nameof(SpawningWave));
+                for (int i = 0; i < spawnPoints.Length; i++)
+                {
+                    StartCoroutine(SpawningWave(spawnPoints[i], waypoints[i]));
+                }
             }
             else
             {
@@ -72,7 +73,7 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    IEnumerator SpawningWave()
+    IEnumerator SpawningWave(Transform spawnPoint, Waypoints waypoints)
     {
         WaveData wave = waves[GameManager.Instance.Round];
         GameManager.Instance.Round++;
@@ -98,6 +99,7 @@ public class Spawner : MonoBehaviour
 
                 GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
                 AddEnemyToList(enemy);
+                enemy.GetComponent<Enemy>().waypoints = waypoints;
                 enemy.SetActive(false);
                 lastEnemy = enemy;
 

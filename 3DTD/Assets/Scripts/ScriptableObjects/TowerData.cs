@@ -13,6 +13,7 @@ public class TowerData : ScriptableObject
     [SerializeField] private float _baseFireRate;
     [SerializeField] private int _basePenetration;
     [SerializeField] private int _baseCost;
+    [SerializeField] private float _lifetime;
 
     public int Id => _id;
     public string Name => _name;
@@ -22,4 +23,5 @@ public class TowerData : ScriptableObject
     public float BaseFireRate => _baseFireRate;
     public int BasePenetration => _basePenetration;
     public int BaseCost => _baseCost;
+    public float Lifetime => _lifetime;
 }

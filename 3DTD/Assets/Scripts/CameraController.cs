@@ -38,6 +38,12 @@ public class CameraController : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //
+            //ResetCamera();
+        }
     }
 
     private void ZoomAround()
@@ -73,5 +79,13 @@ public class CameraController : MonoBehaviour
             return;
 
         this.gameObject.transform.RotateAround(cameraAnchor.transform.position, transform.TransformDirection(Vector3.right), rotateSpeed * -vertical);
+    }
+
+    private void ResetCamera()
+    {
+        this.gameObject.GetComponentInParent<Transform>().localPosition = new Vector3(0.5f, 0.5f, 2f);
+        this.gameObject.GetComponentInParent<Transform>().localEulerAngles = new Vector3(0f, 0f, 0f);
+        this.gameObject.transform.localPosition = new Vector3(0f, 5f, -5f);
+        this.gameObject.transform.localEulerAngles = new Vector3(45f, 0f, 0f);
     }
 }

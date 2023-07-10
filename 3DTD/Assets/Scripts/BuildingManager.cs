@@ -64,6 +64,10 @@ public class BuildingManager : MonoBehaviour
             case Building.BOMB_TOWER:       return Instance.towerDatas[1].Name;
             case Building.LASER_TOWER:      return Instance.towerDatas[2].Name;
             case Building.MINIGUN_TOWER:    return Instance.towerDatas[3].Name;
+            case Building.ROUND_TOWER:      return Instance.towerDatas[4].Name;
+            case Building.GLOBAL_TOWER:     return Instance.towerDatas[5].Name;
+            case Building.HINDRANCE_TOWER:  return Instance.towerDatas[6].Name;
+            case Building.PULSE_TOWER:      return Instance.towerDatas[7].Name;
             //case Building.SNIPER_TOWER:     return Instance.towerDatas[4].Name;
             default: return string.Empty;
         }
@@ -79,6 +83,10 @@ public class BuildingManager : MonoBehaviour
             case Building.BOMB_TOWER:       return Instance.towerDatas[1].Description;
             case Building.LASER_TOWER:      return Instance.towerDatas[2].Description;
             case Building.MINIGUN_TOWER:    return Instance.towerDatas[3].Description;
+            case Building.ROUND_TOWER:      return Instance.towerDatas[4].Description;
+            case Building.GLOBAL_TOWER:     return Instance.towerDatas[5].Description;
+            case Building.HINDRANCE_TOWER:  return Instance.towerDatas[6].Description;
+            case Building.PULSE_TOWER:      return Instance.towerDatas[7].Description;
             //case Building.SNIPER_TOWER:     return Instance.towerDatas[4].Description;
             default: return string.Empty;
         }
@@ -94,6 +102,10 @@ public class BuildingManager : MonoBehaviour
             case Building.BOMB_TOWER:       return Instance.towerDatas[1].BaseCost;
             case Building.LASER_TOWER:      return Instance.towerDatas[2].BaseCost;
             case Building.MINIGUN_TOWER:    return Instance.towerDatas[3].BaseCost;
+            case Building.ROUND_TOWER:      return Instance.towerDatas[4].BaseCost;
+            case Building.GLOBAL_TOWER:     return Instance.towerDatas[5].BaseCost;
+            case Building.HINDRANCE_TOWER:  return Instance.towerDatas[6].BaseCost;
+            case Building.PULSE_TOWER:      return Instance.towerDatas[7].BaseCost;
             //case Building.SNIPER_TOWER:     return Instance.towerDatas[4].BaseCost;
             default: return 0;
         }
@@ -108,5 +120,9 @@ public enum Building
     BOMB_TOWER,
     LASER_TOWER,
     MINIGUN_TOWER,
+    ROUND_TOWER,
+    GLOBAL_TOWER,
+    HINDRANCE_TOWER,
+    PULSE_TOWER
     //SNIPER_TOWER
 }

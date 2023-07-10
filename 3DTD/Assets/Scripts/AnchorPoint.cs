@@ -10,6 +10,10 @@ public class AnchorPoint : MonoBehaviour
     [SerializeField] private GameObject LaserTurret;
     [SerializeField] private GameObject MinigunTurret;
     [SerializeField] private GameObject SniperTurret;
+    [SerializeField] private GameObject RoundTower;
+    [SerializeField] private GameObject GlobalTower;
+    [SerializeField] private GameObject HindranceTower;
+    [SerializeField] private GameObject PulseTower;
     [SerializeField] private Transform anchorPointPosition;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private Material baseMaterial;
@@ -33,6 +37,14 @@ public class AnchorPoint : MonoBehaviour
                     return LaserTurret;
                 case Building.MINIGUN_TOWER:
                     return MinigunTurret;
+                case Building.ROUND_TOWER:
+                    return RoundTower;
+                case Building.GLOBAL_TOWER:
+                    return GlobalTower;
+                case Building.HINDRANCE_TOWER:
+                    return HindranceTower;
+                case Building.PULSE_TOWER:
+                    return PulseTower;
                 //case Building.SNIPER_TOWER:
                 //    return SniperTurret;
                 default:

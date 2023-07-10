@@ -12,19 +12,21 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        masterAudioMixer.SetFloat("masterVolume", m_sliderManager.mainSlider.value - 80);
+        if (masterAudioMixer != null)
+            masterAudioMixer.SetFloat("masterVolume", m_sliderManager.mainSlider.value - 80);
     }
 
     public void OnMasterVolumeSliderValueChanged()
     {
-        masterAudioMixer.SetFloat("masterVolume", m_sliderManager.mainSlider.value - 80);
+        if (masterAudioMixer != null)
+            masterAudioMixer.SetFloat("masterVolume", m_sliderManager.mainSlider.value - 80);
     }
 
-    public void StartGame()
+    public void StartGame(GameObject button)
     {
         OnMasterVolumeSliderValueChanged();
         // Temporary
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(button.name);
         GameManager.Instance.ChangeGameSpeed(1);
     }
 

@@ -437,17 +437,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5a72ddd1317424f41bffe8988423241b, type: 2}
   - {fileID: 11400000, guid: 4f45493c3e824dc4c9e28c043240966e, type: 2}
   - {fileID: 11400000, guid: dca40fe3153ac264284d989fe76ced79, type: 2}
-  activeUpgrades:
-  - {fileID: 11400000, guid: 4eb83dd0bd9f33243af21e0e79a096bb, type: 2}
-  - {fileID: 11400000, guid: 85a17d23005a4054694c7915f564eed6, type: 2}
-  - {fileID: 11400000, guid: 5a72ddd1317424f41bffe8988423241b, type: 2}
-  - {fileID: 11400000, guid: 4f45493c3e824dc4c9e28c043240966e, type: 2}
-  - {fileID: 11400000, guid: dca40fe3153ac264284d989fe76ced79, type: 2}
+  activeUpgrades: []
   targetter: {fileID: 1697263479036677693}
   targetBehaviour: 0
   renderer: {fileID: 2423559506319739154}
   data: {fileID: 11400000, guid: d55b01861e30f5d4ea217e2a8af3b658, type: 2}
   rotationPoint: {fileID: 1673631861350220900}
+  alternateRotation: 0
   shootingPoints:
   - {fileID: 8641120565615340713}
   target: {fileID: 0}

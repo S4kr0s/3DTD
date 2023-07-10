@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] public EnemyData data;
     [SerializeField] private float currentHealth;
-    [SerializeField] private Waypoints waypoints;
+    [SerializeField] public Waypoints waypoints;
     private int waypointIndex = 0;
 
     [SerializeField] private float distanceTraveled = 0f;
@@ -20,6 +20,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject[] allPossibleShapes;
     [SerializeField] private EnemyData[] allPossibleEnemyData;
 
+    [SerializeField] private float movementSpeedModifierPercent = 1.0f;
+    [SerializeField] private bool specialEnemy = false;
+
+    private float MovementSpeed
+    {
+        get { return data.MovementSpeed * movementSpeedModifierPercent; }
+    }
+
+
     public Shape CurrentShape 
     { 
         get { return currentShape; } 
@@ -27,6 +36,7 @@ public class Enemy : MonoBehaviour
         set 
         { 
             currentShape = value;
+            OnShapeOrColorChanged?.Invoke(CurrentShape, CurrentColor);
         }
     }
 
@@ -56,7 +66,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         OnShapeOrColorChanged += HandleShapeOrColorChanged;
-        waypoints = GameObject.FindGameObjectWithTag("WaypointManager").GetComponent<Waypoints>();
+        //waypoints = GameObject.FindGameObjectWithTag("WaypointManager").GetComponent<Waypoints>();
         currentHealth = data.Health; 
         randomRotation = Random.rotation;
         CurrentShape = data.StartShape;
@@ -77,7 +87,7 @@ public class Enemy : MonoBehaviour
 
         transform.rotation = Quaternion.Slerp(transform.rotation, randomRotation, speedRandomRotation * Time.deltaTime);
 
-        Vector3 moveTowards = Vector3.MoveTowards(transform.position, waypoints.WaypointsArray[waypointIndex].position, data.MovementSpeed * Time.deltaTime);
+        Vector3 moveTowards = Vector3.MoveTowards(transform.position, waypoints.WaypointsArray[waypointIndex].position, MovementSpeed * Time.deltaTime);
         distanceTraveled += Vector3.Distance(transform.position, moveTowards);
         transform.position = moveTowards;
 
@@ -98,6 +108,18 @@ public class Enemy : MonoBehaviour
         */
     }
 
+    public void ApplySlowness(float percentageAmount, float durationInSeconds)
+    {
+        StartCoroutine(Slowness(percentageAmount, durationInSeconds));
+    }
+
+    private IEnumerator Slowness(float percentageAmount, float durationInSeconds)
+    {
+        movementSpeedModifierPercent += percentageAmount;
+        yield return new WaitForSeconds(durationInSeconds);
+        movementSpeedModifierPercent -= percentageAmount;
+    }
+
     public void DestroyWholeEnemy()
     {
         OnDeath?.Invoke(this.gameObject);
@@ -111,7 +133,10 @@ public class Enemy : MonoBehaviour
         OnHealthUpdated?.Invoke(currentHealth);
         if (currentHealth <= 0)
         {
-            HandleDeathOfSingleShape();
+            if (!specialEnemy)
+                HandleDeathOfSingleShape();
+            else
+                HandleDeathOfSpecialEnemy();
         }
     }
 
@@ -139,6 +164,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void HandleDeathOfSpecialEnemy()
+    {
+        Destroy(this.gameObject);
+    }
+
     private void HandleShapeOrColorChanged(Shape shape, EnemyColor color)
     {
         foreach (GameObject item in allPossibleShapes)
@@ -159,21 +189,23 @@ public class Enemy : MonoBehaviour
 
 public enum Shape
 {
-    TETRAHEDRON = 0,
-    OCTAHEDRON = 1,
-    ICOSAHEDRON = 2
+    TETRAHEDRON     = 0,
+    CUBE            = 1,
+    OCTAHEDRON      = 2,
+    DODECAHEDRON    = 3,
+    ICOSAHEDRON     = 4
 }
 
 public enum EnemyColor
 {
-    RED = 0,
-    ORANGE = 1,
-    YELLOW = 2,
-    GREEN = 3,
-    CYAN = 4,
-    BLUE = 5,
-    PURPLE = 6,
-    PINK = 7,
-    WHITE = 8,
-    BLACK = 9
+    RED     = 0,
+    ORANGE  = 1,
+    YELLOW  = 2,
+    GREEN   = 3,
+    CYAN    = 4,
+    BLUE    = 5,
+    PURPLE  = 6,
+    PINK    = 7,
+    WHITE   = 8,
+    BLACK   = 9
 }

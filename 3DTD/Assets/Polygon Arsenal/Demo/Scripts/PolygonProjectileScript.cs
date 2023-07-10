@@ -26,9 +26,13 @@ namespace PolygonArsenal
 
         public void VisualsStart()
         {
-            _projectileParticle = Instantiate(projectileParticle, transform.position, transform.rotation) as GameObject;
-            _projectileParticle.transform.parent = transform;
-            if (muzzleParticle)
+            if (projectileParticle != null)
+            {
+                _projectileParticle = Instantiate(projectileParticle, transform.position, transform.rotation) as GameObject;
+                _projectileParticle.transform.parent = transform;
+            }
+
+            if (muzzleParticle != null)
             {
                 _muzzleParticle = Instantiate(muzzleParticle, transform.position, transform.rotation) as GameObject;
                 Destroy(_muzzleParticle, 1.5f); // Lifetime of muzzle effect.
@@ -100,7 +104,8 @@ namespace PolygonArsenal
         public void HasCollided()
         {
 
-            _impactParticle = Instantiate(impactParticle, transform.position, Quaternion.identity) as GameObject;
+            if(impactParticle != null)
+                _impactParticle = Instantiate(impactParticle, transform.position, Quaternion.identity) as GameObject;
 
             foreach (GameObject trail in trailParticles)
             {
@@ -109,8 +114,12 @@ namespace PolygonArsenal
                 Destroy(curTrail, 3f);
             }
 
-            Destroy(_projectileParticle, 3f);
-            Destroy(_impactParticle, 5f);
+
+            if (projectileParticle != null)
+                Destroy(_projectileParticle, 3f);
+
+            if (impactParticle != null)
+                Destroy(_impactParticle, 5f);
             //Destroy(gameObject);
 
             ParticleSystem[] trails = GetComponentsInChildren<ParticleSystem>();

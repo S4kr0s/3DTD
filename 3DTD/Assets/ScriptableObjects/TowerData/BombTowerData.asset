@@ -17,7 +17,8 @@ MonoBehaviour:
   _description: This tower shoots a powerful projectile which will explode on contact
     with any enemy.
   _damageType: 1
-  _baseDamage: 1
+  _baseDamage: 0.5
   _baseFireRate: 3.5
   _basePenetration: 1
-  _baseCost: 200
+  _baseCost: 175
+  _lifetime: 1

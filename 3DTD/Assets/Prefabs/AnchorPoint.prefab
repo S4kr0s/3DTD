@@ -155,6 +155,14 @@ MonoBehaviour:
     type: 3}
   SniperTurret: {fileID: 8641120566026317397, guid: 7a64ed6982e4d954e80983eab6d04fc1,
     type: 3}
+  RoundTower: {fileID: 8641120566026317397, guid: 57823d6d3fea241479258aff4ada6e8f,
+    type: 3}
+  GlobalTower: {fileID: 8641120566026317397, guid: 7eb0257784ac01c4b8b4afb4a81ac653,
+    type: 3}
+  HindranceTower: {fileID: 8641120566026317397, guid: 65ccbd2eca9a894478d4ff69b8f969c8,
+    type: 3}
+  PulseTower: {fileID: 8641120566026317397, guid: c0f0c783e08a6b44da9eae04746f801d,
+    type: 3}
   anchorPointPosition: {fileID: 6215381310684977565}
   layerMask:
     serializedVersion: 2

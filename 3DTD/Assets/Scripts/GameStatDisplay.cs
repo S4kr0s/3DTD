@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameStatDisplay : MonoBehaviour
 {
     [SerializeField] private GameObject nextWaveButton;
+    [SerializeField] private Toggle autoWaveButton;
     [SerializeField] private TMP_Text moneyDisplay;
     [SerializeField] private TMP_Text livesDisplay;
     [SerializeField] private TMP_Text roundDisplay;
@@ -31,7 +33,10 @@ public class GameStatDisplay : MonoBehaviour
 
     private void HandleWaveEnded(int value)
     {
-        nextWaveButton.SetActive(true);
+        if (autoWaveButton.isOn)
+            ButtonStartNewWave();
+        else
+            nextWaveButton.SetActive(true);
     }
 
     private void HandleMoneyUpdated(int value)

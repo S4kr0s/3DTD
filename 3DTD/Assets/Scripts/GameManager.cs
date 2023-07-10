@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Difficulty difficulty;
     [SerializeField] private int baseStartingMoney;
     [SerializeField] private int baseLives;
+    [SerializeField] private int endOfWaveMoney;
 
     public event Action<int> OnMoneyChanged;
     public event Action<int> OnLivesChanged;
@@ -123,6 +124,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         GameObject.FindGameObjectWithTag("End").GetComponent<End>().OnEnemyReachedExit += HandleEnemyReachedExit;
+        GameObject.FindGameObjectWithTag("Spawner").GetComponent<Spawner>().OnWaveEnded += HandleEndOfWaveMoney;
     }
 
     [SerializeField] private GameObject canvas;
@@ -141,6 +143,11 @@ public class GameManager : MonoBehaviour
     {
         enemy.DestroyWholeEnemy();
         Lives -= enemy.Id + 1;
+    }
+
+    private void HandleEndOfWaveMoney(int round)
+    {
+        Money += endOfWaveMoney;
     }
 
     private void HandleLivesChanged(int value)

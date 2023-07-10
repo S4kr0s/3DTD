@@ -10,7 +10,7 @@ public class End : MonoBehaviour
     private static End instance;
     public static End Instance { get { return instance; } }
 
-    private void Awake()
+    private void Start()
     {
         if (instance != null && instance != this)
         {
