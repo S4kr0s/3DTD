@@ -8,6 +8,12 @@ public class ProjectilePoolManager : MonoBehaviour
 
     private Queue<GameObject> pooledProjectiles;
 
+    private void OnDestroy()
+    {
+        foreach (var p in pooledProjectiles)
+            Destroy(p);
+    }
+
     public void Setup(GameObject projectilePrefab, int poolSize)
     {
         _projectilePrefab = projectilePrefab;

@@ -696,6 +696,7 @@ GameObject:
   - component: {fileID: 655075885407394483}
   - component: {fileID: 147286872823315961}
   - component: {fileID: 8025507499586909913}
+  - component: {fileID: 2077043623275947313}
   m_Layer: 0
   m_Name: Default Tower
   m_TagString: Untagged
@@ -735,22 +736,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33678b00297a8d7468f590f82ea30305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayName: Laser Tower
+  description: Shoots Lasers.
+  uiSprite: {fileID: 21300000, guid: df568ef032400e344ab81a5474d2418a, type: 3}
+  cost: 50
   upgradeManager: {fileID: 8025507499586909913}
   statsManager: {fileID: 147286872823315961}
   targetter: {fileID: 1697263479036677693}
+  actionStrategy: {fileID: 2077043623275947313}
   targetBehaviour: 0
-  renderer: {fileID: 2423559506319739154}
+  rangeRenderer: {fileID: 2423559506319739154}
   rotationPoint: {fileID: 1673631861350220900}
-  alternateRotation: 0
-  doNotRotate: 0
   shootingPoints:
   - {fileID: 8641120565615340713}
-  shootAtSameTime: 0
-  target: {fileID: 0}
-  projectile: {fileID: 2512479460219642988, guid: 1a69f1ca7102f14449fd870a609ea9ee,
-    type: 3}
-  internalFireRate: 0
-  level: 0
 --- !u!65 &1739660257223770312
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -883,6 +881,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8328f4b94c88c49b0bb2d820a76ed7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2077043623275947313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8641120566026317397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adabc86aa65f30845af06eabd6e4087a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 2512479460219642988, guid: 1a69f1ca7102f14449fd870a609ea9ee,
+    type: 3}
 --- !u!1 &8641120566672090591
 GameObject:
   m_ObjectHideFlags: 0

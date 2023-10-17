@@ -450,11 +450,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38fd7190066d3fc45982b009d61f80ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Building: 0
-  sprite: {fileID: 0}
-  Name: 
-  Cost: 
-  Description: 
+  buildingBlockTower: {fileID: 4293230314538174834, guid: 88f6ab40cebc28f4982f942ead14d6e6,
+    type: 3}
   nameNormal: {fileID: 4071763552864728250}
   nameHighlighted: {fileID: 4743180079409295607}
   costNormal: {fileID: 2633435742976397051}

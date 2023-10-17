@@ -22,36 +22,7 @@ public class AnchorPoint : MonoBehaviour
 
     private GameObject selectedObject
     {
-        get
-        {
-            switch (BuildingManager.Instance.SelectedBuilding)
-            {
-                case Building.NONE:
-                    return null;
-                case Building.BUILDING_BLOCK:
-                    return BuildingBlock;
-                case Building.DEFAULT_TOWER:
-                    return DefaultTower;
-                case Building.BOMB_TOWER:
-                    return BombTurret;
-                case Building.LASER_TOWER:
-                    return LaserTurret;
-                case Building.MINIGUN_TOWER:
-                    return MinigunTurret;
-                case Building.ROUND_TOWER:
-                    return RoundTower;
-                case Building.GLOBAL_TOWER:
-                    return GlobalTower;
-                case Building.HINDRANCE_TOWER:
-                    return HindranceTower;
-                case Building.PULSE_TOWER:
-                    return PulseTower;
-                //case Building.SNIPER_TOWER:
-                //    return SniperTurret;
-                default:
-                    return null;
-            }
-        }
+        get { return BuildingManager.Instance.SelectedBuilding; }
     }
 
     public Transform AnchorPointPosition => anchorPointPosition;
@@ -103,7 +74,7 @@ public class AnchorPoint : MonoBehaviour
             return false;
         }
 
-        if (BuildingManager.Instance.SelectedBuilding == Building.BUILDING_BLOCK)
+        if (BuildingManager.Instance.SelectedBuilding == GameManager.Instance.Buildings[0])
         {
             // Get rid of magic number
             if (GameManager.Instance.Money >= 50)
@@ -119,7 +90,7 @@ public class AnchorPoint : MonoBehaviour
             Debug.Log(selectedObject.GetComponent<Tower>());
             Debug.Log(selectedObject.GetComponent<Tower>().StatsManager);
             // Only reflects Base Cost.
-            if (GameManager.Instance.Money >= Convert.ToInt16(selectedObject.GetComponent<Tower>().StatsManager.GetStatValue(Stat.StatType.COST)))
+            if (GameManager.Instance.Money >= selectedObject.GetComponent<Tower>().Cost)
             {
                 return true;
             }
@@ -132,15 +103,15 @@ public class AnchorPoint : MonoBehaviour
         // Only reflects Base Cost. Handle Money elsewhere.
         if(objectToBuild.TryGetComponent<Tower>(out Tower tower))
         {
-            if (GameManager.Instance.Money >= ((int)tower.StatsManager.GetStatValue(Stat.StatType.COST)))
+            if (GameManager.Instance.Money >= (selectedObject.GetComponent<Tower>().Cost))
             {
-                GameManager.Instance.Money -= ((int)tower.StatsManager.GetStatValue(Stat.StatType.COST));
+                GameManager.Instance.Money -= (selectedObject.GetComponent<Tower>().Cost);
                 Instantiate(objectToBuild, anchorPointPosition.position, this.transform.rotation);
             }
         }
         else
         {
-            if (BuildingManager.Instance.SelectedBuilding == Building.BUILDING_BLOCK)
+            if (BuildingManager.Instance.SelectedBuilding == GameManager.Instance.Buildings[0])
             {
                 // Get rid of magic number
                 if (GameManager.Instance.Money >= 50)

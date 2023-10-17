@@ -8,99 +8,40 @@ using UnityEngine.Pool;
 
 [RequireComponent(typeof(UpgradeManager))]
 [RequireComponent(typeof(StatsManager))]
-public class Tower : MonoBehaviour
+public class Tower : Building
 {
-    public string DisplayName { get { return displayName; } }
-    public string Description { get { return description; } }
     public UpgradeManager UpgradeManager { get { return upgradeManager; } }
     public StatsManager StatsManager { get { return statsManager; } }
+    public Targetter Targetter { get { return targetter; } }
+    public ActionStrategy ActionStrategy { get { return actionStrategy; } }
     public TargetBehaviour TargetBehaviour { get { return targetBehaviour; } }
+    public GameObject RotationPoint { get { return rotationPoint; } }
+    public GameObject[] ShootingPoints { get { return shootingPoints; } }
 
     public event Action<Tower> OnTowerDestroyed;
-
-    [Header("Information")]
-    [SerializeField] private string displayName;
-    [SerializeField] private string description;
 
     [Header("Stats & Modules")]
     [SerializeField] private UpgradeManager upgradeManager;
     [SerializeField] private StatsManager statsManager;
     [SerializeField] private Targetter targetter;
+    [SerializeField] private ActionStrategy actionStrategy;
 
     [Header("Settings & Fields")]
     [SerializeField] private TargetBehaviour targetBehaviour = TargetBehaviour.FIRST;
-    [SerializeField] private new MeshRenderer renderer;
+    [SerializeField] private MeshRenderer rangeRenderer;
 
     [SerializeField] private GameObject rotationPoint;
-    [SerializeField] private bool alternateRotation = false;
-    [SerializeField] private bool doNotRotate = false;
     [SerializeField] private GameObject[] shootingPoints;
-    [SerializeField] private bool shootAtSameTime = false;
-    [SerializeField] private GameObject target;
-
-    [SerializeField] private GameObject projectile;
-    [SerializeField] private float internalFireRate;
-
-    private ProjectilePoolManager projectilePoolManager;
 
     private void Start()
     {
-        renderer.enabled = false;
-        internalFireRate = statsManager.GetStatValue(Stat.StatType.FIRERATE);
-
-        // Object Pool
-        projectilePoolManager = gameObject.AddComponent<ProjectilePoolManager>();
-        projectilePoolManager.Setup(projectile, Mathf.RoundToInt(10 / internalFireRate * shootingPoints.Length));
+        rangeRenderer.enabled = false;
+        actionStrategy.SetupActionStrategy(this);
     }
 
     private void Update()
     {
-        Enemy enemy = targetter.GetEnemy(targetBehaviour);
-
-        if (enemy != null)
-        {
-            target = enemy.gameObject;
-
-            if (!doNotRotate)
-            {
-                if (alternateRotation)
-                    rotationPoint.transform.LookAt(enemy.transform.position, Vector3.up);
-                else
-                    rotationPoint.transform.LookAt(enemy.transform.position);
-            }
-        }
-        else
-            target = null;
-
-        ShootAtTarget();
-    }
-
-    public bool CanShoot(GameObject enemy)
-    {
-        if (!doNotRotate)
-        {
-            if (alternateRotation)
-                rotationPoint.transform.LookAt(enemy.transform.position, Vector3.up);
-            else
-                rotationPoint.transform.LookAt(enemy.transform.position);
-        }
-
-        foreach (GameObject shootingPoint in shootingPoints)
-        {
-            if (shootingPoint.activeSelf)
-            {
-                Vector3 raycastDirection = enemy.transform.position - shootingPoint.transform.position;
-                if (Physics.Linecast(shootingPoint.transform.position, enemy.transform.position, out RaycastHit hit))
-                {
-                    if (hit.collider.gameObject == enemy)
-                    {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
+        actionStrategy.ExecuteAction();
     }
 
     /*
@@ -127,80 +68,6 @@ public class Tower : MonoBehaviour
     }
     */
 
-    private void ShootAtTarget()
-    {
-        if (shootAtSameTime)
-        {
-            if (internalFireRate <= 0 && target != null)
-            {
-                foreach (GameObject shootingPoint in shootingPoints)
-                {
-                    internalFireRate = statsManager.GetStatValue(Stat.StatType.FIRERATE);
-
-                    GameObject _projectile = projectilePoolManager.GetPooledProjectile();
-
-                    if (_projectile == null)
-                    {
-                        continue;
-                    }
-
-                    _projectile.SetActive(false);
-                    _projectile.transform.position = shootingPoint.transform.position;
-                    _projectile.transform.rotation = shootingPoint.transform.rotation;
-
-                    Projectile projectileComponent = _projectile.GetComponent<Projectile>();
-                    projectileComponent.Target = target;
-                    projectileComponent.lifetime = statsManager.GetStatValue(Stat.StatType.DAMAGE);
-                    projectileComponent.damage = statsManager.GetStatValue(Stat.StatType.DAMAGE);
-                    projectileComponent.penetration = ((int)statsManager.GetStatValue(Stat.StatType.PIERCING));
-                    projectileComponent.OnProjectileDeath += ReturnToPool;
-                    _projectile.SetActive(true);
-
-                    _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
-                }
-            }
-            else
-            {
-                internalFireRate -= Time.deltaTime;
-            }
-        }
-        else
-        {
-            foreach (GameObject shootingPoint in shootingPoints)
-            {
-                if (internalFireRate <= 0 && target != null)
-                {
-                    internalFireRate = statsManager.GetStatValue(Stat.StatType.FIRERATE);
-
-                    GameObject _projectile = projectilePoolManager.GetPooledProjectile();
-
-                    if (_projectile == null)
-                    {
-                        continue;
-                    }
-
-                    _projectile.SetActive(false);
-                    _projectile.transform.position = shootingPoint.transform.position;
-                    _projectile.transform.rotation = shootingPoint.transform.rotation;
-
-                    Projectile projectileComponent = _projectile.GetComponent<Projectile>();
-                    projectileComponent.Target = target;
-                    projectileComponent.lifetime = statsManager.GetStatValue(Stat.StatType.FIRERATE);
-                    projectileComponent.damage = statsManager.GetStatValue(Stat.StatType.DAMAGE);
-                    projectileComponent.penetration = ((int)statsManager.GetStatValue(Stat.StatType.PIERCING));
-                    projectileComponent.OnProjectileDeath += ReturnToPool;
-                    _projectile.SetActive(true);
-
-                    _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
-                }
-                else
-                {
-                    internalFireRate -= Time.deltaTime;
-                }
-            }
-        }
-    }
-
     public void ChangeTargettingBehaviour(TargetBehaviour targetBehaviour)
     {
         this.targetBehaviour = targetBehaviour;
@@ -208,17 +75,16 @@ public class Tower : MonoBehaviour
 
     public void MouseEnter()
     {
-        renderer.enabled = true;
+        rangeRenderer.enabled = true;
     }
 
     public void MouseExit()
     {
-        renderer.enabled = false;
+        rangeRenderer.enabled = false;
     }
 
-    public void ReturnToPool(GameObject obj)
+    public void SetActionStrategy(ActionStrategy actionStrategy)
     {
-        obj.GetComponent<Projectile>().OnProjectileDeath -= ReturnToPool;
-        projectilePoolManager.ReturnToPool(obj);
+        this.actionStrategy = actionStrategy;
     }
 }

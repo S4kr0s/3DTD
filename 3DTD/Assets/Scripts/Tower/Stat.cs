@@ -46,7 +46,6 @@ public class Stat
     public enum StatType
     {
         #region General
-        COST,
         WORTH, // percentage of how much it is worth to sell
         #endregion
 
@@ -64,7 +63,8 @@ public class Stat
         RANGE, // of tower (activation, targetting.. etc)
         RADIUS, // of projectile (bombs for example)
         ACCURACY, // of tower 
-        PIERCING,
+        PIERCING, // how many times a projectile can apply damage
+        LIFETIME, // lifetime of projectiles spawned
         #endregion
     }
 }

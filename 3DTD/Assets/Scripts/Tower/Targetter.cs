@@ -57,7 +57,7 @@ public class Targetter : MonoBehaviour
         Enemy[] possibleEnemies = enemiesInsideCollider.OrderByDescending(e => e.DistanceTraveled).ToArray();
         for (int i = 0; i < possibleEnemies.Length; i++)
         {
-            if (tower.CanShoot(possibleEnemies[i].gameObject))
+            if (tower.ActionStrategy.CanShoot(possibleEnemies[i].gameObject))
                 return possibleEnemies[i];
         }
         return null;
@@ -75,7 +75,7 @@ public class Targetter : MonoBehaviour
 
         for (int i = 0; i < possibleEnemies.Length; i++)
         {
-            if (tower.CanShoot(possibleEnemies[i].gameObject))
+            if (tower.ActionStrategy.CanShoot(possibleEnemies[i].gameObject))
             {
                 if (powerScore == 0)
                 {
@@ -99,7 +99,7 @@ public class Targetter : MonoBehaviour
     {
         for (int i = enemiesInsideCollider.Count - 1; i >= 0; i--)
         {
-            if (tower.CanShoot(enemiesInsideCollider[i].gameObject))
+            if (tower.ActionStrategy.CanShoot(enemiesInsideCollider[i].gameObject))
                 return enemiesInsideCollider[i];
         }
         return null;
@@ -125,7 +125,7 @@ public class Targetter : MonoBehaviour
             {
                 float distanceToCompare = Vector3.Distance(collider.gameObject.transform.position, enemiesInsideCollider[(int)index].gameObject.transform.position);
 
-                if (distanceToCompare <= distance && tower.CanShoot(enemiesInsideCollider[(int)index].gameObject))
+                if (distanceToCompare <= distance && tower.ActionStrategy.CanShoot(enemiesInsideCollider[(int)index].gameObject))
                 {
                     distance = distanceToCompare;
                     index = i;
@@ -157,7 +157,7 @@ public class Targetter : MonoBehaviour
             {
                 float distanceToCompare = Vector3.Distance(collider.gameObject.transform.position, enemiesInsideCollider[(int)index].gameObject.transform.position);
                 //Debug.Log($"{distanceToCompare} > {distance}");
-                if (distanceToCompare >= distance && tower.CanShoot(enemiesInsideCollider[(int)index].gameObject))
+                if (distanceToCompare >= distance && tower.ActionStrategy.CanShoot(enemiesInsideCollider[(int)index].gameObject))
                 {
                     distance = distanceToCompare;
                     index = i;

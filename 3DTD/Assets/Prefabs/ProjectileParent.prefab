@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerData: {fileID: 11400000, guid: d55b01861e30f5d4ea217e2a8af3b658, type: 2}
   target: {fileID: 0}
+  damage: 0
   penetration: 1
   maxSpeed: 5.5
   lifetime: 2

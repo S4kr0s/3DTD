@@ -20,7 +20,6 @@ public class StatsManager : MonoBehaviour
     {
         statValueMapping = new Dictionary<Stat.StatType, Func<float>>
         {
-            { Stat.StatType.COST, () => statsScriptableObject.Cost },
             { Stat.StatType.WORTH, () => statsScriptableObject.Worth },
             { Stat.StatType.MAXIMUM_HEALTH, () => statsScriptableObject.MaximumHealth },
             { Stat.StatType.HEALTH_REGEN, () => statsScriptableObject.HealthRegen },
@@ -33,6 +32,7 @@ public class StatsManager : MonoBehaviour
             { Stat.StatType.RADIUS, () => statsScriptableObject.Radius },
             { Stat.StatType.ACCURACY, () => statsScriptableObject.Accuracy },
             { Stat.StatType.PIERCING, () => statsScriptableObject.Piercing },
+            { Stat.StatType.LIFETIME, () => statsScriptableObject.Lifetime },
         };
     }
 
@@ -50,7 +50,7 @@ public class StatsManager : MonoBehaviour
         {
             return stat.GetValue();
         }
-        return 0;
+        return -1;
     }
 
     public Stat GetStat(Stat.StatType type)

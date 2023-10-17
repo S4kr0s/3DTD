@@ -748,6 +748,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5331b0d1904eb24a861bd11e64be9f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildingPrefabs:
+  - {fileID: 5228351510312252002, guid: 4ca80acf1fb814e46a19030d5493814c, type: 3}
+  - {fileID: 8641120566026317397, guid: cbaf7930318c3014dafce68970c122fe, type: 3}
   money: 0
   lives: 0
   round: 0

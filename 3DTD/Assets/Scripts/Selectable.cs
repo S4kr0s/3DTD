@@ -55,7 +55,7 @@ public class Selectable : MonoBehaviour
     {
         if (this.gameObject.TryGetComponent<Tower>(out Tower tower))
         {
-            GameManager.Instance.Money += ((int)tower.StatsManager.GetStatValue(Stat.StatType.COST));
+            GameManager.Instance.Money += (tower.Cost);
             Destroy(this.gameObject);
             UpgradePanelManager.Instance.ClearUI();
         }

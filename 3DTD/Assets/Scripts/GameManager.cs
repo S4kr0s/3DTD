@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private List<GameObject> buildingPrefabs;
+
     [SerializeField] private int money;
     [SerializeField] private int lives;
     [SerializeField] private int round;
@@ -20,6 +22,14 @@ public class GameManager : MonoBehaviour
     public event Action<float> OnGameSpeedChanged;
 
     [SerializeField] private bool isMainMenu = false;
+
+    public List<GameObject> Buildings
+    {
+        get
+        {
+            return buildingPrefabs;
+        }
+    }
 
     public int Money 
     {

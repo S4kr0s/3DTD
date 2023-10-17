@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2745132945829285132}
   - component: {fileID: 5011587662363296467}
   - component: {fileID: -6461292069327115352}
+  - component: {fileID: 1991953233389954883}
   m_Layer: 0
   m_Name: BuildingBlock
   m_TagString: Untagged
@@ -32,6 +33,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5228351509444687117}
   - {fileID: 2635611612968519632}
@@ -67,6 +69,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -144,6 +147,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 513
+  isSelected: 0
 --- !u!114 &-6461292069327115352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +177,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &1991953233389954883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5228351510312252002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60e6f688988d3fa49a18e62e2c6d811e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayName: Building Block
+  description: Platform to build towers on.
+  uiSprite: {fileID: 21300000, guid: 516b12602ca0b7547ba96f3f827105cb, type: 3}
+  cost: 50
 --- !u!1001 &1469671364685773135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1018,12 +1038,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26821ee99434ee94695a551a81b7d6ed, type: 3}
---- !u!4 &2635611612124628071 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7790461216142164405, guid: 26821ee99434ee94695a551a81b7d6ed,
-    type: 3}
-  m_PrefabInstance: {fileID: 5228351509725038034}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &376358809682818106 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5600170785868247528, guid: 26821ee99434ee94695a551a81b7d6ed,
@@ -1036,6 +1050,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f724f5d49a0144c41a56d067cf20d8ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &2635611612124628071 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7790461216142164405, guid: 26821ee99434ee94695a551a81b7d6ed,
+    type: 3}
+  m_PrefabInstance: {fileID: 5228351509725038034}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5228351509747748435
 PrefabInstance:
   m_ObjectHideFlags: 0
