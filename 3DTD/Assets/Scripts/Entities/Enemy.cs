@@ -51,7 +51,6 @@ public class Enemy : MonoBehaviour
         } 
     }
 
-    public EnemyData Data => data;
     public float CurrentHealth => currentHealth;
     public int Id => ((int)CurrentShape * 10) + (int)CurrentColor;
 

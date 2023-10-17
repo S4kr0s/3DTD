@@ -51,98 +51,13 @@ public class Selectable : MonoBehaviour
         }
     }
 
-
-
-    public static void SellTower()
-    {
-        Selectable selectable = SelectionManager.CurrentlySelected;
-
-        if (selectable == null)
-            return;
-
-        if (selectable.gameObject.TryGetComponent<Tower>(out Tower tower))
-        {
-            GameManager.Instance.Money += tower.TowerData.BaseCost;
-            Destroy(selectable.gameObject);
-            UpgradeManager.Instance.ClearUI();
-        }
-
-        if (selectable.gameObject.TryGetComponent<BuildingBlock>(out BuildingBlock buildingBlock))
-        {
-            bool hitSomething = false;
-
-            Ray ray = new Ray(selectable.transform.position, selectable.transform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, 1f, selectable.layerMask))
-            {
-                if (hit.collider.gameObject.TryGetComponent<Tower>(out Tower hitTower))
-                {
-                    hitSomething = true;
-                }
-            }
-
-            ray = new Ray(selectable.transform.position, -selectable.transform.forward);
-            if (Physics.Raycast(ray, out hit, 1f, selectable.layerMask))
-            {
-                if (hit.collider.gameObject.TryGetComponent<Tower>(out Tower hitTower))
-                {
-                    hitSomething = true;
-                }
-            }
-
-
-            ray = new Ray(selectable.transform.position, selectable.transform.up);
-            if (Physics.Raycast(ray, out hit, 1f, selectable.layerMask))
-            {
-                if (hit.collider.gameObject.TryGetComponent<Tower>(out Tower hitTower))
-                {
-                    hitSomething = true;
-                }
-            }
-
-            ray = new Ray(selectable.transform.position, -selectable.transform.up);
-            if (Physics.Raycast(ray, out hit, 1f, selectable.layerMask))
-            {
-                if (hit.collider.gameObject.TryGetComponent<Tower>(out Tower hitTower))
-                {
-                    hitSomething = true;
-                }
-            }
-
-            ray = new Ray(selectable.transform.position, selectable.transform.right);
-            if (Physics.Raycast(ray, out hit, 1f, selectable.layerMask))
-            {
-                if (hit.collider.gameObject.TryGetComponent<Tower>(out Tower hitTower))
-                {
-                    hitSomething = true;
-                }
-            }
-
-            ray = new Ray(selectable.transform.position, -selectable.transform.right);
-            if (Physics.Raycast(ray, out hit, 1f, selectable.layerMask))
-            {
-                if (hit.collider.gameObject.TryGetComponent<Tower>(out Tower hitTower))
-                {
-                    hitSomething = true;
-                }
-            }
-
-            if (!hitSomething)
-            {
-                // HARD CODED! GET RID OF MAGIC NUMBER!
-                GameManager.Instance.Money += 50;
-                Destroy(selectable.gameObject);
-                UpgradeManager.Instance.ClearUI();
-            }
-        }
-    }
-
     public void SellThisTower()
     {
         if (this.gameObject.TryGetComponent<Tower>(out Tower tower))
         {
-            GameManager.Instance.Money += tower.TowerData.BaseCost;
+            GameManager.Instance.Money += ((int)tower.StatsManager.GetStatValue(Stat.StatType.COST));
             Destroy(this.gameObject);
-            UpgradeManager.Instance.ClearUI();
+            UpgradePanelManager.Instance.ClearUI();
         }
 
         if (this.gameObject.TryGetComponent<BuildingBlock>(out BuildingBlock buildingBlock))
@@ -209,7 +124,7 @@ public class Selectable : MonoBehaviour
                 // HARD CODED! GET RID OF MAGIC NUMBER!
                 GameManager.Instance.Money += 50;
                 Destroy(this.gameObject);
-                UpgradeManager.Instance.ClearUI();
+                UpgradePanelManager.Instance.ClearUI();
             }
         }
     }

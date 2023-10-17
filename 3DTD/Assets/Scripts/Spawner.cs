@@ -93,6 +93,8 @@ public class Spawner : MonoBehaviour
             for (int j = 0; j < wave.EnemySpawnCount[i]; j++)
             {
                 enemyPrefab.GetComponent<Enemy>().data = wave.EnemiesToSpawn[i];
+                enemyPrefab.GetComponent<Enemy>().CurrentShape = wave.EnemiesToSpawn[i].StartShape;
+                enemyPrefab.GetComponent<Enemy>().CurrentColor = wave.EnemiesToSpawn[i].StartColor;
 
                 if (lastEnemy != null)
                     lastEnemy.SetActive(true);

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -113,8 +114,12 @@ public class AnchorPoint : MonoBehaviour
         }
         else
         {
+            Debug.Log(selectedObject);
+            Debug.Log(selectedObject.name);
+            Debug.Log(selectedObject.GetComponent<Tower>());
+            Debug.Log(selectedObject.GetComponent<Tower>().StatsManager);
             // Only reflects Base Cost.
-            if (GameManager.Instance.Money >= selectedObject.GetComponent<Tower>().TowerData.BaseCost)
+            if (GameManager.Instance.Money >= Convert.ToInt16(selectedObject.GetComponent<Tower>().StatsManager.GetStatValue(Stat.StatType.COST)))
             {
                 return true;
             }
@@ -127,9 +132,9 @@ public class AnchorPoint : MonoBehaviour
         // Only reflects Base Cost. Handle Money elsewhere.
         if(objectToBuild.TryGetComponent<Tower>(out Tower tower))
         {
-            if (GameManager.Instance.Money >= tower.TowerData.BaseCost)
+            if (GameManager.Instance.Money >= ((int)tower.StatsManager.GetStatValue(Stat.StatType.COST)))
             {
-                GameManager.Instance.Money -= tower.TowerData.BaseCost;
+                GameManager.Instance.Money -= ((int)tower.StatsManager.GetStatValue(Stat.StatType.COST));
                 Instantiate(objectToBuild, anchorPointPosition.position, this.transform.rotation);
             }
         }

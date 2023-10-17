@@ -6,62 +6,31 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 
+[RequireComponent(typeof(UpgradeManager))]
+[RequireComponent(typeof(StatsManager))]
 public class Tower : MonoBehaviour
 {
+    public string DisplayName { get { return displayName; } }
+    public string Description { get { return description; } }
+    public UpgradeManager UpgradeManager { get { return upgradeManager; } }
+    public StatsManager StatsManager { get { return statsManager; } }
     public TargetBehaviour TargetBehaviour { get { return targetBehaviour; } }
 
-    public UpgradeData[] Upgrades { get { return upgrades; } }
-    public UpgradeData[] ActiveUpgrades { get { return activeUpgrades; } }
+    public event Action<Tower> OnTowerDestroyed;
 
-    [SerializeField] private UpgradeData[] upgrades;
-    [SerializeField] private UpgradeData[] activeUpgrades;
+    [Header("Information")]
+    [SerializeField] private string displayName;
+    [SerializeField] private string description;
 
-    private float _realDamage;
-    public float UpdateAndGetDamage 
-    { 
-        get 
-        {
-            _realDamage = TowerData.BaseDamage;
-            foreach (UpgradeData upgrade in ActiveUpgrades)
-                _realDamage += upgrade.DamageModifier;
-            return _realDamage;
-        } 
-    }
-    public float GetDamage { get { return _realDamage; } }
-
-    private float _realFireRate;
-    public float UpdateAndGetFireRate
-    {
-        get
-        {
-            _realFireRate = TowerData.BaseFireRate;
-            foreach (UpgradeData upgrade in ActiveUpgrades)
-                _realFireRate += upgrade.FireRateModifier;
-            return _realFireRate;
-        }
-    }
-    public float GetFireRate { get { return _realFireRate; } }
-
-    private int _realPenetration;
-    public int UpdateAndGetPenetration
-    {
-        get
-        {
-            _realPenetration = TowerData.BasePenetration;
-            foreach (UpgradeData upgrade in ActiveUpgrades)
-                _realPenetration += upgrade.PenetrationModifier;
-            return _realPenetration;
-        }
-    }
-    public int GetPenetration { get { return _realPenetration; } }
-
-    public float GetLifetime { get { return TowerData.Lifetime; } }
-
+    [Header("Stats & Modules")]
+    [SerializeField] private UpgradeManager upgradeManager;
+    [SerializeField] private StatsManager statsManager;
     [SerializeField] private Targetter targetter;
+
+    [Header("Settings & Fields")]
     [SerializeField] private TargetBehaviour targetBehaviour = TargetBehaviour.FIRST;
     [SerializeField] private new MeshRenderer renderer;
 
-    [SerializeField] private TowerData data;
     [SerializeField] private GameObject rotationPoint;
     [SerializeField] private bool alternateRotation = false;
     [SerializeField] private bool doNotRotate = false;
@@ -72,21 +41,12 @@ public class Tower : MonoBehaviour
     [SerializeField] private GameObject projectile;
     [SerializeField] private float internalFireRate;
 
-    public event Action<Tower> OnTowerDestroyed;
-
-    [Space]
-    [SerializeField] private int level = 0;
-    public TowerData TowerData { get { return data; } }
-    public int Level { get { return level; } }
-
     private ProjectilePoolManager projectilePoolManager;
 
     private void Start()
     {
         renderer.enabled = false;
-        internalFireRate = UpdateAndGetFireRate;
-        _realDamage = UpdateAndGetDamage;
-        _realPenetration = UpdateAndGetPenetration;
+        internalFireRate = statsManager.GetStatValue(Stat.StatType.FIRERATE);
 
         // Object Pool
         projectilePoolManager = gameObject.AddComponent<ProjectilePoolManager>();
@@ -175,7 +135,7 @@ public class Tower : MonoBehaviour
             {
                 foreach (GameObject shootingPoint in shootingPoints)
                 {
-                    internalFireRate = GetFireRate;
+                    internalFireRate = statsManager.GetStatValue(Stat.StatType.FIRERATE);
 
                     GameObject _projectile = projectilePoolManager.GetPooledProjectile();
 
@@ -190,9 +150,9 @@ public class Tower : MonoBehaviour
 
                     Projectile projectileComponent = _projectile.GetComponent<Projectile>();
                     projectileComponent.Target = target;
-                    projectileComponent.lifetime = GetLifetime;
-                    projectileComponent.damage = GetDamage;
-                    projectileComponent.penetration = GetPenetration;
+                    projectileComponent.lifetime = statsManager.GetStatValue(Stat.StatType.DAMAGE);
+                    projectileComponent.damage = statsManager.GetStatValue(Stat.StatType.DAMAGE);
+                    projectileComponent.penetration = ((int)statsManager.GetStatValue(Stat.StatType.PIERCING));
                     projectileComponent.OnProjectileDeath += ReturnToPool;
                     _projectile.SetActive(true);
 
@@ -210,7 +170,7 @@ public class Tower : MonoBehaviour
             {
                 if (internalFireRate <= 0 && target != null)
                 {
-                    internalFireRate = GetFireRate;
+                    internalFireRate = statsManager.GetStatValue(Stat.StatType.FIRERATE);
 
                     GameObject _projectile = projectilePoolManager.GetPooledProjectile();
 
@@ -225,9 +185,9 @@ public class Tower : MonoBehaviour
 
                     Projectile projectileComponent = _projectile.GetComponent<Projectile>();
                     projectileComponent.Target = target;
-                    projectileComponent.lifetime = GetLifetime;
-                    projectileComponent.damage = GetDamage;
-                    projectileComponent.penetration = GetPenetration;
+                    projectileComponent.lifetime = statsManager.GetStatValue(Stat.StatType.FIRERATE);
+                    projectileComponent.damage = statsManager.GetStatValue(Stat.StatType.DAMAGE);
+                    projectileComponent.penetration = ((int)statsManager.GetStatValue(Stat.StatType.PIERCING));
                     projectileComponent.OnProjectileDeath += ReturnToPool;
                     _projectile.SetActive(true);
 
@@ -240,8 +200,6 @@ public class Tower : MonoBehaviour
             }
         }
     }
-
-
 
     public void ChangeTargettingBehaviour(TargetBehaviour targetBehaviour)
     {

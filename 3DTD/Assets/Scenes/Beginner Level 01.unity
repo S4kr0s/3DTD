@@ -2165,11 +2165,6 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 561906293759147202, guid: abadca65e86d8844d85b4cdc89ef7033,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.000030517578
-      objectReference: {fileID: 0}
     - target: {fileID: 561906294189238112, guid: abadca65e86d8844d85b4cdc89ef7033,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2265,30 +2260,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 561906294881050026, guid: abadca65e86d8844d85b4cdc89ef7033,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 561906294881050026, guid: abadca65e86d8844d85b4cdc89ef7033,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -14
-      objectReference: {fileID: 0}
-    - target: {fileID: 561906294881050031, guid: abadca65e86d8844d85b4cdc89ef7033,
-        type: 3}
-      propertyPath: m_CustomSkybox
-      value: 
-      objectReference: {fileID: 2100000, guid: b12d620b36b289245bd45762ae51661b, type: 2}
     - target: {fileID: 561906294916073417, guid: abadca65e86d8844d85b4cdc89ef7033,
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 561906294916073417, guid: abadca65e86d8844d85b4cdc89ef7033,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 561906294934149924, guid: abadca65e86d8844d85b4cdc89ef7033,
         type: 3}
@@ -2349,21 +2324,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 561906295240404186, guid: abadca65e86d8844d85b4cdc89ef7033,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 561906295240404186, guid: abadca65e86d8844d85b4cdc89ef7033,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 561906295240404186, guid: abadca65e86d8844d85b4cdc89ef7033,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 561906295280144537, guid: abadca65e86d8844d85b4cdc89ef7033,
         type: 3}

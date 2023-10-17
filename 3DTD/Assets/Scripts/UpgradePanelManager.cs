@@ -5,7 +5,7 @@ using TMPro;
 using Michsky.UI.ModernUIPack;
 using UnityEngine.UI;
 
-public class UpgradeManager : MonoBehaviour
+public class UpgradePanelManager : MonoBehaviour
 {
     [SerializeField] private Image parentBackground;
     [SerializeField] private TMP_Text title;
@@ -14,8 +14,8 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text fireRate;
     [SerializeField] private TMPro.TMP_Text pierce;
 
-    private static UpgradeManager instance;
-    public static UpgradeManager Instance { get { return instance; } }
+    private static UpgradePanelManager instance;
+    public static UpgradePanelManager Instance { get { return instance; } }
 
     private void Awake()
     {
@@ -69,9 +69,9 @@ public class UpgradeManager : MonoBehaviour
         targettingSelector.selectorEvent.Invoke((int)tower.TargetBehaviour);
 
         // Only respects base stats!
-        damage.text = $"{tower.UpdateAndGetDamage}";
-        fireRate.text = $"{tower.UpdateAndGetFireRate}";
-        pierce.text = $"{tower.UpdateAndGetPenetration}";
+        damage.text = $"{tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE)}";
+        fireRate.text = $"{tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE)}";
+        pierce.text = $"{tower.StatsManager.GetStatValue(Stat.StatType.PIERCING)}";
 
         // Upgrade(s) now here
 
