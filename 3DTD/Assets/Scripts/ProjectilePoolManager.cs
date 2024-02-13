@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,7 +44,16 @@ public class ProjectilePoolManager : MonoBehaviour
 
     public void ReturnToPool(GameObject projectile)
     {
-        projectile.SetActive(false);
+        // Wait because Projectile.cs has fancy animation now
+        StartCoroutine(WaitAndEnqueue(0.5f, projectile));
+
+        //projectile.SetActive(false);
+        //pooledProjectiles.Enqueue(projectile); <- is now in "WaitAndEnqueue"
+    }
+
+    IEnumerator WaitAndEnqueue(float delay, GameObject projectile)
+    {
+        yield return new WaitForSeconds(delay);
         pooledProjectiles.Enqueue(projectile);
     }
 }

@@ -18,7 +18,7 @@ public class Stat
     public float GetValue()
     {
         float finalValue = baseValue;
-        modifiers.ForEach(x => finalValue *= x);  // assuming modifiers are multiplicative. If additive: finalValue += x;
+        modifiers.ForEach(x => finalValue += (finalValue * (x / 100f)));  // assuming modifiers are multiplicative. If additive: finalValue += x;
         bonuses.ForEach(x => finalValue += x);  // assuming modifiers are multiplicative. If additive: finalValue += x;
         return finalValue;
     }
@@ -35,12 +35,12 @@ public class Stat
 
     public void AddBonus(float modifier)
     {
-        modifiers.Add(modifier);
+        bonuses.Add(modifier);
     }
 
     public void RemoveBonus(float modifier)
     {
-        modifiers.Remove(modifier);
+        bonuses.Remove(modifier);
     }
 
     public enum StatType
@@ -65,6 +65,8 @@ public class Stat
         ACCURACY, // of tower 
         PIERCING, // how many times a projectile can apply damage
         LIFETIME, // lifetime of projectiles spawned
+        SPEED, // speed of projectile
+        SIZE, // size of projectile
         #endregion
     }
 }

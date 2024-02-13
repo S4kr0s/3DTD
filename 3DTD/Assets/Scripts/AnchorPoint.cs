@@ -85,10 +85,6 @@ public class AnchorPoint : MonoBehaviour
         }
         else
         {
-            Debug.Log(selectedObject);
-            Debug.Log(selectedObject.name);
-            Debug.Log(selectedObject.GetComponent<Tower>());
-            Debug.Log(selectedObject.GetComponent<Tower>().StatsManager);
             // Only reflects Base Cost.
             if (GameManager.Instance.Money >= selectedObject.GetComponent<Tower>().Cost)
             {

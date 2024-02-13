@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PolygonArsenal;
+using UnityEngine.UIElements;
 
 public class ProjectilePulse : Projectile
 {
     [SerializeField] private SphereCollider sphereCollider;
     private float origLifetime = 0;
+
+    private void OnEnable()
+    {
+        sphereCollider.radius = 0.5f;
+        sphereCollider.transform.localScale = new Vector3(1, 1, 1);
+    }
 
     private void Start()
     {
@@ -42,25 +49,7 @@ public class ProjectilePulse : Projectile
     {
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            Penetration--;
             enemy.TakeDamage(damage, DamageType.EXPLOSIVE);
-
-            if (Penetration <= 0)
-            {
-                Die();
-                this.gameObject.GetComponent<PolygonProjectileScript>().HasCollided();
-            }
-            else
-            {
-                this.gameObject.GetComponent<PolygonProjectileScript>().HasCollidedWithoutDeath();
-            }
-        }
-        else
-        {
-            if (collision.gameObject.layer == 2 || collision.gameObject.layer == 9 || collision.gameObject.layer == 0)
-                return;
-
-            this.gameObject.GetComponent<PolygonProjectileScript>().HasCollided();
         }
     }
 }

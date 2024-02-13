@@ -12,17 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f1b1a09b7517d4283150c8686bcf2d, type: 3}
   m_Name: BulletDispenserStatsConfig
   m_EditorClassIdentifier: 
-  Cost: 0
+  Cost: 55
   Worth: 1
   MaximumHealth: 0
   HealthRegen: 0
   MaximumArmor: 0
   ArmorRegen: 0
-  Damage: 0
-  Amount: 0
-  FireRate: 0
-  Range: 0
+  Damage: 1
+  Amount: 1
+  FireRate: 2.5
+  Range: 2.5
   Radius: 0
   Accuracy: 1
-  Piercing: 0
-  Lifetime: 0
+  Piercing: 1
+  Lifetime: 0.5
+  Speed: 5
+  Size: 0.8

@@ -37,7 +37,6 @@ public class BuildingUIText : MonoBehaviour
 
         buttonManager.buttonText = buildingInfo.DisplayName;
         nameNormal.text = buildingInfo.DisplayName; nameHighlighted.text = buildingInfo.DisplayName;
-        Debug.Log(buildingInfo.Cost);
         costNormal.text = buildingInfo.Cost.ToString(); costHighlighted.text = buildingInfo.Cost.ToString();
         imageNormal.sprite = buildingInfo.UISprite; imageHighlighted.sprite = buildingInfo.UISprite;
     }

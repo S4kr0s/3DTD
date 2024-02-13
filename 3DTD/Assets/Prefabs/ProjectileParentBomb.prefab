@@ -94,12 +94,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a97ca71e58b6154ba7432e2d28bfa35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerData: {fileID: 11400000, guid: 8e333a0b9be9fee48b7fa14dce76f21b, type: 2}
   target: {fileID: 0}
+  damage: 0
   penetration: 1
   maxSpeed: 5
   lifetime: 2
+  accuracy: 1
+  Collider: {fileID: 7971148056069179201}
   sphereCollider: {fileID: 7751977925648825367}
+  aimAtTarget: 0
+  radius: 1
 --- !u!114 &5437263129544430413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,11 +116,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c736e84d8f869d245b3d1dba36061db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  impactParticle: {fileID: 1886905727291396, guid: f73aa1558d792484a84e065c616866b5,
+  impactParticle: {fileID: 1074619590525950, guid: 5c03004e2e7b0c848a14784f0965b698,
     type: 3}
-  projectileParticle: {fileID: 1280176673065074, guid: ba17eef18e997c14188ea530ad718df5,
+  projectileParticle: {fileID: 1214379196970230, guid: 6de3adfd0ffc10d4c8a10a115a5a6cdf,
     type: 3}
-  muzzleParticle: {fileID: 1891560465173274, guid: 0d074ad7d2a820447a194360b89660ab,
+  muzzleParticle: {fileID: 1437590563578698, guid: e548d7af48f2c2b40b7d0cb4f965276b,
     type: 3}
   trailParticles: []
   colliderRadius: 1

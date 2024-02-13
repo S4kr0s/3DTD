@@ -33,6 +33,8 @@ public class StatsManager : MonoBehaviour
             { Stat.StatType.ACCURACY, () => statsScriptableObject.Accuracy },
             { Stat.StatType.PIERCING, () => statsScriptableObject.Piercing },
             { Stat.StatType.LIFETIME, () => statsScriptableObject.Lifetime },
+            { Stat.StatType.SPEED, () => statsScriptableObject.Speed },
+            { Stat.StatType.SIZE, () => statsScriptableObject.Size },
         };
     }
 
@@ -69,5 +71,14 @@ public class StatsManager : MonoBehaviour
             stat = _stat;
         }
         stat = null;
+    }
+
+    public void SetStat(Stat.StatType type, Stat stat)
+    {
+        if (stats.TryGetValue(type, out Stat _stat))
+        {
+            _stat = stat;
+        }
+        return;
     }
 }

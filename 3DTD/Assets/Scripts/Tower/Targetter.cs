@@ -172,7 +172,6 @@ public class Targetter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Entered Trigger");
         if (other.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
             enemiesInsideCollider.Add(enemy);
@@ -182,7 +181,6 @@ public class Targetter : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Entered Trigger");
         if (other.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
             enemy.OnDeath -= HandleEnemyDeath;

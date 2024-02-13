@@ -41,4 +41,8 @@ public class StatsScriptableObject : ScriptableObject
     [SerializeField] public int Piercing;
     [Tooltip("How long a projectile lives")]
     [SerializeField] public float Lifetime;
+    [Tooltip("How fast a projectile travels")]
+    [SerializeField] public float Speed;
+    [Tooltip("How big a projectile is")]
+    [SerializeField] public float Size;
 }

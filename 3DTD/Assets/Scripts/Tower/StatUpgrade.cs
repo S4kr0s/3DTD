@@ -26,6 +26,7 @@ public class StatUpgrade : IUpgrade
             else
                 stat.AddBonus(upgradeValue);
         }
+        statsManager.SetStat(targetStat, stat);
     }
 
     public void RemoveUpgrade(StatsManager statsManager)
@@ -38,5 +39,6 @@ public class StatUpgrade : IUpgrade
             else
                 stat.RemoveBonus(upgradeValue);
         }
+        statsManager.SetStat(targetStat, stat);
     }
 }

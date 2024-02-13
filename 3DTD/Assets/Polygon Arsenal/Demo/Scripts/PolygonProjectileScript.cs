@@ -139,7 +139,8 @@ namespace PolygonArsenal
 
         public void HasCollidedWithoutDeath()
         {
-            _impactParticle = Instantiate(impactParticle, transform.position, Quaternion.identity) as GameObject;
+            if (impactParticle != null)
+                _impactParticle = Instantiate(impactParticle, transform.position, Quaternion.identity) as GameObject;
         }
     }
 }

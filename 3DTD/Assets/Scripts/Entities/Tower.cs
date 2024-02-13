@@ -17,6 +17,8 @@ public class Tower : Building
     public TargetBehaviour TargetBehaviour { get { return targetBehaviour; } }
     public GameObject RotationPoint { get { return rotationPoint; } }
     public GameObject[] ShootingPoints { get { return shootingPoints; } }
+    public bool UseRotationSlider { get { return useRotationSlider; } }
+    public GameObject Rotationbase { get { return rotationBase; } }
 
     public event Action<Tower> OnTowerDestroyed;
 
@@ -33,15 +35,26 @@ public class Tower : Building
     [SerializeField] private GameObject rotationPoint;
     [SerializeField] private GameObject[] shootingPoints;
 
+    [SerializeField] private bool useRotationSlider = false;
+    [SerializeField] private GameObject rotationBase;
+
     private void Start()
     {
         rangeRenderer.enabled = false;
         actionStrategy.SetupActionStrategy(this);
+        this.gameObject.name = DisplayName;
     }
 
     private void Update()
     {
+        targetter.gameObject.transform.localScale = Vector3.one * statsManager.GetStatValue(Stat.StatType.RANGE);
         actionStrategy.ExecuteAction();
+    }
+
+    // Move to a better place? idk where tho
+    public void RotateTower(float rotationValueX)
+    {
+        this.rotationBase.transform.rotation = Quaternion.Euler(0, rotationValueX, 0);
     }
 
     /*
@@ -85,6 +98,8 @@ public class Tower : Building
 
     public void SetActionStrategy(ActionStrategy actionStrategy)
     {
+        Destroy(this.actionStrategy);
         this.actionStrategy = actionStrategy;
+        this.actionStrategy.SetupActionStrategy(this);
     }
 }

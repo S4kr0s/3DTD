@@ -14,7 +14,7 @@ namespace Michsky.UI.ModernUIPack
         public UnityEvent hoverEvent;
         public AudioClip hoverSound;
         public AudioClip clickSound;
-        Button buttonVar;
+        public Button buttonVar;
 
         // Resources
         public TextMeshProUGUI normalText;

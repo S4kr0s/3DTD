@@ -50,13 +50,17 @@ public class SelectionManager : MonoBehaviour
 
         if(oldSelection != null)
             oldSelection.Deselect();
-        newSelection.Select();
+
+        if(newSelection != null)
+            newSelection.Select();
 
         if (oldSelection != null)
             if (oldSelection.gameObject.TryGetComponent(out Tower oldTower))
                 oldTower.OnTowerDestroyed += HandleSelectedTowerIsDestroyed;
-        if (newSelection.gameObject.TryGetComponent<Tower>(out Tower newTower))
-            newTower.OnTowerDestroyed += HandleSelectedTowerIsDestroyed;
+
+        if (newSelection != null)
+            if (newSelection.gameObject.TryGetComponent<Tower>(out Tower newTower))
+                newTower.OnTowerDestroyed += HandleSelectedTowerIsDestroyed;
     }
 
     private void HandleSelectedTowerIsDestroyed(Tower tower)
@@ -77,6 +81,11 @@ public class SelectionManager : MonoBehaviour
     public void SellCurrentTower()
     {
         CurrentlySelected.SellThisTower();
+    }
+
+    public void UpgradeCurrentTower(UpgradeModule upgradeModule)
+    {
+        CurrentlySelected.UpgradeThisTower(upgradeModule);
     }
 
     private void Update()

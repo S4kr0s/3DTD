@@ -45,6 +45,9 @@ public class LaserTowerActionStrategy : ActionStrategy
         {
             foreach (GameObject shootingPoint in tower.ShootingPoints)
             {
+                if (!shootingPoint.activeSelf)
+                    continue;
+
                 internalFireRate = tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE);
 
                 GameObject _projectile = projectilePoolManager.GetPooledProjectile();
@@ -57,12 +60,17 @@ public class LaserTowerActionStrategy : ActionStrategy
                 _projectile.SetActive(false);
                 _projectile.transform.position = shootingPoint.transform.position;
                 _projectile.transform.rotation = shootingPoint.transform.rotation;
+                _projectile.transform.localScale = Vector3.one * tower.StatsManager.GetStatValue(Stat.StatType.SIZE);
 
                 Projectile projectileComponent = _projectile.GetComponent<Projectile>();
                 projectileComponent.Target = target;
                 projectileComponent.lifetime = tower.StatsManager.GetStatValue(Stat.StatType.LIFETIME);
                 projectileComponent.damage = tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE);
                 projectileComponent.penetration = ((int)tower.StatsManager.GetStatValue(Stat.StatType.PIERCING));
+                projectileComponent.maxSpeed = tower.StatsManager.GetStatValue(Stat.StatType.SPEED);
+                projectileComponent.accuracy = tower.StatsManager.GetStatValue(Stat.StatType.ACCURACY);
+                if (projectileComponent.Collider != null)
+                    projectileComponent.Collider.enabled = true;
                 projectileComponent.OnProjectileDeath += ReturnToPool;
                 _projectile.SetActive(true);
 

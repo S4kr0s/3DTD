@@ -128,4 +128,12 @@ public class Selectable : MonoBehaviour
             }
         }
     }
+
+    public void UpgradeThisTower(UpgradeModule upgradeModule)
+    {
+        if (upgradeModule == null)
+            return;
+
+        this.gameObject.GetComponent<UpgradeManager>().ActivateUpgradeModule(upgradeModule);
+    }
 }

@@ -4,15 +4,28 @@ using UnityEngine;
 using TMPro;
 using Michsky.UI.ModernUIPack;
 using UnityEngine.UI;
+using System;
 
 public class UpgradePanelManager : MonoBehaviour
 {
     [SerializeField] private Image parentBackground;
     [SerializeField] private TMP_Text title;
     [SerializeField] private HorizontalSelector targettingSelector;
+    [SerializeField] private Slider rotationSlider;
     [SerializeField] private TMPro.TMP_Text damage;
     [SerializeField] private TMPro.TMP_Text fireRate;
     [SerializeField] private TMPro.TMP_Text pierce;
+    [SerializeField] private TMPro.TMP_Text range;
+    [SerializeField] private TMPro.TMP_Text criticalChance;
+    [SerializeField] private TMPro.TMP_Text sellValue;
+
+    [SerializeField] private UpgradeUIButton upgradeUI;
+    [SerializeField] private GameObject perkUI;
+    [SerializeField] private GameObject perkList;
+    [SerializeField] private GameObject sellUI;
+
+    private List<GameObject> upgrades = new List<GameObject>();
+    private List<GameObject> perkObjects = new List<GameObject>();
 
     private static UpgradePanelManager instance;
     public static UpgradePanelManager Instance { get { return instance; } }
@@ -41,14 +54,14 @@ public class UpgradePanelManager : MonoBehaviour
         SelectionManager.OnSelectionChange -= HandleSelectionChanged;
     }
 
-    private void HandleSelectionChanged(Selectable oldSelection, Selectable newSelection)
+    public void HandleSelectionChanged(Selectable oldSelection, Selectable newSelection)
     {
-        if (newSelection.gameObject.TryGetComponent<Tower>(out Tower tower))
+        if (newSelection != null && newSelection.gameObject.TryGetComponent<Tower>(out Tower tower))
         {
             ClearUI();
             SetNewUI(tower);
         }
-        else if (newSelection.gameObject.TryGetComponent<BuildingBlock>(out BuildingBlock buildingBlock))
+        else if (newSelection != null && newSelection.gameObject.TryGetComponent<BuildingBlock>(out BuildingBlock buildingBlock))
         {
             ClearUI();
             SetNewUI(buildingBlock);
@@ -59,6 +72,11 @@ public class UpgradePanelManager : MonoBehaviour
         }
     }
 
+    public void ClearSelection()
+    {
+        SelectionManager.CurrentlySelected = null;
+    }
+
     private void SetNewUI(Tower tower)
     {
         ActivateUI();
@@ -67,17 +85,60 @@ public class UpgradePanelManager : MonoBehaviour
         targettingSelector.index = (int)tower.TargetBehaviour;
         targettingSelector.itemList[(int)tower.TargetBehaviour].onValueChanged.Invoke();
         targettingSelector.selectorEvent.Invoke((int)tower.TargetBehaviour);
+        targettingSelector.UpdateUI();
+
+        if (tower.UseRotationSlider)
+        {
+            rotationSlider.gameObject.SetActive(true);
+            rotationSlider.value = tower.Rotationbase.transform.eulerAngles.y;
+            rotationSlider.onValueChanged.AddListener(tower.RotateTower);
+        }
 
         // Only respects base stats!
-        damage.text = $"{tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE)}";
-        fireRate.text = $"{tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE)}";
-        pierce.text = $"{tower.StatsManager.GetStatValue(Stat.StatType.PIERCING)}";
+        damage.text = $"{ Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE),2) }";
+        fireRate.text = $"{ Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE), 2) }";
+        pierce.text = $"{ Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.PIERCING),2) }";
+        range.text = $"{ Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.RANGE), 2) }";
+        criticalChance.text = $"0%";
+        sellValue.text = $"{ tower.Cost }";
 
         // Upgrade(s) now here
+        tower.UpgradeManager.CheckPathBlocking();
+        foreach (UpgradePath upgradePath in tower.UpgradeManager.GetUpgradePaths())
+        {
+            UpgradeUIButton _setup = Instantiate(upgradeUI.gameObject, this.gameObject.transform).GetComponent<UpgradeUIButton>();
+            upgrades.Add(_setup.gameObject);
+            _setup.SetColor(3);
+            int count = 0;
+            foreach (UpgradeModule upgradeModule in upgradePath.UpgradeModules)
+            {
+                if (!upgradeModule.IsActive) 
+                {
+                    _setup.Setup(upgradeModule, count);
+                    if (!upgradeModule.isAvailable)
+                    {
+                        _setup.gameObject.GetComponent<Button>().interactable = false;
+                    }
+                    break;
+                }
+                else
+                {
+                    count++;
+                    TooltipContent instance = Instantiate(perkUI, perkList.transform).GetComponent<TooltipContent>();
+                    instance.description = upgradeModule.Description;
+                    perkObjects.Add(instance.gameObject);
+                }
+            }
+        }
 
+        if (perkObjects.Count > 0)
+            perkList.SetActive(true);
+        else
+            perkList.SetActive(false);
 
         // Sell function as last
-
+        //sellUI.transform.SetAsLastSibling();
+        perkList.transform.SetAsLastSibling();
     }
 
     private void SetNewUI(BuildingBlock buildingBlock)
@@ -93,9 +154,29 @@ public class UpgradePanelManager : MonoBehaviour
         parentBackground.enabled = false;
         title.enabled = false;
         targettingSelector.gameObject.SetActive(false);
+        rotationSlider.onValueChanged.RemoveAllListeners();
+        rotationSlider.gameObject.SetActive(false);
         damage.enabled = false;
         fireRate.enabled = false;
         pierce.enabled = false;
+
+        if (upgrades.Count > 0)
+        {
+            foreach (GameObject upgrade in upgrades)
+            {
+                Destroy(upgrade.gameObject);
+            }
+            upgrades.Clear();
+        }
+
+        if (perkObjects.Count > 0)
+        {
+            foreach (GameObject perk in perkObjects)
+            {
+                Destroy(perk.gameObject);
+            }
+            perkObjects.Clear();
+        }
     }
 
     private void ActivateUI()
@@ -106,6 +187,18 @@ public class UpgradePanelManager : MonoBehaviour
         damage.enabled = true;
         fireRate.enabled = true;
         pierce.enabled = true;
+        perkList.SetActive(true);
+    }
+
+    public void DeactivateUI()
+    {
+        title.enabled = false;
+        targettingSelector.gameObject.SetActive(false);
+        damage.enabled = false;
+        fireRate.enabled = false;
+        pierce.enabled = false;
+        parentBackground.enabled = false;
+        perkList.SetActive(false);
     }
 
     private void CheckReferences()

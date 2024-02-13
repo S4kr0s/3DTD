@@ -54,6 +54,8 @@ MonoBehaviour:
   penetration: 1
   maxSpeed: 3
   lifetime: 0.75
+  accuracy: 1
+  Collider: {fileID: 7971148056069179201}
 --- !u!114 &7185116567814762680
 MonoBehaviour:
   m_ObjectHideFlags: 0

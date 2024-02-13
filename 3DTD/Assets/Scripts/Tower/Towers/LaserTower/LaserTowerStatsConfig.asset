@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f1b1a09b7517d4283150c8686bcf2d, type: 3}
   m_Name: LaserTowerStatsConfig
   m_EditorClassIdentifier: 
-  Cost: 50
+  Cost: 100
   Worth: 1
   MaximumHealth: 0
   HealthRegen: 0
@@ -21,8 +21,10 @@ MonoBehaviour:
   Damage: 0.5
   Amount: 1
   FireRate: 1.25
-  Range: 0
+  Range: 3
   Radius: 0
   Accuracy: 1
   Piercing: 1
   Lifetime: 1.5
+  Speed: 5.5
+  Size: 1

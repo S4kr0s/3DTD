@@ -22,6 +22,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private float movementSpeedModifierPercent = 1.0f;
     [SerializeField] private bool specialEnemy = false;
+    [SerializeField] private bool canTakeDamage = true;
 
     private float MovementSpeed
     {
@@ -36,6 +37,7 @@ public class Enemy : MonoBehaviour
         set 
         { 
             currentShape = value;
+            OnShapeChanged?.Invoke(CurrentShape);
             OnShapeOrColorChanged?.Invoke(CurrentShape, CurrentColor);
         }
     }
@@ -57,19 +59,24 @@ public class Enemy : MonoBehaviour
     public event Action<float> OnHealthUpdated;
     public event Action<GameObject> OnDeath;
     public event Action<Shape, EnemyColor> OnShapeOrColorChanged;
+    public event Action<Shape> OnShapeChanged;
 
     private Quaternion randomRotation;
 
     private float _overflowDamage;
 
+    private bool animationCanPlay = false;
+
     private void Start()
     {
         OnShapeOrColorChanged += HandleShapeOrColorChanged;
+        OnShapeChanged += HandleShapeChanged;
         //waypoints = GameObject.FindGameObjectWithTag("WaypointManager").GetComponent<Waypoints>();
         currentHealth = data.Health; 
         randomRotation = Random.rotation;
         CurrentShape = data.StartShape;
         CurrentColor = data.StartColor;
+        animationCanPlay = true;
     }
 
     private void UpdateAllStats(EnemyData data)
@@ -97,7 +104,9 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage, DamageType damageType)
     {
-        HandleDamageTaken(damage);
+        if (canTakeDamage)
+            HandleDamageTaken(damage);
+
         /* DamageTypes rework?
         if (damageType == DamageType.ALL || damageType == data.DamageType)
         {
@@ -147,11 +156,13 @@ public class Enemy : MonoBehaviour
         if(id == 0)
         {
             OnDeath?.Invoke(this.gameObject);
+            HandleDeathAnimation(id);
             Destroy(this.gameObject);
         }
         else
         {
-            if((int)CurrentColor == 0)
+            HandleDeathAnimation(id);
+            if ((int)CurrentColor == 0)
             {
                 CurrentColor = EnemyColor.BLACK;
                 CurrentShape--;
@@ -163,9 +174,28 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void HandleDeathAnimation(int id)
+    {
+        if (animationCanPlay)
+        {
+            GameObject go = Instantiate(allPossibleShapes[id], transform.position, transform.rotation, null);
+            go.GetComponent<EnemyShape>().DeathAnimation();
+        }
+    }
+
     private void HandleDeathOfSpecialEnemy()
     {
         Destroy(this.gameObject);
+    }
+
+
+    private void HandleShapeChanged(Shape shape)
+    {
+        int id = ((int)CurrentShape * 10) + (int)CurrentColor;
+        if (id != 0)
+        {
+            HandleDeathAnimation(id);
+        }
     }
 
     private void HandleShapeOrColorChanged(Shape shape, EnemyColor color)

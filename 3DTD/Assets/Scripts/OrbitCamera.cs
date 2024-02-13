@@ -55,9 +55,19 @@ public class OrbitCamera : MonoBehaviour
 	[SerializeField] private float moveSpeed;
 	[SerializeField] private float scrollFactor;
 
-	void Awake()
+	#region For resetting Camera
+	private Vector3 originPos, originFocusPos;
+	private Vector3 originEulerAng, originFocusEulerAng;
+    #endregion
+
+    void Awake()
 	{
-		regularCamera = GetComponent<Camera>();
+		originPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+		originFocusPos = new Vector3(focus.transform.position.x, focus.transform.position.y, focus.transform.position.z);
+		originEulerAng = transform.localRotation.eulerAngles;
+		originFocusEulerAng = focus.transform.localRotation.eulerAngles;
+
+        regularCamera = GetComponent<Camera>();
 		focusPoint = focus.position;
 		transform.localRotation = Quaternion.Euler(orbitAngles);
 	}
@@ -107,6 +117,16 @@ public class OrbitCamera : MonoBehaviour
 		*/
 
 		transform.SetPositionAndRotation(lookPosition, lookRotation);
+
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			
+            transform.position = originPos;
+            focus.transform.position = originFocusPos;
+            transform.localRotation = Quaternion.Euler(originEulerAng);
+            focus.transform.localRotation = Quaternion.Euler(originFocusEulerAng);
+            orbitAngles = new Vector2(45f, 0f);
+        }
 	}
 
 	void Zoom()

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3017a32a3b6a33e45bebd247e0a6280b, type: 3}
+  m_Name: NewSimple 8
+  m_EditorClassIdentifier: 
+  enemiesToSpawn:
+  - {fileID: 11400000, guid: dbd4492b4c3eb714894d04e04bdac00f, type: 2}
+  - {fileID: 11400000, guid: b44ba95ebc062124798f6e3fcb5f7342, type: 2}
+  - {fileID: 11400000, guid: dbd4492b4c3eb714894d04e04bdac00f, type: 2}
+  - {fileID: 11400000, guid: 3120061cabab40e4a901e57cce82b5d4, type: 2}
+  enemySpawnCount: 0f000000230000000f0000000a000000
+  spawnDelay:
+  - 1.25
+  - 0.4
+  - 1.25
+  - 1.5

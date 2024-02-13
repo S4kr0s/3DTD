@@ -123,6 +123,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!224 &27256553 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 561906294916073417, guid: abadca65e86d8844d85b4cdc89ef7033,
+    type: 3}
+  m_PrefabInstance: {fileID: 561906294284441715}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &94738392
 GameObject:
   m_ObjectHideFlags: 0
@@ -2294,6 +2300,17 @@ PrefabInstance:
       propertyPath: m_Value
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 561906294459636141, guid: abadca65e86d8844d85b4cdc89ef7033,
+        type: 3}
+      propertyPath: parentTransform
+      value: 
+      objectReference: {fileID: 27256553}
+    - target: {fileID: 561906294459636141, guid: abadca65e86d8844d85b4cdc89ef7033,
+        type: 3}
+      propertyPath: buildingUIPrefab
+      value: 
+      objectReference: {fileID: 4071763551495795293, guid: 34b77e65ed24b084eac2b6c88b1a8a8c,
+        type: 3}
     - target: {fileID: 561906294477350571, guid: abadca65e86d8844d85b4cdc89ef7033,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -3078,24 +3095,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33678b00297a8d7468f590f82ea30305, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgrades: []
-  activeUpgrades: []
+  displayName: 
+  description: 
+  uiSprite: {fileID: 0}
+  cost: 0
+  upgradeManager: {fileID: 0}
+  statsManager: {fileID: 0}
   targetter: {fileID: 8361684208420881195}
+  actionStrategy: {fileID: 0}
   targetBehaviour: 0
-  renderer: {fileID: 0}
-  data: {fileID: 11400000, guid: 3d7f10be9b9a8e846b5ee2ae73f7f900, type: 2}
+  rangeRenderer: {fileID: 0}
   rotationPoint: {fileID: 963890907}
-  alternateRotation: 0
-  doNotRotate: 0
   shootingPoints:
   - {fileID: 1471588592475251135}
   - {fileID: 4205531796675144840}
-  shootAtSameTime: 0
-  target: {fileID: 0}
-  projectile: {fileID: 2512479460219642988, guid: f15fe4ac0ad9f3c4ab12a6cc84fb67f3,
-    type: 3}
-  internalFireRate: 0
-  level: 0
 --- !u!4 &1471588592903004994
 Transform:
   m_ObjectHideFlags: 0
@@ -3130,6 +3143,8 @@ GameObject:
   - component: {fileID: 3550778273303725873}
   - component: {fileID: 8551732239181886432}
   - component: {fileID: 7678641024154195877}
+  - component: {fileID: 8909189412846439904}
+  - component: {fileID: 8909189412846439903}
   m_Layer: 0
   m_Name: Minigun Tower
   m_TagString: Untagged
@@ -7774,6 +7789,32 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 0.75, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8909189412846439903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471588592903004995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b8328f4b94c88c49b0bb2d820a76ed7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modules: []
+--- !u!114 &8909189412846439904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471588592903004995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05b62f0ba768a514ebed524e848e6745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statsScriptableObject: {fileID: 0}
 --- !u!33 &9202572693229894341
 MeshFilter:
   m_ObjectHideFlags: 0

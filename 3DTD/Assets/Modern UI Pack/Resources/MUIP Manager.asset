@@ -21,7 +21,7 @@ MonoBehaviour:
   buttonFont: {fileID: 11400000, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}
   buttonFontSize: 22.5
   buttonBorderColor: {r: 1, g: 1, b: 1, a: 1}
-  buttonFilledColor: {r: 0.1764706, g: 0.25490198, b: 0.33333334, a: 1}
+  buttonFilledColor: {r: 0, g: 0, b: 0, a: 1}
   buttonTextBasicColor: {r: 1, g: 1, b: 1, a: 1}
   buttonTextColor: {r: 0.37254903, g: 0.40784314, b: 0.4509804, a: 1}
   buttonTextHighlightedColor: {r: 1, g: 1, b: 1, a: 1}
@@ -101,4 +101,4 @@ MonoBehaviour:
   tooltipFont: {fileID: 11400000, guid: 4bd810f1cbcb0f446a8f5a31453e243f, type: 2}
   tooltipFontSize: 22
   tooltipTextColor: {r: 1, g: 1, b: 1, a: 1}
-  tooltipBackgroundColor: {r: 0.1764706, g: 0.25490198, b: 0.33333334, a: 1}
+  tooltipBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
