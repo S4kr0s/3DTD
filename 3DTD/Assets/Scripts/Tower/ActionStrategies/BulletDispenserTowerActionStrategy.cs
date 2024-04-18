@@ -93,9 +93,9 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
             }
             else
             {
-                foreach (GameObject shootingPoint in tower.ShootingPoints)
+                foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
                 {
-                    if (!shootingPoint.activeSelf)
+                    if (!shootingPoint.IsReferenceEnabled)
                         continue; 
 
                     GameObject _projectile = projectilePoolManager.GetPooledProjectile();

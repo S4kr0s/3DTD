@@ -15,6 +15,8 @@ public class ProjectileBomb : Projectile
     [SerializeField] private Transform[] clusterProjectileFirePoints;
     [SerializeField] private float clusterLifetime = 0.5f;
 
+    private bool updateDisabled = false;
+
     private void OnEnable()
     {
         if (target != null)
@@ -36,15 +38,21 @@ public class ProjectileBomb : Projectile
 
         if (!aimAtTarget)
             target = null;
+
+        updateDisabled = false;
     }
 
     private void Update()
     {
+        if (updateDisabled) return;
+
         lifetime -= Time.deltaTime;
 
         if (lifetime <= 0)
         {
             ExplosionTrigger();
+            this.gameObject.GetComponent<PolygonProjectileScript>().HasCollidedWithoutDeath();
+            updateDisabled = true;
         }
 
         if (target != null)
@@ -117,5 +125,10 @@ public class ProjectileBomb : Projectile
                 enemy.TakeDamage(damage, DamageType.EXPLOSIVE);
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }

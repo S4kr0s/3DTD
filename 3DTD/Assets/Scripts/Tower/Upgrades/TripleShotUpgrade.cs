@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChangeFirepointsUpgrade : Upgrade
+public class TripleShotUpgrade : Upgrade
 {
     [SerializeField] private GameObject[] ToDeactivate;
     [SerializeField] private GameObject[] ToActivate;

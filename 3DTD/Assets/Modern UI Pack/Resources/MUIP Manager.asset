@@ -101,4 +101,4 @@ MonoBehaviour:
   tooltipFont: {fileID: 11400000, guid: 4bd810f1cbcb0f446a8f5a31453e243f, type: 2}
   tooltipFontSize: 22
   tooltipTextColor: {r: 1, g: 1, b: 1, a: 1}
-  tooltipBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
+  tooltipBackgroundColor: {r: 0, g: 0, b: 0, a: 0.78431374}

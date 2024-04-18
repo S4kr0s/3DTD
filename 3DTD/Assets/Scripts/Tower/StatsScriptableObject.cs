@@ -28,8 +28,12 @@ public class StatsScriptableObject : ScriptableObject
     [SerializeField] public float Damage;
     [Tooltip("Amount of projectiles per shot")]
     [SerializeField] public float Amount;
+    [Tooltip("Amount of projectiles in magazine")]
+    [SerializeField] public float Ammo;
     [Tooltip("Time (seconds) between shots")]
     [SerializeField] public float FireRate;
+    [Tooltip("Time (seconds) between reloads")]
+    [SerializeField] public float ReloadSpeed;
     [Tooltip("Activation / Attacking Range of Entity")]
     [SerializeField] public float Range;
     [Tooltip("Radius of a single projectile (i.e. for bombs)")]

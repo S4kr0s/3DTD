@@ -26,6 +26,10 @@ public class PolygonBeamStatic : MonoBehaviour
     public float textureScrollSpeed = 0f; //How fast the texture scrolls along the beam, can be negative or positive.
     public float textureLengthScale = 1f;   //Set this to the horizontal length of your texture relative to the vertical. 
                                             //Example: if texture is 200 pixels in height and 600 in length, set this to 3
+    public LayerMask layersToDetectCollisions;
+    public Vector3 end;
+    public float DistanceOfBeam { get { return Mathf.Abs(end.z - this.transform.position.z); } }
+    public StatsManager statsManager;
 
     void Start()
     {
@@ -49,12 +53,16 @@ public class PolygonBeamStatic : MonoBehaviour
         {
             line.SetPosition(0, transform.position);
 
-            Vector3 end;
             RaycastHit hit;
-            if (beamCollides && Physics.Raycast(transform.position, transform.forward, out hit)) //Checks for collision
+
+            if (beamCollides && Physics.Raycast(transform.position, transform.forward, out hit, statsManager.GetStatValue(Stat.StatType.RANGE), layersToDetectCollisions)) //Checks for collision
+            {
                 end = hit.point - (transform.forward * beamEndOffset);
+            }
             else
-                end = transform.position + (transform.forward * beamLength);
+            {
+                end = transform.position + (transform.forward * statsManager.GetStatValue(Stat.StatType.RANGE));
+            }
 
             line.SetPosition(1, end);
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EPOOutline;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,10 +20,11 @@ public class AnchorPoint : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private Material baseMaterial;
     [SerializeField] private Material selectedMaterial;
+    [SerializeField] private Outlinable outlinable;
 
     private GameObject selectedObject
     {
-        get { return BuildingManager.Instance.SelectedBuilding; }
+        get { return BuildingManager.Instance.GetSelectedBuilding(); }
     }
 
     public Transform AnchorPointPosition => anchorPointPosition;
@@ -44,8 +46,7 @@ public class AnchorPoint : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (!renderer.enabled)
-            ChangeMaterialSelected();
+        ChangeMaterialSelected();
     }
 
     private void OnMouseExit()
@@ -55,12 +56,12 @@ public class AnchorPoint : MonoBehaviour
 
     private void ChangeMaterialSelected()
     {
-        renderer.enabled = true;
+        outlinable.OutlineParameters.Enabled = true;
     }
 
     private void RevertMaterialSelected()
     {
-        renderer.enabled = false;
+        outlinable.OutlineParameters.Enabled = false;
     }
 
     private bool CanBuildHere()
@@ -74,7 +75,7 @@ public class AnchorPoint : MonoBehaviour
             return false;
         }
 
-        if (BuildingManager.Instance.SelectedBuilding == GameManager.Instance.Buildings[0])
+        if (BuildingManager.Instance.GetSelectedBuilding() == GameManager.Instance.Buildings[0])
         {
             // Get rid of magic number
             if (GameManager.Instance.Money >= 50)
@@ -103,11 +104,12 @@ public class AnchorPoint : MonoBehaviour
             {
                 GameManager.Instance.Money -= (selectedObject.GetComponent<Tower>().Cost);
                 Instantiate(objectToBuild, anchorPointPosition.position, this.transform.rotation);
+                Debug.Log(this.transform.rotation.ToString());
             }
         }
         else
         {
-            if (BuildingManager.Instance.SelectedBuilding == GameManager.Instance.Buildings[0])
+            if (BuildingManager.Instance.GetSelectedBuilding() == GameManager.Instance.Buildings[0])
             {
                 // Get rid of magic number
                 if (GameManager.Instance.Money >= 50)

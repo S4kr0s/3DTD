@@ -21,7 +21,7 @@ namespace PolygonArsenal
 
         void Start()
         {
-            VisualsStart();
+            //VisualsStart();
         }
 
         public void VisualsStart()

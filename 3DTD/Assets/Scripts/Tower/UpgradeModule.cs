@@ -10,11 +10,13 @@ public class UpgradeModule
     public int Price => price;
 
     [SerializeField] private string name;
+    [Multiline]
     [SerializeField] private string description;
     [SerializeField] private int price;
     [SerializeField] private Upgrade[] upgrades;
     [SerializeField] private StatUpgrade[] statUpgrades; // needs to be it's own for editor functionality
     [SerializeField] private GameObject[] upgradeVisualGameObjects;
+    [SerializeField] private GameObject[] disableVisualGameObjects;
     public bool IsActive => isActive;
     [SerializeField] private bool isActive = false;
     [SerializeField] public bool isAvailable = true;
@@ -44,6 +46,11 @@ public class UpgradeModule
         foreach (GameObject visual in upgradeVisualGameObjects)
         {
             visual.SetActive(true);
+        }
+
+        foreach (GameObject visual in disableVisualGameObjects)
+        {
+            visual.SetActive(false);
         }
 
         isActive = true;

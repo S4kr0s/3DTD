@@ -18,8 +18,8 @@ public class Stat
     public float GetValue()
     {
         float finalValue = baseValue;
-        modifiers.ForEach(x => finalValue += (finalValue * (x / 100f)));  // assuming modifiers are multiplicative. If additive: finalValue += x;
         bonuses.ForEach(x => finalValue += x);  // assuming modifiers are multiplicative. If additive: finalValue += x;
+        modifiers.ForEach(x => finalValue += (finalValue * (x / 100f)));  // assuming modifiers are multiplicative. If additive: finalValue += x;
         return finalValue;
     }
 
@@ -59,7 +59,9 @@ public class Stat
         #region Combat-Types
         DAMAGE, // percent per projectile
         AMOUNT, // of projectiles
+        AMMO,
         FIRERATE, // of tower
+        RELOAD_SPEED,
         RANGE, // of tower (activation, targetting.. etc)
         RADIUS, // of projectile (bombs for example)
         ACCURACY, // of tower 

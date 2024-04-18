@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f1b1a09b7517d4283150c8686bcf2d, type: 3}
   m_Name: BulletDispenserStatsConfig
   m_EditorClassIdentifier: 
-  Cost: 55
+  Cost: 100
   Worth: 1
   MaximumHealth: 0
   HealthRegen: 0

@@ -138,6 +138,7 @@ MonoBehaviour:
   - {fileID: 5122346149835495639}
   - {fileID: 5122346150150600506}
   - {fileID: 5122346151009552906}
+  - {fileID: 5122346151009552906}
   allPossibleEnemyData:
   - {fileID: 11400000, guid: 1878ab9065a5f0341975535697b836e9, type: 2}
   - {fileID: 11400000, guid: b44ba95ebc062124798f6e3fcb5f7342, type: 2}
@@ -189,8 +190,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f482e3b160815e540a00c418e4370771, type: 2}
   - {fileID: 11400000, guid: 18e3c690205b1f74785605dc5c7b935e, type: 2}
   - {fileID: 11400000, guid: a95aa70eb48c7674a9df497045a5e39c, type: 2}
+  - {fileID: 11400000, guid: 99fd0af4b763a8a4989fc30a6798880c, type: 2}
   movementSpeedModifierPercent: 1
   specialEnemy: 0
+  canTakeDamage: 1
 --- !u!135 &462364803991377536
 SphereCollider:
   m_ObjectHideFlags: 0

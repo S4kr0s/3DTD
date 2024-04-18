@@ -43,9 +43,9 @@ public class PlaceholderTowerActionStrategy : ActionStrategy
     {
         if (internalFireRate <= 0 && target != null)
         {
-            foreach (GameObject shootingPoint in tower.ShootingPoints)
+            foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
             {
-                if (!shootingPoint.activeSelf)
+                if (!shootingPoint.IsReferenceEnabled)
                     continue;
 
                 internalFireRate = tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE);
@@ -93,9 +93,9 @@ public class PlaceholderTowerActionStrategy : ActionStrategy
     {
         tower.RotationPoint.transform.LookAt(enemy.transform.position, Vector3.up);
 
-        foreach (GameObject shootingPoint in tower.ShootingPoints)
+        foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
         {
-            if (shootingPoint.activeSelf)
+            if (shootingPoint.IsReferenceEnabled)
             {
                 Vector3 raycastDirection = enemy.transform.position - shootingPoint.transform.position;
                 if (Physics.Linecast(shootingPoint.transform.position, enemy.transform.position, out RaycastHit hit))

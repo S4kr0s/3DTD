@@ -77,6 +77,8 @@ public class Enemy : MonoBehaviour
         CurrentShape = data.StartShape;
         CurrentColor = data.StartColor;
         animationCanPlay = true;
+        if (data.StartShape == Shape.BOSS)
+            specialEnemy = true;
     }
 
     private void UpdateAllStats(EnemyData data)
@@ -185,6 +187,8 @@ public class Enemy : MonoBehaviour
 
     private void HandleDeathOfSpecialEnemy()
     {
+        OnDeath?.Invoke(this.gameObject);
+        HandleDeathAnimation(0);
         Destroy(this.gameObject);
     }
 
@@ -222,7 +226,8 @@ public enum Shape
     CUBE            = 1,
     OCTAHEDRON      = 2,
     DODECAHEDRON    = 3,
-    ICOSAHEDRON     = 4
+    ICOSAHEDRON     = 4,
+    BOSS            = 5,
 }
 
 public enum EnemyColor

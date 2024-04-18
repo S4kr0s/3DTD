@@ -53,6 +53,14 @@ public class PauseMenu : MonoBehaviour
         canSwitchMenu = false;
     }
 
+    public void GameWon()
+    {
+        gamePausedText.text = "GAME WON!";
+
+        ToggleMenu();
+        canSwitchMenu = true;
+    }
+
     void PauseGame(bool pause)
     {
         if (pause)

@@ -176,6 +176,11 @@ public class GameManager : MonoBehaviour
         PauseMenu.Instance.GameOver();
     }
 
+    public void GameWon()
+    {
+        PauseMenu.Instance.GameWon();
+    }
+
     public void ChangeGameSpeed(float newGameSpeed)
     {
         GameSpeed = newGameSpeed;

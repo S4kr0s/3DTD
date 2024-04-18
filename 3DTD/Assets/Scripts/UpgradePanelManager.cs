@@ -18,6 +18,9 @@ public class UpgradePanelManager : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text range;
     [SerializeField] private TMPro.TMP_Text criticalChance;
     [SerializeField] private TMPro.TMP_Text sellValue;
+    [SerializeField] private TMPro.TMP_Text ammo;
+    [SerializeField] private TMPro.TMP_Text reloadSpeed;
+    [SerializeField] private TMPro.TMP_Text accuracy;
 
     [SerializeField] private UpgradeUIButton upgradeUI;
     [SerializeField] private GameObject perkUI;
@@ -101,6 +104,11 @@ public class UpgradePanelManager : MonoBehaviour
         range.text = $"{ Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.RANGE), 2) }";
         criticalChance.text = $"0%";
         sellValue.text = $"{ tower.Cost }";
+        ammo.text = $"{Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.AMMO), 2)}";
+        if (ammo.text == "0") ammo.text = "1";
+        reloadSpeed.text = $"{Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.RELOAD_SPEED), 2)}";
+        if (reloadSpeed.text == "0") reloadSpeed.text = $"{Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE), 2)}";
+        accuracy.text = $"{Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.ACCURACY), 2) * 100}%";
 
         // Upgrade(s) now here
         tower.UpgradeManager.CheckPathBlocking();

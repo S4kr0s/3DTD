@@ -6,9 +6,9 @@ using TMPro;
 using UnityEngine.UI;
 
 public class BuildingUIText : MonoBehaviour
-{
+{ 
     private ButtonManager buttonManager;
-    private GameObject buildingPrefab;
+    public GameObject buildingPrefab;
     private Building buildingInfo;
 
     public TextMeshProUGUI nameNormal;
@@ -17,6 +17,8 @@ public class BuildingUIText : MonoBehaviour
     public TextMeshProUGUI costHighlighted;
     public Image imageNormal;
     public Image imageHighlighted;
+    public Toggle toggle;
+    public TooltipContent tooltip;
 
     public void SetBuilding(GameObject buildingPrefab)
     {
@@ -32,12 +34,13 @@ public class BuildingUIText : MonoBehaviour
 
     public void Refresh()
     {
-        if (buttonManager == null)
-            return;
+        //if (buttonManager == null)
+        //    return;
 
-        buttonManager.buttonText = buildingInfo.DisplayName;
-        nameNormal.text = buildingInfo.DisplayName; nameHighlighted.text = buildingInfo.DisplayName;
-        costNormal.text = buildingInfo.Cost.ToString(); costHighlighted.text = buildingInfo.Cost.ToString();
+        //buttonManager.buttonText = buildingInfo.DisplayName;
+        //nameNormal.text = buildingInfo.DisplayName; nameHighlighted.text = buildingInfo.DisplayName;
+        //costNormal.text = buildingInfo.Cost.ToString(); costHighlighted.text = buildingInfo.Cost.ToString();
+        tooltip.description = "<b>" + buildingInfo.DisplayName + "</b>\n" + buildingInfo.Description + "\nCost: " + buildingInfo.Cost + " Energy Cores";
         imageNormal.sprite = buildingInfo.UISprite; imageHighlighted.sprite = buildingInfo.UISprite;
     }
 

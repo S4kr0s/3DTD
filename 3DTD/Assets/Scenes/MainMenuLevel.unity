@@ -13725,6 +13725,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1faeceff92dab744fa21114870287806, type: 2}
   movementSpeedModifierPercent: 1
   specialEnemy: 0
+  canTakeDamage: 1
 --- !u!1 &428371811
 GameObject:
   m_ObjectHideFlags: 0
@@ -15640,7 +15641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &535407008
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27242,6 +27243,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 147286872823315961, guid: 2e11b75d1f95623449afcdda7fa83b25,
+        type: 3}
+      propertyPath: statsScriptableObject
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cad18f93c4ca9745b111c663a9f2319,
+        type: 2}
     - target: {fileID: 1525194639460744950, guid: 2e11b75d1f95623449afcdda7fa83b25,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
@@ -28579,8 +28586,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283777325
-  m_fontColor: {r: 0.1764706, g: 0.25490198, b: 0.33333334, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -31655,7 +31662,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1161832788
 RectTransform:
   m_ObjectHideFlags: 0
@@ -37364,8 +37371,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283777325
-  m_fontColor: {r: 0.1764706, g: 0.25490198, b: 0.33333334, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -38362,8 +38369,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283777325
-  m_fontColor: {r: 0.1764706, g: 0.25490198, b: 0.33333334, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -44490,6 +44497,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 147286872823315961, guid: 2e11b75d1f95623449afcdda7fa83b25,
+        type: 3}
+      propertyPath: statsScriptableObject
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cad18f93c4ca9745b111c663a9f2319,
+        type: 2}
     - target: {fileID: 1525194639460744950, guid: 2e11b75d1f95623449afcdda7fa83b25,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
@@ -46031,6 +46044,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 147286872823315961, guid: 2e11b75d1f95623449afcdda7fa83b25,
+        type: 3}
+      propertyPath: statsScriptableObject
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cad18f93c4ca9745b111c663a9f2319,
+        type: 2}
     - target: {fileID: 1525194639460744950, guid: 2e11b75d1f95623449afcdda7fa83b25,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
@@ -47233,6 +47252,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 147286872823315961, guid: 2e11b75d1f95623449afcdda7fa83b25,
+        type: 3}
+      propertyPath: statsScriptableObject
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cad18f93c4ca9745b111c663a9f2319,
+        type: 2}
     - target: {fileID: 1525194639460744950, guid: 2e11b75d1f95623449afcdda7fa83b25,
         type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.size
@@ -49094,7 +49119,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2043599032
 RectTransform:
   m_ObjectHideFlags: 0
@@ -50105,8 +50130,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4283777325
-  m_fontColor: {r: 0.1764706, g: 0.25490198, b: 0.33333334, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -52668,7 +52693,7 @@ PrefabInstance:
     - target: {fileID: 505797377043594463, guid: d1c0eddf7e40a774795da1ff46ddeb8b,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -1000.46106
+      value: -1000
       objectReference: {fileID: 0}
     - target: {fileID: 505797377043594463, guid: d1c0eddf7e40a774795da1ff46ddeb8b,
         type: 3}
@@ -53727,6 +53752,8 @@ MonoBehaviour:
   shootingPoints:
   - {fileID: 1471588592475251135}
   - {fileID: 4205531796675144840}
+  useRotationSlider: 0
+  rotationBase: {fileID: 0}
 --- !u!4 &1471588592903004994
 Transform:
   m_ObjectHideFlags: 0
@@ -58892,6 +58919,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4e0817f474b3d314daa598b04e2d8d90,
         type: 2}
+    - target: {fileID: 239303336769111455, guid: bbe26eddadc8b58408d5def061599fb4,
+        type: 3}
+      propertyPath: waypoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 1018608350}
     - target: {fileID: 6107436936911939712, guid: bbe26eddadc8b58408d5def061599fb4,
         type: 3}
       propertyPath: m_RootOrder
@@ -58956,6 +58988,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Spawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 6107436938470773268, guid: bbe26eddadc8b58408d5def061599fb4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbe26eddadc8b58408d5def061599fb4, type: 3}

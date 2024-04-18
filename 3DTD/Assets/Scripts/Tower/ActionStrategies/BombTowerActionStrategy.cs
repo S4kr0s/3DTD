@@ -12,6 +12,8 @@ public class BombTowerActionStrategy : ActionStrategy
     [SerializeField] public bool doClustering = false;
 
     private float internalFireRate;
+    private float internalMagazine;
+    private float internalReloadSpeed = 0f;
     private Tower tower;
     private GameObject target;
 
@@ -19,6 +21,7 @@ public class BombTowerActionStrategy : ActionStrategy
     {
         this.tower = tower;
         internalFireRate = tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE);
+        internalMagazine = tower.StatsManager.GetStatValue(Stat.StatType.AMMO);
 
         // Object Pool
         projectilePoolManager = tower.gameObject.AddComponent<ProjectilePoolManager>();
@@ -43,48 +46,58 @@ public class BombTowerActionStrategy : ActionStrategy
 
     private void ShootAtTarget()
     {
-        if (internalFireRate <= 0 && target != null)
+        if (internalMagazine <= 0)
         {
-            foreach (GameObject shootingPoint in tower.ShootingPoints)
+            internalReloadSpeed += Time.deltaTime;
+            if (internalReloadSpeed > tower.StatsManager.GetStatValue(Stat.StatType.RELOAD_SPEED))
             {
-                if (!shootingPoint.activeSelf)
-                    continue;
-
-                internalFireRate = tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE);
-
-                GameObject _projectile = projectilePoolManager.GetPooledProjectile();
-
-                if (_projectile == null)
-                {
-                    continue;
-                }
-
-                _projectile.SetActive(false);
-                _projectile.transform.position = shootingPoint.transform.position;
-                _projectile.transform.rotation = shootingPoint.transform.rotation;
-                _projectile.transform.localScale = Vector3.one * tower.StatsManager.GetStatValue(Stat.StatType.SIZE);
-
-                ProjectileBomb projectileComponent = _projectile.GetComponent<ProjectileBomb>();
-                projectileComponent.Target = target;
-                projectileComponent.lifetime = tower.StatsManager.GetStatValue(Stat.StatType.LIFETIME);
-                projectileComponent.damage = tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE);
-                projectileComponent.penetration = ((int)tower.StatsManager.GetStatValue(Stat.StatType.PIERCING));
-                projectileComponent.maxSpeed = tower.StatsManager.GetStatValue(Stat.StatType.SPEED);
-                projectileComponent.accuracy = tower.StatsManager.GetStatValue(Stat.StatType.ACCURACY);
-                if (projectileComponent.Collider != null)
-                    projectileComponent.Collider.enabled = true;
-                projectileComponent.aimAtTarget = aimAtTarget;
-                projectileComponent.doClustering = doClustering;
-                projectileComponent.OnProjectileDeath += ReturnToPool;
-                projectileComponent.radius = tower.StatsManager.GetStatValue(Stat.StatType.RADIUS);
-                _projectile.SetActive(true);
-
-                _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
+                internalMagazine = tower.StatsManager.GetStatValue(Stat.StatType.AMMO);
+                internalReloadSpeed = 0;
             }
         }
         else
         {
             internalFireRate -= Time.deltaTime;
+            if (internalFireRate <= 0 && target != null)
+            {
+                internalMagazine--;
+                foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
+                {
+                    if (!shootingPoint.IsReferenceEnabled)
+                        continue;
+
+                    internalFireRate = tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE);
+
+                    GameObject _projectile = projectilePoolManager.GetPooledProjectile();
+
+                    if (_projectile == null)
+                    {
+                        continue;
+                    }
+
+                    _projectile.SetActive(false);
+                    _projectile.transform.position = shootingPoint.transform.position;
+                    _projectile.transform.rotation = shootingPoint.transform.rotation;
+                    _projectile.transform.localScale = Vector3.one * tower.StatsManager.GetStatValue(Stat.StatType.SIZE);
+
+                    ProjectileBomb projectileComponent = _projectile.GetComponent<ProjectileBomb>();
+                    projectileComponent.Target = target;
+                    projectileComponent.lifetime = tower.StatsManager.GetStatValue(Stat.StatType.LIFETIME);
+                    projectileComponent.damage = tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE);
+                    projectileComponent.penetration = ((int)tower.StatsManager.GetStatValue(Stat.StatType.PIERCING));
+                    projectileComponent.maxSpeed = tower.StatsManager.GetStatValue(Stat.StatType.SPEED);
+                    projectileComponent.accuracy = tower.StatsManager.GetStatValue(Stat.StatType.ACCURACY);
+                    if (projectileComponent.Collider != null)
+                        projectileComponent.Collider.enabled = true;
+                    projectileComponent.aimAtTarget = aimAtTarget;
+                    projectileComponent.doClustering = doClustering;
+                    projectileComponent.OnProjectileDeath += ReturnToPool;
+                    projectileComponent.radius = tower.StatsManager.GetStatValue(Stat.StatType.RADIUS);
+                    _projectile.SetActive(true);
+
+                    _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
+                }
+            }
         }
     }
 
@@ -98,9 +111,9 @@ public class BombTowerActionStrategy : ActionStrategy
     {
         tower.RotationPoint.transform.LookAt(enemy.transform.position, Vector3.up);
 
-        foreach (GameObject shootingPoint in tower.ShootingPoints)
+        foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
         {
-            if (shootingPoint.activeSelf)
+            if (shootingPoint.IsReferenceEnabled)
             {
                 Vector3 raycastDirection = enemy.transform.position - shootingPoint.transform.position;
                 if (Physics.Linecast(shootingPoint.transform.position, enemy.transform.position, out RaycastHit hit))

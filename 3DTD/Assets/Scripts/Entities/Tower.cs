@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.SocialPlatforms;
 
 [RequireComponent(typeof(UpgradeManager))]
 [RequireComponent(typeof(StatsManager))]
@@ -16,7 +17,7 @@ public class Tower : Building
     public ActionStrategy ActionStrategy { get { return actionStrategy; } }
     public TargetBehaviour TargetBehaviour { get { return targetBehaviour; } }
     public GameObject RotationPoint { get { return rotationPoint; } }
-    public GameObject[] ShootingPoints { get { return shootingPoints; } }
+    public ShootingPointReference[] ShootingPoints { get { return shootingPoints; } }
     public bool UseRotationSlider { get { return useRotationSlider; } }
     public GameObject Rotationbase { get { return rotationBase; } }
 
@@ -33,7 +34,7 @@ public class Tower : Building
     [SerializeField] private MeshRenderer rangeRenderer;
 
     [SerializeField] private GameObject rotationPoint;
-    [SerializeField] private GameObject[] shootingPoints;
+    [SerializeField] private ShootingPointReference[] shootingPoints;
 
     [SerializeField] private bool useRotationSlider = false;
     [SerializeField] private GameObject rotationBase;
@@ -52,9 +53,79 @@ public class Tower : Building
     }
 
     // Move to a better place? idk where tho
+
+    /*
     public void RotateTower(float rotationValueX)
     {
-        this.rotationBase.transform.rotation = Quaternion.Euler(0, rotationValueX, 0);
+        //this.rotationBase.transform.rotation = Quaternion.Euler(0, rotationValueX, 0);
+        this.rotationBase.transform.localRotation = Quaternion.Euler(rotationBase.transform.rotation.x, rotationBase.transform.rotation.y, rotationValueX);
+        // this.rotationBase.transform.localEulerAngles.Set(rotationBase.transform.localEulerAngles.x, rotationBase.transform.localEulerAngles.y, rotationValueX);
+    }
+    */
+
+    // THIS NEEDS TO BE FIXED ASAP. Rotation way too hard. Can't get it to work on all placement directions for some reason..
+    public void RotateTower(float rotationValue)
+    {
+        Vector3 localUp = this.rotationBase.transform.up; 
+        localUp.Normalize();
+        localUp = GetNearestDirection(localUp);
+
+        Debug.Log(localUp);
+        Debug.Log("EULER: " + this.rotationBase.transform.rotation.ToString());
+
+        if (localUp == Vector3.right)
+        {
+            this.rotationBase.transform.rotation = Quaternion.Euler(rotationValue, 0, -90);
+        }
+        else if (localUp == Vector3.up)
+        {
+            this.rotationBase.transform.rotation = Quaternion.Euler(0, rotationValue, 0);
+        }
+        else if (localUp == Vector3.forward)
+        {
+            this.rotationBase.transform.rotation = Quaternion.Euler(rotationValue, 90, 90);
+        }
+        else
+        if (localUp == -Vector3.right)
+        {
+            this.rotationBase.transform.rotation = Quaternion.Euler(rotationValue, 0, 90);
+        }
+        else if (localUp == -Vector3.up)
+        {
+            this.rotationBase.transform.rotation = Quaternion.Euler(180, rotationValue, 0);
+        }
+        else if (localUp == -Vector3.forward)
+        {
+            this.rotationBase.transform.rotation = Quaternion.Euler(rotationValue, 90, -90);
+        }
+
+        Debug.Log("EULER: " + this.rotationBase.transform.rotation.ToString());
+    }
+
+    public Vector3 GetNearestDirection(Vector3 localUp)
+    {
+        // Define the candidate directions
+        Vector3[] directions = {
+            Vector3.right, Vector3.up, Vector3.forward,
+            -Vector3.right, -Vector3.up, -Vector3.forward
+        };
+
+        // Initialize variables to find the nearest direction
+        float maxDot = float.MinValue;
+        Vector3 nearestDirection = Vector3.zero;
+
+        // Check each direction to find the nearest one
+        foreach (Vector3 dir in directions)
+        {
+            float dot = Vector3.Dot(localUp, dir);
+            if (dot > maxDot)
+            {
+                maxDot = dot;
+                nearestDirection = dir;
+            }
+        }
+
+        return nearestDirection;
     }
 
     /*
@@ -101,5 +172,13 @@ public class Tower : Building
         Destroy(this.actionStrategy);
         this.actionStrategy = actionStrategy;
         this.actionStrategy.SetupActionStrategy(this);
+    }
+
+    public void SetRotationPoint(GameObject target)
+    {
+        if (target == null)
+        {
+            rotationPoint = target;
+        }
     }
 }

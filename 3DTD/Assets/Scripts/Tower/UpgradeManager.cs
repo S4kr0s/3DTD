@@ -8,7 +8,6 @@ using UnityEngine;
 public class UpgradeManager : MonoBehaviour
 {
     [SerializeField] private UpgradePath[] upgradePaths;
-    [SerializeField] private UpgradeModule[] upgradeModules;
 
     public List<IUpgrade> availableUpgrades { get; private set; }
     public List<IUpgrade> activeUpgrades { get; private set; }

@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BaseWaveData", menuName = "TowerDefense/WaveData", order = 0)]
 public class WaveData : ScriptableObject
 {
-    [SerializeField] private List<EnemyData> enemiesToSpawn;
-    [SerializeField] private List<int> enemySpawnCount;
-    [SerializeField] private List<float> spawnDelay;
+    [SerializeField] public List<EnemyData> enemiesToSpawn;
+    [SerializeField] public List<int> enemySpawnCount;
+    [SerializeField] public List<float> spawnDelay;
 
     public List<EnemyData> EnemiesToSpawn => enemiesToSpawn;
     public List<int> EnemySpawnCount => enemySpawnCount;

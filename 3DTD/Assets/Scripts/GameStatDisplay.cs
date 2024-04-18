@@ -57,6 +57,8 @@ public class GameStatDisplay : MonoBehaviour
     public void ButtonStartNewWave()
     {
         Spawner.Instance.StartNextWave();
-        MapHighlighter.Instance.highlight = false;
+
+        if (MapHighlighter.Instance != null)
+            MapHighlighter.Instance.highlight = false;
     }
 }
