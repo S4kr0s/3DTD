@@ -43,7 +43,7 @@ public class ProjectileHindrance : Projectile
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
             Penetration--;
-            enemy.TakeDamage(damage, DamageType.EXPLOSIVE);
+            enemy.TakeDamage(damage, DamageType.EXPLOSIVE, this.tower);
             // Hard-Coded Slowness-Percent & Duration
             enemy.ApplySlowness(-0.5f, 5);
 

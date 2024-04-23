@@ -44,7 +44,7 @@ public class BeamTowerActionStrategy : ActionStrategy
                         {
                             if (internalPierce > 0)
                             {
-                                enemy.TakeDamage(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE), DamageType.PROJECTILE);
+                                enemy.TakeDamage(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE), DamageType.PROJECTILE, this.tower);
                                 internalPierce--;
                             }
                         }

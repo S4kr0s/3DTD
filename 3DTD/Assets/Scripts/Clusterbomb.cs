@@ -7,6 +7,7 @@ public class Clusterbomb : MonoBehaviour
     public float speed = 1f;
     public float damage = 1f;
     public float radius = 1f;
+    public Tower tower;
 
     private void Update()
     {
@@ -40,7 +41,7 @@ public class Clusterbomb : MonoBehaviour
         {
             if (hitCollider.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
             {
-                enemy.TakeDamage(damage, DamageType.EXPLOSIVE);
+                enemy.TakeDamage(damage, DamageType.EXPLOSIVE, this.tower);
             }
         }
     }

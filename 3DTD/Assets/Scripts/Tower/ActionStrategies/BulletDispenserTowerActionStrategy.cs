@@ -57,7 +57,7 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
                 {
                     if (enemy != null)
                     {
-                        enemy.TakeDamage(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE), DamageType.MAGIC);
+                        enemy.TakeDamage(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE), DamageType.MAGIC, this.tower);
                         Instantiate(hitParticle, enemy.transform.position, enemy.transform.rotation, null);
                     }
                 }
@@ -84,6 +84,7 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
                 projectileComponent.penetration = ((int)tower.StatsManager.GetStatValue(Stat.StatType.PIERCING));
                 projectileComponent.maxSpeed = tower.StatsManager.GetStatValue(Stat.StatType.SPEED);
                 projectileComponent.accuracy = tower.StatsManager.GetStatValue(Stat.StatType.ACCURACY);
+                projectileComponent.tower = tower;
                 if (projectileComponent.Collider != null)
                     projectileComponent.Collider.enabled = true;
                 projectileComponent.OnProjectileDeath += ReturnToPool;
@@ -117,6 +118,7 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
                     projectileComponent.penetration = ((int)tower.StatsManager.GetStatValue(Stat.StatType.PIERCING));
                     projectileComponent.maxSpeed = tower.StatsManager.GetStatValue(Stat.StatType.SPEED);
                     projectileComponent.accuracy = tower.StatsManager.GetStatValue(Stat.StatType.ACCURACY);
+                    projectileComponent.tower = tower;
                     if (projectileComponent.Collider != null)
                         projectileComponent.Collider.enabled = true;
                     projectileComponent.OnProjectileDeath += ReturnToPool;

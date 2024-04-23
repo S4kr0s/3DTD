@@ -7,6 +7,7 @@ public class SniperTowerActionStrategy : ActionStrategy
 {
     private ProjectilePoolManager projectilePoolManager;
 
+    [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private bool secondShotStrongTargetting;
     [SerializeField] private bool thirdShotLastTargetting;
 
@@ -64,21 +65,22 @@ public class SniperTowerActionStrategy : ActionStrategy
 
                     if (target.TryGetComponent<Enemy>(out Enemy enemy))
                     {
-                        enemy.TakeDamage(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE), DamageType.PROJECTILE);
+                        enemy.TakeDamage(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE), DamageType.PROJECTILE, this.tower);
+                        muzzleFlash.Play();
                     }
 
                     if (secondShotStrongTargetting)
                     {
                         Enemy strongestEnemy = tower.Targetter.GetStrongestEnemyInRadius();
                         if (strongestEnemy != null)
-                            strongestEnemy.TakeDamage(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE), DamageType.PROJECTILE);
+                            strongestEnemy.TakeDamage(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE), DamageType.PROJECTILE, this.tower);
                     }
 
                     if (thirdShotLastTargetting)
                     {
                         Enemy lastEnemy = tower.Targetter.GetLastEnemyInRadius();
                         if (lastEnemy != null)
-                            lastEnemy.TakeDamage(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE), DamageType.PROJECTILE);
+                            lastEnemy.TakeDamage(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE), DamageType.PROJECTILE, this.tower);
                     }
                 }
             }

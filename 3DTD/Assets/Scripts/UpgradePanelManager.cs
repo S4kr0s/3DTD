@@ -21,6 +21,7 @@ public class UpgradePanelManager : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text ammo;
     [SerializeField] private TMPro.TMP_Text reloadSpeed;
     [SerializeField] private TMPro.TMP_Text accuracy;
+    [SerializeField] private TMPro.TMP_Text damageDealt;
 
     [SerializeField] private UpgradeUIButton upgradeUI;
     [SerializeField] private GameObject perkUI;
@@ -109,6 +110,7 @@ public class UpgradePanelManager : MonoBehaviour
         reloadSpeed.text = $"{Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.RELOAD_SPEED), 2)}";
         if (reloadSpeed.text == "0") reloadSpeed.text = $"{Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE), 2)}";
         accuracy.text = $"{Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.ACCURACY), 2) * 100}%";
+        damageDealt.text = $"{tower.DamageCount}";
 
         // Upgrade(s) now here
         tower.UpgradeManager.CheckPathBlocking();

@@ -52,7 +52,7 @@ public class ProjectileBasic : Projectile
         {
             if (Penetration > 0)
             {
-                enemy.TakeDamage(damage, DamageType.PROJECTILE);
+                enemy.TakeDamage(damage, DamageType.PROJECTILE, this.tower);
                 target = null;
                 Penetration--;
             }

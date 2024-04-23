@@ -27,7 +27,7 @@ public class ProjectileMinigun : Projectile
 
             if (hit.collider.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
             {
-                enemy.TakeDamage(damage, DamageType.PROJECTILE);
+                enemy.TakeDamage(damage, DamageType.PROJECTILE, this.tower);
 
                 Penetration--;
 
@@ -52,7 +52,7 @@ public class ProjectileMinigun : Projectile
     {
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            enemy.TakeDamage(damage, DamageType.PROJECTILE);
+            enemy.TakeDamage(damage, DamageType.PROJECTILE, this.tower);
 
             Penetration--;
 

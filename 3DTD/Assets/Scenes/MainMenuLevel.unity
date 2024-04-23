@@ -26238,7 +26238,7 @@ MonoBehaviour:
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
+  m_CameraType: 1
   m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
@@ -41061,7 +41061,8 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras: []
+  m_Cameras:
+  - {fileID: 878171929}
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -53742,6 +53743,7 @@ MonoBehaviour:
   description: 
   uiSprite: {fileID: 0}
   cost: 0
+  DamageCount: 0
   upgradeManager: {fileID: 0}
   statsManager: {fileID: 0}
   targetter: {fileID: 8361684208420881195}
@@ -59321,7 +59323,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upgradePaths: []
-  upgradeModules: []
 --- !u!114 &8909189412846439904
 MonoBehaviour:
   m_ObjectHideFlags: 0

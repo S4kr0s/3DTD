@@ -49,7 +49,7 @@ public class ProjectilePulse : Projectile
     {
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            enemy.TakeDamage(damage, DamageType.EXPLOSIVE);
+            enemy.TakeDamage(damage, DamageType.EXPLOSIVE, this.tower);
         }
     }
 }

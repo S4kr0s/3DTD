@@ -108,7 +108,8 @@ public class ProjectileBomb : Projectile
         int i = 0;
         foreach (Transform item in clusterProjectileFirePoints)
         {
-            Instantiate(clusterProjectilePrefab, item.position, item.rotation, null);
+            Clusterbomb clusterBomb = Instantiate(clusterProjectilePrefab, item.position, item.rotation, null).GetComponent<Clusterbomb>();
+            clusterBomb.tower = this.tower;
             i++;
         }
         Debug.Log(i);
@@ -122,7 +123,7 @@ public class ProjectileBomb : Projectile
         {
             if (hitCollider.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
             {
-                enemy.TakeDamage(damage, DamageType.EXPLOSIVE);
+                enemy.TakeDamage(damage, DamageType.EXPLOSIVE, this.tower);
             }
         }
     }

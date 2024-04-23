@@ -67,6 +67,8 @@ public class Enemy : MonoBehaviour
 
     private bool animationCanPlay = false;
 
+    private Tower lastTowerDamagedFrom;
+
     private void Start()
     {
         OnShapeOrColorChanged += HandleShapeOrColorChanged;
@@ -104,8 +106,13 @@ public class Enemy : MonoBehaviour
                 waypointIndex++;
     }
 
-    public void TakeDamage(float damage, DamageType damageType)
+    public void TakeDamage(float damage, DamageType damageType, Tower tower)
     {
+        if (tower != null)
+            lastTowerDamagedFrom = tower;
+        else
+            lastTowerDamagedFrom = null;
+
         if (canTakeDamage)
             HandleDamageTaken(damage);
 
@@ -140,6 +147,10 @@ public class Enemy : MonoBehaviour
     {
         currentHealth -= damage;
         _overflowDamage = currentHealth * -1;
+
+        if (lastTowerDamagedFrom != null)
+            lastTowerDamagedFrom.HandleDamageDealt(damage - _overflowDamage);
+
         OnHealthUpdated?.Invoke(currentHealth);
         if (currentHealth <= 0)
         {
@@ -216,7 +227,7 @@ public class Enemy : MonoBehaviour
         allPossibleShapes[((int)CurrentShape * 10) + (int)CurrentColor].SetActive(true);
 
         if (_overflowDamage > 0)
-            TakeDamage(_overflowDamage, DamageType.ALL);
+            TakeDamage(_overflowDamage, DamageType.ALL, lastTowerDamagedFrom);
     }
 }
 

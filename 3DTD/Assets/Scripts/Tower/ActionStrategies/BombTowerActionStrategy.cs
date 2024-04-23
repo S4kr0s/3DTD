@@ -87,6 +87,7 @@ public class BombTowerActionStrategy : ActionStrategy
                     projectileComponent.penetration = ((int)tower.StatsManager.GetStatValue(Stat.StatType.PIERCING));
                     projectileComponent.maxSpeed = tower.StatsManager.GetStatValue(Stat.StatType.SPEED);
                     projectileComponent.accuracy = tower.StatsManager.GetStatValue(Stat.StatType.ACCURACY);
+                    projectileComponent.tower = tower;
                     if (projectileComponent.Collider != null)
                         projectileComponent.Collider.enabled = true;
                     projectileComponent.aimAtTarget = aimAtTarget;

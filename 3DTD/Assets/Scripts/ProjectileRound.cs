@@ -30,7 +30,7 @@ public class ProjectileRound : Projectile
     {
         if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
         {
-            enemy.TakeDamage(damage, DamageType.PROJECTILE);
+            enemy.TakeDamage(damage, DamageType.PROJECTILE, this.tower);
             target = null;
             Penetration--;
 

@@ -22,6 +22,7 @@ public class Tower : Building
     public GameObject Rotationbase { get { return rotationBase; } }
 
     public event Action<Tower> OnTowerDestroyed;
+    public float DamageCount = 0f;
 
     [Header("Stats & Modules")]
     [SerializeField] private UpgradeManager upgradeManager;
@@ -180,5 +181,10 @@ public class Tower : Building
         {
             rotationPoint = target;
         }
+    }
+
+    public void HandleDamageDealt(float damage)
+    {
+        DamageCount += damage;
     }
 }

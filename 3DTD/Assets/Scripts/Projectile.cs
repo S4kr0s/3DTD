@@ -13,6 +13,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] public float accuracy = 1f;
     [SerializeField] public Collider Collider;
     public event Action<GameObject> OnProjectileDeath;
+    public Tower tower;
 
     private void Awake()
     {
