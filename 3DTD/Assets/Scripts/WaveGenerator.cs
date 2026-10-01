@@ -10,13 +10,20 @@ public class WaveGenerator : MonoBehaviour
     public readonly int[] EnemyThresholdsBasic = { 0, 3, 5, 7, 9, 11 };
     public readonly int[] EnemyCutoffsBasic = { 10, 20, 30, 35, 40, 45 };
 
-    private void Start()
+    [SerializeField] private WaveGenerationFormula defaultFormula = WaveGenerationFormula.LINEAR;
+    [SerializeField] private int defaultBaseValue = 10;
+    [SerializeField] private float defaultGrowthFactor = 1.25f;
+    [SerializeField] private int defaultWaveAmount = 31;
+    [SerializeField] private string generatedFileName = "generated.json";
+
+    [ContextMenu("Generate Waves Json")]
+    private void GenerateWavesJson()
     {
-        List<List<EnemyWaveGenData>> generated = GenerateWaves(WaveGenerationFormula.LINEAR, 10, 1.25f, 31);
+        List<List<EnemyWaveGenData>> generated = GenerateWaves(defaultFormula, defaultBaseValue, defaultGrowthFactor, defaultWaveAmount);
         string json = JsonConvert.SerializeObject(generated, Formatting.Indented);
-        string filePath = "C:\\Users\\phili\\Downloads\\generated.json";
+        string filePath = Path.Combine(Application.dataPath, generatedFileName);
         File.WriteAllText(filePath, json);
-        System.Console.WriteLine("Wave-Gen JSON saved to " + filePath);
+        Debug.Log("Wave-Gen JSON saved to " + filePath);
     }
 
     public List<List<EnemyWaveGenData>> GenerateWaves(WaveGenerationFormula formula, int baseValue, float growthFactor, int waveAmount)

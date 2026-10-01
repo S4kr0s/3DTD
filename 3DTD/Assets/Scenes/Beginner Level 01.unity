@@ -988,6 +988,53 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 77250624}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &83167726
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 83167728}
+  - component: {fileID: 83167727}
+  m_Layer: 0
+  m_Name: EnemyPopSoundSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &83167727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83167726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f306430be1ce1b245a9bae047d9198c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 5560356931836674392, guid: 5e751ce4a665b0d4c9ba88e0c0362306,
+    type: 3}
+  audioSource: {fileID: 0}
+--- !u!4 &83167728
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83167726}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &84348071 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2787775854314578210, guid: 3115b9b4751070d4e86291a49f0b3c45,
@@ -7154,6 +7201,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 131778484543549220, guid: 47267c7c856011d47acada91fcb2549e,
         type: 3}
+      propertyPath: waves.Array.size
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 131778484543549220, guid: 47267c7c856011d47acada91fcb2549e,
+        type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 
       objectReference: {fileID: 1018608350}
@@ -12916,11 +12968,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 561906293806299133, guid: abadca65e86d8844d85b4cdc89ef7033,
-        type: 3}
-      propertyPath: baseStartingMoney
-      value: 3000
       objectReference: {fileID: 0}
     - target: {fileID: 561906294189238112, guid: abadca65e86d8844d85b4cdc89ef7033,
         type: 3}

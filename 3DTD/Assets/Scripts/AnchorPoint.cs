@@ -75,50 +75,26 @@ public class AnchorPoint : MonoBehaviour
             return false;
         }
 
-        if (BuildingManager.Instance.GetSelectedBuilding() == GameManager.Instance.Buildings[0])
-        {
-            // Get rid of magic number
-            if (GameManager.Instance.Money >= 50)
-            {
-                return true;
-            }
-            else return false;
-        }
-        else
-        {
-            // Only reflects Base Cost.
-            if (GameManager.Instance.Money >= selectedObject.GetComponent<Tower>().Cost)
-            {
-                return true;
-            }
-        }
-        return true;
+        return GameManager.Instance.Money >= GetBuildCost(selectedObject);
     }
 
     private void BuildHere(GameObject objectToBuild)
     {
-        // Only reflects Base Cost. Handle Money elsewhere.
-        if(objectToBuild.TryGetComponent<Tower>(out Tower tower))
+        int buildCost = GetBuildCost(objectToBuild);
+
+        if (GameManager.Instance.Money >= buildCost)
         {
-            if (GameManager.Instance.Money >= (selectedObject.GetComponent<Tower>().Cost))
-            {
-                GameManager.Instance.Money -= (selectedObject.GetComponent<Tower>().Cost);
-                Instantiate(objectToBuild, anchorPointPosition.position, this.transform.rotation);
-                Debug.Log(this.transform.rotation.ToString());
-            }
+            GameManager.Instance.Money -= buildCost;
+            Instantiate(objectToBuild, anchorPointPosition.position, this.transform.rotation);
         }
-        else
-        {
-            if (BuildingManager.Instance.GetSelectedBuilding() == GameManager.Instance.Buildings[0])
-            {
-                // Get rid of magic number
-                if (GameManager.Instance.Money >= 50)
-                {
-                    GameManager.Instance.Money -= 50;
-                    Instantiate(objectToBuild, anchorPointPosition.position, this.transform.rotation);
-                }
-            }
-        }
+    }
+
+    private int GetBuildCost(GameObject objectToBuild)
+    {
+        if (objectToBuild != null && objectToBuild.TryGetComponent<Building>(out Building building))
+            return building.Cost;
+
+        return int.MaxValue;
     }
 
     private void OnDrawGizmos()

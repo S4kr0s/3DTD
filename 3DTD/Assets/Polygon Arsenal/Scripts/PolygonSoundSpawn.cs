@@ -7,7 +7,7 @@ namespace PolygonArsenal
 {
     public class PolygonSoundSpawn : MonoBehaviour
     {
-
+        public bool ShouldActivate = false;
         public GameObject prefabSound;
 
         public bool destroyWhenDone = true;
@@ -18,6 +18,8 @@ namespace PolygonArsenal
         // Use this for initialization
         void Start()
         {
+            if (!ShouldActivate) return;
+
             //Spawn the sound object
             GameObject m_Sound = Instantiate(prefabSound, transform.position, Quaternion.identity);
             AudioSource m_Source = m_Sound.GetComponent<AudioSource>();

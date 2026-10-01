@@ -141,6 +141,7 @@ public class Enemy : MonoBehaviour
     {
         OnDeath?.Invoke(this.gameObject);
         Destroy(this.gameObject);
+        EnemyPopSoundSpawn.Instance.PlayPopSound();
     }
 
     private void HandleDamageTaken(float damage)
@@ -154,6 +155,7 @@ public class Enemy : MonoBehaviour
         OnHealthUpdated?.Invoke(currentHealth);
         if (currentHealth <= 0)
         {
+            EnemyPopSoundSpawn.Instance.PlayPopSound();
             if (!specialEnemy)
                 HandleDeathOfSingleShape();
             else
@@ -164,7 +166,7 @@ public class Enemy : MonoBehaviour
     private void HandleDeathOfSingleShape()
     {
         GameManager.Instance.Money++;
-        int id = (int)CurrentShape + (int)CurrentColor;
+        int id = ((int)CurrentShape * 10) + (int)CurrentColor;
 
         if(id == 0)
         {
@@ -184,6 +186,8 @@ public class Enemy : MonoBehaviour
             {
                 CurrentColor--;
             }
+
+            EnemyPopSoundSpawn.Instance.PlayPopSound();
         }
     }
 

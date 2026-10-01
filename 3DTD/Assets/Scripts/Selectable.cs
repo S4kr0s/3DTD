@@ -121,8 +121,9 @@ public class Selectable : MonoBehaviour
 
             if (!hitSomething)
             {
-                // HARD CODED! GET RID OF MAGIC NUMBER!
-                GameManager.Instance.Money += 50;
+                if (this.gameObject.TryGetComponent<Building>(out Building building))
+                    GameManager.Instance.Money += building.Cost;
+
                 Destroy(this.gameObject);
                 UpgradePanelManager.Instance.ClearUI();
             }
