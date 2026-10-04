@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3017a32a3b6a33e45bebd247e0a6280b, type: 3}
+  m_Name: Intermediate02 020 boss
+  m_EditorClassIdentifier: 
+  enemiesToSpawn:
+  - {fileID: 11400000, guid: 6bfaab5d78657974da12852683e68c9d, type: 2}
+  - {fileID: 11400000, guid: 99fd0af4b763a8a4989fc30a6798880c, type: 2}
+  enemySpawnCount: 0400000001000000
+  spawnDelay:
+  - 3
+  - 15
+  enemyTraits: 0000000000000000

@@ -2200,13 +2200,16 @@ MonoBehaviour:
   - IsBlocked: 0
     upgradeModules:
     - name: Faster Bullets
-      description: Increases firerate and speed of bullets slightly.<br>+10% Fire-Rate<br>+10%
-        Projectile Speed
-      price: 50
+      description: 'Lighter coils, quicker shots.
+
+        +60% Fire Rate
+
+        +10% Projectile Speed'
+      price: 60
       upgrades: []
       statUpgrades:
       - targetStat: 8
-        upgradeValue: -10
+        upgradeValue: -37.5
         isModifier: 1
       - targetStat: 15
         upgradeValue: 10
@@ -2217,13 +2220,16 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Speedy Bullets
-      description: Increases firerate and speed of bullets even further.<br>+20%
-        Fire-Rate<br>+10% Projectile Speed
-      price: 250
+      description: 'The capacitors barely cool down anymore.
+
+        +100% Fire Rate
+
+        +10% Projectile Speed'
+      price: 260
       upgrades: []
       statUpgrades:
       - targetStat: 8
-        upgradeValue: -20
+        upgradeValue: -50
         isModifier: 1
       - targetStat: 15
         upgradeValue: 10
@@ -2234,13 +2240,18 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Minigun Tower
-      description: Increases fire-rate dramatically by using smaller munition.<br>+100%
-        Fire-Rate<br>+10% Projectile Speed<br>-25% Projectile SIze
-      price: 1250
+      description: 'Swaps the coil for a rotary barrel. Brrrrt.
+
+        +200% Fire Rate
+
+        +10% Projectile Speed
+
+        -25% Projectile Size'
+      price: 1150
       upgrades: []
       statUpgrades:
       - targetStat: 8
-        upgradeValue: -100
+        upgradeValue: -66.67
         isModifier: 1
       - targetStat: 15
         upgradeValue: 10
@@ -2257,16 +2268,24 @@ MonoBehaviour:
   - IsBlocked: 0
     upgradeModules:
     - name: More Range
-      description: Increases range and bullet pierce.<br>+1 Range<br>+1 Projectile
-        Pierce
-      price: 35
+      description: 'Longer barrel, harder bolts.
+
+        +1.5 Range
+
+        +1 Pierce
+
+        +0.3 s Projectile Lifetime'
+      price: 40
       upgrades: []
       statUpgrades:
       - targetStat: 10
-        upgradeValue: 1
+        upgradeValue: 1.5
         isModifier: 0
       - targetStat: 13
         upgradeValue: 1
+        isModifier: 0
+      - targetStat: 14
+        upgradeValue: 0.3
         isModifier: 0
       upgradeVisualGameObjects:
       - {fileID: 1291029984941836172}
@@ -2274,16 +2293,34 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Durable Bullets
-      description: Increases range and bullet pierce further.<br>+2 Range<br>+3 Projectile
-        Pierce
-      price: 85
+      description: 'Hardened bolts punch through several enemies.
+
+        +1 Range
+
+        +1 Pierce
+
+        +40% Fire Rate
+
+        +30% Projectile Size
+
+        +0.2 s Projectile Lifetime'
+      price: 150
       upgrades: []
       statUpgrades:
       - targetStat: 10
-        upgradeValue: 2
+        upgradeValue: 1
         isModifier: 0
       - targetStat: 13
-        upgradeValue: 3
+        upgradeValue: 1
+        isModifier: 0
+      - targetStat: 8
+        upgradeValue: -28.57
+        isModifier: 1
+      - targetStat: 16
+        upgradeValue: 30
+        isModifier: 1
+      - targetStat: 14
+        upgradeValue: 0.2
         isModifier: 0
       upgradeVisualGameObjects:
       - {fileID: 5905616217139133163}
@@ -2291,16 +2328,18 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Triple-Shot Tower
-      description: Converts the shooting mechanism to be more aligned to an.. accurate
-        shotgun.<br>+3 Range<br>+3 Projectile Pierce<br>+2 Projectiles<br>-25% Accuracy
-      price: 550
+      description: 'Splits every shot into a three-bolt fan.
+
+        +2 Bolts per Shot
+
+        +2 Pierce
+
+        -25% Accuracy'
+      price: 370
       upgrades: []
       statUpgrades:
-      - targetStat: 10
-        upgradeValue: 3
-        isModifier: 0
       - targetStat: 13
-        upgradeValue: 3
+        upgradeValue: 2
         isModifier: 0
       - targetStat: 12
         upgradeValue: -25
@@ -2314,9 +2353,12 @@ MonoBehaviour:
   - IsBlocked: 0
     upgradeModules:
     - name: Big Caliber
-      description: Increases damage and projectile size.<br>+1 Damage<br>+25% Projectile
-        Size
-      price: 105
+      description: 'Bigger bolts hit harder.
+
+        +1 Damage
+
+        +25% Projectile Size'
+      price: 120
       upgrades: []
       statUpgrades:
       - targetStat: 5
@@ -2331,16 +2373,19 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Heavy Caliber
-      description: Increases damage and projectile size further.<br>+1 Damage<br>+50%
-        Projectile Size
-      price: 225
+      description: 'Even bigger bolts.
+
+        +2 Damage
+
+        +25% Projectile Size'
+      price: 400
       upgrades: []
       statUpgrades:
       - targetStat: 5
-        upgradeValue: 1
+        upgradeValue: 2
         isModifier: 0
       - targetStat: 16
-        upgradeValue: 50
+        upgradeValue: 25
         isModifier: 1
       upgradeVisualGameObjects:
       - {fileID: 1197452150518805715}
@@ -2348,26 +2393,39 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: High-Energy Laser
-      description: Increases damage and projectile size dramatically. Slows down
-        the bullet.<br>+3 Projectile Pierce<br>+100% Projectile Size<br>-85% Projectile
-        Speed<br>+500% Projectile-Lifetime<br>-75% Fire-Rate
-      price: 2250
+      description: 'A slow, massive bolt that melts through armor.
+
+        +8 Damage
+
+        +3 Pierce
+
+        +100% Projectile Size
+
+        -30% Projectile Speed
+
+        +60% Projectile Lifetime
+
+        -20% Fire Rate'
+      price: 2000
       upgrades: []
       statUpgrades:
-      - targetStat: 15
-        upgradeValue: -85
-        isModifier: 1
+      - targetStat: 5
+        upgradeValue: 8
+        isModifier: 0
       - targetStat: 13
         upgradeValue: 3
         isModifier: 0
       - targetStat: 16
         upgradeValue: 100
         isModifier: 1
+      - targetStat: 15
+        upgradeValue: -30
+        isModifier: 1
       - targetStat: 14
-        upgradeValue: 500
+        upgradeValue: 60
         isModifier: 1
       - targetStat: 8
-        upgradeValue: 75
+        upgradeValue: 25
         isModifier: 1
       upgradeVisualGameObjects:
       - {fileID: 1609168047211336473}

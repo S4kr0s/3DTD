@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f1b1a09b7517d4283150c8686bcf2d, type: 3}
   m_Name: BombTowerStatsConfig
   m_EditorClassIdentifier: 
-  Cost: 100
+  Cost: 155
   Worth: 1
   MaximumHealth: 0
   HealthRegen: 0
   MaximumArmor: 0
   ArmorRegen: 0
-  Damage: 1
+  Damage: 2
   Amount: 1
   Ammo: 1
   FireRate: 1
-  ReloadSpeed: 4
-  Range: 5
-  Radius: 1
+  ReloadSpeed: 2
+  Range: 4.5
+  Radius: 0.8
   Accuracy: 1
   Piercing: 1
   Lifetime: 2
-  Speed: 3.5
+  Speed: 5
   Size: 1

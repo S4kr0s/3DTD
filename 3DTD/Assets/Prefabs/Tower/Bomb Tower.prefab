@@ -1555,7 +1555,7 @@ MonoBehaviour:
   displayName: Rocket System
   description: Shooting rockets to create devastating amounts of damage in an area.
   uiSprite: {fileID: 21300000, guid: 6c9c16fcaa2dce643bd7fa4392059a80, type: 3}
-  cost: 100
+  cost: 155
   upgradeManager: {fileID: 8025507499586909913}
   statsManager: {fileID: 147286872823315961}
   targetter: {fileID: 1697263479036677693}
@@ -1705,8 +1705,11 @@ MonoBehaviour:
   - IsBlocked: 0
     upgradeModules:
     - name: Guided-Rocket-System
-      description: Rockets will now home in to their target.<br>+Light Guiding System<br>+1
-        Range
+      description: 'Rockets home in on their target.
+
+        Homing Rockets
+
+        +1 Range'
       price: 100
       upgrades:
       - {fileID: -4254662752150614550}
@@ -1720,13 +1723,21 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Rocket-Delivery-System
-      description: Rockets will now be deployed faster.<br>+25% Fire-Rate<br>+25%
-        Projectile-Speed
-      price: 400
+      description: 'Faster launch rails and quicker reloads.
+
+        -50% Reload Time
+
+        +100% Salvo Speed
+
+        +25% Projectile Speed'
+      price: 320
       upgrades: []
       statUpgrades:
+      - targetStat: 9
+        upgradeValue: -50
+        isModifier: 1
       - targetStat: 8
-        upgradeValue: -25
+        upgradeValue: -50
         isModifier: 1
       - targetStat: 15
         upgradeValue: 25
@@ -1737,19 +1748,36 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Rapid-Fire-Rocket-System
-      description: Switches ammunition to smaller-sized, but faster shooting rockets.<br>+175%
-        Fire-Rate<br>+50% Projectile-Speed<br>-0.5 Radius<br>-25% Projectile-Size
-      price: 2200
+      description: 'Small, fast rockets in rapid succession.
+
+        -60% Reload Time
+
+        +100% Salvo Speed
+
+        +1 Damage
+
+        +50% Projectile Speed
+
+        -0.25 Blast Radius
+
+        -25% Projectile Size'
+      price: 1550
       upgrades: []
       statUpgrades:
-      - targetStat: 8
-        upgradeValue: -175
+      - targetStat: 9
+        upgradeValue: -60
         isModifier: 1
+      - targetStat: 8
+        upgradeValue: -50
+        isModifier: 1
+      - targetStat: 5
+        upgradeValue: 1
+        isModifier: 0
       - targetStat: 15
         upgradeValue: 50
         isModifier: 1
       - targetStat: 11
-        upgradeValue: -0.5
+        upgradeValue: -0.25
         isModifier: 0
       - targetStat: 16
         upgradeValue: -25
@@ -1763,16 +1791,19 @@ MonoBehaviour:
   - IsBlocked: 0
     upgradeModules:
     - name: Ranged-Identification-System
-      description: Increases the range of the rocket system and the radius of the
-        rockets.<br>+1 Range<br>+0.5 Projectile-Radius
-      price: 110
+      description: 'Bigger warheads.
+
+        +0.75 Blast Radius
+
+        +0.4 s Projectile Lifetime'
+      price: 50
       upgrades: []
       statUpgrades:
-      - targetStat: 10
-        upgradeValue: 1
-        isModifier: 0
       - targetStat: 11
-        upgradeValue: 0.5
+        upgradeValue: 0.75
+        isModifier: 0
+      - targetStat: 14
+        upgradeValue: 0.4
         isModifier: 0
       upgradeVisualGameObjects:
       - {fileID: 2155493407922164550}
@@ -1780,16 +1811,29 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Area-Denial-System
-      description: Further increases the range of the rocket system and the radius
-        of the rockets.<br>+2 Range<br>+1 Projectile-Radius
-      price: 480
+      description: 'Wider coverage and heavier warheads.
+
+        +0.5 Range
+
+        +0.75 Blast Radius
+
+        +1 Damage
+
+        +0.4 s Projectile Lifetime'
+      price: 120
       upgrades: []
       statUpgrades:
       - targetStat: 10
-        upgradeValue: 2
+        upgradeValue: 0.5
         isModifier: 0
       - targetStat: 11
+        upgradeValue: 0.75
+        isModifier: 0
+      - targetStat: 5
         upgradeValue: 1
+        isModifier: 0
+      - targetStat: 14
+        upgradeValue: 0.4
         isModifier: 0
       upgradeVisualGameObjects:
       - {fileID: 8824274859556526857}
@@ -1797,9 +1841,10 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Cluster-Rocket-System
-      description: Now, Cluster-Rockets will be shot for devastating area damage.<br>+6
-        Cluster-Bombs
-      price: 2500
+      description: 'Every rocket bursts into six bomblets.
+
+        +6 Bomblets (half damage, 60% radius)'
+      price: 1000
       upgrades:
       - {fileID: 9207337536541134083}
       statUpgrades: []
@@ -1811,16 +1856,19 @@ MonoBehaviour:
   - IsBlocked: 0
     upgradeModules:
     - name: Double-Shot-System
-      description: Activates a second barrel for a total of 2 shooting arrays. Decreases
-        Fire-Rate.<br>+1 Projectile<br>-25% Fire-Rate
-      price: 125
+      description: 'A second rocket follows right behind.
+
+        +1 Rockets per Salvo
+
+        +100% Salvo Speed'
+      price: 140
       upgrades: []
       statUpgrades:
       - targetStat: 7
         upgradeValue: 1
         isModifier: 0
       - targetStat: 8
-        upgradeValue: -25
+        upgradeValue: -50
         isModifier: 1
       upgradeVisualGameObjects:
       - {fileID: 282810911541555540}
@@ -1828,16 +1876,19 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Missile-Array-System
-      description: Activates a third barrel for a total of 3 shooting arrays. Further
-        decreases Fire-Rate.<br>+1 Projectile<br>-25% Fire-Rate
-      price: 325
+      description: 'Four-rocket salvos.
+
+        +2 Rockets per Salvo
+
+        +100% Salvo Speed'
+      price: 390
       upgrades: []
       statUpgrades:
       - targetStat: 7
-        upgradeValue: 3
+        upgradeValue: 2
         isModifier: 0
       - targetStat: 8
-        upgradeValue: -25
+        upgradeValue: -50
         isModifier: 1
       upgradeVisualGameObjects:
       - {fileID: 5676093459200664258}
@@ -1845,17 +1896,25 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Ultimate-Barrage-System
-      description: Unleashes powerful rocket-shooting techniques by adding 6 additional
-        barrels.<br>+6 Projectiles<br>-50% Reload-Speed
-      price: 1850
+      description: 'Unleashes ten-rocket salvos.
+
+        +6 Rockets per Salvo
+
+        +100% Salvo Speed
+
+        +25% Reload Time'
+      price: 1300
       upgrades: []
       statUpgrades:
-      - targetStat: 9
-        upgradeValue: 50
-        isModifier: 1
       - targetStat: 7
         upgradeValue: 6
         isModifier: 0
+      - targetStat: 8
+        upgradeValue: -50
+        isModifier: 1
+      - targetStat: 9
+        upgradeValue: 25
+        isModifier: 1
       upgradeVisualGameObjects:
       - {fileID: 6934332600950666606}
       disableVisualGameObjects:

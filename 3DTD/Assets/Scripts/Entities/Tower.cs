@@ -23,6 +23,23 @@ public class Tower : Building
 
     public event Action<Tower> OnTowerDestroyed;
     public float DamageCount = 0f;
+    // Enemies this tower finished off (the final layer)
+    public int Kills { get; private set; }
+
+    // 1 for a fresh tower, +1 for every tier reached on its furthest upgrade path (tier pips in the panel)
+    public int Tier
+    {
+        get
+        {
+            int highest = 0;
+            foreach (UpgradePath path in upgradeManager.GetUpgradePaths())
+            {
+                if (path != null)
+                    highest = Mathf.Max(highest, path.activeUpgrades);
+            }
+            return 1 + highest;
+        }
+    }
 
     [Header("Stats & Modules")]
     [SerializeField] private UpgradeManager upgradeManager;
@@ -43,13 +60,23 @@ public class Tower : Building
     private void Start()
     {
         rangeRenderer.enabled = false;
+        if (GameManager.Instance != null && !GameManager.Instance.IsMainMenu)
+            MetaUpgrades.ApplyTo(statsManager);
         actionStrategy.SetupActionStrategy(this);
         this.gameObject.name = DisplayName;
     }
 
+    private float appliedRange = -1f;
+
     private void Update()
     {
-        targetter.gameObject.transform.localScale = Vector3.one * statsManager.GetStatValue(Stat.StatType.RANGE);
+        // Rescaling the trigger every frame forces a physics shape update, so only do it when RANGE changes
+        float range = statsManager.GetStatValue(Stat.StatType.RANGE);
+        if (range != appliedRange)
+        {
+            appliedRange = range;
+            targetter.gameObject.transform.localScale = Vector3.one * range;
+        }
         actionStrategy.ExecuteAction();
     }
 
@@ -160,7 +187,7 @@ public class Tower : Building
 
     public void MouseEnter()
     {
-        rangeRenderer.enabled = true;
+        rangeRenderer.enabled = GameOptions.RangeOnHover;
     }
 
     public void MouseExit()
@@ -177,7 +204,7 @@ public class Tower : Building
 
     public void SetRotationPoint(GameObject target)
     {
-        if (target == null)
+        if (target != null)
         {
             rotationPoint = target;
         }
@@ -186,5 +213,37 @@ public class Tower : Building
     public void HandleDamageDealt(float damage)
     {
         DamageCount += damage;
+    }
+
+    public void HandleKill()
+    {
+        Kills++;
+    }
+
+    // World-space radius of the targetting sphere for a RANGE value: the targetter is scaled by RANGE,
+    // so the radius is the collider's own radius times RANGE times the tower's scale. Works on prefabs too.
+    public float GetWorldRangeRadius(float range)
+    {
+        float localRadius = 1f;
+        Collider rangeCollider = targetter != null ? targetter.Collider : null;
+        if (rangeCollider is SphereCollider sphere)
+            localRadius = sphere.radius;
+        else if (rangeCollider is MeshCollider meshCollider && meshCollider.sharedMesh != null)
+            localRadius = Mathf.Max(meshCollider.sharedMesh.bounds.extents.x, meshCollider.sharedMesh.bounds.extents.z);
+
+        float parentScale = targetter != null && targetter.transform.parent != null ? targetter.transform.parent.lossyScale.x : transform.lossyScale.x;
+        return localRadius * range * parentScale;
+    }
+
+    // Radius where the targetting sphere meets the tower's base plane. Equal to the world radius for
+    // half-sphere targetters; smaller for the floating full spheres of the Hangar and the Mine Factory.
+    public float GetGroundRangeRadius(float range)
+    {
+        float radius = GetWorldRangeRadius(range);
+        if (targetter == null)
+            return radius;
+        // Buildings are spawned with their anchor's rotation, so forward is the face normal
+        float height = Vector3.Dot(targetter.transform.position - transform.position, transform.forward);
+        return Mathf.Sqrt(Mathf.Max(0f, radius * radius - height * height));
     }
 }

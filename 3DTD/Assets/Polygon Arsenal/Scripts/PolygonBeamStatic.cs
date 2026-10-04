@@ -78,9 +78,23 @@ public class PolygonBeamStatic : MonoBehaviour
             }
 
             float distance = Vector3.Distance(transform.position, end);
-            line.material.mainTextureScale = new Vector2(distance / textureLengthScale, 1); //This sets the scale of the texture so it doesn't look stretched
-            line.material.mainTextureOffset -= new Vector2(Time.deltaTime * textureScrollSpeed, 0); //This scrolls the texture along the beam if not set to 0
+            if (HasMainTexture(line.sharedMaterial)) //The URP beam shaders have no main texture to scale, and players log an error for the missing property
+            {
+                line.material.mainTextureScale = new Vector2(distance / textureLengthScale, 1); //This sets the scale of the texture so it doesn't look stretched
+                line.material.mainTextureOffset -= new Vector2(Time.deltaTime * textureScrollSpeed, 0); //This scrolls the texture along the beam if not set to 0
+            }
         }
+    }
+
+    private static bool HasMainTexture(Material material) //Mirrors how Material.mainTexture picks its property
+    {
+        var shader = material.shader;
+        for (var i = 0; i < shader.GetPropertyCount(); i++)
+        {
+            if ((shader.GetPropertyFlags(i) & UnityEngine.Rendering.ShaderPropertyFlags.MainTexture) != 0)
+                return true;
+        }
+        return material.HasTexture("_MainTex");
     }
 
     public void SpawnBeam() //This function spawns the prefab with linerenderer

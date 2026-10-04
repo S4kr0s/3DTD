@@ -5,23 +5,29 @@ EditorUserSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 4
   m_ConfigSettings:
+    QuickInstaller_com.unity.purchasing_installRecorded:
+      value: 2550581500
+      flags: 0
+    QuickInstaller_com.unity.services.levelplay_installRecorded:
+      value: 2550581500
+      flags: 0
     RecentlyUsedSceneGuid-0:
-      value: 5b0400020306500a59575a7a42755d44424e4b7b7e7c22667f7c4d35b1e2366e
-      flags: 0
-    RecentlyUsedSceneGuid-1:
-      value: 0253065f500d595e5f575d7b49270d4443164c7f297f24677f2a4b65b1e26039
-      flags: 0
-    RecentlyUsedSceneGuid-2:
-      value: 5257000407025b025b575f2044225e44434e497f782a7563757e1e67b0e5613b
-      flags: 0
-    RecentlyUsedSceneGuid-3:
-      value: 015057025402515d0c5a087113220f44424f1c2c7d2924327f704831b6b13569
-      flags: 0
-    RecentlyUsedSceneGuid-4:
       value: 0052525151070d595f080e21417408441015402f2f7f2034797a4d66b7b56439
       flags: 0
-    RecentlyUsedSceneGuid-5:
+    RecentlyUsedSceneGuid-1:
       value: 0157005451070b0d0e0a5e7746200e4414164072797070357b704c30e1e6316d
+      flags: 0
+    RecentlyUsedSceneGuid-2:
+      value: 55550403070c5a585d0a587116770e1114151d737a7d7660792b4d66e3e33668
+      flags: 0
+    RecentlyUsedSceneGuid-3:
+      value: 0601055350005b5f5c5c097a16775b14174e492f7f7b2735297c4d35e6b26c3d
+      flags: 0
+    RecentlyUsedSceneGuid-4:
+      value: 55530c5552015c0f5408087049770b15134e4c73287b743275714f60e3b46461
+      flags: 0
+    RecentlyUsedSceneGuid-5:
+      value: 560157515d055e035c085e7416775a46404f41797d7173692b2d1b6be0e26c3d
       flags: 0
     RecentlyUsedSceneGuid-6:
       value: 5404025507040d080e0f0d73487b5b4412164c72282b2333292d4f6abae33239
@@ -97,4 +103,6 @@ EditorUserSettings:
   m_VCHierarchyOverlayIcons: 1
   m_VCOtherOverlayIcons: 1
   m_VCAllowAsyncUpdate: 0
+  m_VCScanLocalPackagesOnConnect: 1
   m_ArtifactGarbageCollection: 1
+  m_CompressAssetsOnImport: 1

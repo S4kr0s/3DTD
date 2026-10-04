@@ -53,80 +53,54 @@ public class Selectable : MonoBehaviour
 
     public void SellThisTower()
     {
-        if (this.gameObject.TryGetComponent<Tower>(out Tower tower))
+        if (!CanSell())
+            return;
+
+        if (this.gameObject.TryGetComponent<Building>(out Building building))
+            GameManager.Instance.Money += GetSellValue(building);
+
+        if (SelectionManager.CurrentlySelected == this)
+            SelectionManager.CurrentlySelected = null;
+        Destroy(this.gameObject);
+    }
+
+    // Towers can always be sold; a building block only when no tower is attached to any of its six sides
+    public bool CanSell()
+    {
+        if (this.gameObject.TryGetComponent<Tower>(out Tower _))
+            return true;
+
+        if (this.gameObject.TryGetComponent<BuildingBlock>(out BuildingBlock _))
+            return !HasAttachedTower();
+
+        return false;
+    }
+
+    private bool HasAttachedTower()
+    {
+        Vector3[] directions = { transform.forward, -transform.forward, transform.up, -transform.up, transform.right, -transform.right };
+        foreach (Vector3 direction in directions)
         {
-            GameManager.Instance.Money += (tower.Cost);
-            Destroy(this.gameObject);
-            UpgradePanelManager.Instance.ClearUI();
+            Ray ray = new Ray(transform.position, direction);
+            if (Physics.Raycast(ray, out RaycastHit hit, 1f, layerMask) && hit.collider.gameObject.TryGetComponent<Tower>(out Tower _))
+                return true;
         }
+        return false;
+    }
 
-        if (this.gameObject.TryGetComponent<BuildingBlock>(out BuildingBlock buildingBlock))
+    // Refund share of everything invested; the WORTH stat can raise or lower it per tower
+    public static int GetSellValue(Building building)
+    {
+        // Buildings placed in the scene by hand were never bought
+        int invested = building.Invested > 0 ? building.Invested : GameManager.Instance.Price(building.Cost);
+        float worth = 1f;
+        if (building.TryGetComponent<StatsManager>(out StatsManager stats))
         {
-            bool hitSomething = false;
-
-            Ray ray = new Ray(transform.position, transform.forward);
-            if (Physics.Raycast(ray, out RaycastHit hit, 1f, layerMask))
-            {
-                if (hit.collider.gameObject.TryGetComponent<Tower>(out Tower hitTower))
-                {
-                    hitSomething = true;
-                }
-            }
-
-            ray = new Ray(transform.position, -transform.forward);
-            if (Physics.Raycast(ray, out hit, 1f, layerMask))
-            {
-                if (hit.collider.gameObject.TryGetComponent<Tower>(out Tower hitTower))
-                {
-                    hitSomething = true;
-                }
-            }
-
-
-            ray = new Ray(transform.position, transform.up);
-            if (Physics.Raycast(ray, out hit, 1f, layerMask))
-            {
-                if (hit.collider.gameObject.TryGetComponent<Tower>(out Tower hitTower))
-                {
-                    hitSomething = true;
-                }
-            }
-
-            ray = new Ray(transform.position, -transform.up);
-            if (Physics.Raycast(ray, out hit, 1f, layerMask))
-            {
-                if (hit.collider.gameObject.TryGetComponent<Tower>(out Tower hitTower))
-                {
-                    hitSomething = true;
-                }
-            }
-
-            ray = new Ray(transform.position, transform.right);
-            if (Physics.Raycast(ray, out hit, 1f, layerMask))
-            {
-                if (hit.collider.gameObject.TryGetComponent<Tower>(out Tower hitTower))
-                {
-                    hitSomething = true;
-                }
-            }
-
-            ray = new Ray(transform.position, -transform.right);
-            if (Physics.Raycast(ray, out hit, 1f, layerMask))
-            {
-                if (hit.collider.gameObject.TryGetComponent<Tower>(out Tower hitTower))
-                {
-                    hitSomething = true;
-                }
-            }
-
-            if (!hitSomething)
-            {
-                // HARD CODED! GET RID OF MAGIC NUMBER!
-                GameManager.Instance.Money += 50;
-                Destroy(this.gameObject);
-                UpgradePanelManager.Instance.ClearUI();
-            }
+            float statWorth = stats.GetStatValue(Stat.StatType.WORTH);
+            if (statWorth > 0f)
+                worth = statWorth;
         }
+        return GameManager.Instance.SellValue(invested, worth);
     }
 
     public void UpgradeThisTower(UpgradeModule upgradeModule)

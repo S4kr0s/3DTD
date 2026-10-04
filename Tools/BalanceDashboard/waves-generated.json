@@ -1,0 +1,3816 @@
+{
+ "Beginner02": [
+  {
+   "round": 1,
+   "name": "001 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 0,
+     "count": 15,
+     "delay": 0.62,
+     "traits": 0
+    },
+    {
+     "enemy": 0,
+     "count": 8,
+     "delay": 0.814,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 2,
+   "name": "002 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 1,
+     "count": 9,
+     "delay": 1.067,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 5,
+     "delay": 1.344,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 3,
+   "name": "003 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 2,
+     "count": 7,
+     "delay": 1.414,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 5,
+     "delay": 1.386,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 4,
+   "name": "004 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 3,
+     "count": 6,
+     "delay": 1.7,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 6,
+     "delay": 1.19,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 5,
+   "name": "005 swarm",
+   "theme": "swarm",
+   "entries": [
+    {
+     "enemy": 0,
+     "count": 45,
+     "delay": 0.163,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 6,
+   "name": "006 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 2,
+     "count": 8,
+     "delay": 1.35,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 6,
+     "delay": 1.26,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 7,
+   "name": "007 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 3,
+     "count": 9,
+     "delay": 1.233,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 6,
+     "delay": 1.295,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 8,
+   "name": "008 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 4,
+     "count": 8,
+     "delay": 1.425,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 8,
+     "delay": 0.997,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 9,
+   "name": "009 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 4,
+     "count": 10,
+     "delay": 1.17,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 9,
+     "delay": 0.91,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 10,
+   "name": "010 heavy",
+   "theme": "heavy",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 8,
+     "delay": 1.5,
+     "traits": 0
+    },
+    {
+     "enemy": 4,
+     "count": 4,
+     "delay": 1.5,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 11,
+   "name": "011 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 3,
+     "count": 12,
+     "delay": 1.025,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 9,
+     "delay": 0.957,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 12,
+   "name": "012 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 6,
+     "count": 11,
+     "delay": 1.145,
+     "traits": 0
+    },
+    {
+     "enemy": 3,
+     "count": 10,
+     "delay": 0.882,
+     "traits": 0
+    },
+    {
+     "enemy": 13,
+     "count": 1,
+     "delay": 1,
+     "traits": 1
+    }
+   ]
+  },
+  {
+   "round": 13,
+   "name": "013 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 6,
+     "count": 13,
+     "delay": 0.992,
+     "traits": 0
+    },
+    {
+     "enemy": 4,
+     "count": 9,
+     "delay": 1.003,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 14,
+   "name": "014 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 7,
+     "count": 13,
+     "delay": 1.015,
+     "traits": 0
+    },
+    {
+     "enemy": 4,
+     "count": 11,
+     "delay": 0.84,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 15,
+   "name": "015 fast",
+   "theme": "fast",
+   "entries": [
+    {
+     "enemy": 7,
+     "count": 20,
+     "delay": 0.472,
+     "traits": 0
+    },
+    {
+     "enemy": 7,
+     "count": 5,
+     "delay": 1.35,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 16,
+   "name": "016 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 6,
+     "count": 15,
+     "delay": 0.92,
+     "traits": 0
+    },
+    {
+     "enemy": 4,
+     "count": 11,
+     "delay": 0.878,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 17,
+   "name": "017 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 16,
+     "delay": 0.881,
+     "traits": 0
+    },
+    {
+     "enemy": 6,
+     "count": 12,
+     "delay": 0.822,
+     "traits": 0
+    },
+    {
+     "enemy": 13,
+     "count": 1,
+     "delay": 1,
+     "traits": 2
+    }
+   ]
+  },
+  {
+   "round": 18,
+   "name": "018 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 18,
+     "delay": 0.8,
+     "traits": 0
+    },
+    {
+     "enemy": 7,
+     "count": 12,
+     "delay": 0.84,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 19,
+   "name": "019 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 14,
+     "delay": 1.05,
+     "traits": 0
+    },
+    {
+     "enemy": 8,
+     "count": 13,
+     "delay": 0.792,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 20,
+   "name": "020 boss",
+   "theme": "boss",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 8,
+     "delay": 1.5,
+     "traits": 0
+    },
+    {
+     "enemy": 50,
+     "count": 1,
+     "delay": 15,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 21,
+   "name": "021 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 14,
+     "delay": 1.093,
+     "traits": 0
+    },
+    {
+     "enemy": 7,
+     "count": 15,
+     "delay": 0.714,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 22,
+   "name": "022 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 11,
+     "count": 17,
+     "delay": 0.918,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 12,
+     "delay": 0.91,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 23,
+   "name": "023 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 11,
+     "count": 19,
+     "delay": 0.837,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 14,
+     "delay": 0.795,
+     "traits": 0
+    },
+    {
+     "enemy": 23,
+     "count": 1,
+     "delay": 1,
+     "traits": 4
+    }
+   ]
+  },
+  {
+   "round": 24,
+   "name": "024 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 12,
+     "count": 18,
+     "delay": 0.9,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 16,
+     "delay": 0.709,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 25,
+   "name": "025 regen",
+   "theme": "regen",
+   "entries": [
+    {
+     "enemy": 15,
+     "count": 15,
+     "delay": 1.21,
+     "traits": 4
+    },
+    {
+     "enemy": 12,
+     "count": 11,
+     "delay": 0.75,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 26,
+   "name": "026 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 11,
+     "count": 23,
+     "delay": 0.73,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 16,
+     "delay": 0.735,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 27,
+   "name": "027 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 14,
+     "count": 20,
+     "delay": 0.855,
+     "traits": 2
+    },
+    {
+     "enemy": 11,
+     "count": 19,
+     "delay": 0.63,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 28,
+   "name": "028 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 15,
+     "count": 20,
+     "delay": 0.87,
+     "traits": 0
+    },
+    {
+     "enemy": 12,
+     "count": 18,
+     "delay": 0.677,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 29,
+   "name": "029 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 16,
+     "count": 21,
+     "delay": 0.843,
+     "traits": 4
+    },
+    {
+     "enemy": 13,
+     "count": 17,
+     "delay": 0.729,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 30,
+   "name": "030 heavy",
+   "theme": "heavy",
+   "entries": [
+    {
+     "enemy": 27,
+     "count": 11,
+     "delay": 1.636,
+     "traits": 0
+    },
+    {
+     "enemy": 15,
+     "count": 9,
+     "delay": 1,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 31,
+   "name": "031 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 15,
+     "count": 22,
+     "delay": 0.832,
+     "traits": 0
+    },
+    {
+     "enemy": 12,
+     "count": 19,
+     "delay": 0.674,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 32,
+   "name": "032 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 18,
+     "count": 23,
+     "delay": 0.809,
+     "traits": 2
+    },
+    {
+     "enemy": 14,
+     "count": 20,
+     "delay": 0.651,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 33,
+   "name": "033 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 18,
+     "count": 25,
+     "delay": 0.756,
+     "traits": 0
+    },
+    {
+     "enemy": 14,
+     "count": 21,
+     "delay": 0.63,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 34,
+   "name": "034 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 19,
+     "count": 25,
+     "delay": 0.768,
+     "traits": 4
+    },
+    {
+     "enemy": 15,
+     "count": 20,
+     "delay": 0.672,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 35,
+   "name": "035 fast",
+   "theme": "fast",
+   "entries": [
+    {
+     "enemy": 17,
+     "count": 44,
+     "delay": 0.31,
+     "traits": 0
+    },
+    {
+     "enemy": 17,
+     "count": 11,
+     "delay": 0.886,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 36,
+   "name": "036 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 17,
+     "count": 26,
+     "delay": 0.762,
+     "traits": 1
+    },
+    {
+     "enemy": 14,
+     "count": 20,
+     "delay": 0.693,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 37,
+   "name": "037 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 20,
+     "count": 27,
+     "delay": 0.744,
+     "traits": 2
+    },
+    {
+     "enemy": 16,
+     "count": 22,
+     "delay": 0.64,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 38,
+   "name": "038 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 20,
+     "count": 29,
+     "delay": 0.703,
+     "traits": 4
+    },
+    {
+     "enemy": 17,
+     "count": 22,
+     "delay": 0.649,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 39,
+   "name": "039 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 21,
+     "count": 27,
+     "delay": 0.767,
+     "traits": 0
+    },
+    {
+     "enemy": 17,
+     "count": 24,
+     "delay": 0.604,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 40,
+   "name": "040 regen-heavy",
+   "theme": "regen-heavy",
+   "entries": [
+    {
+     "enemy": 30,
+     "count": 23,
+     "delay": 1.004,
+     "traits": 4
+    }
+   ]
+  },
+  {
+   "round": 41,
+   "name": "041 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 19,
+     "count": 32,
+     "delay": 0.666,
+     "traits": 2
+    },
+    {
+     "enemy": 16,
+     "count": 23,
+     "delay": 0.648,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 42,
+   "name": "042 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 22,
+     "count": 31,
+     "delay": 0.697,
+     "traits": 4
+    },
+    {
+     "enemy": 19,
+     "count": 25,
+     "delay": 0.605,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 43,
+   "name": "043 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 23,
+     "count": 30,
+     "delay": 0.73,
+     "traits": 0
+    },
+    {
+     "enemy": 19,
+     "count": 27,
+     "delay": 0.568,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 44,
+   "name": "044 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 23,
+     "count": 32,
+     "delay": 0.694,
+     "traits": 1
+    },
+    {
+     "enemy": 20,
+     "count": 25,
+     "delay": 0.622,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 45,
+   "name": "045 heavy",
+   "theme": "heavy",
+   "entries": [
+    {
+     "enemy": 39,
+     "count": 15,
+     "delay": 1.5,
+     "traits": 0
+    },
+    {
+     "enemy": 23,
+     "count": 12,
+     "delay": 0.938,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 46,
+   "name": "046 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 22,
+     "count": 31,
+     "delay": 0.735,
+     "traits": 2
+    },
+    {
+     "enemy": 18,
+     "count": 28,
+     "delay": 0.57,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 47,
+   "name": "047 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 25,
+     "count": 34,
+     "delay": 0.679,
+     "traits": 4
+    },
+    {
+     "enemy": 21,
+     "count": 27,
+     "delay": 0.599,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 48,
+   "name": "048 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 26,
+     "count": 34,
+     "delay": 0.688,
+     "traits": 3
+    },
+    {
+     "enemy": 22,
+     "count": 26,
+     "delay": 0.63,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 49,
+   "name": "049 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 27,
+     "count": 34,
+     "delay": 0.697,
+     "traits": 0
+    },
+    {
+     "enemy": 22,
+     "count": 28,
+     "delay": 0.593,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 50,
+   "name": "050 boss",
+   "theme": "boss",
+   "entries": [
+    {
+     "enemy": 26,
+     "count": 64,
+     "delay": 0.3,
+     "traits": 0
+    },
+    {
+     "enemy": 50,
+     "count": 1,
+     "delay": 24,
+     "traits": 0
+    }
+   ]
+  }
+ ],
+ "Beginner03": [
+  {
+   "round": 1,
+   "name": "001 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 0,
+     "count": 16,
+     "delay": 0.581,
+     "traits": 0
+    },
+    {
+     "enemy": 0,
+     "count": 9,
+     "delay": 0.723,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 2,
+   "name": "002 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 1,
+     "count": 10,
+     "delay": 0.96,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 5,
+     "delay": 1.344,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 3,
+   "name": "003 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 2,
+     "count": 8,
+     "delay": 1.238,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 6,
+     "delay": 1.155,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 4,
+   "name": "004 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 2,
+     "count": 9,
+     "delay": 1.133,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 7,
+     "delay": 1.02,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 5,
+   "name": "005 swarm",
+   "theme": "swarm",
+   "entries": [
+    {
+     "enemy": 0,
+     "count": 53,
+     "delay": 0.139,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 6,
+   "name": "006 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 2,
+     "count": 9,
+     "delay": 1.2,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 7,
+     "delay": 1.08,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 7,
+   "name": "007 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 3,
+     "count": 11,
+     "delay": 1.009,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 8,
+     "delay": 0.971,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 8,
+   "name": "008 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 3,
+     "count": 13,
+     "delay": 0.877,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 9,
+     "delay": 0.887,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 9,
+   "name": "009 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 4,
+     "count": 12,
+     "delay": 0.975,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 11,
+     "delay": 0.745,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 10,
+   "name": "010 heavy",
+   "theme": "heavy",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 9,
+     "delay": 1.333,
+     "traits": 0
+    },
+    {
+     "enemy": 4,
+     "count": 5,
+     "delay": 1.2,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 11,
+   "name": "011 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 3,
+     "count": 15,
+     "delay": 0.82,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 11,
+     "delay": 0.783,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 12,
+   "name": "012 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 5,
+     "count": 16,
+     "delay": 0.787,
+     "traits": 0
+    },
+    {
+     "enemy": 3,
+     "count": 13,
+     "delay": 0.678,
+     "traits": 0
+    },
+    {
+     "enemy": 13,
+     "count": 1,
+     "delay": 1,
+     "traits": 1
+    }
+   ]
+  },
+  {
+   "round": 13,
+   "name": "013 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 6,
+     "count": 16,
+     "delay": 0.806,
+     "traits": 0
+    },
+    {
+     "enemy": 4,
+     "count": 12,
+     "delay": 0.752,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 14,
+   "name": "014 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 7,
+     "count": 17,
+     "delay": 0.776,
+     "traits": 0
+    },
+    {
+     "enemy": 4,
+     "count": 14,
+     "delay": 0.66,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 15,
+   "name": "015 armor",
+   "theme": "armor",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 12,
+     "delay": 1.125,
+     "traits": 1
+    },
+    {
+     "enemy": 7,
+     "count": 10,
+     "delay": 0.81,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 16,
+   "name": "016 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 6,
+     "count": 20,
+     "delay": 0.69,
+     "traits": 0
+    },
+    {
+     "enemy": 4,
+     "count": 15,
+     "delay": 0.644,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 17,
+   "name": "017 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 22,
+     "delay": 0.641,
+     "traits": 0
+    },
+    {
+     "enemy": 6,
+     "count": 17,
+     "delay": 0.581,
+     "traits": 0
+    },
+    {
+     "enemy": 13,
+     "count": 1,
+     "delay": 1,
+     "traits": 2
+    }
+   ]
+  },
+  {
+   "round": 18,
+   "name": "018 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 25,
+     "delay": 0.576,
+     "traits": 0
+    },
+    {
+     "enemy": 7,
+     "count": 17,
+     "delay": 0.593,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 19,
+   "name": "019 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 20,
+     "delay": 0.735,
+     "traits": 0
+    },
+    {
+     "enemy": 8,
+     "count": 18,
+     "delay": 0.572,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 20,
+   "name": "020 boss",
+   "theme": "boss",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 20,
+     "delay": 0.6,
+     "traits": 0
+    },
+    {
+     "enemy": 50,
+     "count": 1,
+     "delay": 15,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 21,
+   "name": "021 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 21,
+     "delay": 0.729,
+     "traits": 0
+    },
+    {
+     "enemy": 8,
+     "count": 18,
+     "delay": 0.595,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 22,
+   "name": "022 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 11,
+     "count": 24,
+     "delay": 0.65,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 17,
+     "delay": 0.642,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 23,
+   "name": "023 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 11,
+     "count": 28,
+     "delay": 0.568,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 20,
+     "delay": 0.556,
+     "traits": 0
+    },
+    {
+     "enemy": 23,
+     "count": 1,
+     "delay": 1,
+     "traits": 4
+    }
+   ]
+  },
+  {
+   "round": 24,
+   "name": "024 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 12,
+     "count": 27,
+     "delay": 0.6,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 24,
+     "delay": 0.472,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 25,
+   "name": "025 shield",
+   "theme": "shield",
+   "entries": [
+    {
+     "enemy": 11,
+     "count": 47,
+     "delay": 0.281,
+     "traits": 2
+    },
+    {
+     "enemy": 12,
+     "count": 16,
+     "delay": 0.619,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 26,
+   "name": "026 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 12,
+     "count": 28,
+     "delay": 0.6,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 25,
+     "delay": 0.47,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 27,
+   "name": "027 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 14,
+     "count": 31,
+     "delay": 0.552,
+     "traits": 2
+    },
+    {
+     "enemy": 12,
+     "count": 23,
+     "delay": 0.52,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 28,
+   "name": "028 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 15,
+     "count": 32,
+     "delay": 0.544,
+     "traits": 0
+    },
+    {
+     "enemy": 13,
+     "count": 23,
+     "delay": 0.53,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 29,
+   "name": "029 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 17,
+     "count": 30,
+     "delay": 0.59,
+     "traits": 4
+    },
+    {
+     "enemy": 13,
+     "count": 27,
+     "delay": 0.459,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 30,
+   "name": "030 swarm",
+   "theme": "swarm",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 199,
+     "delay": 0.063,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 31,
+   "name": "031 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 16,
+     "count": 32,
+     "delay": 0.572,
+     "traits": 0
+    },
+    {
+     "enemy": 13,
+     "count": 26,
+     "delay": 0.493,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 32,
+   "name": "032 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 19,
+     "count": 35,
+     "delay": 0.531,
+     "traits": 2
+    },
+    {
+     "enemy": 15,
+     "count": 29,
+     "delay": 0.449,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 33,
+   "name": "033 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 20,
+     "count": 33,
+     "delay": 0.573,
+     "traits": 0
+    },
+    {
+     "enemy": 16,
+     "count": 28,
+     "delay": 0.472,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 34,
+   "name": "034 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 20,
+     "count": 37,
+     "delay": 0.519,
+     "traits": 4
+    },
+    {
+     "enemy": 17,
+     "count": 28,
+     "delay": 0.48,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 35,
+   "name": "035 shield-swarm",
+   "theme": "shield-swarm",
+   "entries": [
+    {
+     "enemy": 12,
+     "count": 192,
+     "delay": 0.071,
+     "traits": 2
+    }
+   ]
+  },
+  {
+   "round": 36,
+   "name": "036 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 19,
+     "count": 39,
+     "delay": 0.508,
+     "traits": 1
+    },
+    {
+     "enemy": 15,
+     "count": 31,
+     "delay": 0.447,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 37,
+   "name": "037 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 22,
+     "count": 38,
+     "delay": 0.529,
+     "traits": 2
+    },
+    {
+     "enemy": 19,
+     "count": 31,
+     "delay": 0.454,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 38,
+   "name": "038 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 23,
+     "count": 38,
+     "delay": 0.537,
+     "traits": 4
+    },
+    {
+     "enemy": 19,
+     "count": 34,
+     "delay": 0.42,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 39,
+   "name": "039 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 23,
+     "count": 41,
+     "delay": 0.505,
+     "traits": 0
+    },
+    {
+     "enemy": 20,
+     "count": 32,
+     "delay": 0.453,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 40,
+   "name": "040 boss",
+   "theme": "boss",
+   "entries": [
+    {
+     "enemy": 23,
+     "count": 71,
+     "delay": 0.237,
+     "traits": 0
+    },
+    {
+     "enemy": 50,
+     "count": 2,
+     "delay": 10.5,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 41,
+   "name": "041 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 22,
+     "count": 42,
+     "delay": 0.507,
+     "traits": 2
+    },
+    {
+     "enemy": 19,
+     "count": 34,
+     "delay": 0.439,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 42,
+   "name": "042 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 26,
+     "count": 42,
+     "delay": 0.514,
+     "traits": 4
+    },
+    {
+     "enemy": 21,
+     "count": 37,
+     "delay": 0.409,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 43,
+   "name": "043 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 27,
+     "count": 43,
+     "delay": 0.509,
+     "traits": 0
+    },
+    {
+     "enemy": 22,
+     "count": 36,
+     "delay": 0.426,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 44,
+   "name": "044 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 28,
+     "count": 45,
+     "delay": 0.493,
+     "traits": 1
+    },
+    {
+     "enemy": 23,
+     "count": 36,
+     "delay": 0.432,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 45,
+   "name": "045 armor-swarm",
+   "theme": "armor-swarm",
+   "entries": [
+    {
+     "enemy": 18,
+     "count": 226,
+     "delay": 0.07,
+     "traits": 1
+    }
+   ]
+  },
+  {
+   "round": 46,
+   "name": "046 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 26,
+     "count": 47,
+     "delay": 0.485,
+     "traits": 2
+    },
+    {
+     "enemy": 22,
+     "count": 36,
+     "delay": 0.443,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 47,
+   "name": "047 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 31,
+     "count": 47,
+     "delay": 0.491,
+     "traits": 4
+    },
+    {
+     "enemy": 25,
+     "count": 40,
+     "delay": 0.404,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 48,
+   "name": "048 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 32,
+     "count": 48,
+     "delay": 0.487,
+     "traits": 3
+    },
+    {
+     "enemy": 26,
+     "count": 41,
+     "delay": 0.4,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 49,
+   "name": "049 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 33,
+     "count": 49,
+     "delay": 0.484,
+     "traits": 0
+    },
+    {
+     "enemy": 27,
+     "count": 41,
+     "delay": 0.405,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 50,
+   "name": "050 swarm+heavy",
+   "theme": "swarm+heavy",
+   "entries": [
+    {
+     "enemy": 20,
+     "count": 114,
+     "delay": 0.105,
+     "traits": 0
+    },
+    {
+     "enemy": 49,
+     "count": 24,
+     "delay": 1,
+     "traits": 0
+    }
+   ]
+  }
+ ],
+ "Beginner04": [
+  {
+   "round": 1,
+   "name": "001 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 0,
+     "count": 16,
+     "delay": 0.581,
+     "traits": 0
+    },
+    {
+     "enemy": 0,
+     "count": 9,
+     "delay": 0.723,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 2,
+   "name": "002 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 1,
+     "count": 10,
+     "delay": 0.96,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 5,
+     "delay": 1.344,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 3,
+   "name": "003 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 2,
+     "count": 8,
+     "delay": 1.238,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 6,
+     "delay": 1.155,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 4,
+   "name": "004 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 2,
+     "count": 9,
+     "delay": 1.133,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 7,
+     "delay": 1.02,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 5,
+   "name": "005 swarm",
+   "theme": "swarm",
+   "entries": [
+    {
+     "enemy": 0,
+     "count": 53,
+     "delay": 0.139,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 6,
+   "name": "006 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 2,
+     "count": 9,
+     "delay": 1.2,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 7,
+     "delay": 1.08,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 7,
+   "name": "007 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 3,
+     "count": 11,
+     "delay": 1.009,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 8,
+     "delay": 0.971,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 8,
+   "name": "008 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 4,
+     "count": 10,
+     "delay": 1.14,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 9,
+     "delay": 0.887,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 9,
+   "name": "009 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 4,
+     "count": 12,
+     "delay": 0.975,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 11,
+     "delay": 0.745,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 10,
+   "name": "010 heavy",
+   "theme": "heavy",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 9,
+     "delay": 1.333,
+     "traits": 0
+    },
+    {
+     "enemy": 4,
+     "count": 5,
+     "delay": 1.2,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 11,
+   "name": "011 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 3,
+     "count": 15,
+     "delay": 0.82,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 11,
+     "delay": 0.783,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 12,
+   "name": "012 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 6,
+     "count": 14,
+     "delay": 0.9,
+     "traits": 0
+    },
+    {
+     "enemy": 3,
+     "count": 13,
+     "delay": 0.678,
+     "traits": 0
+    },
+    {
+     "enemy": 13,
+     "count": 1,
+     "delay": 1,
+     "traits": 1
+    }
+   ]
+  },
+  {
+   "round": 13,
+   "name": "013 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 6,
+     "count": 16,
+     "delay": 0.806,
+     "traits": 0
+    },
+    {
+     "enemy": 4,
+     "count": 12,
+     "delay": 0.752,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 14,
+   "name": "014 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 7,
+     "count": 17,
+     "delay": 0.776,
+     "traits": 0
+    },
+    {
+     "enemy": 4,
+     "count": 14,
+     "delay": 0.66,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 15,
+   "name": "015 armor",
+   "theme": "armor",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 12,
+     "delay": 1.125,
+     "traits": 1
+    },
+    {
+     "enemy": 7,
+     "count": 10,
+     "delay": 0.81,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 16,
+   "name": "016 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 7,
+     "count": 17,
+     "delay": 0.812,
+     "traits": 0
+    },
+    {
+     "enemy": 4,
+     "count": 15,
+     "delay": 0.644,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 17,
+   "name": "017 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 22,
+     "delay": 0.641,
+     "traits": 0
+    },
+    {
+     "enemy": 7,
+     "count": 15,
+     "delay": 0.658,
+     "traits": 0
+    },
+    {
+     "enemy": 13,
+     "count": 1,
+     "delay": 1,
+     "traits": 2
+    }
+   ]
+  },
+  {
+   "round": 18,
+   "name": "018 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 17,
+     "delay": 0.847,
+     "traits": 0
+    },
+    {
+     "enemy": 7,
+     "count": 17,
+     "delay": 0.593,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 19,
+   "name": "019 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 20,
+     "delay": 0.735,
+     "traits": 0
+    },
+    {
+     "enemy": 9,
+     "count": 16,
+     "delay": 0.643,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 20,
+   "name": "020 boss",
+   "theme": "boss",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 20,
+     "delay": 0.6,
+     "traits": 0
+    },
+    {
+     "enemy": 50,
+     "count": 1,
+     "delay": 15,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 21,
+   "name": "021 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 21,
+     "delay": 0.729,
+     "traits": 0
+    },
+    {
+     "enemy": 8,
+     "count": 18,
+     "delay": 0.595,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 22,
+   "name": "022 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 11,
+     "count": 24,
+     "delay": 0.65,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 17,
+     "delay": 0.642,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 23,
+   "name": "023 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 12,
+     "count": 23,
+     "delay": 0.691,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 20,
+     "delay": 0.556,
+     "traits": 0
+    },
+    {
+     "enemy": 23,
+     "count": 1,
+     "delay": 1,
+     "traits": 4
+    }
+   ]
+  },
+  {
+   "round": 24,
+   "name": "024 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 12,
+     "count": 27,
+     "delay": 0.6,
+     "traits": 0
+    },
+    {
+     "enemy": 11,
+     "count": 18,
+     "delay": 0.63,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 25,
+   "name": "025 regen",
+   "theme": "regen",
+   "entries": [
+    {
+     "enemy": 16,
+     "count": 21,
+     "delay": 0.864,
+     "traits": 4
+    },
+    {
+     "enemy": 12,
+     "count": 16,
+     "delay": 0.516,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 26,
+   "name": "026 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 12,
+     "count": 28,
+     "delay": 0.6,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 25,
+     "delay": 0.47,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 27,
+   "name": "027 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 15,
+     "count": 27,
+     "delay": 0.633,
+     "traits": 2
+    },
+    {
+     "enemy": 12,
+     "count": 23,
+     "delay": 0.52,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 28,
+   "name": "028 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 16,
+     "count": 28,
+     "delay": 0.621,
+     "traits": 0
+    },
+    {
+     "enemy": 13,
+     "count": 23,
+     "delay": 0.53,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 29,
+   "name": "029 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 17,
+     "count": 30,
+     "delay": 0.59,
+     "traits": 4
+    },
+    {
+     "enemy": 14,
+     "count": 23,
+     "delay": 0.539,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 30,
+   "name": "030 shield",
+   "theme": "shield",
+   "entries": [
+    {
+     "enemy": 14,
+     "count": 60,
+     "delay": 0.24,
+     "traits": 2
+    },
+    {
+     "enemy": 17,
+     "count": 18,
+     "delay": 0.6,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 31,
+   "name": "031 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 16,
+     "count": 32,
+     "delay": 0.572,
+     "traits": 0
+    },
+    {
+     "enemy": 13,
+     "count": 26,
+     "delay": 0.493,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 32,
+   "name": "032 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 20,
+     "count": 30,
+     "delay": 0.62,
+     "traits": 2
+    },
+    {
+     "enemy": 16,
+     "count": 25,
+     "delay": 0.521,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 33,
+   "name": "033 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 20,
+     "count": 33,
+     "delay": 0.573,
+     "traits": 0
+    },
+    {
+     "enemy": 16,
+     "count": 28,
+     "delay": 0.472,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 34,
+   "name": "034 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 21,
+     "count": 32,
+     "delay": 0.6,
+     "traits": 4
+    },
+    {
+     "enemy": 17,
+     "count": 28,
+     "delay": 0.48,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 35,
+   "name": "035 fast",
+   "theme": "fast",
+   "entries": [
+    {
+     "enemy": 17,
+     "count": 77,
+     "delay": 0.177,
+     "traits": 0
+    },
+    {
+     "enemy": 17,
+     "count": 19,
+     "delay": 0.513,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 36,
+   "name": "036 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 20,
+     "count": 33,
+     "delay": 0.6,
+     "traits": 1
+    },
+    {
+     "enemy": 16,
+     "count": 28,
+     "delay": 0.495,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 37,
+   "name": "037 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 22,
+     "count": 38,
+     "delay": 0.529,
+     "traits": 2
+    },
+    {
+     "enemy": 19,
+     "count": 31,
+     "delay": 0.454,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 38,
+   "name": "038 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 23,
+     "count": 38,
+     "delay": 0.537,
+     "traits": 4
+    },
+    {
+     "enemy": 20,
+     "count": 29,
+     "delay": 0.492,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 39,
+   "name": "039 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 24,
+     "count": 38,
+     "delay": 0.545,
+     "traits": 0
+    },
+    {
+     "enemy": 20,
+     "count": 32,
+     "delay": 0.453,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 40,
+   "name": "040 boss",
+   "theme": "boss",
+   "entries": [
+    {
+     "enemy": 23,
+     "count": 71,
+     "delay": 0.237,
+     "traits": 0
+    },
+    {
+     "enemy": 50,
+     "count": 2,
+     "delay": 10.5,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 41,
+   "name": "041 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 22,
+     "count": 42,
+     "delay": 0.507,
+     "traits": 2
+    },
+    {
+     "enemy": 19,
+     "count": 34,
+     "delay": 0.439,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 42,
+   "name": "042 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 26,
+     "count": 42,
+     "delay": 0.514,
+     "traits": 4
+    },
+    {
+     "enemy": 22,
+     "count": 33,
+     "delay": 0.458,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 43,
+   "name": "043 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 27,
+     "count": 43,
+     "delay": 0.509,
+     "traits": 0
+    },
+    {
+     "enemy": 23,
+     "count": 33,
+     "delay": 0.465,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 44,
+   "name": "044 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 29,
+     "count": 42,
+     "delay": 0.529,
+     "traits": 1
+    },
+    {
+     "enemy": 23,
+     "count": 36,
+     "delay": 0.432,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 45,
+   "name": "045 armor+shield",
+   "theme": "armor+shield",
+   "entries": [
+    {
+     "enemy": 31,
+     "count": 33,
+     "delay": 0.682,
+     "traits": 1
+    },
+    {
+     "enemy": 24,
+     "count": 57,
+     "delay": 0.316,
+     "traits": 2
+    }
+   ]
+  },
+  {
+   "round": 46,
+   "name": "046 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 27,
+     "count": 43,
+     "delay": 0.53,
+     "traits": 2
+    },
+    {
+     "enemy": 22,
+     "count": 36,
+     "delay": 0.443,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 47,
+   "name": "047 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 31,
+     "count": 47,
+     "delay": 0.491,
+     "traits": 4
+    },
+    {
+     "enemy": 26,
+     "count": 37,
+     "delay": 0.437,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 48,
+   "name": "048 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 32,
+     "count": 48,
+     "delay": 0.487,
+     "traits": 3
+    },
+    {
+     "enemy": 27,
+     "count": 38,
+     "delay": 0.431,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 49,
+   "name": "049 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 33,
+     "count": 49,
+     "delay": 0.484,
+     "traits": 0
+    },
+    {
+     "enemy": 28,
+     "count": 39,
+     "delay": 0.425,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 50,
+   "name": "050 swarm+heavy",
+   "theme": "swarm+heavy",
+   "entries": [
+    {
+     "enemy": 20,
+     "count": 114,
+     "delay": 0.105,
+     "traits": 0
+    },
+    {
+     "enemy": 49,
+     "count": 24,
+     "delay": 1,
+     "traits": 0
+    }
+   ]
+  }
+ ],
+ "Beginner05": [
+  {
+   "round": 1,
+   "name": "001 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 0,
+     "count": 15,
+     "delay": 0.62,
+     "traits": 0
+    },
+    {
+     "enemy": 0,
+     "count": 8,
+     "delay": 0.814,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 2,
+   "name": "002 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 1,
+     "count": 9,
+     "delay": 1.067,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 5,
+     "delay": 1.344,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 3,
+   "name": "003 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 2,
+     "count": 7,
+     "delay": 1.414,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 6,
+     "delay": 1.155,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 4,
+   "name": "004 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 2,
+     "count": 8,
+     "delay": 1.275,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 6,
+     "delay": 1.19,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 5,
+   "name": "005 swarm",
+   "theme": "swarm",
+   "entries": [
+    {
+     "enemy": 0,
+     "count": 48,
+     "delay": 0.153,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 6,
+   "name": "006 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 2,
+     "count": 8,
+     "delay": 1.35,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 7,
+     "delay": 1.08,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 7,
+   "name": "007 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 3,
+     "count": 10,
+     "delay": 1.11,
+     "traits": 0
+    },
+    {
+     "enemy": 1,
+     "count": 11,
+     "delay": 0.706,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 8,
+   "name": "008 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 3,
+     "count": 11,
+     "delay": 1.036,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 8,
+     "delay": 0.997,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 9,
+   "name": "009 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 3,
+     "count": 13,
+     "delay": 0.9,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 10,
+     "delay": 0.819,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 10,
+   "name": "010 heavy",
+   "theme": "heavy",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 9,
+     "delay": 1.333,
+     "traits": 0
+    },
+    {
+     "enemy": 3,
+     "count": 5,
+     "delay": 1.2,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 11,
+   "name": "011 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 3,
+     "count": 14,
+     "delay": 0.879,
+     "traits": 0
+    },
+    {
+     "enemy": 2,
+     "count": 10,
+     "delay": 0.861,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 12,
+   "name": "012 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 5,
+     "count": 15,
+     "delay": 0.84,
+     "traits": 0
+    },
+    {
+     "enemy": 3,
+     "count": 12,
+     "delay": 0.735,
+     "traits": 0
+    },
+    {
+     "enemy": 13,
+     "count": 1,
+     "delay": 1,
+     "traits": 1
+    }
+   ]
+  },
+  {
+   "round": 13,
+   "name": "013 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 5,
+     "count": 17,
+     "delay": 0.759,
+     "traits": 0
+    },
+    {
+     "enemy": 3,
+     "count": 14,
+     "delay": 0.645,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 14,
+   "name": "014 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 6,
+     "count": 17,
+     "delay": 0.776,
+     "traits": 0
+    },
+    {
+     "enemy": 4,
+     "count": 13,
+     "delay": 0.711,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 15,
+   "name": "015 armor",
+   "theme": "armor",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 17,
+     "delay": 0.794,
+     "traits": 1
+    },
+    {
+     "enemy": 6,
+     "count": 10,
+     "delay": 0.81,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 16,
+   "name": "016 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 6,
+     "count": 18,
+     "delay": 0.767,
+     "traits": 0
+    },
+    {
+     "enemy": 3,
+     "count": 17,
+     "delay": 0.568,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 17,
+   "name": "017 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 20,
+     "delay": 0.705,
+     "traits": 0
+    },
+    {
+     "enemy": 6,
+     "count": 15,
+     "delay": 0.658,
+     "traits": 0
+    },
+    {
+     "enemy": 13,
+     "count": 1,
+     "delay": 1,
+     "traits": 2
+    }
+   ]
+  },
+  {
+   "round": 18,
+   "name": "018 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 23,
+     "delay": 0.626,
+     "traits": 0
+    },
+    {
+     "enemy": 6,
+     "count": 18,
+     "delay": 0.56,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 19,
+   "name": "019 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 18,
+     "delay": 0.817,
+     "traits": 0
+    },
+    {
+     "enemy": 7,
+     "count": 18,
+     "delay": 0.572,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 20,
+   "name": "020 boss",
+   "theme": "boss",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 24,
+     "delay": 0.5,
+     "traits": 0
+    },
+    {
+     "enemy": 50,
+     "count": 1,
+     "delay": 15,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 21,
+   "name": "021 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 9,
+     "count": 28,
+     "delay": 0.546,
+     "traits": 0
+    },
+    {
+     "enemy": 7,
+     "count": 19,
+     "delay": 0.564,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 22,
+   "name": "022 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 11,
+     "count": 22,
+     "delay": 0.709,
+     "traits": 0
+    },
+    {
+     "enemy": 9,
+     "count": 24,
+     "delay": 0.455,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 23,
+   "name": "023 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 11,
+     "count": 26,
+     "delay": 0.612,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 18,
+     "delay": 0.618,
+     "traits": 0
+    },
+    {
+     "enemy": 23,
+     "count": 1,
+     "delay": 1,
+     "traits": 4
+    }
+   ]
+  },
+  {
+   "round": 24,
+   "name": "024 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 12,
+     "count": 24,
+     "delay": 0.675,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 22,
+     "delay": 0.515,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 25,
+   "name": "025 shield",
+   "theme": "shield",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 56,
+     "delay": 0.236,
+     "traits": 2
+    },
+    {
+     "enemy": 12,
+     "count": 14,
+     "delay": 0.707,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 26,
+   "name": "026 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 11,
+     "count": 31,
+     "delay": 0.542,
+     "traits": 0
+    },
+    {
+     "enemy": 10,
+     "count": 22,
+     "delay": 0.535,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 27,
+   "name": "027 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 14,
+     "count": 28,
+     "delay": 0.611,
+     "traits": 2
+    },
+    {
+     "enemy": 11,
+     "count": 26,
+     "delay": 0.46,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 28,
+   "name": "028 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 15,
+     "count": 29,
+     "delay": 0.6,
+     "traits": 0
+    },
+    {
+     "enemy": 12,
+     "count": 25,
+     "delay": 0.487,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 29,
+   "name": "029 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 16,
+     "count": 30,
+     "delay": 0.59,
+     "traits": 4
+    },
+    {
+     "enemy": 13,
+     "count": 24,
+     "delay": 0.516,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 30,
+   "name": "030 swarm",
+   "theme": "swarm",
+   "entries": [
+    {
+     "enemy": 10,
+     "count": 180,
+     "delay": 0.07,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 31,
+   "name": "031 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 15,
+     "count": 33,
+     "delay": 0.555,
+     "traits": 0
+    },
+    {
+     "enemy": 12,
+     "count": 28,
+     "delay": 0.457,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 32,
+   "name": "032 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 18,
+     "count": 35,
+     "delay": 0.531,
+     "traits": 2
+    },
+    {
+     "enemy": 15,
+     "count": 26,
+     "delay": 0.501,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 33,
+   "name": "033 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 19,
+     "count": 35,
+     "delay": 0.54,
+     "traits": 0
+    },
+    {
+     "enemy": 15,
+     "count": 29,
+     "delay": 0.456,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 34,
+   "name": "034 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 19,
+     "count": 39,
+     "delay": 0.492,
+     "traits": 4
+    },
+    {
+     "enemy": 16,
+     "count": 28,
+     "delay": 0.48,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 35,
+   "name": "035 shield-swarm",
+   "theme": "shield-swarm",
+   "entries": [
+    {
+     "enemy": 12,
+     "count": 174,
+     "delay": 0.078,
+     "traits": 2
+    }
+   ]
+  },
+  {
+   "round": 36,
+   "name": "036 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 18,
+     "count": 38,
+     "delay": 0.521,
+     "traits": 1
+    },
+    {
+     "enemy": 14,
+     "count": 33,
+     "delay": 0.42,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 37,
+   "name": "037 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 21,
+     "count": 39,
+     "delay": 0.515,
+     "traits": 2
+    },
+    {
+     "enemy": 18,
+     "count": 30,
+     "delay": 0.469,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 38,
+   "name": "038 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 22,
+     "count": 38,
+     "delay": 0.537,
+     "traits": 4
+    },
+    {
+     "enemy": 18,
+     "count": 33,
+     "delay": 0.433,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 39,
+   "name": "039 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 22,
+     "count": 42,
+     "delay": 0.493,
+     "traits": 0
+    },
+    {
+     "enemy": 19,
+     "count": 34,
+     "delay": 0.426,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 40,
+   "name": "040 boss",
+   "theme": "boss",
+   "entries": [
+    {
+     "enemy": 22,
+     "count": 71,
+     "delay": 0.237,
+     "traits": 0
+    },
+    {
+     "enemy": 50,
+     "count": 2,
+     "delay": 10.5,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 41,
+   "name": "041 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 21,
+     "count": 43,
+     "delay": 0.495,
+     "traits": 2
+    },
+    {
+     "enemy": 18,
+     "count": 33,
+     "delay": 0.452,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 42,
+   "name": "042 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 25,
+     "count": 42,
+     "delay": 0.514,
+     "traits": 4
+    },
+    {
+     "enemy": 21,
+     "count": 34,
+     "delay": 0.445,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 43,
+   "name": "043 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 25,
+     "count": 46,
+     "delay": 0.476,
+     "traits": 0
+    },
+    {
+     "enemy": 21,
+     "count": 37,
+     "delay": 0.414,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 44,
+   "name": "044 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 26,
+     "count": 47,
+     "delay": 0.472,
+     "traits": 1
+    },
+    {
+     "enemy": 22,
+     "count": 36,
+     "delay": 0.432,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 45,
+   "name": "045 armor-swarm",
+   "theme": "armor-swarm",
+   "entries": [
+    {
+     "enemy": 17,
+     "count": 225,
+     "delay": 0.07,
+     "traits": 1
+    }
+   ]
+  },
+  {
+   "round": 46,
+   "name": "046 relief",
+   "theme": "relief",
+   "entries": [
+    {
+     "enemy": 25,
+     "count": 46,
+     "delay": 0.496,
+     "traits": 2
+    },
+    {
+     "enemy": 21,
+     "count": 37,
+     "delay": 0.431,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 47,
+   "name": "047 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 29,
+     "count": 50,
+     "delay": 0.462,
+     "traits": 4
+    },
+    {
+     "enemy": 24,
+     "count": 39,
+     "delay": 0.415,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 48,
+   "name": "048 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 30,
+     "count": 51,
+     "delay": 0.459,
+     "traits": 3
+    },
+    {
+     "enemy": 25,
+     "count": 40,
+     "delay": 0.409,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 49,
+   "name": "049 standard",
+   "theme": "standard",
+   "entries": [
+    {
+     "enemy": 31,
+     "count": 51,
+     "delay": 0.465,
+     "traits": 0
+    },
+    {
+     "enemy": 26,
+     "count": 40,
+     "delay": 0.415,
+     "traits": 0
+    }
+   ]
+  },
+  {
+   "round": 50,
+   "name": "050 swarm+heavy",
+   "theme": "swarm+heavy",
+   "entries": [
+    {
+     "enemy": 19,
+     "count": 121,
+     "delay": 0.099,
+     "traits": 0
+    },
+    {
+     "enemy": 49,
+     "count": 21,
+     "delay": 1.143,
+     "traits": 0
+    }
+   ]
+  }
+ ]
+}

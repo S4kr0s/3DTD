@@ -16,9 +16,9 @@ public class SpaceshipAI : MonoBehaviour
         AvoidCollision();
 
         // Make the spaceship look in the direction it's moving
-        if (rb.velocity != Vector3.zero)
+        if (rb.linearVelocity != Vector3.zero)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(rb.velocity.normalized);
+            Quaternion targetRotation = Quaternion.LookRotation(rb.linearVelocity.normalized);
             rb.rotation = Quaternion.RotateTowards(rb.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
     }

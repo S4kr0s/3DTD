@@ -1,0 +1,425 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22a8531ab9d834e0997a1cb8341f3d74, type: 3}
+  m_Name: MetaUpgradeTree
+  m_EditorClassIdentifier: Assembly-CSharp::MetaUpgradeTree
+  trees:
+  - id: towers
+    displayName: Towers
+    icon: ic_cube
+    nodes:
+    - id: t-hardened
+      displayName: Hardened rounds
+      icon: ic_burst
+      tier: 1
+      column: 1
+      cost: 1
+      capstone: 0
+      requires: []
+      effects:
+      - type: 0
+        stat: 5
+        value: 5
+        scope: all turrets
+    - id: t-barrels
+      displayName: Extended barrels
+      icon: ic_target
+      tier: 2
+      column: 0
+      cost: 2
+      capstone: 0
+      requires:
+      - t-hardened
+      effects:
+      - type: 0
+        stat: 10
+        value: 5
+        scope: all turrets
+    - id: t-loaders
+      displayName: Rapid loaders
+      icon: ic_bolt
+      tier: 2
+      column: 1
+      cost: 2
+      capstone: 0
+      requires:
+      - t-hardened
+      effects:
+      - type: 0
+        stat: 8
+        value: 5
+        scope: all turrets
+    - id: t-payloads
+      displayName: Heavy payloads
+      icon: ic_radius
+      tier: 2
+      column: 2
+      cost: 2
+      capstone: 0
+      requires:
+      - t-hardened
+      effects:
+      - type: 0
+        stat: 11
+        value: 10
+        scope: all turrets
+    - id: t-optics
+      displayName: Long-range optics
+      icon: ic_zoom
+      tier: 3
+      column: 0
+      cost: 3
+      capstone: 0
+      requires:
+      - t-barrels
+      effects:
+      - type: 0
+        stat: 10
+        value: 5
+        scope: all turrets
+    - id: t-feeds
+      displayName: Overclocked feeds
+      icon: ic_bolt
+      tier: 3
+      column: 1
+      cost: 3
+      capstone: 0
+      requires:
+      - t-loaders
+      effects:
+      - type: 0
+        stat: 8
+        value: 5
+        scope: all turrets
+    - id: t-warheads
+      displayName: Dense warheads
+      icon: ic_burst
+      tier: 3
+      column: 2
+      cost: 3
+      capstone: 0
+      requires:
+      - t-payloads
+      effects:
+      - type: 0
+        stat: 5
+        value: 5
+        scope: all turrets
+    - id: t-armory
+      displayName: Master armory
+      icon: ic_crown
+      tier: 4
+      column: 1
+      cost: 5
+      capstone: 1
+      requires:
+      - t-optics
+      - t-feeds
+      - t-warheads
+      effects:
+      - type: 0
+        stat: 5
+        value: 5
+        scope: all turrets
+      - type: 0
+        stat: 8
+        value: 5
+        scope: all turrets
+  - id: economy
+    displayName: Economy
+    icon: ic_coin_hex
+    nodes:
+    - id: e-salvage
+      displayName: Salvage crews
+      icon: ic_coin
+      tier: 1
+      column: 1
+      cost: 1
+      capstone: 0
+      requires: []
+      effects:
+      - type: 1
+        stat: 0
+        value: 50
+        scope: every game
+    - id: e-refinery
+      displayName: Efficient refinery
+      icon: ic_recycle
+      tier: 2
+      column: 0
+      cost: 2
+      capstone: 0
+      requires:
+      - e-salvage
+      effects:
+      - type: 2
+        stat: 0
+        value: 5
+        scope: every pop
+    - id: e-contracts
+      displayName: Wave contracts
+      icon: ic_chevrons_double
+      tier: 2
+      column: 1
+      cost: 2
+      capstone: 0
+      requires:
+      - e-salvage
+      effects:
+      - type: 3
+        stat: 0
+        value: 10
+        scope: per wave
+    - id: e-resale
+      displayName: Resale network
+      icon: ic_coin
+      tier: 2
+      column: 2
+      cost: 2
+      capstone: 0
+      requires:
+      - e-salvage
+      effects:
+      - type: 6
+        stat: 0
+        value: 5
+        scope: when selling
+    - id: e-bulk
+      displayName: Bulk orders
+      icon: ic_cube
+      tier: 3
+      column: 0
+      cost: 3
+      capstone: 0
+      requires:
+      - e-refinery
+      effects:
+      - type: 5
+        stat: 0
+        value: 3
+        scope: towers & upgrades
+    - id: e-chest
+      displayName: War chest
+      icon: ic_coin_hex
+      tier: 3
+      column: 1
+      cost: 3
+      capstone: 0
+      requires:
+      - e-contracts
+      effects:
+      - type: 1
+        stat: 0
+        value: 75
+        scope: every game
+    - id: e-brokers
+      displayName: Scrap brokers
+      icon: ic_recycle
+      tier: 3
+      column: 2
+      cost: 3
+      capstone: 0
+      requires:
+      - e-resale
+      effects:
+      - type: 6
+        stat: 0
+        value: 5
+        scope: when selling
+    - id: e-empire
+      displayName: Trade empire
+      icon: ic_crown
+      tier: 4
+      column: 1
+      cost: 5
+      capstone: 1
+      requires:
+      - e-bulk
+      - e-chest
+      - e-brokers
+      effects:
+      - type: 2
+        stat: 0
+        value: 5
+        scope: every pop
+      - type: 5
+        stat: 0
+        value: 2
+        scope: towers & upgrades
+  - id: hull
+    displayName: Hull
+    icon: ic_shield
+    nodes:
+    - id: h-plating
+      displayName: Reinforced plating
+      icon: ic_shield
+      tier: 1
+      column: 1
+      cost: 1
+      capstone: 0
+      requires: []
+      effects:
+      - type: 4
+        stat: 0
+        value: 10
+        scope: not on Impossible
+    - id: h-bulkheads
+      displayName: Bulkheads
+      icon: ic_shield
+      tier: 2
+      column: 0
+      cost: 2
+      capstone: 0
+      requires:
+      - h-plating
+      effects:
+      - type: 4
+        stat: 0
+        value: 10
+        scope: not on Impossible
+    - id: h-funds
+      displayName: Emergency funds
+      icon: ic_coin
+      tier: 2
+      column: 2
+      cost: 2
+      capstone: 0
+      requires:
+      - h-plating
+      effects:
+      - type: 1
+        stat: 0
+        value: 25
+        scope: every game
+    - id: h-core
+      displayName: Armored core
+      icon: ic_cube
+      tier: 3
+      column: 1
+      cost: 3
+      capstone: 0
+      requires:
+      - h-bulkheads
+      - h-funds
+      effects:
+      - type: 4
+        stat: 0
+        value: 15
+        scope: not on Impossible
+    - id: h-fortress
+      displayName: Fortress
+      icon: ic_crown
+      tier: 4
+      column: 1
+      cost: 5
+      capstone: 1
+      requires:
+      - h-core
+      effects:
+      - type: 4
+        stat: 0
+        value: 25
+        scope: not on Impossible
+      - type: 3
+        stat: 0
+        value: 5
+        scope: per wave
+  - id: global
+    displayName: Global
+    icon: ic_globe
+    nodes:
+    - id: g-manual
+      displayName: Field manual
+      icon: ic_book
+      tier: 1
+      column: 1
+      cost: 1
+      capstone: 0
+      requires: []
+      effects:
+      - type: 0
+        stat: 10
+        value: 3
+        scope: all turrets
+      - type: 1
+        stat: 0
+        value: 25
+        scope: every game
+    - id: g-supply
+      displayName: Supply lines
+      icon: ic_chevrons_double
+      tier: 2
+      column: 0
+      cost: 2
+      capstone: 0
+      requires:
+      - g-manual
+      effects:
+      - type: 3
+        stat: 0
+        value: 5
+        scope: per wave
+    - id: g-deploy
+      displayName: Quick deploy
+      icon: ic_arrow_up
+      tier: 2
+      column: 2
+      cost: 2
+      capstone: 0
+      requires:
+      - g-manual
+      effects:
+      - type: 5
+        stat: 0
+        value: 2
+        scope: towers & upgrades
+    - id: g-combined
+      displayName: Combined arms
+      icon: ic_cluster
+      tier: 3
+      column: 1
+      cost: 3
+      capstone: 0
+      requires:
+      - g-supply
+      - g-deploy
+      effects:
+      - type: 0
+        stat: 5
+        value: 3
+        scope: all turrets
+      - type: 0
+        stat: 8
+        value: 3
+        scope: all turrets
+    - id: g-strategy
+      displayName: Grand strategy
+      icon: ic_crown
+      tier: 4
+      column: 1
+      cost: 5
+      capstone: 1
+      requires:
+      - g-combined
+      effects:
+      - type: 0
+        stat: 5
+        value: 5
+        scope: all turrets
+      - type: 4
+        stat: 0
+        value: 10
+        scope: not on Impossible
+      - type: 1
+        stat: 0
+        value: 50
+        scope: every game

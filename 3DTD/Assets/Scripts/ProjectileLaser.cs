@@ -15,6 +15,9 @@ public class ProjectileLaser : Projectile
         if (lifetime <= 0)
             Die();
 
+        if (target != null && !target.activeInHierarchy)
+            target = null;
+
         if (target != null)
         {
             float distance = Vector3.Distance(this.gameObject.transform.position, target.transform.position);
@@ -58,7 +61,6 @@ public class ProjectileLaser : Projectile
             {
                 this.gameObject.GetComponent<PolygonProjectileScript>().HasCollidedWithoutDeath();
                 target = Targetter.GetFirstEnemyInGame(target);
-                Debug.Log(target);
                 if (target == null)
                     shouldTargetAnother = false;
             }

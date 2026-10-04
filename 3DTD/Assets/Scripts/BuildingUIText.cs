@@ -40,7 +40,7 @@ public class BuildingUIText : MonoBehaviour
         //buttonManager.buttonText = buildingInfo.DisplayName;
         //nameNormal.text = buildingInfo.DisplayName; nameHighlighted.text = buildingInfo.DisplayName;
         //costNormal.text = buildingInfo.Cost.ToString(); costHighlighted.text = buildingInfo.Cost.ToString();
-        tooltip.description = "<b>" + buildingInfo.DisplayName + "</b>\n" + buildingInfo.Description + "\nCost: " + buildingInfo.Cost + " Energy Cores";
+        tooltip.description = "<b>" + buildingInfo.DisplayName + "</b>\n" + buildingInfo.Description + "\nCost: " + GameManager.PriceOf(buildingInfo.Cost) + " Energy Cores";
         imageNormal.sprite = buildingInfo.UISprite; imageHighlighted.sprite = buildingInfo.UISprite;
     }
 

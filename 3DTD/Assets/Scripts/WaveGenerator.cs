@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -10,13 +11,84 @@ public class WaveGenerator : MonoBehaviour
     public readonly int[] EnemyThresholdsBasic = { 0, 3, 5, 7, 9, 11 };
     public readonly int[] EnemyCutoffsBasic = { 10, 20, 30, 35, 40, 45 };
 
-    private void Start()
+    [SerializeField] private WaveGenerationFormula defaultFormula = WaveGenerationFormula.LINEAR;
+    [SerializeField] private int defaultBaseValue = 10;
+    [SerializeField] private float defaultGrowthFactor = 1.25f;
+    [SerializeField] private int defaultWaveAmount = 31;
+    [SerializeField] private string generatedFileName = "generated.json";
+
+    [Header("Import from the wave designer (Tools/BalanceDashboard/write_waves.py writes waves-generated.json)")]
+    [SerializeField] private string designerJsonPath = "../../Tools/BalanceDashboard/waves-generated.json";
+    [SerializeField] private string importSetName = "Beginner01";
+    [SerializeField] private string importFolder = "Assets/ScriptableObjects/WaveData";
+
+#if UNITY_EDITOR
+    // Creates or updates one WaveData asset per round of a generated set. write_waves.py does the same
+    // and also assigns the set to the level's Spawner; this is for working inside the Editor.
+    [ContextMenu("Import Waves From Wave Designer Json")]
+    private void ImportDesignerWaves()
     {
-        List<List<EnemyWaveGenData>> generated = GenerateWaves(WaveGenerationFormula.LINEAR, 10, 1.25f, 31);
+        string jsonPath = Path.GetFullPath(Path.Combine(Application.dataPath, designerJsonPath));
+        if (!File.Exists(jsonPath))
+        {
+            Debug.LogError("Wave designer output not found: " + jsonPath);
+            return;
+        }
+
+        JArray waves = JObject.Parse(File.ReadAllText(jsonPath))[importSetName] as JArray;
+        if (waves == null)
+        {
+            Debug.LogError("Set '" + importSetName + "' not found in " + jsonPath);
+            return;
+        }
+
+        // Enemy ids index Default Enemy.allPossibleEnemyData
+        GameObject enemyPrefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Enemies/Default Enemy.prefab");
+        UnityEditor.SerializedProperty dataById = new UnityEditor.SerializedObject(enemyPrefab.GetComponent<Enemy>()).FindProperty("allPossibleEnemyData");
+
+        string folder = importFolder + "/" + importSetName;
+        if (!UnityEditor.AssetDatabase.IsValidFolder(folder))
+            UnityEditor.AssetDatabase.CreateFolder(importFolder, importSetName);
+
+        foreach (JToken wave in waves)
+        {
+            string assetPath = folder + "/" + importSetName + " " + (string)wave["name"] + ".asset";
+            WaveData data = UnityEditor.AssetDatabase.LoadAssetAtPath<WaveData>(assetPath);
+            bool isNew = data == null;
+            if (isNew)
+                data = ScriptableObject.CreateInstance<WaveData>();
+
+            data.enemiesToSpawn = new List<EnemyData>();
+            data.enemySpawnCount = new List<int>();
+            data.spawnDelay = new List<float>();
+            data.enemyTraits = new List<EnemyTrait>();
+            foreach (JToken entry in wave["entries"])
+            {
+                data.enemiesToSpawn.Add((EnemyData)dataById.GetArrayElementAtIndex((int)entry["enemy"]).objectReferenceValue);
+                data.enemySpawnCount.Add((int)entry["count"]);
+                data.spawnDelay.Add((float)entry["delay"]);
+                data.enemyTraits.Add((EnemyTrait)(int)entry["traits"]);
+            }
+
+            if (isNew)
+                UnityEditor.AssetDatabase.CreateAsset(data, assetPath);
+            else
+                UnityEditor.EditorUtility.SetDirty(data);
+        }
+
+        UnityEditor.AssetDatabase.SaveAssets();
+        Debug.Log("Imported " + waves.Count + " waves of " + importSetName + " into " + folder);
+    }
+#endif
+
+    [ContextMenu("Generate Waves Json")]
+    private void GenerateWavesJson()
+    {
+        List<List<EnemyWaveGenData>> generated = GenerateWaves(defaultFormula, defaultBaseValue, defaultGrowthFactor, defaultWaveAmount);
         string json = JsonConvert.SerializeObject(generated, Formatting.Indented);
-        string filePath = "C:\\Users\\phili\\Downloads\\generated.json";
+        string filePath = Path.Combine(Application.dataPath, generatedFileName);
         File.WriteAllText(filePath, json);
-        System.Console.WriteLine("Wave-Gen JSON saved to " + filePath);
+        Debug.Log("Wave-Gen JSON saved to " + filePath);
     }
 
     public List<List<EnemyWaveGenData>> GenerateWaves(WaveGenerationFormula formula, int baseValue, float growthFactor, int waveAmount)

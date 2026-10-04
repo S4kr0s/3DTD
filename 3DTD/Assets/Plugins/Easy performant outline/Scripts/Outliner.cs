@@ -380,6 +380,9 @@ namespace EPOOutline
 #endif
 
 #if UNITY_EDITOR
+            if (UsesScriptableRenderPipeline)
+                return;
+
             foreach (var view in UnityEditor.SceneView.sceneViews)
             {
                 var viewToUpdate = (UnityEditor.SceneView)view;
@@ -390,8 +393,21 @@ namespace EPOOutline
 #endif
         }
 
+        // Camera command buffers only exist in the built-in pipeline; under URP the outline is
+        // rendered by URPOutlineFeature, and Unity 6 warns on every Add/RemoveCommandBuffer call.
+        private static bool UsesScriptableRenderPipeline
+        {
+            get
+            {
+                return GraphicsSettings.currentRenderPipeline != null;
+            }
+        }
+
         private void UpdateBuffer(Camera targetCamera, CommandBuffer buffer, bool removeOnly)
         {
+            if (UsesScriptableRenderPipeline)
+                return;
+
             targetCamera.RemoveCommandBuffer(CameraEvent.BeforeImageEffects, buffer);
             targetCamera.RemoveCommandBuffer(CameraEvent.AfterForwardOpaque, buffer);
             if (removeOnly)
@@ -402,7 +418,7 @@ namespace EPOOutline
 
         private void OnPreRender()
         {
-            if (GraphicsSettings.renderPipelineAsset != null)
+            if (GraphicsSettings.defaultRenderPipeline != null)
                 return;
 
             parameters.OutlinablesToRender.Clear();
@@ -450,8 +466,7 @@ namespace EPOOutline
                 if (eventTransferer != null)
                     eventTransferer.OnPreRenderEvent -= UpdateEditorCamera;
 
-                viewToUpdate.camera.RemoveCommandBuffer(CameraEvent.BeforeImageEffects, editorPreviewParameters.Buffer);
-                viewToUpdate.camera.RemoveCommandBuffer(CameraEvent.AfterForwardOpaque, editorPreviewParameters.Buffer);
+                UpdateBuffer(viewToUpdate.camera, editorPreviewParameters.Buffer, true);
             }
         }
 

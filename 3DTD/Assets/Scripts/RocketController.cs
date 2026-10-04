@@ -61,9 +61,9 @@ public class RocketController : MonoBehaviour
         rb.AddForce(force, ForceMode.Force);
 
         // Rotate towards the direction of travel
-        if (rb.velocity.magnitude > 0)
+        if (rb.linearVelocity.magnitude > 0)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(rb.velocity.normalized), rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(rb.linearVelocity.normalized), rotationSpeed * Time.deltaTime);
         }
 
         // If we have reached the target position, choose a new random target position on the opposite side of the sphere

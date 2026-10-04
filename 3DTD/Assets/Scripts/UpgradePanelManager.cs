@@ -1,38 +1,65 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Michsky.UI.ModernUIPack;
 using UnityEngine.UI;
-using System;
 
+// Tower panel (redesign B2): opens top-left under the HUD for the selected tower or building block.
+// Fixed order: header (emblem, name, tier pips, kills, close), target stepper, 4 x 2 stat grid, upgrades, sell.
 public class UpgradePanelManager : MonoBehaviour
 {
-    [SerializeField] private Image parentBackground;
+    private static readonly string[] TargetingNames = { "First", "Last", "Strongest", "Nearest", "Farthest" };
+    private static readonly string[] TargetingDescriptions =
+    {
+        "Shoots the enemy furthest along the path, the one closest to the exit.",
+        "Shoots the enemy that has travelled the least.",
+        "Shoots the toughest enemy in range: largest shape, darkest colour.",
+        "Shoots the enemy closest to the tower.",
+        "Shoots the enemy farthest from the tower that is still in range.",
+    };
+
+    [SerializeField] private RectTransform panel;
+    [Tooltip("Top of the bottom HUD row; the panel never grows below it and scrolls instead")]
+    [SerializeField] private float bottomLimit = 74f;
+    [SerializeField] private RectTransform content;
+
+    [Header("Header")]
     [SerializeField] private TMP_Text title;
-    [SerializeField] private HorizontalSelector targettingSelector;
-    [SerializeField] private Slider rotationSlider;
-    [SerializeField] private TMPro.TMP_Text damage;
-    [SerializeField] private TMPro.TMP_Text fireRate;
-    [SerializeField] private TMPro.TMP_Text pierce;
-    [SerializeField] private TMPro.TMP_Text range;
-    [SerializeField] private TMPro.TMP_Text criticalChance;
-    [SerializeField] private TMPro.TMP_Text sellValue;
-    [SerializeField] private TMPro.TMP_Text ammo;
-    [SerializeField] private TMPro.TMP_Text reloadSpeed;
-    [SerializeField] private TMPro.TMP_Text accuracy;
-    [SerializeField] private TMPro.TMP_Text damageDealt;
+    [SerializeField] private Image[] tierPips = new Image[4];
+    [SerializeField] private TMP_Text subtitle;
+    [SerializeField] private BevelButton closeButton;
 
-    [SerializeField] private UpgradeUIButton upgradeUI;
-    [SerializeField] private GameObject perkUI;
-    [SerializeField] private GameObject perkList;
-    [SerializeField] private GameObject sellUI;
+    [Header("Targeting")]
+    [SerializeField] private GameObject targetingRow;
+    [SerializeField] private Stepper targetingStepper;
+    [SerializeField] private TooltipTrigger targetingTooltip;
+    [SerializeField] private GameObject aimRow;
+    [SerializeField] private Slider aimSlider;
 
-    private List<GameObject> upgrades = new List<GameObject>();
-    private List<GameObject> perkObjects = new List<GameObject>();
+    [Header("Stats")]
+    [SerializeField] private GameObject statsGrid;
+    [SerializeField] private StatTile[] statTiles = new StatTile[8];
+
+    [Header("Upgrades")]
+    [SerializeField] private GameObject upgradesCaption;
+    [SerializeField] private RectTransform upgradeList;
+    [SerializeField] private UpgradeRow upgradeRowTemplate;
+
+    [Header("Sell")]
+    [SerializeField] private BevelButton sellButton;
+    [SerializeField] private TMP_Text sellLabel;
+    [SerializeField] private TMP_Text sellValue;
+    [SerializeField] private TooltipTrigger sellTooltip;
+
+    private readonly List<UpgradeRow> rows = new List<UpgradeRow>();
+    private Selectable shown;
+    private Tower shownTower;
+    private float nextRefresh;
 
     private static UpgradePanelManager instance;
     public static UpgradePanelManager Instance { get { return instance; } }
+
+    public bool IsOpen => panel != null && panel.gameObject.activeSelf;
 
     private void Awake()
     {
@@ -44,13 +71,41 @@ public class UpgradePanelManager : MonoBehaviour
         {
             instance = this;
         }
+
+        if (upgradeRowTemplate != null)
+            upgradeRowTemplate.gameObject.SetActive(false);
+        panel.gameObject.SetActive(false);
     }
 
     private void Start()
     {
         SelectionManager.OnSelectionChange += HandleSelectionChanged;
 
-        CheckReferences();
+        closeButton.Clicked += _ => ClearSelection();
+        sellButton.Clicked += _ => Sell();
+        targetingStepper.SetOptions(TargetingNames, 0);
+        targetingStepper.OnIndexChanged += HandleTargetingChanged;
+        aimSlider.onValueChanged.AddListener(HandleAimChanged);
+        if (targetingTooltip != null)
+            targetingTooltip.Provider = () =>
+            {
+                int index = Mathf.Clamp(targetingStepper.Index, 0, TargetingNames.Length - 1);
+                return ("Targeting: " + TargetingNames[index], TargetingDescriptions[index] + "\nThe arrows switch the mode.");
+            };
+        if (sellTooltip != null)
+            sellTooltip.Provider = SellTooltipText;
+    }
+
+    private (string title, string body) SellTooltipText()
+    {
+        if (shown == null)
+            return ("", "");
+        Building building = shown.GetComponent<Building>();
+        if (!shown.CanSell())
+            return ("Sell block", "Remove the towers on its sides first.");
+        int refund = building != null ? Selectable.GetSellValue(building) : 0;
+        string what = shownTower != null ? "tower" : "block";
+        return ("Sell " + what, "Returns " + refund + " scrap of what you spent on it and its upgrades.\nHotkey: Delete");
     }
 
     private void OnDestroy()
@@ -60,20 +115,10 @@ public class UpgradePanelManager : MonoBehaviour
 
     public void HandleSelectionChanged(Selectable oldSelection, Selectable newSelection)
     {
-        if (newSelection != null && newSelection.gameObject.TryGetComponent<Tower>(out Tower tower))
-        {
-            ClearUI();
-            SetNewUI(tower);
-        }
-        else if (newSelection != null && newSelection.gameObject.TryGetComponent<BuildingBlock>(out BuildingBlock buildingBlock))
-        {
-            ClearUI();
-            SetNewUI(buildingBlock);
-        }
+        if (newSelection != null && (newSelection.TryGetComponent(out Tower _) || newSelection.TryGetComponent(out BuildingBlock _)))
+            Show(newSelection);
         else
-        {
             ClearUI();
-        }
     }
 
     public void ClearSelection()
@@ -81,154 +126,158 @@ public class UpgradePanelManager : MonoBehaviour
         SelectionManager.CurrentlySelected = null;
     }
 
-    private void SetNewUI(Tower tower)
-    {
-        ActivateUI();
-
-        title.text = tower.name;
-        targettingSelector.index = (int)tower.TargetBehaviour;
-        targettingSelector.itemList[(int)tower.TargetBehaviour].onValueChanged.Invoke();
-        targettingSelector.selectorEvent.Invoke((int)tower.TargetBehaviour);
-        targettingSelector.UpdateUI();
-
-        if (tower.UseRotationSlider)
-        {
-            rotationSlider.gameObject.SetActive(true);
-            rotationSlider.value = tower.Rotationbase.transform.eulerAngles.y;
-            rotationSlider.onValueChanged.AddListener(tower.RotateTower);
-        }
-
-        // Only respects base stats!
-        damage.text = $"{ Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE),2) }";
-        fireRate.text = $"{ Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE), 2) }";
-        pierce.text = $"{ Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.PIERCING),2) }";
-        range.text = $"{ Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.RANGE), 2) }";
-        criticalChance.text = $"0%";
-        sellValue.text = $"{ tower.Cost }";
-        ammo.text = $"{Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.AMMO), 2)}";
-        if (ammo.text == "0") ammo.text = "1";
-        reloadSpeed.text = $"{Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.RELOAD_SPEED), 2)}";
-        if (reloadSpeed.text == "0") reloadSpeed.text = $"{Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE), 2)}";
-        accuracy.text = $"{Math.Round(tower.StatsManager.GetStatValue(Stat.StatType.ACCURACY), 2) * 100}%";
-        damageDealt.text = $"{tower.DamageCount}";
-
-        // Upgrade(s) now here
-        tower.UpgradeManager.CheckPathBlocking();
-        foreach (UpgradePath upgradePath in tower.UpgradeManager.GetUpgradePaths())
-        {
-            UpgradeUIButton _setup = Instantiate(upgradeUI.gameObject, this.gameObject.transform).GetComponent<UpgradeUIButton>();
-            upgrades.Add(_setup.gameObject);
-            _setup.SetColor(3);
-            int count = 0;
-            foreach (UpgradeModule upgradeModule in upgradePath.UpgradeModules)
-            {
-                if (!upgradeModule.IsActive) 
-                {
-                    _setup.Setup(upgradeModule, count);
-                    if (!upgradeModule.isAvailable)
-                    {
-                        _setup.gameObject.GetComponent<Button>().interactable = false;
-                    }
-                    break;
-                }
-                else
-                {
-                    count++;
-                    TooltipContent instance = Instantiate(perkUI, perkList.transform).GetComponent<TooltipContent>();
-                    instance.description = upgradeModule.Description;
-                    perkObjects.Add(instance.gameObject);
-                }
-            }
-        }
-
-        if (perkObjects.Count > 0)
-            perkList.SetActive(true);
-        else
-            perkList.SetActive(false);
-
-        // Sell function as last
-        //sellUI.transform.SetAsLastSibling();
-        perkList.transform.SetAsLastSibling();
-    }
-
-    private void SetNewUI(BuildingBlock buildingBlock)
-    {
-        ClearUI();
-        parentBackground.enabled = true;
-        title.enabled = true;
-        title.text = "Building Block";
-    }
-
     public void ClearUI()
     {
-        parentBackground.enabled = false;
-        title.enabled = false;
-        targettingSelector.gameObject.SetActive(false);
-        rotationSlider.onValueChanged.RemoveAllListeners();
-        rotationSlider.gameObject.SetActive(false);
-        damage.enabled = false;
-        fireRate.enabled = false;
-        pierce.enabled = false;
+        shown = null;
+        shownTower = null;
+        panel.gameObject.SetActive(false);
+        TooltipService tooltip = TooltipService.For(panel);
+        if (tooltip != null)
+            tooltip.Hide();
+    }
 
-        if (upgrades.Count > 0)
+    private void Show(Selectable selection)
+    {
+        shown = selection;
+        shownTower = selection.GetComponent<Tower>();
+        panel.gameObject.SetActive(true);
+
+        bool isTower = shownTower != null;
+        targetingRow.SetActive(isTower);
+        statsGrid.SetActive(isTower);
+        upgradesCaption.SetActive(isTower && shownTower.UpgradeManager.GetUpgradePaths().Length > 0);
+        upgradeList.gameObject.SetActive(isTower);
+        aimRow.SetActive(isTower && shownTower.UseRotationSlider && shownTower.Rotationbase != null);
+
+        if (isTower)
         {
-            foreach (GameObject upgrade in upgrades)
+            targetingStepper.SetIndex((int)shownTower.TargetBehaviour, false);
+            if (aimRow.activeSelf)
+                aimSlider.SetValueWithoutNotify(shownTower.Rotationbase.transform.localEulerAngles.y);
+            BuildRows();
+            for (int i = 0; i < statTiles.Length && i < TowerStatInfo.Grid.Length; i++)
+                statTiles[i].Set(TowerStatInfo.Grid[i], "");
+        }
+        Refresh();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(content);
+        FitHeight();
+        if (TooltipService.For(panel) != null)
+            TooltipService.For(panel).Hide();
+    }
+
+    private void BuildRows()
+    {
+        UpgradePath[] paths = shownTower.UpgradeManager.GetUpgradePaths();
+        shownTower.UpgradeManager.CheckPathBlocking();
+        while (rows.Count < paths.Length)
+        {
+            UpgradeRow row = Instantiate(upgradeRowTemplate, upgradeList);
+            row.Purchase += Buy;
+            rows.Add(row);
+        }
+        for (int i = 0; i < rows.Count; i++)
+        {
+            bool used = i < paths.Length && paths[i] != null;
+            rows[i].gameObject.SetActive(used);
+            if (used)
+                rows[i].Bind(paths[i]);
+        }
+    }
+
+    private void Update()
+    {
+        if (shown == null)
+        {
+            if (panel.gameObject.activeSelf)
+                ClearUI();
+            return;
+        }
+        // Kills, damage-dependent stats and the refund change while the panel is open
+        if (Time.unscaledTime >= nextRefresh)
+        {
+            nextRefresh = Time.unscaledTime + 0.25f;
+            Refresh();
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (IsOpen)
+            FitHeight();
+    }
+
+    private void Refresh()
+    {
+        UITheme theme = UITheme.Current;
+        Building building = shown.GetComponent<Building>();
+        title.text = building != null && !string.IsNullOrEmpty(building.DisplayName) ? building.DisplayName : shown.name;
+
+        int tier = shownTower != null ? shownTower.Tier : 1;
+        for (int i = 0; i < tierPips.Length; i++)
+        {
+            tierPips[i].gameObject.SetActive(shownTower != null);
+            tierPips[i].color = i < tier ? theme.accent : new Color(1f, 1f, 1f, 0.22f);
+        }
+        subtitle.text = shownTower != null
+            ? "Tier " + tier + " · " + shownTower.Kills + (shownTower.Kills == 1 ? " kill" : " kills")
+            : "Platform for towers";
+
+        if (shownTower != null)
+        {
+            for (int i = 0; i < statTiles.Length && i < TowerStatInfo.Grid.Length; i++)
             {
-                Destroy(upgrade.gameObject);
+                TowerStatKind kind = TowerStatInfo.Grid[i];
+                statTiles[i].SetValue(TowerStatInfo.Format(kind, TowerStatInfo.Live(shownTower, kind)));
             }
-            upgrades.Clear();
         }
 
-        if (perkObjects.Count > 0)
+        bool canSell = shown.CanSell();
+        sellButton.SetInteractable(canSell);
+        sellLabel.text = shownTower != null ? "Sell tower" : (canSell ? "Sell block" : "Remove its towers first");
+        sellValue.text = building != null ? "+" + UIFormat.TabularLabel(Selectable.GetSellValue(building)) : "";
+        sellValue.gameObject.SetActive(canSell);
+    }
+
+    private void Buy(UpgradeRow row)
+    {
+        if (shownTower == null || row.Module == null)
+            return;
+        SelectionManager.Instance.UpgradeCurrentTower(row.Module);
+        shownTower.UpgradeManager.CheckPathBlocking();
+        foreach (UpgradeRow other in rows)
         {
-            foreach (GameObject perk in perkObjects)
-            {
-                Destroy(perk.gameObject);
-            }
-            perkObjects.Clear();
+            if (other.gameObject.activeSelf)
+                other.Refresh();
         }
+        Refresh();
     }
 
-    private void ActivateUI()
+    private void Sell()
     {
-        parentBackground.enabled = true;
-        title.enabled = true;
-        targettingSelector.gameObject.SetActive(true);
-        damage.enabled = true;
-        fireRate.enabled = true;
-        pierce.enabled = true;
-        perkList.SetActive(true);
+        if (shown != null)
+            shown.SellThisTower();
     }
 
-    public void DeactivateUI()
+    private void HandleTargetingChanged(int index)
     {
-        title.enabled = false;
-        targettingSelector.gameObject.SetActive(false);
-        damage.enabled = false;
-        fireRate.enabled = false;
-        pierce.enabled = false;
-        parentBackground.enabled = false;
-        perkList.SetActive(false);
+        if (shownTower != null)
+            shownTower.ChangeTargettingBehaviour((TargetBehaviour)index);
     }
 
-    private void CheckReferences()
+    private void HandleAimChanged(float value)
     {
-        if (parentBackground == null)
-            parentBackground = this.gameObject.GetComponent<Image>();
+        if (shownTower != null && shownTower.UseRotationSlider)
+            shownTower.RotateTower(value);
+    }
 
-        if (title == null)
-            title = GameObject.Find("Title").GetComponent<TMP_Text>();
-
-        if (targettingSelector == null)
-            targettingSelector = GameObject.Find("Horizontal Selector").GetComponent<HorizontalSelector>();
-
-        if (damage == null)
-            damage = GameObject.Find("DamageText").GetComponent<TMP_Text>();
-
-        if (pierce == null)
-            pierce = GameObject.Find("PierceText").GetComponent<TMP_Text>();
-
-        if (fireRate == null)
-            fireRate = GameObject.Find("FireRateText").GetComponent<TMP_Text>();
+    // Grows with the content, but stops above the bottom HUD row; the content scrolls inside
+    private void FitHeight()
+    {
+        RectTransform parent = (RectTransform)panel.parent;
+        float available = parent.rect.height + panel.anchoredPosition.y - bottomLimit;
+        float wanted = LayoutUtility.GetPreferredHeight(content);
+        float height = Mathf.Min(wanted, available);
+        if (!Mathf.Approximately(panel.rect.height, height))
+            panel.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
     }
 }

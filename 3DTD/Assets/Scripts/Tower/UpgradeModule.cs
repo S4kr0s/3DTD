@@ -8,6 +8,9 @@ public class UpgradeModule
     public string Name => name;
     public string Description => description;
     public int Price => price;
+    public StatUpgrade[] StatUpgrades => statUpgrades ?? new StatUpgrade[0];
+    // Behaviour changes beyond plain stats (strategy swaps, cluster bomblets, salvage...)
+    public bool HasBehaviourUpgrades => upgrades != null && upgrades.Length > 0;
 
     [SerializeField] private string name;
     [Multiline]

@@ -24,7 +24,7 @@ public class AnchorPoint : MonoBehaviour
 
     private GameObject selectedObject
     {
-        get { return BuildingManager.Instance.GetSelectedBuilding(); }
+        get { return BuildingManager.Instance != null ? BuildingManager.Instance.GetSelectedBuilding() : null; }
     }
 
     public Transform AnchorPointPosition => anchorPointPosition;
@@ -40,18 +40,41 @@ public class AnchorPoint : MonoBehaviour
 
     private void OnMouseDown()
     {
+        // OnMouseDown also fires through the HUD; only clicks that reach the world may build
+        if (IsPointerOverUI())
+            return;
+
         if(CanBuildHere() && selectedObject != null)
             BuildHere(selectedObject);
     }
 
     private void OnMouseOver()
     {
-        ChangeMaterialSelected();
+        bool hover = selectedObject != null && !IsPointerOverUI();
+        if (hover)
+            ChangeMaterialSelected();
+        else
+            RevertMaterialSelected();
+
+        if (PlacementPreview.Instance != null)
+        {
+            if (hover)
+                PlacementPreview.Instance.Hover(this, IsFree(), CanAfford());
+            else
+                PlacementPreview.Instance.Unhover(this);
+        }
     }
 
     private void OnMouseExit()
     {
         RevertMaterialSelected();
+        if (PlacementPreview.Instance != null)
+            PlacementPreview.Instance.Unhover(this);
+    }
+
+    private static bool IsPointerOverUI()
+    {
+        return UIPointer.IsOverUI();
     }
 
     private void ChangeMaterialSelected()
@@ -69,56 +92,45 @@ public class AnchorPoint : MonoBehaviour
         if (selectedObject == null)
             return false;
 
-        Ray ray = new Ray(transform.parent.gameObject.transform.position, transform.forward);
-        if (Physics.Raycast(ray, out RaycastHit hit, 1f, layerMask))
-        {
-            return false;
-        }
+        return IsFree() && CanAfford();
+    }
 
-        if (BuildingManager.Instance.GetSelectedBuilding() == GameManager.Instance.Buildings[0])
-        {
-            // Get rid of magic number
-            if (GameManager.Instance.Money >= 50)
-            {
-                return true;
-            }
-            else return false;
-        }
-        else
-        {
-            // Only reflects Base Cost.
-            if (GameManager.Instance.Money >= selectedObject.GetComponent<Tower>().Cost)
-            {
-                return true;
-            }
-        }
-        return true;
+    // Nothing is attached to this face yet
+    public bool IsFree()
+    {
+        Ray ray = new Ray(transform.parent.gameObject.transform.position, transform.forward);
+        return !Physics.Raycast(ray, out RaycastHit hit, 1f, layerMask);
+    }
+
+    private bool CanAfford()
+    {
+        return selectedObject != null && GameManager.Instance.Money >= GetBuildCost(selectedObject);
     }
 
     private void BuildHere(GameObject objectToBuild)
     {
-        // Only reflects Base Cost. Handle Money elsewhere.
-        if(objectToBuild.TryGetComponent<Tower>(out Tower tower))
+        int buildCost = GetBuildCost(objectToBuild);
+
+        if (GameManager.Instance.Money >= buildCost)
         {
-            if (GameManager.Instance.Money >= (selectedObject.GetComponent<Tower>().Cost))
+            GameManager.Instance.Money -= buildCost;
+            GameObject built = Instantiate(objectToBuild, anchorPointPosition.position, this.transform.rotation);
+            if (built.TryGetComponent<Building>(out Building building))
             {
-                GameManager.Instance.Money -= (selectedObject.GetComponent<Tower>().Cost);
-                Instantiate(objectToBuild, anchorPointPosition.position, this.transform.rotation);
-                Debug.Log(this.transform.rotation.ToString());
+                building.AddInvestment(buildCost);
+                building.MarkPlacedByPlayer(BuildingManager.Instance.SelectedIndex);
             }
+            if (PlacementPreview.Instance != null)
+                PlacementPreview.Instance.Unhover(this);
         }
-        else
-        {
-            if (BuildingManager.Instance.GetSelectedBuilding() == GameManager.Instance.Buildings[0])
-            {
-                // Get rid of magic number
-                if (GameManager.Instance.Money >= 50)
-                {
-                    GameManager.Instance.Money -= 50;
-                    Instantiate(objectToBuild, anchorPointPosition.position, this.transform.rotation);
-                }
-            }
-        }
+    }
+
+    private int GetBuildCost(GameObject objectToBuild)
+    {
+        if (objectToBuild != null && objectToBuild.TryGetComponent<Building>(out Building building))
+            return GameManager.Instance.Price(building.Cost);
+
+        return int.MaxValue;
     }
 
     private void OnDrawGizmos()

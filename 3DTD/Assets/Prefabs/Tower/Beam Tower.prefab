@@ -610,6 +610,7 @@ GameObject:
   - component: {fileID: 147286872823315961}
   - component: {fileID: 8025507499586909913}
   - component: {fileID: 5454529783904074006}
+  - component: {fileID: 4117390561274803311}
   m_Layer: 0
   m_Name: Beam Tower
   m_TagString: Untagged
@@ -650,7 +651,7 @@ MonoBehaviour:
   displayName: Beam Tower
   description: Shoots a continuous beam in a configurable direction.
   uiSprite: {fileID: 21300000, guid: d8552ef98a19fe24ca3f11cdaf968517, type: 3}
-  cost: 100
+  cost: 125
   upgradeManager: {fileID: 8025507499586909913}
   statsManager: {fileID: 147286872823315961}
   targetter: {fileID: 1697263479036677693}
@@ -801,7 +802,7 @@ MonoBehaviour:
       description: 'Increases the length of the beam.
 
         +2 Range'
-      price: 100
+      price: 50
       upgrades: []
       statUpgrades:
       - targetStat: 10
@@ -812,14 +813,14 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Even longer beam
-      description: 'Ohhhh a Big Laser Pointer!
+      description: 'Ohhhh, a big laser pointer!
 
-        +5 Range'
-      price: 235
+        +3 Range'
+      price: 100
       upgrades: []
       statUpgrades:
       - targetStat: 10
-        upgradeValue: 5
+        upgradeValue: 3
         isModifier: 0
       upgradeVisualGameObjects: []
       disableVisualGameObjects: []
@@ -828,12 +829,17 @@ MonoBehaviour:
     - name: The longest Beam
       description: 'Screw it, double the range again.
 
-        +10 Range'
-      price: 650
+        +6 Range
+
+        +4 Pierce'
+      price: 310
       upgrades: []
       statUpgrades:
       - targetStat: 10
-        upgradeValue: 10
+        upgradeValue: 6
+        isModifier: 0
+      - targetStat: 13
+        upgradeValue: 4
         isModifier: 0
       upgradeVisualGameObjects: []
       disableVisualGameObjects: []
@@ -844,37 +850,40 @@ MonoBehaviour:
     - name: Tick Tock
       description: 'Time between damaging ticks reduced.
 
-        +25% Fire-Rate'
-      price: 165
+        +60% Fire Rate'
+      price: 80
       upgrades: []
       statUpgrades:
       - targetStat: 8
-        upgradeValue: -25
+        upgradeValue: -37.5
         isModifier: 1
       upgradeVisualGameObjects: []
       disableVisualGameObjects: []
       isActive: 0
       isAvailable: 0
     - name: Fast Plasma Delivery
-      description: 'Now, the time between ticks is even lower!
+      description: 'The ticks come even faster.
 
-        +25% Fire-Rate'
-      price: 425
+        +60% Fire Rate'
+      price: 170
       upgrades: []
       statUpgrades:
       - targetStat: 8
-        upgradeValue: -25
+        upgradeValue: -37.5
         isModifier: 1
       upgradeVisualGameObjects: []
       disableVisualGameObjects: []
       isActive: 0
       isAvailable: 0
     - name: Instantaneous
-      description: 'Plasma burns hot.
+      description: 'Plasma burns so hot that enemies in the beam slow down.
 
-        +50% Fire-Rate'
-      price: 2450
-      upgrades: []
+        Slows enemies hit by 20% for 0.5 s
+
+        +100% Fire Rate'
+      price: 520
+      upgrades:
+      - {fileID: 4117390561274803311}
       statUpgrades:
       - targetStat: 8
         upgradeValue: -50
@@ -889,7 +898,7 @@ MonoBehaviour:
       description: 'Hotter, burns more. Ouch.
 
         +1 Damage'
-      price: 120
+      price: 140
       upgrades: []
       statUpgrades:
       - targetStat: 5
@@ -900,27 +909,24 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Fusion Experiment
-      description: 'Oppsie.
+      description: 'Oopsie.
 
-        +3 Damage'
-      price: 450
+        +2 Damage'
+      price: 350
       upgrades: []
       statUpgrades:
       - targetStat: 5
-        upgradeValue: 3
+        upgradeValue: 2
         isModifier: 0
       upgradeVisualGameObjects: []
       disableVisualGameObjects: []
       isActive: 0
       isAvailable: 0
     - name: UNLIMITED POWER?
-      description: 'Someone switched the switch, the
+      description: 'Someone switched the switch, the switch is now burned.
 
-        switch is now burned.
-
-        +5
-        Damage'
-      price: 2675
+        +5 Damage'
+      price: 970
       upgrades: []
       statUpgrades:
       - targetStat: 5
@@ -1173,3 +1179,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8531945976007180472}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4117390561274803311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8641120566026317397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f89988d0c74142d1ba5a0181aa174d05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Comment: 030 Instantaneous slow
+  slowOnHit: 0.2
+  slowDuration: 0.5

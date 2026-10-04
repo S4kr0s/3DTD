@@ -194,6 +194,8 @@ MonoBehaviour:
   movementSpeedModifierPercent: 1
   specialEnemy: 0
   canTakeDamage: 1
+  traitMaterial: {fileID: 2100000, guid: 3b3b5fc58ad0da34e8c6df4d5a51b035, type: 2}
+  traits: 0
 --- !u!135 &462364803991377536
 SphereCollider:
   m_ObjectHideFlags: 0

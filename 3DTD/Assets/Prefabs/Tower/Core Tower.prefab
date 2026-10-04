@@ -759,7 +759,7 @@ MonoBehaviour:
   displayName: Core Tower
   description: Cheap tower with no upgrades. <br>But quite powerful for its price.
   uiSprite: {fileID: 21300000, guid: db37890d53601d648ac79a0032643782, type: 3}
-  cost: 50
+  cost: 70
   upgradeManager: {fileID: 8025507499586909913}
   statsManager: {fileID: 147286872823315961}
   targetter: {fileID: 1697263479036677693}

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Targetter : MonoBehaviour
@@ -15,23 +14,36 @@ public class Targetter : MonoBehaviour
 
     public static GameObject GetFirstEnemyInGame(GameObject enemy)
     {
-        if (Spawner.Instance.EnemiesAlive.Count <= 1)
-        {
+        if (Spawner.Instance == null || Spawner.Instance.EnemiesAlive.Count <= 1)
             return null;
-        }
-        else
+
+        List<GameObject> alive = Spawner.Instance.EnemiesAlive;
+        for (int attempt = 0; attempt < 8; attempt++)
         {
-            List<GameObject> possibleEnemies = Spawner.Instance.EnemiesAlive;
-            possibleEnemies.Remove(enemy);
-            if (possibleEnemies == null)
-                return null;
-            return Spawner.Instance.EnemiesAlive[UnityEngine.Random.Range(0, possibleEnemies.Count - 1)];
+            GameObject candidate = alive[UnityEngine.Random.Range(0, alive.Count)];
+            if (candidate != null && candidate != enemy && candidate.activeInHierarchy)
+                return candidate;
         }
+        return null;
+    }
+
+    // Reused by GetAllEnemiesInRadius. Only valid until the next call on this Targetter.
+    private readonly List<Enemy> resultBuffer = new List<Enemy>();
+
+    private static bool IsValid(Enemy enemy)
+    {
+        return enemy != null && enemy.IsAlive;
     }
 
     public List<Enemy> GetAllEnemiesInRadius()
     {
-        return enemiesInsideCollider;
+        resultBuffer.Clear();
+        for (int i = 0; i < enemiesInsideCollider.Count; i++)
+        {
+            if (IsValid(enemiesInsideCollider[i]))
+                resultBuffer.Add(enemiesInsideCollider[i]);
+        }
+        return resultBuffer;
     }
 
     public Enemy GetEnemy(TargetBehaviour targetBehaviour)
@@ -54,132 +66,99 @@ public class Targetter : MonoBehaviour
 
     public Enemy GetFirstEnemyInRadius()
     {
-        Enemy[] possibleEnemies = enemiesInsideCollider.OrderByDescending(e => e.DistanceTraveled).ToArray();
-        for (int i = 0; i < possibleEnemies.Length; i++)
+        Enemy best = null;
+        for (int i = 0; i < enemiesInsideCollider.Count; i++)
         {
-            //if (tower.ActionStrategy.CanShoot(possibleEnemies[i].gameObject))
-                return possibleEnemies[i];
+            Enemy enemy = enemiesInsideCollider[i];
+            if (IsValid(enemy) && (best == null || enemy.DistanceTraveled > best.DistanceTraveled))
+                best = enemy;
         }
-        return null;
+        return best;
     }
 
+    // Highest Id; ties go to the enemy furthest along the path
     public Enemy GetStrongestEnemyInRadius()
     {
-        Enemy[] possibleEnemies = enemiesInsideCollider.OrderByDescending(e => e.DistanceTraveled).ToArray();
-
-        if (possibleEnemies.Length == 0)
-            return null;
-
-        int powerScore = 0;
-        int index = 0;
-
-        for (int i = 0; i < possibleEnemies.Length; i++)
+        Enemy best = null;
+        for (int i = 0; i < enemiesInsideCollider.Count; i++)
         {
-            //tower.ActionStrategy.CanShoot(possibleEnemies[i].gameObject)
-            if (true)
-            {
-                if (powerScore == 0)
-                {
-                    powerScore = (int)possibleEnemies[i].CurrentShape * 10 + (int)possibleEnemies[i].CurrentColor;
-                }
-                else
-                {
-                    int compareScore = (int)possibleEnemies[i].CurrentShape * 10 + (int)possibleEnemies[i].CurrentColor;
-                    if (compareScore > powerScore)
-                    {
-                        powerScore = compareScore;
-                        index = i;
-                    }
-                }
-            }
-        }
+            Enemy enemy = enemiesInsideCollider[i];
+            if (!IsValid(enemy))
+                continue;
 
-        return possibleEnemies[index];
+            if (best == null || enemy.Id > best.Id || (enemy.Id == best.Id && enemy.DistanceTraveled > best.DistanceTraveled))
+                best = enemy;
+        }
+        return best;
     }
 
     public Enemy GetLastEnemyInRadius()
     {
-        for (int i = enemiesInsideCollider.Count - 1; i >= 0; i--)
+        Enemy best = null;
+        for (int i = 0; i < enemiesInsideCollider.Count; i++)
         {
-            //if (tower.ActionStrategy.CanShoot(enemiesInsideCollider[i].gameObject))
-                return enemiesInsideCollider[i];
+            Enemy enemy = enemiesInsideCollider[i];
+            if (IsValid(enemy) && (best == null || enemy.DistanceTraveled < best.DistanceTraveled))
+                best = enemy;
         }
-        return null;
+        return best;
     }
 
     public Enemy GetNearestEnemyInRadius()
     {
-        float distance = Mathf.Infinity;
-        int? index = null;
-
-        if (enemiesInsideCollider.Count == 0)
-            return null;
+        float nearestDistance = Mathf.Infinity;
+        Enemy nearestEnemy = null;
+        Vector3 center = collider.transform.position;
 
         for (int i = 0; i < enemiesInsideCollider.Count; i++)
         {
-            float possibleDistance = Vector3.Distance(collider.gameObject.transform.position, enemiesInsideCollider[i].gameObject.transform.position);
-            if (index == null)
-            {
-                distance = possibleDistance;
-                index = i;
-            }
-            else
-            {
-                float distanceToCompare = Vector3.Distance(collider.gameObject.transform.position, enemiesInsideCollider[(int)index].gameObject.transform.position);
+            Enemy enemy = enemiesInsideCollider[i];
+            if (!IsValid(enemy))
+                continue;
 
-                //  && tower.ActionStrategy.CanShoot(enemiesInsideCollider[(int)index].gameObject)
-                if (distanceToCompare <= distance)
-                {
-                    distance = distanceToCompare;
-                    index = i;
-                }
+            float sqrDistance = (center - enemy.transform.position).sqrMagnitude;
+            if (sqrDistance < nearestDistance)
+            {
+                nearestDistance = sqrDistance;
+                nearestEnemy = enemy;
             }
         }
 
-        return enemiesInsideCollider[(int)index];
+        return nearestEnemy;
     }
 
     public Enemy GetFarthestEnemyInRadius()
     {
-        float distance = Mathf.Infinity;
-        int? index = null;
-
-        if (enemiesInsideCollider.Count == 0)
-            return null;
+        float farthestDistance = -Mathf.Infinity;
+        Enemy farthestEnemy = null;
+        Vector3 center = collider.transform.position;
 
         for (int i = 0; i < enemiesInsideCollider.Count; i++)
         {
-            if (index == null)
-            {
-                float possibleDistance = Vector3.Distance(collider.gameObject.transform.position, enemiesInsideCollider[i].gameObject.transform.position);
+            Enemy enemy = enemiesInsideCollider[i];
+            if (!IsValid(enemy))
+                continue;
 
-                distance = possibleDistance;
-                index = i;
-            }
-            else
+            float sqrDistance = (center - enemy.transform.position).sqrMagnitude;
+            if (sqrDistance > farthestDistance)
             {
-                float distanceToCompare = Vector3.Distance(collider.gameObject.transform.position, enemiesInsideCollider[(int)index].gameObject.transform.position);
-                //Debug.Log($"{distanceToCompare} > {distance}");
-                //  && tower.ActionStrategy.CanShoot(enemiesInsideCollider[(int)index].gameObject)
-                if (distanceToCompare >= distance)
-                {
-                    distance = distanceToCompare;
-                    index = i;
-                }
+                farthestDistance = sqrDistance;
+                farthestEnemy = enemy;
             }
         }
 
-        Debug.Log(index);
-        //Debug.Log($"{Vector3.Distance(collider.gameObject.transform.position, enemiesInsideCollider[(int)index].gameObject.transform.position)} FINAL DISTANCE");
-        return enemiesInsideCollider[(int)index];
+        return farthestEnemy;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+        if (other.gameObject.TryGetComponent<Enemy>(out Enemy enemy) && enemy.IsAlive)
         {
-            enemiesInsideCollider.Add(enemy);
-            enemy.OnDeath += HandleEnemyDeath;
+            if (!enemiesInsideCollider.Contains(enemy))
+            {
+                enemiesInsideCollider.Add(enemy);
+                enemy.OnDeath += HandleEnemyDeath;
+            }
         }
     }
 
@@ -194,7 +173,18 @@ public class Targetter : MonoBehaviour
 
     private void HandleEnemyDeath(GameObject gameObject)
     {
-        enemiesInsideCollider.Remove(gameObject.GetComponent<Enemy>());
+        Enemy enemy = gameObject.GetComponent<Enemy>();
+        enemy.OnDeath -= HandleEnemyDeath;
+        enemiesInsideCollider.Remove(enemy);
+    }
+
+    private void OnDestroy()
+    {
+        for (int i = 0; i < enemiesInsideCollider.Count; i++)
+        {
+            if (enemiesInsideCollider[i] != null)
+                enemiesInsideCollider[i].OnDeath -= HandleEnemyDeath;
+        }
     }
 }
 

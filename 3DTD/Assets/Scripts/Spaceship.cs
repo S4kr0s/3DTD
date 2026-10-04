@@ -29,9 +29,9 @@ public class Spaceship : MonoBehaviour
         direction.Normalize();
 
         // Rotate the spaceship towards its velocity direction
-        if (rb.velocity.magnitude > 0.1f)
+        if (rb.linearVelocity.magnitude > 0.1f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(rb.velocity.normalized);
+            Quaternion targetRotation = Quaternion.LookRotation(rb.linearVelocity.normalized);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.fixedDeltaTime);
         }
 

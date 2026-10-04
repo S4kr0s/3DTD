@@ -21,9 +21,9 @@ MonoBehaviour:
   Damage: 1
   Amount: 1
   Ammo: 1
-  FireRate: 2.5
+  FireRate: 1
   ReloadSpeed: 0
-  Range: 3
+  Range: 3.5
   Radius: 0
   Accuracy: 1
   Piercing: 1

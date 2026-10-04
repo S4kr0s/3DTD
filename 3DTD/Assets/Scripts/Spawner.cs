@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
+    // A released enemy stays inactive this long (game seconds) before it is reused, so homing
+    // projectiles and starfighters that still point at it notice it is gone first
+    private const float EnemyReuseDelay = 3f;
+
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private List<WaveData> waves;
     [SerializeField] private Transform[] spawnPoints;
@@ -22,8 +26,46 @@ public class Spawner : MonoBehaviour
     private static Spawner instance;
     public static Spawner Instance { get { return instance; } }
     public List<GameObject> EnemiesAlive { get { return enemiesAlive; } }
+    public int WaveCount => waves != null ? waves.Count : 0;
+    public bool IsWaveActive => currentGameState == GameState.PROGRESSING;
+    public bool IsWon => isWon;
+    public int LaneCount => spawnPoints != null && waypoints != null ? Mathf.Min(spawnPoints.Length, waypoints.Length) : 0;
 
     private bool isWon = false;
+    private int lanesSpawning = 0;
+
+    private struct PooledEnemy
+    {
+        public GameObject Enemy;
+        public float ReleasedAt;
+    }
+    private readonly Queue<PooledEnemy> enemyPool = new Queue<PooledEnemy>();
+
+    private class RuntimeWave
+    {
+        public readonly List<EnemyData> EnemiesToSpawn;
+        public readonly List<int> EnemySpawnCount;
+        public readonly List<float> SpawnDelay;
+        public readonly List<EnemyTrait> Traits;
+
+        public RuntimeWave(WaveData source)
+        {
+            EnemiesToSpawn = source.EnemiesToSpawn != null ? new List<EnemyData>(source.EnemiesToSpawn) : new List<EnemyData>();
+            EnemySpawnCount = source.EnemySpawnCount != null ? new List<int>(source.EnemySpawnCount) : new List<int>();
+            SpawnDelay = source.SpawnDelay != null ? new List<float>(source.SpawnDelay) : new List<float>();
+            Traits = new List<EnemyTrait>();
+            for (int i = 0; i < EnemiesToSpawn.Count; i++)
+                Traits.Add(source.TraitsAt(i));
+        }
+
+        public int EntryCount
+        {
+            get
+            {
+                return Mathf.Min(EnemiesToSpawn.Count, EnemySpawnCount.Count, SpawnDelay.Count);
+            }
+        }
+    }
 
     private void Start()
     {
@@ -44,10 +86,18 @@ public class Spawner : MonoBehaviour
         if (currentGameState != GameState.PROGRESSING)
             return;
 
-        if (enemiesAlive.Count != 0)
+        if (enemiesAlive.Count != 0 || lanesSpawning > 0)
             return;
 
         currentGameState = GameState.IDLE;
+
+        // The game counts as won as soon as the win round is cleared with lives left; later waves are freeplay
+        if (!isWon && GameManager.Instance.Round >= GameManager.Instance.GetWinRound(waves.Count) && GameManager.Instance.Lives > 0)
+        {
+            isWon = true;
+            GameManager.Instance.GameWon();
+        }
+
         OnWaveEnded?.Invoke(GameManager.Instance.Round);
 
         if (autoPlay)
@@ -58,95 +108,199 @@ public class Spawner : MonoBehaviour
 
     public void StartNextWave()
     {
-        OnWaveStarted?.Invoke(GameManager.Instance.Round);
-        if (currentGameState == GameState.IDLE)
+        if (currentGameState != GameState.IDLE || waves == null || waves.Count == 0 || spawnPoints == null || waypoints == null)
+            return;
+
+        bool infiniteWave = GameManager.Instance.Round >= waves.Count;
+        RuntimeWave wave = BuildRuntimeWave(infiniteWave);
+        int laneCount = Mathf.Min(spawnPoints.Length, waypoints.Length);
+        int spawnCount = GetSpawnCount(wave);
+
+        if (laneCount == 0 || spawnCount == 0)
+            return;
+
+        enemiesInWave = spawnCount * laneCount;
+
+        int roundStarted = GameManager.Instance.Round;
+        GameManager.Instance.Round++;
+        currentGameState = GameState.PROGRESSING;
+        OnWaveStarted?.Invoke(roundStarted);
+
+        for (int i = 0; i < laneCount; i++)
         {
-            if (waves.Count >= GameManager.Instance.Round + 1)
-            {
-                for (int i = 0; i < spawnPoints.Length; i++)
-                {
-                    StartCoroutine(SpawningWave(spawnPoints[i], waypoints[i], false));
-                }
-            }
-            else
-            {
-                // Infinite Rounds: Current Round with modifier of round stats
-                if (isWon)
-                {
-                    for (int i = 0; i < spawnPoints.Length; i++)
-                    {
-                        StartCoroutine(SpawningWave(spawnPoints[i], waypoints[i], true));
-                    }
-                }
-                else
-                {
-                    GameManager.Instance.GameWon();
-                    isWon = true;
-                    StartNextWave();
-                }
-            }
+            StartCoroutine(SpawningWave(spawnPoints[i], waypoints[i], wave));
         }
     }
 
-    IEnumerator SpawningWave(Transform spawnPoint, Waypoints waypoints, bool infiniteWave)
+    // A restored savegame continues after its last completed wave; a won game stays won (freeplay)
+    public void RestoreProgress(bool won)
     {
-        WaveData wave;
+        isWon = won;
+        currentGameState = GameState.IDLE;
+    }
+
+    // The points an enemy of this lane walks through: its spawn point, then every waypoint until it touches
+    // the End trigger. Some Waypoints lists hold their points twice (serialized and appended in Awake), so the
+    // raw list loops back after the exit; enemies never walk that part.
+    public void GetLanePath(int lane, List<Vector3> points)
+    {
+        points.Clear();
+        if (lane < 0 || lane >= LaneCount || spawnPoints[lane] == null || waypoints[lane] == null)
+            return;
+
+        Collider[] exits = GetExitColliders();
+        float enemyRadius = GetEnemyRadius();
+        Vector3 previous = spawnPoints[lane].position;
+        points.Add(previous);
+
+        foreach (Transform waypoint in waypoints[lane].WaypointsArray)
+        {
+            if (waypoint == null)
+                continue;
+
+            Vector3 next = waypoint.position;
+            if (TryFindExit(previous, next, exits, enemyRadius, out Vector3 exitPoint))
+            {
+                points.Add(exitPoint);
+                return;
+            }
+            points.Add(next);
+            previous = next;
+        }
+    }
+
+    private static Collider[] GetExitColliders()
+    {
+        GameObject end = End.Instance != null ? End.Instance.gameObject : GameObject.FindGameObjectWithTag("End");
+        return end != null ? end.GetComponents<Collider>() : new Collider[0];
+    }
+
+    private float GetEnemyRadius()
+    {
+        if (enemyPrefab != null && enemyPrefab.TryGetComponent<SphereCollider>(out SphereCollider sphere))
+            return sphere.radius * enemyPrefab.transform.localScale.x;
+        return 0.375f;
+    }
+
+    // First point of the segment where an enemy sphere touches one of the exit colliders
+    private static bool TryFindExit(Vector3 from, Vector3 to, Collider[] exits, float enemyRadius, out Vector3 exitPoint)
+    {
+        exitPoint = to;
+        if (exits.Length == 0)
+            return false;
+
+        const float step = 0.05f;
+        int steps = Mathf.Max(1, Mathf.CeilToInt(Vector3.Distance(from, to) / step));
+        for (int i = 1; i <= steps; i++)
+        {
+            Vector3 point = Vector3.Lerp(from, to, i / (float)steps);
+            foreach (Collider exit in exits)
+            {
+                if (exit != null && exit.enabled && (exit.ClosestPoint(point) - point).sqrMagnitude <= enemyRadius * enemyRadius)
+                {
+                    exitPoint = point;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private RuntimeWave BuildRuntimeWave(bool infiniteWave)
+    {
         if (infiniteWave)
         {
-            wave = new WaveData();
-            wave.enemySpawnCount = waves[waves.Count - 1].enemySpawnCount;
-            wave.enemiesToSpawn = waves[waves.Count - 1].enemiesToSpawn;
-            wave.spawnDelay = waves[waves.Count - 1].spawnDelay;
-            for (int i = 0; i < wave.EnemiesToSpawn.Count - 1; i++)
+            RuntimeWave wave = new RuntimeWave(waves[waves.Count - 1]);
+            int infiniteRoundOffset = GameManager.Instance.Round - (waves.Count - 1);
+            DifficultyProfile profile = GameManager.Instance.Profile;
+            float factor = profile != null ? profile.freeplayScaling : scalingFactor;
+
+            for (int i = 0; i < wave.EntryCount; i++)
             {
-                wave.EnemySpawnCount[i] += Mathf.RoundToInt(wave.EnemySpawnCount[i] * (scalingFactor * (GameManager.Instance.Round - (waves.Count - 1))));
-                wave.SpawnDelay[i] -= Mathf.RoundToInt(wave.SpawnDelay[i] * (scalingFactor * (GameManager.Instance.Round - (waves.Count - 1))));
+                float scaling = factor * infiniteRoundOffset;
+                wave.EnemySpawnCount[i] += Mathf.RoundToInt(wave.EnemySpawnCount[i] * scaling);
+                wave.SpawnDelay[i] = Mathf.Max(0.01f, wave.SpawnDelay[i] - (wave.SpawnDelay[i] * scaling));
             }
-        }
-        else
-            wave = waves[GameManager.Instance.Round];
-        GameManager.Instance.Round++;
 
-        int spawnCount = 0;
-
-        for (int i = 0; i < wave.EnemiesToSpawn.Count; i++)
-        {
-            spawnCount += wave.EnemySpawnCount[i];
+            return wave;
         }
 
-        enemiesInWave = spawnCount;
-        GameObject lastEnemy = null;
-
-        for (int i = 0; i < wave.EnemiesToSpawn.Count; i++)
-        {
-            for (int j = 0; j < wave.EnemySpawnCount[i]; j++)
-            {
-                enemyPrefab.GetComponent<Enemy>().data = wave.EnemiesToSpawn[i];
-                enemyPrefab.GetComponent<Enemy>().CurrentShape = wave.EnemiesToSpawn[i].StartShape;
-                enemyPrefab.GetComponent<Enemy>().CurrentColor = wave.EnemiesToSpawn[i].StartColor;
-
-                if (lastEnemy != null)
-                    lastEnemy.SetActive(true);
-
-                GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-                AddEnemyToList(enemy);
-                enemy.GetComponent<Enemy>().waypoints = waypoints;
-                enemy.SetActive(false);
-                lastEnemy = enemy;
-
-                if (currentGameState == GameState.IDLE)
-                    currentGameState = GameState.PROGRESSING;
-
-                yield return new WaitForSeconds(wave.SpawnDelay[i]);
-            }
-        }
-        lastEnemy.SetActive(true);
+        return new RuntimeWave(waves[GameManager.Instance.Round]);
     }
 
-    private void AddEnemyToList(GameObject enemy)
+    private int GetSpawnCount(RuntimeWave wave)
     {
-        enemiesAlive.Add(enemy);
-        enemy.GetComponent<Enemy>().OnDeath += HandleEnemyDeath;
+        int spawnCount = 0;
+
+        for (int i = 0; i < wave.EntryCount; i++)
+        {
+            if (wave.EnemiesToSpawn[i] != null)
+                spawnCount += Mathf.Max(0, wave.EnemySpawnCount[i]);
+        }
+
+        return spawnCount;
+    }
+
+    // Spawns on game time: several enemies can be due in one frame, and each one is moved forward
+    // by the time it was overdue, so spacing doesn't depend on the frame rate
+    IEnumerator SpawningWave(Transform spawnPoint, Waypoints waypoints, RuntimeWave wave)
+    {
+        lanesSpawning++;
+        float timer = 0f;
+
+        for (int i = 0; i < wave.EntryCount; i++)
+        {
+            if (wave.EnemiesToSpawn[i] == null)
+                continue;
+
+            for (int j = 0; j < Mathf.Max(0, wave.EnemySpawnCount[i]); j++)
+            {
+                while (timer > 0f)
+                {
+                    yield return null;
+                    timer -= Time.deltaTime;
+                }
+
+                Enemy enemy = SpawnEnemy(spawnPoint, waypoints, wave.EnemiesToSpawn[i], wave.Traits[i]);
+                if (timer < 0f)
+                    enemy.Move(-timer);
+
+                timer += wave.SpawnDelay[i];
+            }
+        }
+
+        lanesSpawning--;
+    }
+
+    private Enemy SpawnEnemy(Transform spawnPoint, Waypoints path, EnemyData data, EnemyTrait traits)
+    {
+        GameObject enemyObject = null;
+        if (enemyPool.Count > 0 && Time.time - enemyPool.Peek().ReleasedAt >= EnemyReuseDelay)
+            enemyObject = enemyPool.Dequeue().Enemy;
+
+        if (enemyObject == null)
+        {
+            enemyObject = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        }
+        else
+        {
+            enemyObject.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
+            enemyObject.SetActive(true);
+        }
+
+        Enemy enemy = enemyObject.GetComponent<Enemy>();
+        enemy.Initialize(data, path, traits);
+
+        enemiesAlive.Add(enemyObject);
+        enemy.OnDeath += HandleEnemyDeath;
+        return enemy;
+    }
+
+    // Called by Enemy when it died or leaked
+    public void ReleaseEnemy(GameObject enemy)
+    {
+        enemy.SetActive(false);
+        enemyPool.Enqueue(new PooledEnemy { Enemy = enemy, ReleasedAt = Time.time });
     }
 
     private void HandleEnemyDeath(GameObject enemy)

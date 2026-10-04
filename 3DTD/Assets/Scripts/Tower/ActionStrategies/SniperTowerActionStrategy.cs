@@ -3,94 +3,71 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Hitscan, map-wide. Without AMMO it fires continuously; the Magazines upgrade adds AMMO and a reload.
 public class SniperTowerActionStrategy : ActionStrategy
 {
-    private ProjectilePoolManager projectilePoolManager;
-
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private bool secondShotStrongTargetting;
     [SerializeField] private bool thirdShotLastTargetting;
 
-    private float internalMagazine;
-    private float internalReloadSpeed = 0f;
-    private float internalFireRate;
+    private FireCycle fireCycle;
     private Tower tower;
-    private GameObject target;
+    private Enemy target;
 
     public override void SetupActionStrategy(Tower tower)
     {
         this.tower = tower;
-        internalFireRate = tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE);
+        fireCycle = new FireCycle(tower.StatsManager.GetStatValue(Stat.StatType.AMMO));
     }
 
     public override void ExecuteAction()
     {
-        Enemy enemy = tower.Targetter.GetEnemy(tower.TargetBehaviour);
+        target = tower.Targetter.GetEnemy(tower.TargetBehaviour);
 
-        if (enemy != null)
-        {
-            target = enemy.gameObject;
+        if (target != null)
+            tower.RotationPoint.transform.LookAt(target.transform.position, Vector3.up);
 
-            tower.RotationPoint.transform.LookAt(enemy.transform.position, Vector3.up);
-        }
-        else
-            target = null;
+        StatsManager stats = tower.StatsManager;
+        int volleys = fireCycle.Tick(Time.deltaTime, target != null, stats.GetFireInterval(), stats.GetStatValue(Stat.StatType.AMMO), stats.GetReloadTime());
 
-        ShootAtTarget();
+        for (int i = 0; i < volleys; i++)
+            FireVolley();
     }
 
-    private void ShootAtTarget()
+    private void FireVolley()
     {
-        if (tower.StatsManager.GetStatValue(Stat.StatType.AMMO) != 0 && internalMagazine <= 0)
+        float damage = tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE);
+
+        foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
         {
-            internalReloadSpeed += Time.deltaTime;
-            if (internalReloadSpeed > tower.StatsManager.GetStatValue(Stat.StatType.RELOAD_SPEED))
+            if (!shootingPoint.IsReferenceEnabled)
+                continue;
+
+            // The previous shot of this frame may have killed the target
+            if (target == null || !target.IsAlive)
+                target = tower.Targetter.GetEnemy(tower.TargetBehaviour);
+
+            if (target != null)
             {
-                internalMagazine = tower.StatsManager.GetStatValue(Stat.StatType.AMMO);
-                internalReloadSpeed = 0;
+                target.TakeDamage(damage, DamageType.PROJECTILE, this.tower);
+                if (muzzleFlash != null)
+                    muzzleFlash.Play();
+            }
+
+            if (secondShotStrongTargetting)
+            {
+                Enemy strongestEnemy = tower.Targetter.GetStrongestEnemyInRadius();
+                if (strongestEnemy != null)
+                    strongestEnemy.TakeDamage(damage, DamageType.PROJECTILE, this.tower);
+            }
+
+            if (thirdShotLastTargetting)
+            {
+                Enemy lastEnemy = tower.Targetter.GetLastEnemyInRadius();
+                if (lastEnemy != null)
+                    lastEnemy.TakeDamage(damage, DamageType.PROJECTILE, this.tower);
             }
         }
-        else
-        {
-            internalFireRate -= Time.deltaTime;
-            if (internalFireRate <= 0 && target != null)
-            {
-                internalMagazine--;
-                foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
-                {
-                    if (!shootingPoint.IsReferenceEnabled)
-                        continue;
-
-                    internalFireRate = tower.StatsManager.GetStatValue(Stat.StatType.FIRERATE);
-
-                    if (target.TryGetComponent<Enemy>(out Enemy enemy))
-                    {
-                        enemy.TakeDamage(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE), DamageType.PROJECTILE, this.tower);
-                        muzzleFlash.Play();
-                    }
-
-                    if (secondShotStrongTargetting)
-                    {
-                        Enemy strongestEnemy = tower.Targetter.GetStrongestEnemyInRadius();
-                        if (strongestEnemy != null)
-                            strongestEnemy.TakeDamage(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE), DamageType.PROJECTILE, this.tower);
-                    }
-
-                    if (thirdShotLastTargetting)
-                    {
-                        Enemy lastEnemy = tower.Targetter.GetLastEnemyInRadius();
-                        if (lastEnemy != null)
-                            lastEnemy.TakeDamage(tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE), DamageType.PROJECTILE, this.tower);
-                    }
-                }
-            }
-        }
-    }
-
-    public void ReturnToPool(GameObject obj)
-    {
-        obj.GetComponent<Projectile>().OnProjectileDeath -= ReturnToPool;
-        projectilePoolManager.ReturnToPool(obj);
     }
 
     public override bool CanShoot(GameObject enemy)
@@ -101,7 +78,6 @@ public class SniperTowerActionStrategy : ActionStrategy
         {
             if (shootingPoint.IsReferenceEnabled)
             {
-                Vector3 raycastDirection = enemy.transform.position - shootingPoint.transform.position;
                 if (Physics.Linecast(shootingPoint.transform.position, enemy.transform.position, out RaycastHit hit))
                 {
                     if (hit.collider.gameObject == enemy)

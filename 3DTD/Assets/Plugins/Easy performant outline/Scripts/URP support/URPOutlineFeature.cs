@@ -11,6 +11,9 @@ using UnityEngine.Rendering.Universal;
 #else
 using UnityEngine.Rendering.LWRP;
 #endif
+#if UNITY_6000_0_OR_NEWER
+using UnityEngine.Rendering.RenderGraphModule;
+#endif
 
 public class URPOutlineFeature : ScriptableRendererFeature
 {
@@ -31,8 +34,126 @@ public class URPOutlineFeature : ScriptableRendererFeature
         public SRPOutline()
         {
             Parameters.CheckInitialization();
+
+#if UNITY_6000_0_OR_NEWER
+            // The outline is composited onto the camera color, so it must not be the backbuffer.
+            requiresIntermediateTexture = true;
+#endif
         }
 
+        private void RenderOutlines()
+        {
+            if (Outliner.RenderingStrategy == OutlineRenderingStrategy.Default)
+            {
+                OutlineEffect.SetupOutline(Parameters);
+                Parameters.BlitMesh = null;
+                Parameters.MeshPool.ReleaseAllMeshes();
+            }
+            else
+            {
+                temporaryOutlinables.Clear();
+                temporaryOutlinables.AddRange(Parameters.OutlinablesToRender);
+
+                Parameters.OutlinablesToRender.Clear();
+                Parameters.OutlinablesToRender.Add(null);
+
+                foreach (var outlinable in temporaryOutlinables)
+                {
+                    Parameters.OutlinablesToRender[0] = outlinable;
+                    OutlineEffect.SetupOutline(Parameters);
+                    Parameters.BlitMesh = null;
+                }
+
+                Parameters.MeshPool.ReleaseAllMeshes();
+            }
+        }
+
+#if UNITY_6000_0_OR_NEWER
+        // URP 17 (Unity 6) removed the non-render-graph Execute path, so the outline commands are
+        // recorded into the frame's command buffer from an unsafe render graph pass instead.
+        private class PassData
+        {
+            public SRPOutline Pass;
+            public Outliner Outliner;
+            public Camera Camera;
+            public bool IsSceneViewCamera;
+            public RenderTextureDescriptor TargetDescriptor;
+            public TextureHandle Color;
+            public TextureHandle Depth;
+        }
+
+        public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
+        {
+            if (Outliner == null || !Outliner.enabled)
+                return;
+
+            var resourceData = frameData.Get<UniversalResourceData>();
+            var cameraData = frameData.Get<UniversalCameraData>();
+
+            if (resourceData.isActiveTargetBackBuffer || !resourceData.activeColorTexture.IsValid())
+                return;
+
+            using (var builder = renderGraph.AddUnsafePass<PassData>("Easy Performant Outline", out var passData))
+            {
+                passData.Pass = this;
+                passData.Outliner = Outliner;
+                passData.Camera = cameraData.camera;
+                passData.IsSceneViewCamera = cameraData.isSceneViewCamera;
+                passData.TargetDescriptor = cameraData.cameraTargetDescriptor;
+                passData.Color = resourceData.activeColorTexture;
+                passData.Depth = resourceData.activeDepthTexture;
+
+                builder.UseTexture(passData.Color, AccessFlags.ReadWrite);
+                if (passData.Depth.IsValid())
+                    builder.UseTexture(passData.Depth, AccessFlags.ReadWrite);
+
+                builder.AllowPassCulling(false);
+                builder.AllowGlobalStateModification(true);
+
+                builder.SetRenderFunc((PassData data, UnsafeGraphContext context) =>
+                {
+                    var buffer = CommandBufferHelpers.GetNativeCommandBuffer(context.cmd);
+                    RenderTargetIdentifier color = data.Color;
+                    RenderTargetIdentifier depth = data.Depth.IsValid() ? (RenderTargetIdentifier)data.Depth : color;
+                    data.Pass.RecordOutline(buffer, data.Outliner, data.Camera, data.IsSceneViewCamera, data.TargetDescriptor, color, depth);
+                });
+            }
+        }
+
+        private void RecordOutline(CommandBuffer buffer, Outliner outliner, Camera camera, bool isSceneViewCamera, RenderTextureDescriptor targetDescriptor, RenderTargetIdentifier colorTarget, RenderTargetIdentifier depthTarget)
+        {
+            if (outliner == null || !outliner.enabled)
+                return;
+
+            // OutlineEffect records into Parameters.Buffer, so point it at the render graph's buffer for this pass.
+            var ownBuffer = Parameters.Buffer;
+            Parameters.Buffer = buffer;
+            Outliner = outliner;
+
+            try
+            {
+                Outlinable.GetAllActiveOutlinables(camera, Parameters.OutlinablesToRender);
+
+                Outliner.UpdateSharedParameters(Parameters, camera, isSceneViewCamera);
+
+                RendererFilteringUtility.Filter(camera, Parameters);
+
+                Parameters.TargetWidth = targetDescriptor.width;
+                Parameters.TargetHeight = targetDescriptor.height;
+
+                Parameters.Antialiasing = targetDescriptor.msaaSamples;
+
+                Parameters.Target = RenderTargetUtility.ComposeTarget(Parameters, colorTarget);
+                Parameters.DepthTarget = RenderTargetUtility.ComposeTarget(Parameters, depthTarget);
+
+                RenderOutlines();
+            }
+            finally
+            {
+                Parameters.Buffer = ownBuffer;
+            }
+        }
+#else
         private FieldInfo nameId = typeof(RenderTargetIdentifier).GetField("m_NameID", BindingFlags.NonPublic | BindingFlags.Instance);
 
         private bool IsDepthTextureAvailable(ScriptableRenderer renderer)
@@ -98,32 +219,11 @@ public class URPOutlineFeature : ScriptableRendererFeature
 #endif
 
             Parameters.Buffer.Clear();
-            if (Outliner.RenderingStrategy == OutlineRenderingStrategy.Default)
-            {
-                OutlineEffect.SetupOutline(Parameters);
-                Parameters.BlitMesh = null;
-                Parameters.MeshPool.ReleaseAllMeshes();
-            }
-            else
-            {
-                temporaryOutlinables.Clear();
-                temporaryOutlinables.AddRange(Parameters.OutlinablesToRender);
-
-                Parameters.OutlinablesToRender.Clear();
-                Parameters.OutlinablesToRender.Add(null);
-
-                foreach (var outlinable in temporaryOutlinables)
-                {
-                    Parameters.OutlinablesToRender[0] = outlinable;
-                    OutlineEffect.SetupOutline(Parameters);
-                    Parameters.BlitMesh = null;
-                }
-
-                Parameters.MeshPool.ReleaseAllMeshes();
-            }
+            RenderOutlines();
 
             context.ExecuteCommandBuffer(Parameters.Buffer);
         }
+#endif
     }
 
     private class Pool

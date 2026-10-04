@@ -9,6 +9,8 @@ public class Clusterbomb : MonoBehaviour
     public float radius = 1f;
     public Tower tower;
 
+    private static readonly Collider[] overlapBuffer = new Collider[128];
+
     private void Update()
     {
         lifetime -= Time.deltaTime;
@@ -35,11 +37,11 @@ public class Clusterbomb : MonoBehaviour
 
     private void DamageInArea()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, radius);
+        int count = Physics.OverlapSphereNonAlloc(this.transform.position, radius, overlapBuffer);
 
-        foreach (var hitCollider in hitColliders)
+        for (int i = 0; i < count; i++)
         {
-            if (hitCollider.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+            if (overlapBuffer[i].gameObject.TryGetComponent<Enemy>(out Enemy enemy))
             {
                 enemy.TakeDamage(damage, DamageType.EXPLOSIVE, this.tower);
             }

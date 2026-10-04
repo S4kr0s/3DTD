@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f1b1a09b7517d4283150c8686bcf2d, type: 3}
   m_Name: SniperTowerStatsConfig
   m_EditorClassIdentifier: 
-  Cost: 100
+  Cost: 170
   Worth: 1
   MaximumHealth: 0
   HealthRegen: 0
   MaximumArmor: 0
   ArmorRegen: 0
-  Damage: 1
+  Damage: 3
   Amount: 1
   Ammo: 1
-  FireRate: 5
+  FireRate: 2.5
   ReloadSpeed: 0
-  Range: 25
+  Range: 12
   Radius: 0
   Accuracy: 1
   Piercing: 1

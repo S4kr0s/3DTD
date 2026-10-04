@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f1b1a09b7517d4283150c8686bcf2d, type: 3}
   m_Name: BeamTowerStatsConfig
   m_EditorClassIdentifier: 
-  Cost: 100
+  Cost: 125
   Worth: 1
   MaximumHealth: 0
   HealthRegen: 0
@@ -21,12 +21,12 @@ MonoBehaviour:
   Damage: 1
   Amount: 1
   Ammo: 0
-  FireRate: 2.5
+  FireRate: 1
   ReloadSpeed: 0
-  Range: 3
+  Range: 4
   Radius: 0
   Accuracy: 1
-  Piercing: 10
+  Piercing: 6
   Lifetime: 1.5
   Speed: 5.5
   Size: 1

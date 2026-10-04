@@ -14,8 +14,14 @@ public class ProjectileBomb : Projectile
     [SerializeField] private GameObject clusterProjectilePrefab;
     [SerializeField] private Transform[] clusterProjectileFirePoints;
     [SerializeField] private float clusterLifetime = 0.5f;
+    [Tooltip("Share of the rocket's damage and blast radius each bomblet gets")]
+    [SerializeField] private float clusterDamageShare = 0.5f;
+    [SerializeField] private float clusterRadiusShare = 0.6f;
 
     private bool updateDisabled = false;
+
+    // Shared by all bombs; explosions are resolved one at a time on the main thread
+    private static readonly Collider[] overlapBuffer = new Collider[128];
 
     private void OnEnable()
     {
@@ -45,6 +51,10 @@ public class ProjectileBomb : Projectile
     private void Update()
     {
         if (updateDisabled) return;
+
+        // The target died or leaked; keep flying straight
+        if (target != null && !target.activeInHierarchy)
+            target = null;
 
         lifetime -= Time.deltaTime;
 
@@ -110,18 +120,20 @@ public class ProjectileBomb : Projectile
         {
             Clusterbomb clusterBomb = Instantiate(clusterProjectilePrefab, item.position, item.rotation, null).GetComponent<Clusterbomb>();
             clusterBomb.tower = this.tower;
+            // Bomblets used to be hardcoded to 1 damage and radius 1; they now scale with the tower's stats
+            clusterBomb.damage = damage * clusterDamageShare;
+            clusterBomb.radius = radius * clusterRadiusShare;
             i++;
         }
-        Debug.Log(i);
     }
 
     private void DamageInArea()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, radius);
+        int count = Physics.OverlapSphereNonAlloc(this.transform.position, radius, overlapBuffer);
 
-        foreach (var hitCollider in hitColliders)
+        for (int i = 0; i < count; i++)
         {
-            if (hitCollider.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+            if (overlapBuffer[i].gameObject.TryGetComponent<Enemy>(out Enemy enemy))
             {
                 enemy.TakeDamage(damage, DamageType.EXPLOSIVE, this.tower);
             }

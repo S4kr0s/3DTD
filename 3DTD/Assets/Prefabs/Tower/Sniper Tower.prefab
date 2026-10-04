@@ -1581,7 +1581,7 @@ MonoBehaviour:
   displayName: Sniper Tower
   description: Targets enemies map-wide.
   uiSprite: {fileID: 21300000, guid: eb96ed2e2d75f62439877faa835706bf, type: 3}
-  cost: 100
+  cost: 170
   upgradeManager: {fileID: 8025507499586909913}
   statsManager: {fileID: 147286872823315961}
   targetter: {fileID: 1697263479036677693}
@@ -1731,12 +1731,12 @@ MonoBehaviour:
     - name: Large Caliber
       description: 'Bullets are now even deadlier.
 
-        +2 Damage'
-      price: 275
+        +3 Damage'
+      price: 350
       upgrades: []
       statUpgrades:
       - targetStat: 5
-        upgradeValue: 2
+        upgradeValue: 3
         isModifier: 0
       upgradeVisualGameObjects:
       - {fileID: 6255049769531323086}
@@ -1746,15 +1746,14 @@ MonoBehaviour:
     - name: Energy Overload
       description: 'Bullets are shot with an excessive amount of energy.
 
-        +7
-        Damage
+        +9 Damage
 
-        -25% Fire-Rate'
-      price: 475
+        -20% Fire Rate'
+      price: 940
       upgrades: []
       statUpgrades:
       - targetStat: 5
-        upgradeValue: 7
+        upgradeValue: 9
         isModifier: 0
       - targetStat: 8
         upgradeValue: 25
@@ -1765,25 +1764,19 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Catastrophic Overcharge
-      description: 'Bullets will now destroy every enemy with
+      description: 'Every shot obliterates. Built to take down bosses.
 
-        one shot,
-        except the biggest enemies.
+        +45 Damage
 
-        +90 Damage
-
-        -500% Fire-Rate
-
-        -200%
-        Fire-Rate'
-      price: 4500
+        -50% Fire Rate'
+      price: 2100
       upgrades: []
       statUpgrades:
       - targetStat: 5
-        upgradeValue: 90
+        upgradeValue: 45
         isModifier: 0
       - targetStat: 8
-        upgradeValue: 500
+        upgradeValue: 100
         isModifier: 1
       upgradeVisualGameObjects:
       - {fileID: 828000338773480220}
@@ -1793,28 +1786,24 @@ MonoBehaviour:
   - IsBlocked: 0
     upgradeModules:
     - name: Magazines!
-      description: 'Adds a magazine to the tower. This allows
+      description: 'Adds a magazine: quick shots, then a reload.
 
-        the tower
-        to shoot more bullets but has to reload.
+        +3 Ammo
 
-        New: 2 Ammunition
+        1.5 s Reload
 
-        New:
-        Reload Speed of 2.5 Seconds.
-
-        +25% Fire-Rate'
-      price: 225
+        +150% Fire Rate'
+      price: 130
       upgrades: []
       statUpgrades:
       - targetStat: 7
-        upgradeValue: 2
+        upgradeValue: 3
         isModifier: 0
       - targetStat: 9
-        upgradeValue: 2.5
+        upgradeValue: 1.5
         isModifier: 0
       - targetStat: 8
-        upgradeValue: -25
+        upgradeValue: -60
         isModifier: 1
       upgradeVisualGameObjects:
       - {fileID: 6454343797193787684}
@@ -1822,21 +1811,13 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Double-Shot
-      description: 'Adds a second barrel to the tower.
+      description: 'Adds a second barrel that always shoots the strongest enemy in range.
 
-        Will always shoot
-        at the strongest target.
-
-        +1 Shot
-
-        +2 Ammo'
-      price: 535
+        +1 Shot at the strongest enemy'
+      price: 440
       upgrades:
       - {fileID: 3248994657687673760}
-      statUpgrades:
-      - targetStat: 7
-        upgradeValue: 2
-        isModifier: 0
+      statUpgrades: []
       upgradeVisualGameObjects:
       - {fileID: 8892530099485668318}
       disableVisualGameObjects:
@@ -1844,21 +1825,13 @@ MonoBehaviour:
       isActive: 0
       isAvailable: 0
     - name: Triple-Shot
-      description: 'Adds yet another barrel. Will always
+      description: 'Adds a third barrel that always shoots the last enemy in range.
 
-        target the last
-        enemy in range.
-
-        +1 Shot
-
-        +2 Ammo'
-      price: 5400
+        +1 Shot at the last enemy'
+      price: 1000
       upgrades:
       - {fileID: 4122049944668370051}
-      statUpgrades:
-      - targetStat: 7
-        upgradeValue: 2
-        isModifier: 0
+      statUpgrades: []
       upgradeVisualGameObjects:
       - {fileID: 434984565196647477}
       disableVisualGameObjects:
@@ -1871,18 +1844,17 @@ MonoBehaviour:
     - name: Fast Shooting
       description: 'Shoots quite a bit faster.
 
-        +25% Fire-Rate
+        +50% Fire Rate
 
-        +25%
-        Reload-Speed (if applicable)'
-      price: 175
+        -20% Reload Time'
+      price: 65
       upgrades: []
       statUpgrades:
       - targetStat: 8
-        upgradeValue: -25
+        upgradeValue: -33.33
         isModifier: 1
       - targetStat: 9
-        upgradeValue: -25
+        upgradeValue: -20
         isModifier: 1
       upgradeVisualGameObjects:
       - {fileID: 6207593465516816226}
@@ -1893,18 +1865,17 @@ MonoBehaviour:
     - name: Even Faster Shooting
       description: 'Shoots a substantial amount faster.
 
-        +25% Fire-Rate
+        +60% Fire Rate
 
-        +25%
-        Reload-Speed (if applicable)'
-      price: 475
+        -20% Reload Time'
+      price: 220
       upgrades: []
       statUpgrades:
       - targetStat: 8
-        upgradeValue: -25
+        upgradeValue: -37.5
         isModifier: 1
       - targetStat: 9
-        upgradeValue: -25
+        upgradeValue: -20
         isModifier: 1
       upgradeVisualGameObjects:
       - {fileID: 3290437965191889724}
@@ -1915,18 +1886,17 @@ MonoBehaviour:
     - name: Bullet Hell
       description: 'Shoots faster than you can see.
 
-        +100% Fire-Rate
+        +150% Fire Rate
 
-        +100%
-        Reload-Speed'
-      price: 3250
+        -50% Reload Time'
+      price: 1000
       upgrades: []
       statUpgrades:
       - targetStat: 8
-        upgradeValue: -100
+        upgradeValue: -60
         isModifier: 1
       - targetStat: 9
-        upgradeValue: -100
+        upgradeValue: -50
         isModifier: 1
       upgradeVisualGameObjects:
       - {fileID: 1755070486795082644}

@@ -1,0 +1,61 @@
+{
+  "_comment": "Wave sets for write_waves.py. Beginner02-05 are tuned to their map's strategy: 02 Ring Road (long range: heavy/fast/regen checks, no armor checks, gentler growth), 03 Back to Back (close quarters and splash: swarms), 04 Upside Down (beams: dense lines), 05 Corkscrew (Hangar: swarms). Parameters are documented in wavegen.js. Calibrated on Medium with the meta agent (see README, 'Balancing workflow'). 'assign' says where the Spawner's wave list lives: a prefab whose waves list is replaced, or a nested Spawner prefab instance inside a container prefab that gets list overrides.",
+  "sets": [
+    {
+      "name": "Beginner01",
+      "level": "Beginner Level 01",
+      "rounds": 50,
+      "params": { "scale": 1.05, "growth": [[1, 1.175], [31, 1.1], [61, 1.05]], "checks": "default", "countSlope": 1.4, "laneFactor": 1 },
+      "assign": { "prefab": "Assets/SimplePrefabs/SpawnerNew.prefab" },
+      "extraStartingMoney": 0
+    },
+    {
+      "name": "Beginner02",
+      "level": "Beginner Level 02",
+      "rounds": 50,
+      "params": { "scale": 0.95, "growth": [[1, 1.16], [31, 1.08]], "checks": { "5": "swarm", "10": "heavy", "15": "fast", "20": "boss", "25": "regen", "30": "heavy", "35": "fast", "40": "regen-heavy", "45": "heavy", "50": "boss" }, "countSlope": 1.2, "laneFactor": 1 },
+      "assign": { "container": "Assets/Prefabs/Maps/BeginnerLevel02.prefab", "spawnerPrefab": "Assets/SimplePrefabs/SpawnerNew.prefab" },
+      "extraStartingMoney": 0
+    },
+    {
+      "name": "Beginner03",
+      "level": "Beginner Level 03",
+      "rounds": 50,
+      "params": { "scale": 1.05, "growth": [[1, 1.175], [31, 1.1], [61, 1.05]], "checks": "swarm", "countSlope": 1.8, "laneFactor": 1 },
+      "assign": { "container": "Assets/Prefabs/Maps/BeginnerLevel03.prefab", "spawnerPrefab": "Assets/SimplePrefabs/SpawnerNew.prefab" },
+      "extraStartingMoney": 0
+    },
+    {
+      "name": "Beginner04",
+      "level": "Beginner Level 04",
+      "rounds": 50,
+      "params": { "scale": 1.05, "growth": [[1, 1.175], [31, 1.1], [61, 1.05]], "checks": "default", "countSlope": 1.7, "laneFactor": 1 },
+      "assign": { "container": "Assets/Prefabs/Maps/BeginnerLevel04.prefab", "spawnerPrefab": "Assets/SimplePrefabs/SpawnerNew.prefab" },
+      "extraStartingMoney": 0
+    },
+    {
+      "name": "Beginner05",
+      "level": "Beginner Level 05",
+      "rounds": 50,
+      "params": { "scale": 0.95, "growth": [[1, 1.175], [31, 1.1], [61, 1.05]], "checks": "swarm", "countSlope": 1.8, "laneFactor": 1 },
+      "assign": { "container": "Assets/Prefabs/Maps/BeginnerLevel05.prefab", "spawnerPrefab": "Assets/SimplePrefabs/SpawnerNew.prefab" },
+      "extraStartingMoney": 0
+    },
+    {
+      "name": "Intermediate01",
+      "level": "Intermediate Level 01",
+      "rounds": 100,
+      "params": { "scale": 0.45, "growth": [[1, 1.165], [31, 1.065], [61, 1.05]], "checks": "swarm", "countSlope": 1.4, "laneFactor": 0.5 },
+      "assign": { "prefab": "Assets/Prefabs/Maps/IntermediateLevel01.prefab" },
+      "extraStartingMoney": 250
+    },
+    {
+      "name": "Intermediate02",
+      "level": "Intermediate Level 02",
+      "rounds": 100,
+      "params": { "scale": 0.85, "growth": [[1, 1.17], [31, 1.08], [61, 1.05]], "checks": "swarm", "countSlope": 1.2, "laneFactor": 0.5 },
+      "assign": { "prefab": "Assets/Prefabs/Maps/IntermediateLevel02.prefab" },
+      "extraStartingMoney": 250
+    }
+  ]
+}

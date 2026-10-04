@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86f1b1a09b7517d4283150c8686bcf2d, type: 3}
   m_Name: CoreTowerStatsConfig
   m_EditorClassIdentifier: 
-  Cost: 50
+  Cost: 70
   Worth: 1
   MaximumHealth: 0
   HealthRegen: 0
@@ -20,9 +20,9 @@ MonoBehaviour:
   ArmorRegen: 0
   Damage: 1
   Amount: 1
-  Ammo: 2
-  FireRate: 1
-  ReloadSpeed: 5
+  Ammo: 3
+  FireRate: 0.6
+  ReloadSpeed: 2.5
   Range: 3
   Radius: 0
   Accuracy: 1

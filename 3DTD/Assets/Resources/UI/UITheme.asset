@@ -1,0 +1,1902 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0d0c3045532a4975a7d44948e70b626, type: 3}
+  m_Name: UITheme
+  m_EditorClassIdentifier: Assembly-CSharp::UITheme
+  ground: {r: 0.043137256, g: 0.050980393, b: 0.16470589, a: 1}
+  accent: {r: 1, g: 0.5411765, b: 0.23921569, a: 1}
+  accentLight: {r: 1, g: 0.74509805, b: 0.57254905, a: 1}
+  accentDark: {r: 0.9254902, g: 0.39607844, b: 0.15294118, a: 1}
+  accentBand: {r: 0.6117647, g: 0.22745098, b: 0.07058824, a: 1}
+  textOnAccent: {r: 0.16470589, g: 0.05490196, b: 0.007843138, a: 1}
+  accentText: {r: 1, g: 0.7254902, b: 0.5411765, a: 1}
+  text: {r: 0.9529412, g: 0.9490196, b: 1, a: 1}
+  textMuted: {r: 0.7058824, g: 0.7058824, b: 0.89411765, a: 1}
+  textDim: {r: 0.5411765, g: 0.54509807, b: 0.7529412, a: 1}
+  textLocked: {r: 0.60784316, g: 0.6117647, b: 0.8117647, a: 1}
+  segmentText: {r: 0.8627451, g: 0.8666667, b: 1, a: 1}
+  tabText: {r: 0.6627451, g: 0.6666667, b: 0.84705883, a: 1}
+  cantAfford: {r: 1, g: 0.4392157, b: 0.53333336, a: 1}
+  iconTint: {r: 0.8117647, g: 0.77254903, b: 1, a: 1}
+  impossibleText: {r: 0.9529412, g: 0.72156864, b: 1, a: 1}
+  divider: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.35}
+  dropShadow: {r: 0.007843138, g: 0.011764706, b: 0.07058824, a: 0.55}
+  displaySemiBold: {fileID: 11400000, guid: 960a4a1fee038423aa04c0a49d711d9b, type: 2}
+  displayBold: {fileID: 11400000, guid: 7f6a6978d2a4943d9aaa8c7cba6e7253, type: 2}
+  displayExtraBold: {fileID: 11400000, guid: b81218380dce5435392e5af2bdd5146f, type: 2}
+  labelMedium: {fileID: 11400000, guid: b5f29bad05304450b9ab7277dfd32ce8, type: 2}
+  labelSemiBold: {fileID: 11400000, guid: c72df4aa697254381b2ff24a4f97e6d3, type: 2}
+  labelBold: {fileID: 11400000, guid: 1f393a07920384164ace0f7c2173264d, type: 2}
+  labelExtraBold: {fileID: 11400000, guid: 9dbec836a26194eee9c3e94b0b2a02fe, type: 2}
+  tabularDigitWidth: 0.66
+  tabularLabelDigitWidth: 0.6
+  glow: {fileID: 21300000, guid: efef2c03df06344b781bf322f17418cb, type: 3}
+  shadow: {fileID: 21300000, guid: 7a62a474488bb449c8b5345fe623e3f1, type: 3}
+  cornerLine: {fileID: 21300000, guid: 588117be096524e479e5109d659bd0ad, type: 3}
+  medalDot: {fileID: 21300000, guid: 76a3ce9928f68499898d505e39d16694, type: 3}
+  medalRing: {fileID: 21300000, guid: 7e55451f41fe24297a26fa6272ac0c49, type: 3}
+  dotPlain: {fileID: 21300000, guid: 7822026e426a6481d91994bd39718ada, type: 3}
+  circle: {fileID: 21300000, guid: 94af43a0baa334c62856c11395a8dacc, type: 3}
+  diamond: {fileID: 21300000, guid: fa455034d079a41e89521c8549323ccb, type: 3}
+  notch: {fileID: 21300000, guid: 79344d9df9d9545e79daa9fc1f2c8ac1, type: 3}
+  gridCell: {fileID: 21300000, guid: 9658d1081846a484dbcdb637e85ab4ca, type: 3}
+  dash: {fileID: 21300000, guid: 8741b010dc07f496ca90a69ed85eca66, type: 3}
+  fadeVertical: {fileID: 21300000, guid: 2852096e6df59456598e9439d75b5d25, type: 3}
+  fadeHorizontal: {fileID: 21300000, guid: 78051ef6f51434680b900e6428e78d33, type: 3}
+  facetSpriteScale: 1.8
+  icons:
+  - name: fx_emblem_tower
+    sprite: {fileID: 21300000, guid: 988a80a86561744df928be73b17b89e4, type: 3}
+  - name: fx_gem_hull
+    sprite: {fileID: 21300000, guid: c22ea46e149e04047b1a3b9ea0e5077b, type: 3}
+  - name: fx_gem_research
+    sprite: {fileID: 21300000, guid: a43b70af259f349a4aadb99d9b96f7b7, type: 3}
+  - name: fx_gem_scrap
+    sprite: {fileID: 21300000, guid: 59b49a548d23b471da20b4d01cb74dad, type: 3}
+  - name: fx_gem_wave
+    sprite: {fileID: 21300000, guid: 7a3ecf39dcf214a7bb16f8ee28490ee2, type: 3}
+  - name: fx_logo_cube
+    sprite: {fileID: 21300000, guid: 8daf273f7b898484e88a8f0e7432a99f, type: 3}
+  - name: fx_medal_impossible
+    sprite: {fileID: 21300000, guid: 99a3ede5702504b578407512cb0e4b69, type: 3}
+  - name: fx_medal_impossible_empty
+    sprite: {fileID: 21300000, guid: 1f7d563cd27cb490d80049ad2884017e, type: 3}
+  - name: ic_amount
+    sprite: {fileID: 21300000, guid: a06b3c54928064dcbb8bd17663096227, type: 3}
+  - name: ic_arrow_up
+    sprite: {fileID: 21300000, guid: abdcb6d0c43f74563bc1ac389d2d5d65, type: 3}
+  - name: ic_bolt
+    sprite: {fileID: 21300000, guid: c38f9adc9f97d442cbea178e46b9c3f1, type: 3}
+  - name: ic_book
+    sprite: {fileID: 21300000, guid: af52f009321044727940accb41e744f7, type: 3}
+  - name: ic_burst
+    sprite: {fileID: 21300000, guid: 7fa69296d2d5f4ac5877c29bd086d2c5, type: 3}
+  - name: ic_capsule
+    sprite: {fileID: 21300000, guid: 0f72dcb415acf4036a589722e89a687c, type: 3}
+  - name: ic_check
+    sprite: {fileID: 21300000, guid: 4f6971747ab9540afa25c20d4553d978, type: 3}
+  - name: ic_chevron_down
+    sprite: {fileID: 21300000, guid: 8468d6566d4944cda94b1c96c93fff3f, type: 3}
+  - name: ic_chevron_left
+    sprite: {fileID: 21300000, guid: d61be8e9085f342d78be9a50b2d63e22, type: 3}
+  - name: ic_chevron_right
+    sprite: {fileID: 21300000, guid: ce37dc34aa78148258dec2d02f22381f, type: 3}
+  - name: ic_chevrons_double
+    sprite: {fileID: 21300000, guid: 47e5f392b704147eabd3f70ff365b5e0, type: 3}
+  - name: ic_close
+    sprite: {fileID: 21300000, guid: 230916886823d4caca13458f79a1ad12, type: 3}
+  - name: ic_cluster
+    sprite: {fileID: 21300000, guid: 2a2c2dda22ed048508a337fe6c3b487a, type: 3}
+  - name: ic_coin
+    sprite: {fileID: 21300000, guid: bd8f2b118b9c143eaa2b145604fe718c, type: 3}
+  - name: ic_coin_hex
+    sprite: {fileID: 21300000, guid: ac12482f7f86d40f490fac03f9824413, type: 3}
+  - name: ic_crosshair
+    sprite: {fileID: 21300000, guid: f921ae32706be436d8a2f95816153123, type: 3}
+  - name: ic_crown
+    sprite: {fileID: 21300000, guid: 187b4a453681b45638b9b7c48b0bc9b9, type: 3}
+  - name: ic_cube
+    sprite: {fileID: 21300000, guid: 9bd29aab22c67409db283508c72d3f13, type: 3}
+  - name: ic_dots
+    sprite: {fileID: 21300000, guid: d70301f40e43d4fc9bb0e378865ec639, type: 3}
+  - name: ic_drop
+    sprite: {fileID: 21300000, guid: dcb6912e42b8b4df097476c08a9f390d, type: 3}
+  - name: ic_exit
+    sprite: {fileID: 21300000, guid: 17df1bcbdb3434a2b8f88e9c61ee297f, type: 3}
+  - name: ic_flame
+    sprite: {fileID: 21300000, guid: ea08c2b10c4dc4a2dbfcfa99dd1506c9, type: 3}
+  - name: ic_flask
+    sprite: {fileID: 21300000, guid: 24eb65eee49194be2aa029abfd90a161, type: 3}
+  - name: ic_gamepad
+    sprite: {fileID: 21300000, guid: 90d53e34fcbe44f59941a8f9a781dcf4, type: 3}
+  - name: ic_gauge
+    sprite: {fileID: 21300000, guid: 285730115c46841ccbc66251f7b616e9, type: 3}
+  - name: ic_globe
+    sprite: {fileID: 21300000, guid: 609142c4ca1a2460babcc8a05e15af7e, type: 3}
+  - name: ic_grid4
+    sprite: {fileID: 21300000, guid: c39bb517d85b14a1080a5ac54b17dc53, type: 3}
+  - name: ic_home
+    sprite: {fileID: 21300000, guid: e17f96dcf0b474576b6ae528fc723b28, type: 3}
+  - name: ic_info
+    sprite: {fileID: 21300000, guid: 1831a7199a1aa4603a31dbe495145719, type: 3}
+  - name: ic_kill
+    sprite: {fileID: 21300000, guid: 0f9f62a448587459c9e3d39876746ab4, type: 3}
+  - name: ic_lock
+    sprite: {fileID: 21300000, guid: 63e52ef6b95ad462fa72acbd3d4d13a1, type: 3}
+  - name: ic_minus
+    sprite: {fileID: 21300000, guid: 2881672affc9c48af963d9027bae327a, type: 3}
+  - name: ic_monitor
+    sprite: {fileID: 21300000, guid: 52c9645b0f9824370974498ddb336d1d, type: 3}
+  - name: ic_pause
+    sprite: {fileID: 21300000, guid: 7b1161aac80224900925a12136542a08, type: 3}
+  - name: ic_planet
+    sprite: {fileID: 21300000, guid: d58136293a4d042d1bdcd5ba661fb84d, type: 3}
+  - name: ic_play
+    sprite: {fileID: 21300000, guid: 6a33c9c6b0c794df38f6e3ce598da51a, type: 3}
+  - name: ic_plus
+    sprite: {fileID: 21300000, guid: bccb276b4daa84023bc9db0215df77b7, type: 3}
+  - name: ic_radius
+    sprite: {fileID: 21300000, guid: 05cfa5166554745129259b3bf5dbc0cd, type: 3}
+  - name: ic_recycle
+    sprite: {fileID: 21300000, guid: 6f44e71da72fd4f7f8f853c8a0c28d5c, type: 3}
+  - name: ic_rotate
+    sprite: {fileID: 21300000, guid: 12d34cb1ccd4b418a884c93a61e599bd, type: 3}
+  - name: ic_seeker
+    sprite: {fileID: 21300000, guid: cbfac7d62f8714b168d90caf9c91a1e2, type: 3}
+  - name: ic_shield
+    sprite: {fileID: 21300000, guid: 1cb39361e3de64a7d964c2c0f0eaf6e1, type: 3}
+  - name: ic_sliders
+    sprite: {fileID: 21300000, guid: 723da6b3b70dd4ea4bb2e76e6692c6c0, type: 3}
+  - name: ic_speaker
+    sprite: {fileID: 21300000, guid: d85f9249a91c6408696a4c0cd8b534c6, type: 3}
+  - name: ic_speed
+    sprite: {fileID: 21300000, guid: 3970ab8a78bd34da097fbf899b163d34, type: 3}
+  - name: ic_sun
+    sprite: {fileID: 21300000, guid: e300202f14c504e37add7d112f72f06d, type: 3}
+  - name: ic_target
+    sprite: {fileID: 21300000, guid: 87194a09715ff433ab174cf3a0aa0e97, type: 3}
+  - name: ic_trophy
+    sprite: {fileID: 21300000, guid: 9b79cc74a3baf4a96a50a3b83d4002e2, type: 3}
+  - name: ic_zoom
+    sprite: {fileID: 21300000, guid: 5dc4346188817455795f321e65236b37, type: 3}
+  styles:
+  - id: 1
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 0.9254902, g: 0.89411765, b: 1, a: 0.78}
+        position: 0
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.28}
+        position: 0.38
+      - color: {r: 0.32941177, g: 0.29803923, b: 0.6666667, a: 0.22}
+        position: 0.72
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.62}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.1882353, g: 0.18431373, b: 0.4392157, a: 0.9}
+        position: 0
+      - color: {r: 0.07450981, g: 0.078431375, b: 0.22745098, a: 0.93}
+        position: 1
+    - angle: 118
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.07}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.07}
+        position: 0.16
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        position: 0.16
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 1
+    insetTopColor: {r: 1, g: 1, b: 1, a: 0.16}
+    insetBottom: 2
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0.3}
+  - id: 2
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 1, g: 0.78431374, b: 0.627451, a: 0.95}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.3}
+        position: 0.55
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.85}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.1882353, g: 0.18431373, b: 0.4392157, a: 0.9}
+        position: 0
+      - color: {r: 0.07450981, g: 0.078431375, b: 0.22745098, a: 0.93}
+        position: 1
+    - angle: 118
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.07}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.07}
+        position: 0.16
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        position: 0.16
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 1
+    insetTopColor: {r: 1, g: 1, b: 1, a: 0.16}
+    insetBottom: 2
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0.3}
+  - id: 3
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 0.8627451, g: 0.83137256, b: 1, a: 0.38}
+        position: 0
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.12}
+        position: 0.6
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.26}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.1882353, g: 0.18431373, b: 0.4392157, a: 0.9}
+        position: 0
+      - color: {r: 0.07450981, g: 0.078431375, b: 0.22745098, a: 0.93}
+        position: 1
+    - angle: 118
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.07}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.07}
+        position: 0.16
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        position: 0.16
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 1
+    insetTopColor: {r: 1, g: 1, b: 1, a: 0.16}
+    insetBottom: 2
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0.3}
+  - id: 4
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 0.74509805, b: 0.57254905, a: 1}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 1}
+        position: 0.52
+      - color: {r: 0.9254902, g: 0.39607844, b: 0.15294118, a: 1}
+        position: 1
+    - angle: 118
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.26}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.26}
+        position: 0.22
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        position: 0.22
+    band: 5
+    bandColor: {r: 0.6117647, g: 0.22745098, b: 0.07058824, a: 1}
+    insetTop: 1
+    insetTopColor: {r: 1, g: 1, b: 1, a: 0.7}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 5
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 0.74509805, b: 0.57254905, a: 1}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 1}
+        position: 0.52
+      - color: {r: 0.9254902, g: 0.39607844, b: 0.15294118, a: 1}
+        position: 1
+    - angle: 118
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.2}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.2}
+        position: 0.22
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        position: 0.22
+    band: 2
+    bandColor: {r: 0.6117647, g: 0.22745098, b: 0.07058824, a: 1}
+    insetTop: 1
+    insetTopColor: {r: 1, g: 1, b: 1, a: 0.45}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 6
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.47058824, g: 0.47058824, b: 0.5882353, a: 1}
+        position: 0
+      - color: {r: 0.30588236, g: 0.30588236, b: 0.42352942, a: 1}
+        position: 1
+    - angle: 118
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.08}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.08}
+        position: 0.22
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        position: 0.22
+    band: 5
+    bandColor: {r: 0.20392157, g: 0.20392157, b: 0.30588236, a: 1}
+    insetTop: 1
+    insetTopColor: {r: 1, g: 1, b: 1, a: 0.2}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 7
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 0.74509805, b: 0.57254905, a: 1}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 1}
+        position: 0.55
+      - color: {r: 0.9254902, g: 0.39607844, b: 0.15294118, a: 1}
+        position: 1
+    band: 3
+    bandColor: {r: 0.6117647, g: 0.22745098, b: 0.07058824, a: 1}
+    insetTop: 1
+    insetTopColor: {r: 1, g: 1, b: 1, a: 0.65}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 8
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.07}
+        position: 0
+    band: 3
+    bandColor: {r: 0, g: 0, b: 0, a: 0.28}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 9
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0, g: 0, b: 0, a: 0.32}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 10
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.14}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.05}
+        position: 1
+    band: 3
+    bandColor: {r: 0, g: 0, b: 0, a: 0.3}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 11
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.08}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.02}
+        position: 1
+    band: 1
+    bandColor: {r: 0, g: 0, b: 0, a: 0.3}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 12
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.08}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 13
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 0.8627451, g: 0.83137256, b: 1, a: 0.38}
+        position: 0
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.12}
+        position: 0.6
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.26}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.1882353, g: 0.18431373, b: 0.4392157, a: 0.88}
+        position: 0
+      - color: {r: 0.08627451, g: 0.08627451, b: 0.24313726, a: 0.9}
+        position: 1
+    - angle: 118
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.06}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.06}
+        position: 0.18
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        position: 0.18
+    band: 3
+    bandColor: {r: 0, g: 0, b: 0, a: 0.3}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 14
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 1, g: 0.78431374, b: 0.627451, a: 0.95}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.3}
+        position: 0.55
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.85}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.21960784, g: 0.21176471, b: 0.4862745, a: 0.95}
+        position: 0
+      - color: {r: 0.101960786, g: 0.101960786, b: 0.27450982, a: 0.96}
+        position: 1
+    - angle: 90
+      stops:
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.24}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.04}
+        position: 0.7
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 15
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 0.8627451, g: 0.83137256, b: 1, a: 0.38}
+        position: 0
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.12}
+        position: 0.6
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.26}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.14117648, g: 0.13725491, b: 0.3529412, a: 0.92}
+        position: 0
+      - color: {r: 0.0627451, g: 0.0627451, b: 0.18039216, a: 0.94}
+        position: 1
+    - angle: 118
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.04}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.04}
+        position: 0.18
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        position: 0.18
+    band: 1
+    bandColor: {r: 0, g: 0, b: 0, a: 0.3}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 16
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 0.9254902, g: 0.89411765, b: 1, a: 0.78}
+        position: 0
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.28}
+        position: 0.38
+      - color: {r: 0.32941177, g: 0.29803923, b: 0.6666667, a: 0.22}
+        position: 0.72
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.62}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.21960784, g: 0.21176471, b: 0.4862745, a: 0.95}
+        position: 0
+      - color: {r: 0.101960786, g: 0.101960786, b: 0.27450982, a: 0.96}
+        position: 1
+    - angle: 118
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.08}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.08}
+        position: 0.18
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        position: 0.18
+    band: 3
+    bandColor: {r: 0, g: 0, b: 0, a: 0.3}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 17
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.18}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.05490196, g: 0.05882353, b: 0.17254902, a: 0.85}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 18
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.12}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.03137255, g: 0.03529412, b: 0.11764706, a: 0.92}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 19
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0, g: 0, b: 0, a: 0.3}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 20
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.2}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.08}
+        position: 1
+    band: 3
+    bandColor: {r: 0, g: 0, b: 0, a: 0.25}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 21
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.12}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 22
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.09}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.03}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 1
+    insetTopColor: {r: 1, g: 1, b: 1, a: 0.08}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 23
+    rimWidth: 1
+    rimUnderBody: 0
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.12}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0, g: 0, b: 0, a: 0.22}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 24
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 0.8627451, g: 0.83137256, b: 1, a: 0.38}
+        position: 0
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.12}
+        position: 0.6
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.26}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.21960784, g: 0.21176471, b: 0.4862745, a: 0.95}
+        position: 0
+      - color: {r: 0.10980392, g: 0.10980392, b: 0.29803923, a: 0.96}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 25
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 1, g: 0.78431374, b: 0.627451, a: 0.95}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.3}
+        position: 0.55
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.85}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.21960784, g: 0.21176471, b: 0.4862745, a: 0.95}
+        position: 0
+      - color: {r: 0.10980392, g: 0.10980392, b: 0.29803923, a: 0.96}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 26
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.16}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.07058824, g: 0.07058824, b: 0.20392157, a: 0.8}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 27
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 0.8627451, g: 0.83137256, b: 1, a: 0.38}
+        position: 0
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.12}
+        position: 0.6
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.26}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.078431375, g: 0.08235294, b: 0.24705882, a: 1}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 28
+    rimWidth: 2
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 1, g: 0.78431374, b: 0.627451, a: 0.95}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.3}
+        position: 0.55
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.85}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.078431375, g: 0.08235294, b: 0.24705882, a: 1}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 29
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.14}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.078431375, g: 0.08235294, b: 0.24705882, a: 1}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 30
+    rimWidth: 1
+    rimUnderBody: 0
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.35}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.12}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 31
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0, g: 0, b: 0, a: 0.3}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 32
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0, g: 0, b: 0, a: 0.5}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 33
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 90
+      stops:
+      - color: {r: 0.7529412, g: 0.2901961, b: 0.78431374, a: 1}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 1}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 34
+    rimWidth: 1
+    rimUnderBody: 0
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.3}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0, g: 0, b: 0, a: 0.35}
+        position: 0
+      - color: {r: 1, g: 1, b: 1, a: 0.06}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 35
+    rimWidth: 1
+    rimUnderBody: 0
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.3}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 0.74509805, b: 0.57254905, a: 1}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 1}
+        position: 0.55
+      - color: {r: 0.9254902, g: 0.39607844, b: 0.15294118, a: 1}
+        position: 1
+    band: 3
+    bandColor: {r: 0.6117647, g: 0.22745098, b: 0.07058824, a: 1}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 36
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.89411765, g: 0.8862745, b: 1, a: 1}
+        position: 0
+      - color: {r: 0.6039216, g: 0.5921569, b: 0.8392157, a: 1}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 37
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 1}
+        position: 0
+      - color: {r: 1, g: 0.8784314, b: 0.8, a: 1}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 38
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0, g: 0, b: 0, a: 0.4}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 39
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 90
+      stops:
+      - color: {r: 0.8980392, g: 0.38431373, b: 0.16470589, a: 1}
+        position: 0
+      - color: {r: 1, g: 0.7254902, b: 0.5411765, a: 1}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 40
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 1}
+        position: 0
+      - color: {r: 1, g: 0.7882353, b: 0.627451, a: 1}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 41
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 0.8627451, g: 0.83137256, b: 1, a: 0.38}
+        position: 0
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.12}
+        position: 0.6
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.26}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0, g: 0, b: 0, a: 0.3}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 42
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 0.8627451, g: 0.83137256, b: 1, a: 0.38}
+        position: 0
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.12}
+        position: 0.6
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.26}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.21960784, g: 0.21176471, b: 0.4862745, a: 0.95}
+        position: 0
+      - color: {r: 0.10980392, g: 0.10980392, b: 0.29803923, a: 0.96}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 43
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 1, g: 0.78431374, b: 0.92156863, a: 0.9}
+        position: 0
+      - color: {r: 0.74509805, g: 0.3529412, b: 0.8627451, a: 0.35}
+        position: 0.5
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.8}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.21960784, g: 0.21176471, b: 0.4862745, a: 0.95}
+        position: 0
+      - color: {r: 0.10980392, g: 0.10980392, b: 0.29803923, a: 0.96}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 44
+    rimWidth: 2
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 1, g: 0.78431374, b: 0.627451, a: 0.95}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.3}
+        position: 0.55
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.85}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.21960784, g: 0.21176471, b: 0.4862745, a: 0.95}
+        position: 0
+      - color: {r: 0.10980392, g: 0.10980392, b: 0.29803923, a: 0.96}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 45
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.18}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.101960786, g: 0.101960786, b: 0.27450982, a: 0.85}
+        position: 0
+      - color: {r: 0.0627451, g: 0.0627451, b: 0.1882353, a: 0.88}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 46
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.03137255, g: 0.03529412, b: 0.13333334, a: 0.6}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 47
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.11764706, g: 0.11764706, b: 0.3137255, a: 0.95}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 48
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 0.8627451, g: 0.83137256, b: 1, a: 0.38}
+        position: 0
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.12}
+        position: 0.6
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.26}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.21960784, g: 0.21176471, b: 0.4862745, a: 0.95}
+        position: 0
+      - color: {r: 0.10980392, g: 0.10980392, b: 0.29803923, a: 0.96}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 49
+    rimWidth: 2
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 1, g: 0.78431374, b: 0.627451, a: 0.95}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.3}
+        position: 0.55
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.85}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.2}
+        position: 0
+      - color: {r: 0.15686275, g: 0.14117648, b: 0.39215687, a: 0.95}
+        position: 0.6
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 50
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.16}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.07058824, g: 0.07058824, b: 0.20392157, a: 0.8}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 51
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.06}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 52
+    rimWidth: 1
+    rimUnderBody: 0
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.16}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.11764706, g: 0.11764706, b: 0.32941177, a: 0.85}
+        position: 0
+      - color: {r: 0.0627451, g: 0.0627451, b: 0.19607843, a: 0.9}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 53
+    rimWidth: 1
+    rimUnderBody: 0
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.16}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.23529412, g: 0.22745098, b: 0.5176471, a: 0.7}
+        position: 0
+      - color: {r: 0.11764706, g: 0.11764706, b: 0.3137255, a: 0.7}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 54
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 135
+      stops:
+      - color: {r: 0.29411766, g: 0.27058825, b: 0.65882355, a: 1}
+        position: 0
+      - color: {r: 0.29411766, g: 0.27058825, b: 0.65882355, a: 1}
+        position: 0.5
+      - color: {r: 0.19607843, g: 0.18039216, b: 0.5019608, a: 1}
+        position: 0.5
+      - color: {r: 0.19607843, g: 0.18039216, b: 0.5019608, a: 1}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 55
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.07}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 56
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 0.7254902, b: 0.5411765, a: 1}
+        position: 0
+      - color: {r: 0.8980392, g: 0.38431373, b: 0.16470589, a: 1}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 57
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.1}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 58
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 0.827451, b: 0.69803923, a: 1}
+        position: 0
+      - color: {r: 0.8980392, g: 0.38431373, b: 0.16470589, a: 1}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 59
+    rimWidth: 2
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.8627451, g: 0.83137256, b: 1, a: 0.9}
+        position: 0
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.5}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.27450982, g: 0.25882354, b: 0.5882353, a: 0.98}
+        position: 0
+      - color: {r: 0.13333334, g: 0.1254902, b: 0.3529412, a: 0.98}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 60
+    rimWidth: 2
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 1, g: 0.78431374, b: 0.627451, a: 0.95}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.3}
+        position: 0.55
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.85}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.27450982, g: 0.25882354, b: 0.5882353, a: 0.98}
+        position: 0
+      - color: {r: 0.13333334, g: 0.1254902, b: 0.3529412, a: 0.98}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 61
+    rimWidth: 2
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.22}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.078431375, g: 0.078431375, b: 0.21960784, a: 0.92}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 62
+    rimWidth: 2
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.9098039, g: 0.54901963, b: 0.9019608, a: 0.6}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.5}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.078431375, g: 0.078431375, b: 0.21960784, a: 0.92}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 63
+    rimWidth: 2
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.8627451, g: 0.83137256, b: 1, a: 0.5}
+        position: 0
+      - color: {r: 0.5882353, g: 0.5411765, b: 0.9019608, a: 0.2}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.47058824, g: 0.3529412, b: 0.50980395, a: 0.75}
+        position: 0
+      - color: {r: 0.23529412, g: 0.21960784, b: 0.54901963, a: 0.6}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 64
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0, g: 0, b: 0, a: 0.35}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 65
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 90
+      stops:
+      - color: {r: 0.8980392, g: 0.38431373, b: 0.16470589, a: 1}
+        position: 0
+      - color: {r: 1, g: 0.7254902, b: 0.5411765, a: 1}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 66
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 90
+      stops:
+      - color: {r: 0.03529412, g: 0.039215688, b: 0.13333334, a: 0.95}
+        position: 0
+      - color: {r: 0.03529412, g: 0.039215688, b: 0.13333334, a: 0.88}
+        position: 0.22
+      - color: {r: 0.03529412, g: 0.039215688, b: 0.13333334, a: 0.62}
+        position: 0.34
+      - color: {r: 0.03529412, g: 0.039215688, b: 0.13333334, a: 0.372}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 67
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 90
+      stops:
+      - color: {r: 0.03529412, g: 0.039215688, b: 0.13333334, a: 0.95}
+        position: 0
+      - color: {r: 0.03529412, g: 0.039215688, b: 0.13333334, a: 0.88}
+        position: 0.22
+      - color: {r: 0.03529412, g: 0.039215688, b: 0.13333334, a: 0.5}
+        position: 0.34
+      - color: {r: 0.03529412, g: 0.039215688, b: 0.13333334, a: 0.3}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 68
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.03137255, g: 0.03529412, b: 0.11764706, a: 0.35}
+        position: 0
+      - color: {r: 0.03137255, g: 0.03529412, b: 0.11764706, a: 0}
+        position: 0.16
+      - color: {r: 0.03137255, g: 0.03529412, b: 0.11764706, a: 0}
+        position: 0.78
+      - color: {r: 0.03137255, g: 0.03529412, b: 0.11764706, a: 0.45}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 69
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 270
+      stops:
+      - color: {r: 0.03137255, g: 0.03529412, b: 0.11764706, a: 0.45}
+        position: 0
+      - color: {r: 0.03137255, g: 0.03529412, b: 0.11764706, a: 0}
+        position: 0.22
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 70
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.023529412, g: 0.02745098, b: 0.09411765, a: 0.74}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 71
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 1}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 72
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.25}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 73
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.2}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0, g: 0, b: 0, a: 0.25}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 74
+    rimWidth: 1
+    rimUnderBody: 0
+    rim:
+      angle: 180
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.2}
+        position: 0
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0, g: 0, b: 0, a: 0.3}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 75
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0}
+        position: 0
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.35}
+        position: 0.5
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 76
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 90
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.35}
+        position: 0
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 78
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 90
+      stops:
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        position: 0
+      - color: {r: 0, g: 0, b: 0, a: 0.35}
+        position: 0.45
+      - color: {r: 1, g: 1, b: 1, a: 0.08}
+        position: 0.5
+      - color: {r: 0, g: 0, b: 0, a: 0.3}
+        position: 0.55
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 79
+    rimWidth: 1
+    rimUnderBody: 1
+    rim:
+      angle: 165
+      stops:
+      - color: {r: 1, g: 0.78431374, b: 0.627451, a: 0.95}
+        position: 0
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.3}
+        position: 0.55
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.85}
+        position: 1
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 0.5411765, b: 0.23921569, a: 0.3}
+        position: 0
+      - color: {r: 0.21960784, g: 0.15686275, b: 0.40784314, a: 0.95}
+        position: 0.75
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 80
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 180
+      stops:
+      - color: {r: 1, g: 1, b: 1, a: 0.06}
+        position: 0
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: 77
+    rimWidth: 0
+    rimUnderBody: 1
+    rim:
+      angle: 180
+      stops: []
+    body:
+    - angle: 90
+      stops:
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0}
+        position: 0
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0.35}
+        position: 0.5
+      - color: {r: 0.76862746, g: 0.72156864, b: 1, a: 0}
+        position: 1
+    band: 0
+    bandColor: {r: 0, g: 0, b: 0, a: 0}
+    insetTop: 0
+    insetTopColor: {r: 0, g: 0, b: 0, a: 0}
+    insetBottom: 0
+    insetBottomColor: {r: 0, g: 0, b: 0, a: 0}
+  stylesVersion: 3

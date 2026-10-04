@@ -18,5 +18,5 @@ MonoBehaviour:
   _damageType: 0
   _startShape: 5
   _startColor: 0
-  _health: 50
+  _health: 300
   _movementSpeed: 0.5

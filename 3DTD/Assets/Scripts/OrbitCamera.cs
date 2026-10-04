@@ -131,7 +131,11 @@ public class OrbitCamera : MonoBehaviour
 
 	void Zoom()
     {
-		float scroll = Input.GetAxis("Mouse ScrollWheel") * -1 * scrollFactor;
+		// The wheel scrolls UI lists while the pointer is over the HUD or a menu
+		if (UIPointer.IsOverUI())
+			return;
+
+		float scroll = Input.GetAxis("Mouse ScrollWheel") * -1 * scrollFactor * GameOptions.Current.cameraZoomSpeed;
 
 		distance = Mathf.Clamp(distance + scroll, 1f, 200f);
 	}
@@ -142,7 +146,7 @@ public class OrbitCamera : MonoBehaviour
 		float vertical = Input.GetAxis("Vertical");
 		float height = (Input.GetKey(KeyCode.Q) ? -1 : 0) + (Input.GetKey(KeyCode.E) ? 1 : 0);
 
-		cameraAnchor.transform.position += Quaternion.Euler(new Vector3(0, transform.eulerAngles.y, 0)) * new Vector3(horizontal, height / 2, vertical) * moveSpeed * Time.unscaledDeltaTime;
+		cameraAnchor.transform.position += Quaternion.Euler(new Vector3(0, transform.eulerAngles.y, 0)) * new Vector3(horizontal, height / 2, vertical) * moveSpeed * GameOptions.Current.cameraPanSpeed * Time.unscaledDeltaTime;
 	}
 
 	void UpdateFocusPoint()
@@ -181,13 +185,13 @@ public class OrbitCamera : MonoBehaviour
 			Cursor.visible = false;
 
 			Vector2 input = new Vector2(
-				Input.GetAxis("Mouse Y") * -1,
+				Input.GetAxis("Mouse Y") * (GameOptions.Current.invertCameraY ? 1 : -1),
 				Input.GetAxis("Mouse X")
 			);
 			const float e = 0.001f;
 			if (input.x < -e || input.x > e || input.y < -e || input.y > e)
 			{
-				orbitAngles += rotationSpeed * Time.unscaledDeltaTime * input;
+				orbitAngles += rotationSpeed * GameOptions.Current.cameraRotateSpeed * Time.unscaledDeltaTime * input;
 				lastManualRotationTime = Time.unscaledTime;
 				return true;
 			}
