@@ -796,6 +796,25 @@ public class PerfScenario : MonoBehaviour
             for (int frame = 0; frame < 3; frame++)
                 yield return null;
         }
+        // Pop animations of a few layers in a row above the tower, early and late in their dissolve
+        GameObject probe = spawner.EnemiesAlive.Count > 0 ? spawner.EnemiesAlive[0] : null;
+        if (focus != null && probe != null)
+        {
+            Enemy enemy = probe.GetComponent<Enemy>();
+            GameObject[] shapes = (GameObject[])typeof(Enemy).GetField("allPossibleShapes",
+                System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(enemy);
+            int[] ids = { 0, 9, 22, 35, 49 };
+            Vector3 start = focus.transform.position + Vector3.up * 1.2f - Vector3.right * 1.6f;
+            for (int i = 0; i < ids.Length; i++)
+                EnemyShape.SpawnDeathEffect(shapes[ids[i]], ids[i], start + Vector3.right * 0.8f * i, Quaternion.Euler(20f * i, 35f * i, 0f));
+            for (int frame = 0; frame < 6; frame++)
+                yield return null;
+            Capture(Path.Combine(outputDirectory, "visual-pops-early.png"), focus.transform.position + Vector3.up * 1.2f);
+            for (int frame = 0; frame < 12; frame++)
+                yield return null;
+            Capture(Path.Combine(outputDirectory, "visual-pops-late.png"), focus.transform.position + Vector3.up * 1.2f);
+        }
+
         Time.captureDeltaTime = 0f;
         game.ChangeGameSpeed(1f);
         Debug.Log("PERF VISUAL " + suffix + " captured around " + (focus != null ? focus.transform.position.ToString() : "nothing"));

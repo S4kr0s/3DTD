@@ -187,13 +187,31 @@ Checks: EditMode 45/45, LevelPlaytest 35/35, UIPlaytest pass.
 
 In S2, 384k projectiles and 582k effects were requested and none was dropped. About 12 ms of each S2/S3 frame is the harness's own `camera.Render()` of the particle load in the Editor; a player build is needed for real numbers.
 
+## Phase 5 results (pop animations)
+- **`DeathEffectRenderer`** draws every running pop with `Graphics.RenderMeshInstanced`, one call per shape+colour and dissolve step (16 steps). There is no cap and no speed limit any more (it used to be 64 at once, and none above 2x).
+  - The scale curve is sampled from `ExpandingShape.anim`.
+  - Meshes and materials come from the enemy prefab's shapes.
+  - 40 shapes use the `Layer*Animation` dissolve materials. 10 use plain `Layer*` Lit materials and, like before, only grow.
+  - Pops cast no shadows and use the scene's ambient probe. `BlendProbes` tinted the whole frame blue for instanced draws.
+- **Materials:** instancing is enabled on all 20 `Materials/Enemies/Layer*.mat`, so the variants are in builds.
+- **`EnemyShape`** only forwards to the renderer.
+
+| Run | p50 / p99 / max (ms) | Pop animations played | GC per steady frame |
+|---|---|---|---|
+| S1-1x | 10.7 / 18.0 / 764 | 64,431 of 64,431 | 2.3 KB |
+| S1-5x | 12.6 / 24.4 / 32.2 | 64,431 of 64,431 | 6.7 KB |
+| S2 | 18.6 / 31.2 / 63.3 | 44,151 of 44,151 | 3.0 KB |
+| S3 | 21.5 / 112.5 / 122.7 at 4.95x | 45,722 of 45,722 | 15.0 KB |
+
+The 764 ms frame at S1-1x is a single hitch, probably the Editor compiling the instancing shader variant on first use; the player build will tell.
+
 ## Status
 - [x] Phase 0: benchmark harness and baseline.
 - [x] Phase 1: bugs and cheap structural fixes.
 - [x] Phase 2: physics configuration.
 - [x] Phase 3: projectile system and parity. Open: Hangar parity (fixed-step starfighters).
 - [x] Phase 4: effect batching.
-- [ ] Phase 5: death animations (instanced).
+- [x] Phase 5: death animations (instanced).
 - [ ] Phase 6: wrap-up.
 
 ## Needs user verification
