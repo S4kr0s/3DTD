@@ -162,8 +162,11 @@ public class DeathEffectRenderer : MonoBehaviour
         DestroyImmediate(probe);
     }
 
+    private static readonly Unity.Profiling.ProfilerMarker DrawMarker = new Unity.Profiling.ProfilerMarker("3DTD.DeathEffects");
+
     private void Update()
     {
+        using var scope = DrawMarker.Auto();
         float now = Time.time;
         for (int g = 0; g < groupList.Count; g++)
             Draw(groupList[g], now);

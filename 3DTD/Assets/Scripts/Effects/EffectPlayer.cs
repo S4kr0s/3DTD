@@ -109,8 +109,11 @@ public class EffectPlayer : MonoBehaviour
         return pool;
     }
 
+    private static readonly Unity.Profiling.ProfilerMarker UpdateMarker = new Unity.Profiling.ProfilerMarker("3DTD.Effects.Update");
+
     private void Update()
     {
+        using var scope = UpdateMarker.Auto();
         float now = Time.time;
         float deltaTime = Time.deltaTime;
         for (int i = 0; i < poolList.Count; i++)

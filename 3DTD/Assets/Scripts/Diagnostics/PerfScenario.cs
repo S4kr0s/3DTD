@@ -129,6 +129,16 @@ public class PerfScenario : MonoBehaviour
         "ParticleSystem.WaitForUpdateThreads",
         "ParticleSystem.EndUpdateAll",
         "GC.Collect",
+        "3DTD.Projectiles.Step",
+        "3DTD.Projectiles.Apply",
+        "3DTD.Effects.Update",
+        "3DTD.Effects.TrailEmit",
+        "3DTD.Effects.Flights",
+        "3DTD.DeathEffects",
+        "3DTD.Enemy.TakeDamage",
+        "Gfx.WaitForPresentOnGfxThread",
+        "Render.OpaqueGeometry",
+        "Render.TransparentGeometry",
         "Instantiate",
         "Canvas.SendWillRenderCanvases",
     };
@@ -143,6 +153,7 @@ public class PerfScenario : MonoBehaviour
     private ProfilerRecorder gcRecorder;
     private ProfilerRecorder[] markerRecorders;
     private double[] markerTotals;
+    private List<float>[] markerFrames;
 
     private RenderTexture batchRenderTarget;
     private bool recording;
@@ -716,6 +727,9 @@ public class PerfScenario : MonoBehaviour
         gcRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "GC Allocated In Frame", 1);
         markerRecorders = new ProfilerRecorder[MarkerNames.Length];
         markerTotals = new double[MarkerNames.Length];
+        markerFrames = new List<float>[MarkerNames.Length];
+        for (int i = 0; i < MarkerNames.Length; i++)
+            markerFrames[i] = new List<float>(16384);
         for (int i = 0; i < MarkerNames.Length; i++)
             markerRecorders[i] = new ProfilerRecorder(MarkerNames[i], 1, ProfilerRecorderOptions.Default | ProfilerRecorderOptions.StartImmediately);
     }
@@ -752,7 +766,10 @@ public class PerfScenario : MonoBehaviour
         for (int i = 0; i < markerRecorders.Length; i++)
         {
             if (markerRecorders[i].Valid)
+            {
                 markerTotals[i] += markerRecorders[i].LastValue / 1e6;
+                markerFrames[i].Add(markerRecorders[i].LastValue / 1e6f);
+            }
         }
     }
 
@@ -956,8 +973,10 @@ public class PerfScenario : MonoBehaviour
         for (int i = 0; i < MarkerNames.Length; i++)
         {
             if (markerRecorders[i].Valid && result.frames > 0)
-                result.markers.Add(MarkerNames[i] + "=" + (markerTotals[i] / result.frames).ToString("F2", CultureInfo.InvariantCulture) + "ms");
+                result.markers.Add(MarkerNames[i] + "=" + (markerTotals[i] / result.frames).ToString("F2", CultureInfo.InvariantCulture)
+                    + "/" + Percentile(markerFrames[i], 0.99f).ToString("F1", CultureInfo.InvariantCulture) + "ms");
             markerTotals[i] = 0;
+            markerFrames[i].Clear();
         }
 
         // Frame-time and culling criteria (parity is checked once all runs are done)

@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Unity.Burst;
 using Unity.Collections;
+using Unity.Jobs;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
@@ -65,7 +68,16 @@ public sealed class BatchedEffect : IDisposable
     private readonly GameObject shared;
     private readonly Emitter[] emitters;
     private readonly AudioSource[] sounds;
-    private readonly List<PlayRecord> plays = new List<PlayRecord>();
+    private NativeList<PlayRecord> plays = new NativeList<PlayRecord>(256, Allocator.Persistent);
+    private NativeList<DueEntry> dueEntries = new NativeList<DueEntry>(256, Allocator.Persistent);
+
+    private struct DueEntry
+    {
+        public int Play;
+        public int Start;
+        public int Count;
+        public float Age;
+    }
 
     public static BatchedEffect TryCreate(GameObject prefab, Transform container)
     {
@@ -202,6 +214,8 @@ public sealed class BatchedEffect : IDisposable
 
     public void Dispose()
     {
+        plays.Dispose();
+        dueEntries.Dispose();
         foreach (Emitter emitter in emitters)
         {
             if (emitter.Buffer.IsCreated)
@@ -212,7 +226,7 @@ public sealed class BatchedEffect : IDisposable
     // Queues one play of the effect; age = how long ago (game time) it started
     public void Play(Vector3 position, Quaternion rotation, float scale, float age)
     {
-        int play = plays.Count;
+        int play = plays.Length;
         plays.Add(new PlayRecord { Position = position, Rotation = rotation, Scale = scale });
         float start = Time.time - age;
 
@@ -242,9 +256,12 @@ public sealed class BatchedEffect : IDisposable
             EffectAudio.PlayAt(sounds[i], position);
     }
 
+    private static readonly Unity.Profiling.ProfilerMarker TrailEmitMarker = new Unity.Profiling.ProfilerMarker("3DTD.Effects.TrailEmit");
+
     // One Emit per play at the play's pose, so trails start where the particle does
     private void EmitAtPoses(Emitter emitter, float now)
     {
+        using var scope = TrailEmitMarker.Auto();
         ParticleSystem system = emitter.System;
         Transform transform = system.transform;
         ParticleSystem.MainModule main = system.main;
@@ -389,26 +406,56 @@ public sealed class BatchedEffect : IDisposable
 
         NativeArray<ParticleSystem.Particle> buffer = emitter.Buffer;
         int read = system.GetParticles(buffer, emitted, before);
-        int index = 0;
-        for (int r = 0; r < emitter.Due.Count && index < read; r++)
+        dueEntries.Clear();
+        int start = 0;
+        for (int r = 0; r < emitter.Due.Count; r++)
         {
             Request request = emitter.Due[r];
-            PlayRecord play = plays[request.Play];
-            float age = Mathf.Max(0f, now - request.Time);
-            for (int k = 0; k < request.Count && index < read; k++, index++)
-            {
-                ParticleSystem.Particle particle = buffer[index];
-                Vector3 velocity = play.Rotation * (particle.velocity * play.Scale);
-                particle.position = play.Position + play.Rotation * (particle.position * play.Scale) + velocity * age;
-                particle.velocity = velocity;
-                particle.startSize3D *= play.Scale;
-                if (emitter.Rotate3D)
-                    particle.rotation3D = (play.Rotation * Quaternion.Euler(particle.rotation3D)).eulerAngles;
-                particle.remainingLifetime = Mathf.Max(0.0001f, particle.remainingLifetime - age);
-                buffer[index] = particle;
-            }
+            dueEntries.Add(new DueEntry { Play = request.Play, Start = start, Count = request.Count, Age = Mathf.Max(0f, now - request.Time) });
+            start += request.Count;
         }
+        new PlaceJob
+        {
+            Plays = plays.AsArray(),
+            Entries = dueEntries.AsArray(),
+            Particles = buffer,
+            Read = read,
+            Rotate3D = emitter.Rotate3D,
+        }.Schedule(dueEntries.Length, 16).Complete();
         system.SetParticles(buffer, read, before);
         PerfCounters.BatchedParticles += read;
+    }
+
+    // Moves each play's block of fresh particles to the play's pose, scale and age
+    [BurstCompile]
+    private struct PlaceJob : IJobParallelFor
+    {
+        [ReadOnly] public NativeArray<PlayRecord> Plays;
+        [ReadOnly] public NativeArray<DueEntry> Entries;
+        [NativeDisableParallelForRestriction] public NativeArray<ParticleSystem.Particle> Particles;
+        public int Read;
+        public bool Rotate3D;
+
+        public void Execute(int e)
+        {
+            DueEntry entry = Entries[e];
+            PlayRecord play = Plays[entry.Play];
+            quaternion rotation = play.Rotation;
+            for (int k = 0; k < entry.Count; k++)
+            {
+                int index = entry.Start + k;
+                if (index >= Read)
+                    return;
+                ParticleSystem.Particle particle = Particles[index];
+                float3 velocity = math.mul(rotation, (float3)particle.velocity * play.Scale);
+                particle.position = (float3)play.Position + math.mul(rotation, (float3)particle.position * play.Scale) + velocity * entry.Age;
+                particle.velocity = velocity;
+                particle.startSize3D = (float3)particle.startSize3D * play.Scale;
+                if (Rotate3D)
+                    particle.rotation3D = EffectMath.ComposeEulerDegrees(rotation, particle.rotation3D);
+                particle.remainingLifetime = math.max(0.0001f, particle.remainingLifetime - entry.Age);
+                Particles[index] = particle;
+            }
+        }
     }
 }

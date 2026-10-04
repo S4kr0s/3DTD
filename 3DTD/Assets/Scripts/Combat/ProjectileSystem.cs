@@ -3,6 +3,7 @@ using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
+using Unity.Profiling;
 using UnityEngine;
 
 // Simulates the towers' projectiles (bullets, bolts, rockets, cluster bomblets, starfighter weapons) as data
@@ -96,6 +97,8 @@ public class ProjectileSystem : MonoBehaviour
 
     private static ProjectileSystem instance;
     private static bool quitting;
+    private static readonly ProfilerMarker StepMarker = new ProfilerMarker("3DTD.Projectiles.Step");
+    private static readonly ProfilerMarker ApplyMarker = new ProfilerMarker("3DTD.Projectiles.Apply");
 
     public EnemyRegistry Enemies { get; private set; }
     public int Count => states.IsCreated ? states.Length : 0;
@@ -248,6 +251,7 @@ public class ProjectileSystem : MonoBehaviour
             grid.Capacity = enemyCount * 27 + 64;
         grid.Clear();
 
+        StepMarker.Begin();
         JobHandle gridJob = new BuildGridJob
         {
             Positions = Enemies.Positions.AsArray(),
@@ -270,8 +274,10 @@ public class ProjectileSystem : MonoBehaviour
             Steps = steps.AsArray(),
             Hits = hits.AsArray(),
         }.Schedule(count, 32, gridJob).Complete();
+        StepMarker.End();
 
-        Apply(count);
+        using (ApplyMarker.Auto())
+            Apply(count);
     }
 
     // Main thread: hits, blasts, effects and fading, in the order the projectiles were fired

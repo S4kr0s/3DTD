@@ -249,8 +249,11 @@ public class Enemy : MonoBehaviour
 
     #region Damage
 
+    private static readonly Unity.Profiling.ProfilerMarker DamageMarker = new Unity.Profiling.ProfilerMarker("3DTD.Enemy.TakeDamage");
+
     public void TakeDamage(float damage, DamageType damageType, Tower tower)
     {
+        using var scope = DamageMarker.Auto();
         if (!isAlive || !canTakeDamage || damage <= 0f)
             return;
 

@@ -62,6 +62,7 @@ public sealed class FlightBatch : IDisposable
         public float Clock;           // seconds since the flight started
         public bool Live;
         public bool Fresh;            // attached since the last update
+        public int Generation;
     }
 
     public readonly GameObject Prefab;
@@ -69,7 +70,8 @@ public sealed class FlightBatch : IDisposable
     private readonly Emitter[] emitters;
     private readonly ParticleSystem trailHeads;
 
-    private Flight[] flights = new Flight[InitialFlights];
+    private NativeArray<Flight> flights;
+    private NativeArray<int3> entries;          // per flight with new particles: id, first particle, count
     private int[] managedGeneration = new int[InitialFlights];
     private readonly Stack<int> freeIds = new Stack<int>();
     private int highestId;
@@ -132,6 +134,8 @@ public sealed class FlightBatch : IDisposable
         if (trail != null)
             trailHeads = CreateTrailHeads(trail);
 
+        flights = new NativeArray<Flight>(InitialFlights, Allocator.Persistent);
+        entries = new NativeArray<int3>(InitialFlights, Allocator.Persistent);
         delta = new NativeArray<float3>(InitialFlights, Allocator.Persistent);
         center = new NativeArray<float3>(InitialFlights, Allocator.Persistent);
         scaleRatio = new NativeArray<float>(InitialFlights, Allocator.Persistent);
@@ -275,6 +279,8 @@ public sealed class FlightBatch : IDisposable
             if (emitter.Buffer.IsCreated)
                 emitter.Buffer.Dispose();
         }
+        flights.Dispose();
+        entries.Dispose();
         delta.Dispose();
         center.Dispose();
         scaleRatio.Dispose();
@@ -299,6 +305,7 @@ public sealed class FlightBatch : IDisposable
             Clock = -1e-6f,
             Live = true,
             Fresh = true,
+            Generation = managedGeneration[id],
         };
         foreach (Emitter emitter in emitters)
             emitter.Owed[id] = emitter.Prewarm;
@@ -331,7 +338,8 @@ public sealed class FlightBatch : IDisposable
             return;
         followJobs.Complete();
         int size = Mathf.NextPowerOfTwo(needed);
-        Array.Resize(ref flights, size);
+        Grow(ref flights, size);
+        Grow(ref entries, size);
         Array.Resize(ref managedGeneration, size);
         foreach (Emitter emitter in emitters)
             Array.Resize(ref emitter.Owed, size);
@@ -352,9 +360,12 @@ public sealed class FlightBatch : IDisposable
 
     // ---- per frame --------------------------------------------------------------------------------------
 
+    private static readonly Unity.Profiling.ProfilerMarker FlightMarker = new Unity.Profiling.ProfilerMarker("3DTD.Effects.Flights");
+
     // Once per frame after the projectiles moved and before the particle update
     public void Update(float deltaTime)
     {
+        using var scope = FlightMarker.Auto();
         followJobs.Complete();
         followJobs = default;
         if (deltaTime <= 0f)
@@ -447,32 +458,60 @@ public sealed class FlightBatch : IDisposable
 
         NativeArray<ParticleSystem.Particle> buffer = emitter.Buffer;
         int read = system.GetParticles(buffer, emitted, existing);
-        int index = 0;
-        foreach (Vector2Int entry in counts)
+        int first = 0;
+        for (int e = 0; e < counts.Count; e++)
         {
-            Flight flight = flights[entry.x];
-            Quaternion rotation = flight.Rotation;
-            float scale = flight.Scale;
-            uint tag = ((uint)managedGeneration[entry.x] << IdBits) | (uint)entry.x;
-            for (int k = 0; k < entry.y && index < read; k++, index++)
-            {
-                ParticleSystem.Particle particle = buffer[index];
-                // Followers start where the flight was last frame (the follower job moves them on with it);
-                // left-behind particles are spread along the path it covered this frame
-                Vector3 origin = emitter.Follows || flight.Fresh ? (Vector3)flight.Previous
-                    : Vector3.Lerp(flight.Previous, flight.Position, (k + 0.5f) / entry.y);
-                particle.position = origin + rotation * (particle.position * scale);
-                particle.velocity = rotation * (particle.velocity * scale);
-                particle.startSize3D *= scale;
-                if (emitter.Rotate3D)
-                    particle.rotation3D = (rotation * Quaternion.Euler(particle.rotation3D)).eulerAngles;
-                if (emitter.Follows)
-                    particle.randomSeed = tag;
-                buffer[index] = particle;
-            }
+            entries[e] = new int3(counts[e].x, first, counts[e].y);
+            first += counts[e].y;
         }
+        new PlaceJob
+        {
+            Flights = flights,
+            Entries = entries,
+            Particles = buffer,
+            Read = read,
+            Follows = emitter.Follows,
+            Rotate3D = emitter.Rotate3D,
+        }.Schedule(counts.Count, 16).Complete();
         system.SetParticles(buffer, read, existing);
         PerfCounters.BatchedParticles += read;
+    }
+
+    // Moves each flight's block of fresh particles to it: followers start where the flight was last frame (the
+    // follower job moves them on with it), left-behind particles spread along the path it covered this frame
+    [BurstCompile]
+    private struct PlaceJob : IJobParallelFor
+    {
+        [ReadOnly] public NativeArray<Flight> Flights;
+        [ReadOnly] public NativeArray<int3> Entries;
+        [NativeDisableParallelForRestriction] public NativeArray<ParticleSystem.Particle> Particles;
+        public int Read;
+        public bool Follows;
+        public bool Rotate3D;
+
+        public void Execute(int e)
+        {
+            int3 entry = Entries[e];
+            Flight flight = Flights[entry.x];
+            uint tag = ((uint)flight.Generation << IdBits) | (uint)entry.x;
+            for (int k = 0; k < entry.z; k++)
+            {
+                int index = entry.y + k;
+                if (index >= Read)
+                    return;
+                ParticleSystem.Particle particle = Particles[index];
+                float3 origin = Follows || flight.Fresh ? flight.Previous
+                    : math.lerp(flight.Previous, flight.Position, (k + 0.5f) / entry.z);
+                particle.position = origin + math.mul(flight.Rotation, (float3)particle.position * flight.Scale);
+                particle.velocity = math.mul(flight.Rotation, (float3)particle.velocity * flight.Scale);
+                particle.startSize3D = (float3)particle.startSize3D * flight.Scale;
+                if (Rotate3D)
+                    particle.rotation3D = EffectMath.ComposeEulerDegrees(flight.Rotation, particle.rotation3D);
+                if (Follows)
+                    particle.randomSeed = tag;
+                Particles[index] = particle;
+            }
+        }
     }
 
     // Particle trails start where a particle is emitted, so these systems emit at each flight's pose
