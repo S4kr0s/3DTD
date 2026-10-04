@@ -17,15 +17,12 @@ using Random = UnityEngine.Random;
 // looping bursts) and moves the fresh particles into place. Particles of systems that simulated in local space
 // follow their flight: a Burst particle job moves them with it, shrinks them while it fades and removes them
 // when it is gone, like the copy that used to be parented to the projectile. Systems with "Trail" in the name
-// are left behind and play out, as PolygonProjectileScript intended. A TrailRenderer becomes a particle trail
-// drawn behind one invisible head particle per flight.
+// are left behind and play out, as PolygonProjectileScript intended. A TrailRenderer is drawn by TrailMesh.
 //
 // Prefabs this can't reproduce (sub-emitters, local-space forces, scripts, meshes, lights) use pooled copies.
 public sealed class FlightBatch : IDisposable
 {
     private const int InitialFlights = 1024;
-    // A trail's head particle lives until its flight ends; the trail points last trail.time of that
-    private const float HeadLifetime = 1000f;
     private const int IdBits = 18;
     private const uint IdMask = (1u << IdBits) - 1;
     private const int GenerationMask = 0x3FFF;
@@ -47,6 +44,7 @@ public sealed class FlightBatch : IDisposable
         public float Delay;
         public bool Rotate3D;
         public float Prewarm;         // particles a prewarmed system already shows when the flight starts
+        public float InheritVelocity; // share of the flight's velocity new particles get (Inherit Velocity module)
         public bool HasTrails;        // particle trails: emitted at each flight's pose (see BatchedEffect)
         public float[] Owed;          // per flight: fractional particles carried over
         public NativeArray<ParticleSystem.Particle> Buffer;
@@ -59,6 +57,7 @@ public sealed class FlightBatch : IDisposable
         public quaternion Rotation;
         public float Scale;
         public float LastScale;
+        public float3 Velocity;
         public float Clock;           // seconds since the flight started
         public bool Live;
         public bool Fresh;            // attached since the last update
@@ -68,7 +67,9 @@ public sealed class FlightBatch : IDisposable
     public readonly GameObject Prefab;
     private readonly GameObject shared;
     private readonly Emitter[] emitters;
-    private readonly ParticleSystem trailHeads;
+    private readonly TrailMesh trail;
+    // Ids of finished flights whose trail is still fading; reused once it is gone
+    private readonly List<int> fading = new List<int>();
 
     private NativeArray<Flight> flights;
     private NativeArray<int3> entries;          // per flight with new particles: id, first particle, count
@@ -130,9 +131,12 @@ public sealed class FlightBatch : IDisposable
         for (int i = 0; i < systems.Length; i++)
             emitters[i] = Configure(systems[i]);
 
-        TrailRenderer trail = shared.GetComponentInChildren<TrailRenderer>(true);
-        if (trail != null)
-            trailHeads = CreateTrailHeads(trail);
+        TrailRenderer trailRenderer = shared.GetComponentInChildren<TrailRenderer>(true);
+        if (trailRenderer != null)
+        {
+            trail = new TrailMesh(trailRenderer, InitialFlights);
+            trailRenderer.enabled = false;
+        }
 
         flights = new NativeArray<Flight>(InitialFlights, Allocator.Persistent);
         entries = new NativeArray<int3>(InitialFlights, Allocator.Persistent);
@@ -147,13 +151,8 @@ public sealed class FlightBatch : IDisposable
         foreach (Emitter emitter in emitters)
         {
             if (emitter.Follows)
-                FlightFollower.Attach(emitter.System, this, false);
+                FlightFollower.Attach(emitter.System, this);
             emitter.System.Play(false);
-        }
-        if (trailHeads != null)
-        {
-            FlightFollower.Attach(trailHeads, this, true);
-            trailHeads.Play(false);
         }
     }
 
@@ -218,8 +217,11 @@ public sealed class FlightBatch : IDisposable
             main.startRotationZ = roll;
         }
         emission.enabled = false;
-        // The flight's own movement reaches its particles through the follower job
+        // The shared copy stands still: new particles get the flight's velocity from PlaceJob instead
+        // (Unity only applies the module in world space; Current mode is treated like Initial)
         ParticleSystem.InheritVelocityModule inherit = system.inheritVelocity;
+        if (inherit.enabled && !emitter.Follows)
+            emitter.InheritVelocity = EffectPool.MaxOf(inherit.curve);
         inherit.enabled = false;
 
         if (renderer != null)
@@ -227,53 +229,10 @@ public sealed class FlightBatch : IDisposable
         return emitter;
     }
 
-    // A TrailRenderer becomes a particle trail behind one invisible head particle per flight
-    private ParticleSystem CreateTrailHeads(TrailRenderer trail)
-    {
-        GameObject host = new GameObject("Trail heads");
-        host.transform.SetParent(shared.transform, false);
-        ParticleSystem system = host.AddComponent<ParticleSystem>();
-        system.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-
-        ParticleSystem.MainModule main = system.main;
-        main.loop = true;
-        main.playOnAwake = false;
-        main.simulationSpace = ParticleSystemSimulationSpace.World;
-        main.startLifetime = HeadLifetime;
-        main.startSpeed = 0f;
-        main.startSize = 1f;
-        main.maxParticles = 4096;
-        ParticleSystem.EmissionModule emission = system.emission;
-        emission.enabled = false;
-        ParticleSystem.ShapeModule shape = system.shape;
-        shape.enabled = false;
-
-        ParticleSystem.TrailModule trails = system.trails;
-        trails.enabled = true;
-        trails.mode = ParticleSystemTrailMode.PerParticle;
-        trails.lifetime = trail.time / HeadLifetime;
-        trails.minVertexDistance = trail.minVertexDistance;
-        trails.worldSpace = true;
-        trails.dieWithParticles = false;
-        trails.sizeAffectsWidth = false;
-        trails.widthOverTrail = new ParticleSystem.MinMaxCurve(trail.widthMultiplier, trail.widthCurve);
-        trails.colorOverTrail = new ParticleSystem.MinMaxGradient(trail.colorGradient);
-        trails.inheritParticleColor = false;
-        trails.textureMode = trail.textureMode == LineTextureMode.Tile ? ParticleSystemTrailTextureMode.Tile : ParticleSystemTrailTextureMode.Stretch;
-
-        ParticleSystemRenderer renderer = host.GetComponent<ParticleSystemRenderer>();
-        renderer.renderMode = ParticleSystemRenderMode.None;
-        renderer.trailMaterial = trail.sharedMaterial;
-        renderer.shadowCastingMode = ShadowCastingMode.Off;
-        renderer.receiveShadows = false;
-
-        trail.enabled = false;
-        return system;
-    }
-
     public void Dispose()
     {
         followJobs.Complete();
+        trail?.Dispose();
         foreach (Emitter emitter in emitters)
         {
             if (emitter.Buffer.IsCreated)
@@ -290,7 +249,7 @@ public sealed class FlightBatch : IDisposable
 
     // ---- flights ----------------------------------------------------------------------------------------
 
-    public int Attach(Vector3 position, Quaternion rotation, float scale)
+    public int Attach(Vector3 position, Quaternion rotation, float scale, Vector3 velocity)
     {
         int id = freeIds.Count > 0 ? freeIds.Pop() : highestId++;
         EnsureCapacity(id + 1);
@@ -303,21 +262,26 @@ public sealed class FlightBatch : IDisposable
             Scale = scale,
             LastScale = scale,
             Clock = -1e-6f,
+            Velocity = velocity,
             Live = true,
             Fresh = true,
             Generation = managedGeneration[id],
         };
         foreach (Emitter emitter in emitters)
             emitter.Owed[id] = emitter.Prewarm;
-        if (trailHeads != null)
-            EmitHead(id, position);
+        if (trail != null)
+        {
+            trail.EnsureCapacity(id + 1);
+            trail.Begin(id, position, Time.time);
+        }
         return id;
     }
 
-    public void SetPose(int id, Vector3 position, Quaternion rotation, float scale)
+    public void SetPose(int id, Vector3 position, Quaternion rotation, float scale, Vector3 velocity)
     {
         Flight flight = flights[id];
         flight.Position = position;
+        flight.Velocity = velocity;
         flight.Rotation = rotation;
         flight.Scale = scale;
         flights[id] = flight;
@@ -329,7 +293,10 @@ public sealed class FlightBatch : IDisposable
         Flight flight = flights[id];
         flight.Live = false;
         flights[id] = flight;
-        freeIds.Push(id);
+        if (trail != null)
+            fading.Add(id);
+        else
+            freeIds.Push(id);
     }
 
     private void EnsureCapacity(int needed)
@@ -387,6 +354,9 @@ public sealed class FlightBatch : IDisposable
         foreach (Emitter emitter in emitters)
             Emit(emitter, deltaTime);
 
+        if (trail != null)
+            UpdateTrails();
+
         for (int id = 0; id < highestId; id++)
         {
             Flight flight = flights[id];
@@ -398,6 +368,28 @@ public sealed class FlightBatch : IDisposable
             flight.Fresh = false;
             flights[id] = flight;
         }
+    }
+
+    // Trails follow their flights, keep fading after them, and free the id once they are gone
+    private void UpdateTrails()
+    {
+        float now = Time.time;
+        for (int id = 0; id < highestId; id++)
+        {
+            if (flights[id].Live)
+                trail.Add(id, flights[id].Position, now);
+        }
+        for (int i = fading.Count - 1; i >= 0; i--)
+        {
+            int id = fading[i];
+            if (!trail.IsFaded(id, now))
+                continue;
+            trail.End(id);
+            freeIds.Push(id);
+            fading[i] = fading[fading.Count - 1];
+            fading.RemoveAt(fading.Count - 1);
+        }
+        trail.Draw(highestId, now, Camera.main);
     }
 
     private void Emit(Emitter emitter, float deltaTime)
@@ -472,6 +464,7 @@ public sealed class FlightBatch : IDisposable
             Read = read,
             Follows = emitter.Follows,
             Rotate3D = emitter.Rotate3D,
+            InheritVelocity = emitter.InheritVelocity,
         }.Schedule(counts.Count, 16).Complete();
         system.SetParticles(buffer, read, existing);
         PerfCounters.BatchedParticles += read;
@@ -488,6 +481,7 @@ public sealed class FlightBatch : IDisposable
         public int Read;
         public bool Follows;
         public bool Rotate3D;
+        public float InheritVelocity;
 
         public void Execute(int e)
         {
@@ -503,7 +497,7 @@ public sealed class FlightBatch : IDisposable
                 float3 origin = Follows || flight.Fresh ? flight.Previous
                     : math.lerp(flight.Previous, flight.Position, (k + 0.5f) / entry.z);
                 particle.position = origin + math.mul(flight.Rotation, (float3)particle.position * flight.Scale);
-                particle.velocity = math.mul(flight.Rotation, (float3)particle.velocity * flight.Scale);
+                particle.velocity = math.mul(flight.Rotation, (float3)particle.velocity * flight.Scale) + flight.Velocity * InheritVelocity;
                 particle.startSize3D = (float3)particle.startSize3D * flight.Scale;
                 if (Rotate3D)
                     particle.rotation3D = EffectMath.ComposeEulerDegrees(flight.Rotation, particle.rotation3D);
@@ -530,7 +524,7 @@ public sealed class FlightBatch : IDisposable
             system.Emit(entry.y);
             int emitted = system.particleCount - before;
             PerfCounters.BatchedParticles += emitted;
-            if (emitted <= 0 || (!emitter.Follows && Mathf.Approximately(flight.Scale, 1f)))
+            if (emitted <= 0 || (!emitter.Follows && Mathf.Approximately(flight.Scale, 1f) && emitter.InheritVelocity == 0f))
                 continue;
 
             if (!emitter.Buffer.IsCreated || emitter.Buffer.Length < emitted)
@@ -544,7 +538,7 @@ public sealed class FlightBatch : IDisposable
             for (int i = 0; i < read; i++)
             {
                 ParticleSystem.Particle particle = emitter.Buffer[i];
-                particle.velocity *= flight.Scale;
+                particle.velocity = particle.velocity * flight.Scale + (Vector3)flight.Velocity * emitter.InheritVelocity;
                 particle.startSize3D *= flight.Scale;
                 if (emitter.Follows)
                     particle.randomSeed = tag;
@@ -574,25 +568,9 @@ public sealed class FlightBatch : IDisposable
             : Mathf.RoundToInt(EffectPool.MaxOf(count));
     }
 
-    private void EmitHead(int id, Vector3 position)
-    {
-        ParticleSystem.MainModule main = trailHeads.main;
-        if (trailHeads.particleCount + 1 > main.maxParticles)
-            main.maxParticles = Mathf.NextPowerOfTwo(trailHeads.particleCount + 1);
-        trailHeads.Emit(new ParticleSystem.EmitParams
-        {
-            position = position,
-            velocity = Vector3.zero,
-            startLifetime = HeadLifetime,
-            startSize = 1f,
-            randomSeed = ((uint)managedGeneration[id] << IdBits) | (uint)id,
-            applyShapeToPosition = false,
-        }, 1);
-    }
-
     // ---- follower job -----------------------------------------------------------------------------------
 
-    internal void ScheduleFollow(ParticleSystem system, bool heads)
+    internal void ScheduleFollow(ParticleSystem system)
     {
         JobHandle handle = new FollowJob
         {
@@ -601,7 +579,6 @@ public sealed class FlightBatch : IDisposable
             ScaleRatio = scaleRatio,
             Generation = generation,
             Alive = alive,
-            Heads = heads,
         }.ScheduleBatch(system, 512);
         followJobs = JobHandle.CombineDependencies(followJobs, handle);
     }
@@ -614,7 +591,6 @@ public sealed class FlightBatch : IDisposable
         [ReadOnly] public NativeArray<float> ScaleRatio;
         [ReadOnly] public NativeArray<int> Generation;
         [ReadOnly] public NativeArray<byte> Alive;
-        public bool Heads;
 
         public void Execute(ParticleSystemJobData particles, int startIndex, int count)
         {
@@ -632,13 +608,6 @@ public sealed class FlightBatch : IDisposable
                 {
                     // The flight is gone (or its id went to another projectile): the particle goes with it
                     lifetime[i] = 100f;
-                    continue;
-                }
-
-                float3 moved = Center[id] + Delta[id];
-                if (Heads)
-                {
-                    positions[i] = moved;
                     continue;
                 }
 
@@ -660,19 +629,16 @@ public sealed class FlightFollower : MonoBehaviour
 {
     private FlightBatch batch;
     private ParticleSystem system;
-    private bool heads;
-
-    public static void Attach(ParticleSystem system, FlightBatch batch, bool heads)
+    public static void Attach(ParticleSystem system, FlightBatch batch)
     {
         FlightFollower follower = system.gameObject.AddComponent<FlightFollower>();
         follower.batch = batch;
         follower.system = system;
-        follower.heads = heads;
     }
 
     private void OnParticleUpdateJobScheduled()
     {
         if (batch != null)
-            batch.ScheduleFollow(system, heads);
+            batch.ScheduleFollow(system);
     }
 }

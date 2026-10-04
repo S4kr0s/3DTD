@@ -60,6 +60,7 @@ public class EffectPool
     {
         if (!batchChecked)
         {
+            using var scope = CreateMarker.Auto();
             batchChecked = true;
             batch = EffectPlayer.BatchingEnabled ? BatchedEffect.TryCreate(prefab, container) : null;
             EffectPlayer.LogBackend(prefab, batch != null ? "batched one-shot" : "pooled one-shot");
@@ -81,16 +82,17 @@ public class EffectPool
         playing.Add(effect);
     }
 
-    public FlightHandle Attach(Vector3 position, Quaternion rotation, float scale)
+    public FlightHandle Attach(Vector3 position, Quaternion rotation, float scale, Vector3 velocity)
     {
         if (!flightBatchChecked)
         {
+            using var scope = CreateMarker.Auto();
             flightBatchChecked = true;
             flightBatch = EffectPlayer.BatchingEnabled ? FlightBatch.TryCreate(prefab, container) : null;
             EffectPlayer.LogBackend(prefab, flightBatch != null ? "batched flight" : "pooled flight");
         }
         if (flightBatch != null)
-            return new FlightHandle(flightBatch, flightBatch.Attach(position, rotation, scale));
+            return new FlightHandle(flightBatch, flightBatch.Attach(position, rotation, scale, velocity));
 
         EffectInstance effect = Take();
         effect.SetPose(position, rotation, scale);
@@ -149,8 +151,11 @@ public class EffectPool
         return free.Count > 0 ? free.Pop() : Create();
     }
 
+    private static readonly Unity.Profiling.ProfilerMarker CreateMarker = new Unity.Profiling.ProfilerMarker("3DTD.Effects.Create");
+
     private EffectInstance Create()
     {
+        using var scope = CreateMarker.Auto();
         // Built under an inactive parent so nothing plays on awake before it is configured
         GameObject instance = Object.Instantiate(prefab, staging);
         EffectInstance effect = new EffectInstance(this, instance, prefabScale);
@@ -230,10 +235,10 @@ public readonly struct FlightHandle
 
     public bool IsValid => batch != null || pooled != null;
 
-    public void SetPose(Vector3 position, Quaternion rotation, float scale)
+    public void SetPose(Vector3 position, Quaternion rotation, float scale, Vector3 velocity)
     {
         if (batch != null)
-            batch.SetPose(id, position, rotation, scale);
+            batch.SetPose(id, position, rotation, scale, velocity);
         else
             pooled?.SetPose(position, rotation, scale);
     }

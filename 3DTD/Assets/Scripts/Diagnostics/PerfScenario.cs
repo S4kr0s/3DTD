@@ -136,6 +136,14 @@ public class PerfScenario : MonoBehaviour
         "3DTD.Effects.Flights",
         "3DTD.DeathEffects",
         "3DTD.Enemy.TakeDamage",
+        "3DTD.Enemy.PopLayer",
+        "3DTD.Enemy.ShowShape",
+        "3DTD.Effects.Create",
+        "3DTD.Projectiles.Fire",
+        "3DTD.Effects.Play",
+        "3DTD.Effects.Attach",
+        "Spawner.Update",
+        "BehaviourUpdate",
         "Gfx.WaitForPresentOnGfxThread",
         "Render.OpaqueGeometry",
         "Render.TransparentGeometry",
@@ -158,6 +166,8 @@ public class PerfScenario : MonoBehaviour
     private RenderTexture batchRenderTarget;
     private bool recording;
     private bool skipNextSample;
+    private const float SpikeMs = 40f;
+    private readonly StringBuilder spikeLog = new StringBuilder(512);
     private readonly List<FrameSample> samples = new List<FrameSample>(16384);
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
@@ -395,6 +405,10 @@ public class PerfScenario : MonoBehaviour
         SaveGame.SuppressWrites = true;
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = -1;
+        Application.runInBackground = true;
+        // The player's saved options may ask for full screen; the benchmark always renders a 1080p window
+        if (!Application.isEditor && (Screen.width != 1920 || Screen.height != 1080 || Screen.fullScreenMode != FullScreenMode.Windowed))
+            Screen.SetResolution(1920, 1080, FullScreenMode.Windowed);
         if (QualitySettings.GetQualityLevel() != 2 && QualitySettings.names.Length > 2)
             QualitySettings.SetQualityLevel(2, true);
         if (GraphicsSettings.currentRenderPipeline is UniversalRenderPipelineAsset urp)
@@ -770,6 +784,21 @@ public class PerfScenario : MonoBehaviour
                 markerTotals[i] += markerRecorders[i].LastValue / 1e6;
                 markerFrames[i].Add(markerRecorders[i].LastValue / 1e6f);
             }
+        }
+
+        // What a slow frame spent its time on
+        if (sample.realMs > SpikeMs)
+        {
+            spikeLog.Clear();
+            spikeLog.Append("PERF SPIKE ").Append(sample.realMs.ToString("F1", CultureInfo.InvariantCulture)).Append(" ms at frame ")
+                .Append(samples.Count).Append(", ").Append(sample.enemies).Append(" enemies, GC ").Append(sample.gcBytes).Append(" B:");
+            for (int i = 0; i < markerRecorders.Length; i++)
+            {
+                float ms = markerRecorders[i].Valid ? markerRecorders[i].LastValue / 1e6f : 0f;
+                if (ms >= 1f)
+                    spikeLog.Append(' ').Append(MarkerNames[i]).Append('=').Append(ms.ToString("F1", CultureInfo.InvariantCulture));
+            }
+            Debug.Log(spikeLog.ToString());
         }
     }
 

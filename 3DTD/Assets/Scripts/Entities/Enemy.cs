@@ -334,8 +334,12 @@ public class Enemy : MonoBehaviour
         OnHealthUpdated?.Invoke(currentHealth);
     }
 
+    private static readonly Unity.Profiling.ProfilerMarker PopMarker = new Unity.Profiling.ProfilerMarker("3DTD.Enemy.PopLayer");
+    private static readonly Unity.Profiling.ProfilerMarker ShapeMarker = new Unity.Profiling.ProfilerMarker("3DTD.Enemy.ShowShape");
+
     private void PopLayer()
     {
+        using var scope = PopMarker.Auto();
         PerfCounters.Pops++;
         if (EnemyPopSoundSpawn.Instance != null)
             EnemyPopSoundSpawn.Instance.PlayPopSound();
@@ -395,6 +399,7 @@ public class Enemy : MonoBehaviour
     // Compared by object, not index: the boss slot reuses the Icosahedron Black child.
     private void ShowShape(int id)
     {
+        using var scope = ShapeMarker.Auto();
         if (allPossibleShapes == null)
             return;
 

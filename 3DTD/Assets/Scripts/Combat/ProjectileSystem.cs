@@ -164,8 +164,11 @@ public class ProjectileSystem : MonoBehaviour
 
     // ---- firing -----------------------------------------------------------------------------------------
 
+    private static readonly ProfilerMarker FireMarker = new ProfilerMarker("3DTD.Projectiles.Fire");
+
     public static void Fire(GameObject prefab, in Shot shot)
     {
+        using var scope = FireMarker.Auto();
         Instance.Spawn(ProjectileArchetype.Get(prefab), shot, Time.frameCount, shot.Age);
     }
 
@@ -222,7 +225,7 @@ public class ProjectileSystem : MonoBehaviour
         if (archetype.Kind != ProjectileKind.Cluster)
         {
             EffectPlayer.Play(archetype.MuzzleEffect, shot.Position, rotation, 1f, MuzzleLifetime, lead);
-            flight = EffectPlayer.Attach(archetype.FlightEffect, shot.Position, rotation, scale);
+            flight = EffectPlayer.Attach(archetype.FlightEffect, shot.Position, rotation, scale, rotation * Vector3.forward * shot.Speed);
         }
         flights.Add(flight);
         PerfCounters.ProjectilesSpawned++;
@@ -396,7 +399,7 @@ public class ProjectileSystem : MonoBehaviour
             if (flight.IsValid)
             {
                 float fade = state.Dying != 0 ? Mathf.Clamp01(1f - state.FadeTime / Projectile.FadeDuration) : 1f;
-                flight.SetPose(state.Position, state.Rotation, state.Scale * fade);
+                flight.SetPose(state.Position, state.Rotation, state.Scale * fade, state.Direction * state.Speed);
             }
         }
     }

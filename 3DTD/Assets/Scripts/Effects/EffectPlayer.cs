@@ -66,8 +66,12 @@ public class EffectPlayer : MonoBehaviour
 
     // One-shot effect. maxLifetime caps how long it may play (the Destroy delay of the code it replaces);
     // age pre-ages it, for effects that started earlier in the frame (game time).
+    private static readonly Unity.Profiling.ProfilerMarker PlayMarker = new Unity.Profiling.ProfilerMarker("3DTD.Effects.Play");
+    private static readonly Unity.Profiling.ProfilerMarker AttachMarker = new Unity.Profiling.ProfilerMarker("3DTD.Effects.Attach");
+
     public static void Play(GameObject prefab, Vector3 position, Quaternion rotation, float scale = 1f, float maxLifetime = float.PositiveInfinity, float age = 0f)
     {
+        using var scope = PlayMarker.Auto();
         if (prefab == null)
             return;
         PerfCounters.EffectsRequested++;
@@ -79,12 +83,13 @@ public class EffectPlayer : MonoBehaviour
     }
 
     // Looping effect that follows a projectile until Release
-    public static FlightHandle Attach(GameObject prefab, Vector3 position, Quaternion rotation, float scale)
+    public static FlightHandle Attach(GameObject prefab, Vector3 position, Quaternion rotation, float scale, Vector3 velocity)
     {
+        using var scope = AttachMarker.Auto();
         EffectPlayer player = Instance;
         if (prefab == null || player == null)
             return default;
-        return player.GetPool(prefab).Attach(position, rotation, scale);
+        return player.GetPool(prefab).Attach(position, rotation, scale, velocity);
     }
 
     internal static void LogBackend(GameObject prefab, string backend)
