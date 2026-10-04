@@ -37,6 +37,9 @@ public class SaveGame
     // Set by the main menu's Continue button; consumed by GameManager once the level is loaded
     public static SaveGame PendingRestore { get; private set; }
 
+    // The performance benchmark plays rounds the player never reached; it must not overwrite their autosave
+    public static bool SuppressWrites;
+
     public static bool Exists()
     {
         return File.Exists(FilePath);
@@ -82,7 +85,7 @@ public class SaveGame
     public static void Capture(int completedRound)
     {
         GameManager game = GameManager.Instance;
-        if (game == null || game.IsMainMenu || game.IsGameOver)
+        if (SuppressWrites || game == null || game.IsMainMenu || game.IsGameOver)
             return;
 
         SaveGame save = new SaveGame

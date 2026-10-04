@@ -75,6 +75,7 @@ public class ProjectilePoolManager : MonoBehaviour
     // Grows on demand: pools used to be sized from the fire rate before upgrades and starved fast towers
     public GameObject GetPooledProjectile()
     {
+        PerfCounters.ProjectilesRequested++;
         GameObject projectile = null;
         while (projectile == null && pooledProjectiles.Count > 0)
             projectile = pooledProjectiles.Dequeue();
@@ -89,6 +90,7 @@ public class ProjectilePoolManager : MonoBehaviour
         }
 
         projectile.SetActive(true);
+        PerfCounters.ProjectilesSpawned++;
         return projectile;
     }
 

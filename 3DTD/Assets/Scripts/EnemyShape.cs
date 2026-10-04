@@ -29,6 +29,8 @@ public class EnemyShape : MonoBehaviour
 
     public static void SpawnDeathEffect(GameObject source, int id, Vector3 position, Quaternion rotation)
     {
+        if (source != null)
+            PerfCounters.DeathEffectsRequested++;
         if (source == null || activeDeathEffects >= MaxActiveDeathEffects || Time.timeScale > MaxGameSpeedForEffects)
             return;
 
@@ -57,6 +59,7 @@ public class EnemyShape : MonoBehaviour
         activeDeathEffects++;
         effect.isPlaying = true;
         effect.DeathAnimation();
+        PerfCounters.DeathEffectsPlayed++;
     }
 
     public void DeathAnimation()

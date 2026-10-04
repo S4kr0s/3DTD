@@ -276,6 +276,7 @@ public class Enemy : MonoBehaviour
 
     private void PopLayer()
     {
+        PerfCounters.Pops++;
         if (EnemyPopSoundSpawn.Instance != null)
             EnemyPopSoundSpawn.Instance.PlayPopSound();
 

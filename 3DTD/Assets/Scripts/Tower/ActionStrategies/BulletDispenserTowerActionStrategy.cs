@@ -73,9 +73,12 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
             if (enemy == null || !enemy.IsAlive)
                 continue;
 
+            if (hitParticle != null)
+                PerfCounters.EffectsRequested++;
             if (hitParticle != null && particles < MaxAuraHitParticlesPerTick && Time.timeScale <= 2f)
             {
                 Instantiate(hitParticle, enemy.transform.position, enemy.transform.rotation, null);
+                PerfCounters.EffectsPlayed++;
                 particles++;
             }
 
