@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-// The pooled instances of one effect prefab (see EffectPlayer)
+// Plays one effect prefab (see EffectPlayer): through a batched shared copy when the prefab allows it
+// (BatchedEffect for one-shots, FlightBatch for flight effects), otherwise through pooled copies
 public class EffectPool
 {
     // A looping one-shot effect without a lifetime cap still ends after this long
@@ -14,6 +15,10 @@ public class EffectPool
     private readonly Transform staging;
     private readonly Stack<EffectInstance> free = new Stack<EffectInstance>();
     private readonly List<EffectInstance> playing = new List<EffectInstance>();
+    private BatchedEffect batch;
+    private FlightBatch flightBatch;
+    private bool batchChecked;
+    private bool flightBatchChecked;
 
     // Seconds from Play until the last particle of a one-shot is gone, and how long the trail parts of a
     // flight effect still show after it stopped emitting
@@ -53,6 +58,18 @@ public class EffectPool
 
     public void PlayOneShot(Vector3 position, Quaternion rotation, float scale, float maxLifetime, float age)
     {
+        if (!batchChecked)
+        {
+            batchChecked = true;
+            batch = EffectPlayer.BatchingEnabled ? BatchedEffect.TryCreate(prefab, container) : null;
+            EffectPlayer.LogBackend(prefab, batch != null ? "batched one-shot" : "pooled one-shot");
+        }
+        if (batch != null)
+        {
+            batch.Play(position, rotation, scale, age);
+            return;
+        }
+
         EffectInstance effect = Take();
         effect.SetPose(position, rotation, scale);
         effect.Play();
@@ -64,14 +81,23 @@ public class EffectPool
         playing.Add(effect);
     }
 
-    public EffectInstance Attach(Vector3 position, Quaternion rotation, float scale)
+    public FlightHandle Attach(Vector3 position, Quaternion rotation, float scale)
     {
+        if (!flightBatchChecked)
+        {
+            flightBatchChecked = true;
+            flightBatch = EffectPlayer.BatchingEnabled ? FlightBatch.TryCreate(prefab, container) : null;
+            EffectPlayer.LogBackend(prefab, flightBatch != null ? "batched flight" : "pooled flight");
+        }
+        if (flightBatch != null)
+            return new FlightHandle(flightBatch, flightBatch.Attach(position, rotation, scale));
+
         EffectInstance effect = Take();
         effect.SetPose(position, rotation, scale);
         effect.Play();
         owner.TakeLight(effect);
         effect.Attached = true;
-        return effect;
+        return new FlightHandle(effect);
     }
 
     // The projectile is gone: trails play out, everything else vanishes
@@ -83,8 +109,24 @@ public class EffectPool
         playing.Add(effect);
     }
 
+    // Once per frame: batched effects emit what is due, finished pooled copies go back to the pool
+    public void Update(float now, float deltaTime)
+    {
+        if (batch != null)
+            batch.Emit(now, deltaTime);
+        if (flightBatch != null)
+            flightBatch.Update(deltaTime);
+        Retire(now);
+    }
+
+    public void Dispose()
+    {
+        batch?.Dispose();
+        flightBatch?.Dispose();
+    }
+
     // Puts finished effects back into the pool
-    public void Retire(float now)
+    private void Retire(float now)
     {
         for (int i = playing.Count - 1; i >= 0; i--)
         {
@@ -162,6 +204,46 @@ public class EffectPool
         for (int i = 0; i < curve.length; i++)
             max = Mathf.Max(max, curve[i].value);
         return max;
+    }
+}
+
+// A flight effect attached to a projectile, played batched or by a pooled copy
+public readonly struct FlightHandle
+{
+    private readonly FlightBatch batch;
+    private readonly int id;
+    private readonly EffectInstance pooled;
+
+    public FlightHandle(FlightBatch batch, int id)
+    {
+        this.batch = batch;
+        this.id = id;
+        pooled = null;
+    }
+
+    public FlightHandle(EffectInstance pooled)
+    {
+        batch = null;
+        id = -1;
+        this.pooled = pooled;
+    }
+
+    public bool IsValid => batch != null || pooled != null;
+
+    public void SetPose(Vector3 position, Quaternion rotation, float scale)
+    {
+        if (batch != null)
+            batch.SetPose(id, position, rotation, scale);
+        else
+            pooled?.SetPose(position, rotation, scale);
+    }
+
+    public void Release()
+    {
+        if (batch != null)
+            batch.Release(id);
+        else
+            pooled?.Release();
     }
 }
 

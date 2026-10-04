@@ -162,12 +162,37 @@ S2 and S3 are dominated by pooled effect copies (thousands of muzzle, impact and
 
 Checks: EditMode 45/45, LevelPlaytest 35/35, UIPlaytest pass.
 
+## Phase 4 results (effect batching)
+- **`BatchedEffect`** (one-shot effects): one shared, world-space copy per prefab, with its emission off.
+  - A play queues the prefab's bursts and rates.
+  - Once per frame each system emits everything due in one `Emit`, and the fresh particles are moved to their play's pose, scale and rotation.
+  - Systems with particle trails emit at each play's pose instead. Otherwise the trail would start at the shared copy's origin, which showed up as long white streaks.
+- **`FlightBatch`** (flight effects):
+  - Per-flight emission: rate over time, rate over distance, looping bursts, and prewarm.
+  - A Burst particle job moves the particles of local-space systems with their projectile, shrinks them with its fade and removes them when it is gone.
+  - Systems named "Trail" play out.
+  - The `TrailRenderer` becomes a shared particle trail behind one invisible head particle per flight.
+- **Fallback:** prefabs these can't reproduce (sub-emitters, local-space forces, other scripts, lights or meshes) keep pooled copies. Today that is the rocket muzzle and the rocket explosion.
+- **Light budget:** particle lights are capped at 64 per batched system.
+- **Comparing the looks:** run `-perfSuite V` with and without `-perfNoBatching 1`. It uses fixed 1/60 s frames and seeded gameplay, and writes `tasks/perf/visual-{batched,pooled}-0..3.png`, close-ups of the same tower at the same moments.
+  - The bullets, muzzle starbursts, impacts and sparks match.
+  - The pooled run lights the tower top a little more.
+
+| Run | p50 / p99 / max (ms) | Game speed |
+|---|---|---|
+| S1-1x | 10.0 / 16.7 / 41.7 | 1.00x |
+| S1-5x | 10.8 / 24.5 / 44.5 | 5.00x |
+| S2 (150 dispensers) | 19.9 / 31.0 / 77.2 | 1.00x |
+| S3 (S2 at 5x) | 21.2 / 113 / 121 | 4.95x |
+
+In S2, 384k projectiles and 582k effects were requested and none was dropped. About 12 ms of each S2/S3 frame is the harness's own `camera.Render()` of the particle load in the Editor; a player build is needed for real numbers.
+
 ## Status
 - [x] Phase 0: benchmark harness and baseline.
 - [x] Phase 1: bugs and cheap structural fixes.
 - [x] Phase 2: physics configuration.
 - [x] Phase 3: projectile system and parity. Open: Hangar parity (fixed-step starfighters).
-- [ ] Phase 4: effect batching.
+- [x] Phase 4: effect batching.
 - [ ] Phase 5: death animations (instanced).
 - [ ] Phase 6: wrap-up.
 

@@ -106,7 +106,7 @@ public class ProjectileSystem : MonoBehaviour
     private NativeParallelMultiHashMap<int, int> grid;
     private readonly List<ProjectileArchetype> archetypes = new List<ProjectileArchetype>();
     private readonly List<Tower> towers = new List<Tower>();
-    private readonly List<EffectInstance> flights = new List<EffectInstance>();
+    private readonly List<FlightHandle> flights = new List<FlightHandle>();
     private readonly List<Enemy> overlap = new List<Enemy>();
 
     // Statics survive play sessions when domain reload is off
@@ -215,7 +215,7 @@ public class ProjectileSystem : MonoBehaviour
         archetypes.Add(archetype);
         towers.Add(shot.Tower);
 
-        EffectInstance flight = null;
+        FlightHandle flight = default;
         if (archetype.Kind != ProjectileKind.Cluster)
         {
             EffectPlayer.Play(archetype.MuzzleEffect, shot.Position, rotation, 1f, MuzzleLifetime, lead);
@@ -379,16 +379,15 @@ public class ProjectileSystem : MonoBehaviour
         {
             State state = states[i];
             bool gone = state.Dying != 0 && (state.Kind == (byte)ProjectileKind.Cluster || state.FadeTime >= Projectile.FadeDuration);
-            EffectInstance flight = flights[i];
+            FlightHandle flight = flights[i];
             if (gone)
             {
-                if (flight != null)
-                    flight.Release();
+                flight.Release();
                 RemoveAt(i);
                 continue;
             }
 
-            if (flight != null)
+            if (flight.IsValid)
             {
                 float fade = state.Dying != 0 ? Mathf.Clamp01(1f - state.FadeTime / Projectile.FadeDuration) : 1f;
                 flight.SetPose(state.Position, state.Rotation, state.Scale * fade);

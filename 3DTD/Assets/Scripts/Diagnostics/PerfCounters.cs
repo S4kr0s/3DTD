@@ -10,6 +10,8 @@ public static class PerfCounters
     public static long DeathEffectsPlayed;
     public static long EffectsRequested;
     public static long EffectsPlayed;
+    // Particles emitted through batched effects (BatchedEffect, FlightBatch)
+    public static long BatchedParticles;
 
     public static void Reset()
     {
@@ -20,5 +22,6 @@ public static class PerfCounters
         DeathEffectsPlayed = 0;
         EffectsRequested = 0;
         EffectsPlayed = 0;
+        BatchedParticles = 0;
     }
 }

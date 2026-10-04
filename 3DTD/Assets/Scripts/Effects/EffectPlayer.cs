@@ -16,6 +16,9 @@ public class EffectPlayer : MonoBehaviour
 {
     public const int LightBudget = 64;
 
+    // Off: every effect plays through pooled copies (for comparing the looks; -perfNoBatching)
+    public static bool BatchingEnabled = true;
+
     private static EffectPlayer instance;
     private static bool quitting;
 
@@ -39,7 +42,7 @@ public class EffectPlayer : MonoBehaviour
     {
         get
         {
-            if (instance == null && !quitting && Application.isPlaying)
+            if (instance == null && !quitting)
             {
                 GameObject host = new GameObject("Effect Player");
                 instance = host.AddComponent<EffectPlayer>();
@@ -57,6 +60,8 @@ public class EffectPlayer : MonoBehaviour
     {
         if (instance == this)
             instance = null;
+        foreach (EffectPool pool in poolList)
+            pool.Dispose();
     }
 
     // One-shot effect. maxLifetime caps how long it may play (the Destroy delay of the code it replaces);
@@ -74,12 +79,18 @@ public class EffectPlayer : MonoBehaviour
     }
 
     // Looping effect that follows a projectile until Release
-    public static EffectInstance Attach(GameObject prefab, Vector3 position, Quaternion rotation, float scale)
+    public static FlightHandle Attach(GameObject prefab, Vector3 position, Quaternion rotation, float scale)
     {
         EffectPlayer player = Instance;
         if (prefab == null || player == null)
-            return null;
+            return default;
         return player.GetPool(prefab).Attach(position, rotation, scale);
+    }
+
+    internal static void LogBackend(GameObject prefab, string backend)
+    {
+        if (Debug.isDebugBuild)
+            Debug.Log("EffectPlayer: " + prefab.name + " plays " + backend);
     }
 
     private EffectPool GetPool(GameObject prefab)
@@ -101,8 +112,9 @@ public class EffectPlayer : MonoBehaviour
     private void Update()
     {
         float now = Time.time;
+        float deltaTime = Time.deltaTime;
         for (int i = 0; i < poolList.Count; i++)
-            poolList[i].Retire(now);
+            poolList[i].Update(now, deltaTime);
     }
 
     // ---- light budget ------------------------------------------------------------------------------------

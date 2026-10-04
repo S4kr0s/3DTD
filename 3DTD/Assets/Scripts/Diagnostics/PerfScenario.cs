@@ -54,6 +54,7 @@ public class PerfScenario : MonoBehaviour
         public int seed = 1234;
         public string parityGroup;       // runs with the same group are compared against their 1x run
         public bool informational;       // parity deviations are logged but don't fail
+        public bool visual;              // fixed 1/60 s frames, a series of close-ups, then stop
     }
 
     [Serializable]
@@ -195,6 +196,8 @@ public class PerfScenario : MonoBehaviour
             new Run { id = "S1-r75", layout = "mixed", speed = 1f, round = 75 },
             new Run { id = "S2P-1x", layout = "dispensers", speed = 1f, round = 60, maxTowers = 12, waves = 1, parityGroup = "S2P" },
             new Run { id = "S2P-5x", layout = "dispensers", speed = 5f, round = 60, maxTowers = 12, waves = 1, parityGroup = "S2P" },
+            // Same game state every time (fixed frames, seeded): compare the effects with and without batching
+            new Run { id = "V", layout = "dispensers", speed = 1f, round = 60, maxTowers = 12, waves = 1, visual = true },
         };
 
         // Tower parity: one maxed tower of each type alone against an overwhelming wave, at 1x/3x/5x.
@@ -282,7 +285,8 @@ public class PerfScenario : MonoBehaviour
         GameManager game = GameManager.Instance;
         Spawner spawner = Spawner.Instance;
         RunResult result = new RunResult { id = run.id, layout = run.layout, speed = run.speed, round = run.round };
-        suite.runs.Add(result);
+        if (!run.visual)
+            suite.runs.Add(result);
         if (game == null || spawner == null)
         {
             result.failures.Add(run.id + ": scene has no GameManager or Spawner");
@@ -329,6 +333,12 @@ public class PerfScenario : MonoBehaviour
         game.ChangeGameSpeed(run.speed);
         PerfCounters.Reset();
 
+        if (run.visual)
+        {
+            yield return CaptureSeries(run, game, spawner, towers);
+            yield break;
+        }
+
         samples.Clear();
         recording = true;
         float startReal = Time.realtimeSinceStartup;
@@ -344,7 +354,12 @@ public class PerfScenario : MonoBehaviour
                 {
                     captured = true;
                     result.wrongEnemyScale = CountWrongEnemyScales(spawner);
-                    Capture(Path.Combine(outputDirectory, "perf-" + run.id + ".png"));
+                    string suffix = EffectPlayer.BatchingEnabled ? "" : "-pooled";
+                    Capture(Path.Combine(outputDirectory, "perf-" + run.id + suffix + ".png"), null);
+                    // Close-up of the busiest stretch: the tower nearest to the enemies
+                    Tower focus = NearestTower(towers, spawner);
+                    if (focus != null)
+                        Capture(Path.Combine(outputDirectory, "perf-" + run.id + suffix + "-close.png"), focus.transform.position);
                     skipNextSample = true;
                 }
                 yield return null;
@@ -360,6 +375,8 @@ public class PerfScenario : MonoBehaviour
 
     private void ApplyBenchmarkSettings()
     {
+        // -perfNoBatching: every effect through pooled copies, to compare the looks
+        EffectPlayer.BatchingEnabled = Argument("-perfNoBatching") == null;
         BalanceTelemetry.Enabled = false;
         SaveGame.SuppressWrites = true;
         QualitySettings.vSyncCount = 0;
@@ -641,18 +658,21 @@ public class PerfScenario : MonoBehaviour
             if (!(tower.ActionStrategy is BeamTowerActionStrategy) || !tower.UseRotationSlider || tower.ShootingPoints.Length == 0)
                 continue;
 
-            Vector3 position = tower.transform.position;
+            // Across the lane at a slant (towards a point a little further along it), so the beam crosses the
+            // enemies' path instead of running beside it
+            Vector3 position = tower.ShootingPoints[0].transform.position;
             Vector3 wanted = Vector3.forward;
             float bestDistance = float.MaxValue;
             for (int i = 0; i + 1 < path.Count; i++)
             {
                 Vector3 ab = path[i + 1] - path[i];
                 float t = ab.sqrMagnitude > 0f ? Mathf.Clamp01(Vector3.Dot(position - path[i], ab) / ab.sqrMagnitude) : 0f;
-                float distance = Vector3.Distance(position, path[i] + ab * t);
+                Vector3 nearest = path[i] + ab * t;
+                float distance = Vector3.Distance(position, nearest);
                 if (distance < bestDistance && ab.sqrMagnitude > 0f)
                 {
                     bestDistance = distance;
-                    wanted = ab.normalized;
+                    wanted = (nearest + ab.normalized * 1.5f - position).normalized;
                 }
             }
 
@@ -759,11 +779,62 @@ public class PerfScenario : MonoBehaviour
         return wrong;
     }
 
-    private static void Capture(string path)
+    // Fixed 1/60 s frames from the start of the wave, so batched and pooled runs reach the same moment;
+    // four close-ups 0.05 s apart around the tower nearest the enemies
+    private IEnumerator CaptureSeries(Run run, GameManager game, Spawner spawner, List<Tower> towers)
+    {
+        Time.captureDeltaTime = 1f / 60f;
+        spawner.StartNextWave();
+        for (int frame = 0; frame < 360; frame++)
+            yield return null;
+
+        Tower focus = NearestTower(towers, spawner);
+        string suffix = EffectPlayer.BatchingEnabled ? "batched" : "pooled";
+        for (int shot = 0; shot < 4 && focus != null; shot++)
+        {
+            Capture(Path.Combine(outputDirectory, "visual-" + suffix + "-" + shot + ".png"), focus.transform.position);
+            for (int frame = 0; frame < 3; frame++)
+                yield return null;
+        }
+        Time.captureDeltaTime = 0f;
+        game.ChangeGameSpeed(1f);
+        Debug.Log("PERF VISUAL " + suffix + " captured around " + (focus != null ? focus.transform.position.ToString() : "nothing"));
+    }
+
+    private static Tower NearestTower(List<Tower> towers, Spawner spawner)
+    {
+        Tower best = null;
+        float bestDistance = float.MaxValue;
+        foreach (GameObject enemy in spawner.EnemiesAlive)
+        {
+            foreach (Tower tower in towers)
+            {
+                if (tower == null || enemy == null)
+                    continue;
+                float distance = (tower.transform.position - enemy.transform.position).sqrMagnitude;
+                if (distance < bestDistance)
+                {
+                    bestDistance = distance;
+                    best = tower;
+                }
+            }
+        }
+        return best;
+    }
+
+    // Main camera view, or a close-up looking at focus
+    private static void Capture(string path, Vector3? focus)
     {
         Camera camera = Camera.main;
         if (camera == null)
             return;
+        Vector3 previousPosition = camera.transform.position;
+        Quaternion previousRotation = camera.transform.rotation;
+        if (focus.HasValue)
+        {
+            Quaternion look = Quaternion.Euler(35f, 30f, 0f);
+            camera.transform.SetPositionAndRotation(focus.Value - look * Vector3.forward * 5f, look);
+        }
         const int width = 1600, height = 900;
         RenderTexture target = new RenderTexture(width, height, 24, RenderTextureFormat.ARGB32);
         RenderTexture previousTarget = camera.targetTexture;
@@ -780,6 +851,7 @@ public class PerfScenario : MonoBehaviour
         Destroy(image);
         target.Release();
         Destroy(target);
+        camera.transform.SetPositionAndRotation(previousPosition, previousRotation);
     }
 
     private void Summarize(Run run, RunResult result, List<Tower> towers, int leaked)
