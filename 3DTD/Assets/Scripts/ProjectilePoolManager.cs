@@ -72,6 +72,10 @@ public class ProjectilePoolManager : MonoBehaviour
         projectile.SetActive(false);
         if (projectile.TryGetComponent(out Projectile component))
             component.Pool = this;
+        // Effects are played through EffectPlayer; the script's FixedUpdate only ran useless GetComponent
+        // calls and sphere casts (the projectile has no velocity). Its methods still work while disabled.
+        if (projectile.TryGetComponent(out PolygonArsenal.PolygonProjectileScript visuals))
+            visuals.enabled = false;
         allProjectiles.Add(projectile);
         return projectile;
     }

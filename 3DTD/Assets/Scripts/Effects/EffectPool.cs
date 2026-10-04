@@ -1,0 +1,288 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Rendering;
+
+// The pooled instances of one effect prefab (see EffectPlayer)
+public class EffectPool
+{
+    // A looping one-shot effect without a lifetime cap still ends after this long
+    private const float MaxOpenEndedLifetime = 5f;
+
+    private readonly EffectPlayer owner;
+    private readonly GameObject prefab;
+    private readonly Transform container;
+    private readonly Transform staging;
+    private readonly Stack<EffectInstance> free = new Stack<EffectInstance>();
+    private readonly List<EffectInstance> playing = new List<EffectInstance>();
+
+    // Seconds from Play until the last particle of a one-shot is gone, and how long the trail parts of a
+    // flight effect still show after it stopped emitting
+    private readonly float naturalLifetime;
+    private readonly float trailLinger;
+    // Callers scale relative to the prefab's own scale (projectiles used to scale their child effect)
+    private readonly Vector3 prefabScale;
+
+    public EffectPool(EffectPlayer owner, GameObject prefab, Transform container)
+    {
+        this.owner = owner;
+        this.prefab = prefab;
+        this.container = container;
+
+        GameObject stagingObject = new GameObject(prefab.name + " (staging)");
+        stagingObject.SetActive(false);
+        stagingObject.transform.SetParent(container, false);
+        staging = stagingObject.transform;
+
+        prefabScale = prefab.transform.localScale;
+        naturalLifetime = 0f;
+        trailLinger = 0f;
+        foreach (ParticleSystem system in prefab.GetComponentsInChildren<ParticleSystem>(true))
+        {
+            float lifetime = MaxOf(system.main.startLifetime);
+            naturalLifetime = Mathf.Max(naturalLifetime, MaxOf(system.main.startDelay) + EmissionEnd(system) + lifetime);
+            if (EffectInstance.IsTrailName(system.name))
+                trailLinger = Mathf.Max(trailLinger, lifetime);
+        }
+        foreach (TrailRenderer trail in prefab.GetComponentsInChildren<TrailRenderer>(true))
+        {
+            naturalLifetime = Mathf.Max(naturalLifetime, trail.time);
+            trailLinger = Mathf.Max(trailLinger, trail.time);
+        }
+        naturalLifetime += 0.05f;
+    }
+
+    public void PlayOneShot(Vector3 position, Quaternion rotation, float scale, float maxLifetime, float age)
+    {
+        EffectInstance effect = Take();
+        effect.SetPose(position, rotation, scale);
+        effect.Play();
+        owner.TakeLight(effect);
+        float lifetime = Mathf.Min(naturalLifetime, maxLifetime);
+        if (float.IsInfinity(lifetime))
+            lifetime = MaxOpenEndedLifetime;
+        effect.EndTime = Time.time + Mathf.Max(0f, lifetime - age);
+        playing.Add(effect);
+    }
+
+    public EffectInstance Attach(Vector3 position, Quaternion rotation, float scale)
+    {
+        EffectInstance effect = Take();
+        effect.SetPose(position, rotation, scale);
+        effect.Play();
+        owner.TakeLight(effect);
+        effect.Attached = true;
+        return effect;
+    }
+
+    // The projectile is gone: trails play out, everything else vanishes
+    public void Detach(EffectInstance effect)
+    {
+        effect.Attached = false;
+        effect.StopEmitting();
+        effect.EndTime = Time.time + trailLinger + 0.05f;
+        playing.Add(effect);
+    }
+
+    // Puts finished effects back into the pool
+    public void Retire(float now)
+    {
+        for (int i = playing.Count - 1; i >= 0; i--)
+        {
+            EffectInstance effect = playing[i];
+            if (effect.EndTime > now)
+                continue;
+
+            int last = playing.Count - 1;
+            playing[i] = playing[last];
+            playing.RemoveAt(last);
+
+            effect.StopAndClear();
+            owner.ReturnLight(effect);
+            free.Push(effect);
+        }
+    }
+
+    private EffectInstance Take()
+    {
+        return free.Count > 0 ? free.Pop() : Create();
+    }
+
+    private EffectInstance Create()
+    {
+        // Built under an inactive parent so nothing plays on awake before it is configured
+        GameObject instance = Object.Instantiate(prefab, staging);
+        EffectInstance effect = new EffectInstance(this, instance, prefabScale);
+        instance.transform.SetParent(container, false);
+        return effect;
+    }
+
+    private static float EmissionEnd(ParticleSystem system)
+    {
+        ParticleSystem.MainModule main = system.main;
+        ParticleSystem.EmissionModule emission = system.emission;
+        if (!emission.enabled)
+            return 0f;
+
+        bool continuous = MaxOf(emission.rateOverTime) > 0f || MaxOf(emission.rateOverDistance) > 0f;
+        if (main.loop && (continuous || emission.burstCount > 0))
+            return float.PositiveInfinity;
+        if (continuous)
+            return main.duration;
+
+        float end = 0f;
+        for (int i = 0; i < emission.burstCount; i++)
+        {
+            ParticleSystem.Burst burst = emission.GetBurst(i);
+            float last = burst.cycleCount <= 0 ? main.duration : burst.time + (burst.cycleCount - 1) * burst.repeatInterval;
+            end = Mathf.Max(end, Mathf.Min(last, main.duration));
+        }
+        return end;
+    }
+
+    public static float MaxOf(ParticleSystem.MinMaxCurve curve)
+    {
+        switch (curve.mode)
+        {
+            case ParticleSystemCurveMode.Constant:
+                return curve.constant;
+            case ParticleSystemCurveMode.TwoConstants:
+                return Mathf.Max(curve.constantMin, curve.constantMax);
+            case ParticleSystemCurveMode.Curve:
+                return curve.curveMultiplier * MaxOfCurve(curve.curve);
+            default:
+                return curve.curveMultiplier * Mathf.Max(MaxOfCurve(curve.curveMin), MaxOfCurve(curve.curveMax));
+        }
+    }
+
+    private static float MaxOfCurve(AnimationCurve curve)
+    {
+        if (curve == null || curve.length == 0)
+            return 1f;
+        float max = float.MinValue;
+        for (int i = 0; i < curve.length; i++)
+            max = Mathf.Max(max, curve[i].value);
+        return max;
+    }
+}
+
+// One pooled, always active copy of an effect prefab
+public class EffectInstance
+{
+    public readonly GameObject GameObject;
+    public readonly Transform Transform;
+    public float EndTime;
+    public bool Attached;
+    public int LightTicket;
+    public bool LightsOn { get; private set; }
+    public bool HasLights => lightSystems.Length > 0;
+
+    private readonly EffectPool pool;
+    private readonly Vector3 prefabScale;
+    private readonly ParticleSystem[] systems;
+    private readonly bool[] isTrail;
+    private readonly TrailRenderer[] trailRenderers;
+    private readonly ParticleSystem[] lightSystems;
+    private readonly AudioSource[] audioSources;
+
+    public static bool IsTrailName(string name)
+    {
+        return name.IndexOf("Trail", System.StringComparison.Ordinal) >= 0;
+    }
+
+    public EffectInstance(EffectPool pool, GameObject instance, Vector3 prefabScale)
+    {
+        this.pool = pool;
+        this.prefabScale = prefabScale;
+        GameObject = instance;
+        Transform = instance.transform;
+
+        systems = instance.GetComponentsInChildren<ParticleSystem>(true);
+        isTrail = new bool[systems.Length];
+        List<ParticleSystem> lit = new List<ParticleSystem>();
+        for (int i = 0; i < systems.Length; i++)
+        {
+            ParticleSystem system = systems[i];
+            ParticleSystem.MainModule main = system.main;
+            main.playOnAwake = false;
+            // Pooled: the effect must survive its end ("Destroy" was the prefab's stop action)
+            main.stopAction = ParticleSystemStopAction.None;
+            isTrail[i] = IsTrailName(system.name);
+            if (system.TryGetComponent(out ParticleSystemRenderer renderer))
+                renderer.shadowCastingMode = ShadowCastingMode.Off;
+            if (system.lights.enabled)
+                lit.Add(system);
+        }
+        lightSystems = lit.ToArray();
+
+        trailRenderers = instance.GetComponentsInChildren<TrailRenderer>(true);
+        foreach (TrailRenderer trail in trailRenderers)
+            trail.shadowCastingMode = ShadowCastingMode.Off;
+
+        List<AudioSource> sounds = new List<AudioSource>();
+        foreach (AudioSource source in instance.GetComponentsInChildren<AudioSource>(true))
+        {
+            if (source.playOnAwake)
+            {
+                source.playOnAwake = false;
+                sounds.Add(source);
+            }
+        }
+        audioSources = sounds.ToArray();
+    }
+
+    public void SetPose(Vector3 position, Quaternion rotation, float scale)
+    {
+        Transform.SetPositionAndRotation(position, rotation);
+        Transform.localScale = prefabScale * scale;
+    }
+
+    public void Play()
+    {
+        for (int i = 0; i < trailRenderers.Length; i++)
+        {
+            trailRenderers[i].Clear();
+            trailRenderers[i].emitting = true;
+        }
+        for (int i = 0; i < systems.Length; i++)
+            systems[i].Play(false);
+        for (int i = 0; i < audioSources.Length; i++)
+            EffectAudio.Play(audioSources[i]);
+    }
+
+    // Trails keep their particles and fade out; everything else vanishes with the projectile
+    public void StopEmitting()
+    {
+        for (int i = 0; i < systems.Length; i++)
+            systems[i].Stop(false, isTrail[i] ? ParticleSystemStopBehavior.StopEmitting : ParticleSystemStopBehavior.StopEmittingAndClear);
+        for (int i = 0; i < trailRenderers.Length; i++)
+            trailRenderers[i].emitting = false;
+    }
+
+    public void StopAndClear()
+    {
+        for (int i = 0; i < systems.Length; i++)
+            systems[i].Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+        for (int i = 0; i < trailRenderers.Length; i++)
+        {
+            trailRenderers[i].emitting = false;
+            trailRenderers[i].Clear();
+        }
+    }
+
+    public void SetLights(bool on)
+    {
+        LightsOn = on;
+        for (int i = 0; i < lightSystems.Length; i++)
+        {
+            ParticleSystem.LightsModule lights = lightSystems[i].lights;
+            lights.enabled = on;
+        }
+    }
+
+    // Called by the owner of an attached (flight) effect when its projectile is gone
+    public void Release()
+    {
+        if (Attached)
+            pool.Detach(this);
+    }
+}

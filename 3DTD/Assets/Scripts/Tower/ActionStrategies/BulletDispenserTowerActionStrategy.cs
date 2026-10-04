@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class BulletDispenserTowerActionStrategy : ActionStrategy
 {
-    // Hit particles per aura tick; a flamethrower in a dense wave would otherwise spawn hundreds per second
-    private const int MaxAuraHitParticlesPerTick = 6;
+    // Hit sparks of the flamethrower play as long as the prefab's own particles (it destroyed itself before)
+    private const float AuraHitEffectLifetime = 5f;
+    private const float PulseMuzzleLifetime = 1.5f;
 
     private ProjectilePoolManager projectilePoolManager;
 
@@ -18,7 +19,7 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
 
     private FireCycle fireCycle;
     private Tower tower;
-    private GameObject target;
+    private Enemy target;
     private readonly List<Enemy> auraTargets = new List<Enemy>();
 
     public override void SetupActionStrategy(Tower tower)
@@ -26,37 +27,36 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
         this.tower = tower;
         fireCycle = new FireCycle(0f);
 
-        if (AuraMode)
+        if (AuraMode || !PulseMode)
         {
-            // The flamethrower doesn't shoot; drop the bullet pool of the previous strategy
+            // The flamethrower doesn't shoot and bullets are simulated by ProjectileSystem: drop the pool of the
+            // previous strategy
             foreach (ProjectilePoolManager pool in tower.GetComponents<ProjectilePoolManager>())
                 Destroy(pool);
             return;
         }
 
-        int points = PulseMode ? 1 : tower.ShootingPoints.Length;
         int inFlight = Mathf.CeilToInt((tower.StatsManager.GetStatValue(Stat.StatType.LIFETIME) + 0.6f) / tower.StatsManager.GetFireInterval());
-        projectilePoolManager = ProjectilePoolManager.GetOrCreate(tower.gameObject, projectile, inFlight * Mathf.Max(1, points) + 2);
+        projectilePoolManager = ProjectilePoolManager.GetOrCreate(tower.gameObject, projectile, inFlight + 2);
     }
 
     public override void ExecuteAction()
     {
-        Enemy enemy = tower.Targetter.GetEnemy(tower.TargetBehaviour);
-        target = enemy != null ? enemy.gameObject : null;
+        target = tower.Targetter.GetEnemy(tower.TargetBehaviour);
 
         int volleys = fireCycle.Tick(Time.deltaTime, target != null, tower.StatsManager.GetFireInterval(), 0f, 0f);
         for (int i = 0; i < volleys; i++)
-            FireVolley();
+            FireVolley(fireCycle.VolleyAge(i));
     }
 
-    private void FireVolley()
+    private void FireVolley(float age)
     {
         if (AuraMode)
             FireAura();
         else if (PulseMode)
             FirePulse();
         else
-            FireBullets();
+            FireBullets(age);
     }
 
     private void FireAura()
@@ -67,28 +67,21 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
         auraTargets.Clear();
         auraTargets.AddRange(tower.Targetter.GetAllEnemiesInRadius());
 
-        int particles = 0;
         foreach (Enemy enemy in auraTargets)
         {
             if (enemy == null || !enemy.IsAlive)
                 continue;
 
-            if (hitParticle != null)
-                PerfCounters.EffectsRequested++;
-            if (hitParticle != null && particles < MaxAuraHitParticlesPerTick && Time.timeScale <= 2f)
-            {
-                Instantiate(hitParticle, enemy.transform.position, enemy.transform.rotation, null);
-                PerfCounters.EffectsPlayed++;
-                particles++;
-            }
-
+            // Every enemy gets its sparks, at any game speed; their sound is limited by EffectAudio
+            Transform enemyTransform = enemy.transform;
+            EffectPlayer.Play(hitParticle, enemyTransform.position, enemyTransform.rotation, 1f, AuraHitEffectLifetime);
             enemy.TakeDamage(damage, DamageType.MAGIC, this.tower);
         }
     }
 
     private void FirePulse()
     {
-        if (pulseFirePoint == null)
+        if (pulseFirePoint == null || projectilePoolManager == null)
             return;
 
         GameObject _projectile = projectilePoolManager.GetPooledProjectile();
@@ -96,57 +89,54 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
         if (_projectile == null)
             return;
 
-        _projectile.SetActive(false);
-        _projectile.transform.position = pulseFirePoint.transform.position;
-        _projectile.transform.rotation = pulseFirePoint.transform.rotation;
+        Transform firePoint = pulseFirePoint.transform;
+        _projectile.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
         _projectile.transform.localScale = Vector3.one;
 
-        ConfigureProjectile(_projectile.GetComponent<Projectile>());
-        _projectile.SetActive(true);
-
-        _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
-    }
-
-    private void FireBullets()
-    {
-        foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
-        {
-            if (!shootingPoint.IsReferenceEnabled)
-                continue;
-
-            GameObject _projectile = projectilePoolManager.GetPooledProjectile();
-
-            if (_projectile == null)
-            {
-                continue;
-            }
-
-            _projectile.SetActive(false);
-            _projectile.transform.position = shootingPoint.transform.position;
-            _projectile.transform.rotation = shootingPoint.transform.rotation;
-            _projectile.transform.localScale = Vector3.one * tower.StatsManager.GetStatValue(Stat.StatType.SIZE);
-
-            ConfigureProjectile(_projectile.GetComponent<Projectile>());
-            _projectile.SetActive(true);
-
-            _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
-        }
-    }
-
-    private void ConfigureProjectile(Projectile projectileComponent)
-    {
+        Projectile projectileComponent = _projectile.GetComponent<Projectile>();
         StatsManager stats = tower.StatsManager;
-        projectileComponent.Target = target;
+        projectileComponent.Target = target != null ? target.gameObject : null;
         projectileComponent.lifetime = stats.GetStatValue(Stat.StatType.LIFETIME);
         projectileComponent.damage = stats.GetStatValue(Stat.StatType.DAMAGE);
-        projectileComponent.penetration = ((int)stats.GetStatValue(Stat.StatType.PIERCING));
+        projectileComponent.penetration = (int)stats.GetStatValue(Stat.StatType.PIERCING);
         projectileComponent.maxSpeed = stats.GetStatValue(Stat.StatType.SPEED);
         projectileComponent.accuracy = stats.GetStatValue(Stat.StatType.ACCURACY);
         projectileComponent.tower = tower;
         if (projectileComponent.Collider != null)
             projectileComponent.Collider.enabled = true;
+        _projectile.SetActive(true);
+
+        if (_projectile.TryGetComponent(out PolygonProjectileScript visuals))
+            EffectPlayer.Play(visuals.muzzleParticle, firePoint.position, firePoint.rotation, 1f, PulseMuzzleLifetime);
     }
 
+    private void FireBullets(float age)
+    {
+        StatsManager stats = tower.StatsManager;
+        ProjectileSystem.Shot shot = new ProjectileSystem.Shot
+        {
+            Scale = stats.GetStatValue(Stat.StatType.SIZE),
+            Damage = stats.GetStatValue(Stat.StatType.DAMAGE),
+            Speed = stats.GetStatValue(Stat.StatType.SPEED),
+            Lifetime = stats.GetStatValue(Stat.StatType.LIFETIME),
+            Accuracy = stats.GetStatValue(Stat.StatType.ACCURACY),
+            Pierce = (int)stats.GetStatValue(Stat.StatType.PIERCING),
+            Target = target,
+            Tower = tower,
+            Age = age,
+        };
+
+        foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
+        {
+            if (!shootingPoint.IsReferenceEnabled)
+                continue;
+
+            Transform barrel = shootingPoint.transform;
+            shot.Position = barrel.position;
+            shot.Rotation = barrel.rotation;
+            ProjectileSystem.Fire(projectile, shot);
+        }
+    }
 
     public override bool CanShoot(GameObject enemy)
     {

@@ -62,6 +62,8 @@ public class Enemy : MonoBehaviour
     public int SpawnSerial => spawnSerial;
     // Index in Spawner.EnemiesAlive while the enemy is alive (-1 otherwise); maintained by the Spawner
     public int AliveIndex { get; set; } = -1;
+    // Slot in ProjectileSystem's EnemyRegistry while alive (-1 otherwise)
+    public int RegistrySlot => registrySlot;
 
     // Direction the enemy is currently moving along its path (zero once it reached the last waypoint)
     public Vector3 PathDirection
@@ -92,6 +94,8 @@ public class Enemy : MonoBehaviour
 
     private static int nextSpawnSerial;
     private int spawnSerial;
+    private int registrySlot = -1;
+    private float hitRadius = -1f;
     private int spawnId;
     private int shieldHits;
     // The shape child that is currently shown (several ids can share one child, e.g. the boss)
@@ -153,21 +157,64 @@ public class Enemy : MonoBehaviour
         animationCanPlay = true;
 
         UpdateTraitVisuals();
+        Register();
+    }
+
+    // Projectile hit tests and blasts find enemies through the registry instead of physics
+    private void Register()
+    {
+        if (hitRadius < 0f)
+        {
+            SphereCollider sphere = GetComponent<SphereCollider>();
+            Vector3 scale = transform.lossyScale;
+            hitRadius = sphere != null ? sphere.radius * Mathf.Max(scale.x, Mathf.Max(scale.y, scale.z)) : 0.375f;
+        }
+        ProjectileSystem system = ProjectileSystem.Instance;
+        if (system == null)
+            return;
+        if (registrySlot >= 0)
+            system.Enemies.Unregister(registrySlot);
+        registrySlot = system.Enemies.Register(this, hitRadius);
+    }
+
+    private void Unregister()
+    {
+        if (registrySlot >= 0 && ProjectileSystem.Existing != null)
+            ProjectileSystem.Existing.Enemies.Unregister(registrySlot);
+        registrySlot = -1;
     }
 
     // Moves along the path. The Spawner also calls this to place enemies that were due earlier in the frame.
+    // Movement left over at a waypoint carries on towards the next one, so corners don't cost distance and the
+    // enemy covers the same path in the same game time at any frame rate or game speed.
     public void Move(float deltaTime)
     {
         if (waypoints == null || waypoints.WaypointsArray.Count == 0)
             return;
 
-        Vector3 waypoint = waypoints.WaypointsArray[waypointIndex].position;
-        Vector3 moveTowards = Vector3.MoveTowards(transform.position, waypoint, MovementSpeed * deltaTime);
-        distanceTraveled += (moveTowards - transform.position).magnitude;
-        transform.position = moveTowards;
+        List<Transform> path = waypoints.WaypointsArray;
+        float remaining = MovementSpeed * deltaTime;
+        Vector3 position = transform.position;
+        for (int guard = 0; guard <= path.Count && remaining > 0f; guard++)
+        {
+            Vector3 waypoint = path[waypointIndex].position;
+            Vector3 toWaypoint = waypoint - position;
+            float distance = toWaypoint.magnitude;
+            if (distance > remaining)
+            {
+                position += toWaypoint * (remaining / distance);
+                distanceTraveled += remaining;
+                break;
+            }
 
-        if ((transform.position - waypoint).sqrMagnitude < 0.01f && waypointIndex < waypoints.WaypointsArray.Count - 1)
+            position = waypoint;
+            distanceTraveled += distance;
+            remaining -= distance;
+            if (waypointIndex >= path.Count - 1)
+                break;
             waypointIndex++;
+        }
+        transform.position = position;
     }
 
     public bool HasTrait(EnemyTrait trait)
@@ -431,6 +478,7 @@ public class Enemy : MonoBehaviour
 
     private void Release()
     {
+        Unregister();
         // Subscribers re-register on the next life
         OnDeath = null;
         OnHealthUpdated = null;

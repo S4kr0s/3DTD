@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class LaserTowerActionStrategy : ActionStrategy
 {
-    private ProjectilePoolManager projectilePoolManager;
-
     [SerializeField] private GameObject projectile;
     [Tooltip("Aim where the enemy will be when the shot arrives instead of where it is now")]
     [SerializeField] private bool aimWithLead = true;
@@ -21,21 +19,9 @@ public class LaserTowerActionStrategy : ActionStrategy
         StatsManager stats = tower.StatsManager;
         fireCycle = new FireCycle(stats.GetStatValue(Stat.StatType.AMMO));
 
-        projectilePoolManager = ProjectilePoolManager.GetOrCreate(tower.gameObject, projectile, EstimatePoolSize());
-    }
-
-    // Projectiles in flight at once: lifetime + the pool's return delay, divided by the fire interval
-    private int EstimatePoolSize()
-    {
-        int points = 0;
-        foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
-        {
-            if (shootingPoint.IsReferenceEnabled)
-                points++;
-        }
-
-        float inFlight = (tower.StatsManager.GetStatValue(Stat.StatType.LIFETIME) + 0.6f) / tower.StatsManager.GetFireInterval();
-        return Mathf.CeilToInt(inFlight) * Mathf.Max(1, points) + 2;
+        // Bolts are simulated by ProjectileSystem; drop the pool of an earlier strategy
+        foreach (ProjectilePoolManager pool in tower.GetComponents<ProjectilePoolManager>())
+            Destroy(pool);
     }
 
     public override void ExecuteAction()
@@ -49,7 +35,7 @@ public class LaserTowerActionStrategy : ActionStrategy
         int volleys = fireCycle.Tick(Time.deltaTime, target != null, stats.GetFireInterval(), stats.GetStatValue(Stat.StatType.AMMO), stats.GetReloadTime());
 
         for (int i = 0; i < volleys; i++)
-            FireVolley();
+            FireVolley(fireCycle.VolleyAge(i));
     }
 
     private Vector3 AimPoint(Vector3 from)
@@ -60,51 +46,41 @@ public class LaserTowerActionStrategy : ActionStrategy
         return AimUtility.PredictIntercept(from, target.transform.position, target.Velocity, tower.StatsManager.GetStatValue(Stat.StatType.SPEED));
     }
 
-    private void FireVolley()
+    private void FireVolley(float age)
     {
         StatsManager stats = tower.StatsManager;
+        ProjectileSystem.Shot shot = new ProjectileSystem.Shot
+        {
+            Scale = stats.GetStatValue(Stat.StatType.SIZE),
+            Damage = stats.GetStatValue(Stat.StatType.DAMAGE),
+            Speed = stats.GetStatValue(Stat.StatType.SPEED),
+            Lifetime = stats.GetStatValue(Stat.StatType.LIFETIME),
+            Accuracy = stats.GetStatValue(Stat.StatType.ACCURACY),
+            Pierce = (int)stats.GetStatValue(Stat.StatType.PIERCING),
+            Tower = tower,
+            Age = age,
+        };
 
         foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
         {
             if (!shootingPoint.IsReferenceEnabled)
                 continue;
 
-            GameObject _projectile = projectilePoolManager.GetPooledProjectile();
-
-            if (_projectile == null)
-            {
-                continue;
-            }
-
-            _projectile.SetActive(false);
-            _projectile.transform.position = shootingPoint.transform.position;
-            _projectile.transform.localScale = Vector3.one * stats.GetStatValue(Stat.StatType.SIZE);
-
-            Projectile projectileComponent = _projectile.GetComponent<Projectile>();
+            Transform barrel = shootingPoint.transform;
+            shot.Position = barrel.position;
             if (aimWithLead)
             {
-                // The projectile flies straight along its rotation when it has no target
-                Vector3 aim = AimPoint(shootingPoint.transform.position) - shootingPoint.transform.position;
-                _projectile.transform.rotation = aim.sqrMagnitude > 0.0001f ? Quaternion.LookRotation(aim) : shootingPoint.transform.rotation;
-                projectileComponent.Target = null;
+                // The bolt flies straight along its rotation when it has no target
+                Vector3 aim = AimPoint(barrel.position) - barrel.position;
+                shot.Rotation = aim.sqrMagnitude > 0.0001f ? Quaternion.LookRotation(aim) : barrel.rotation;
+                shot.Target = null;
             }
             else
             {
-                _projectile.transform.rotation = shootingPoint.transform.rotation;
-                projectileComponent.Target = target.gameObject;
+                shot.Rotation = barrel.rotation;
+                shot.Target = target;
             }
-
-            projectileComponent.lifetime = stats.GetStatValue(Stat.StatType.LIFETIME);
-            projectileComponent.damage = stats.GetStatValue(Stat.StatType.DAMAGE);
-            projectileComponent.penetration = ((int)stats.GetStatValue(Stat.StatType.PIERCING));
-            projectileComponent.maxSpeed = stats.GetStatValue(Stat.StatType.SPEED);
-            projectileComponent.accuracy = stats.GetStatValue(Stat.StatType.ACCURACY);
-            projectileComponent.tower = tower;
-            if (projectileComponent.Collider != null)
-                projectileComponent.Collider.enabled = true;
-            _projectile.SetActive(true);
-
-            _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
+            ProjectileSystem.Fire(projectile, shot);
         }
     }
 

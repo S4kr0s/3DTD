@@ -81,6 +81,7 @@ public class PerfScenario : MonoBehaviour
         public long pops, deathEffectsRequested, deathEffectsPlayed;
         public long effectsRequested, effectsPlayed;
         public bool timedOut;
+        public int wrongEnemyScale;
         public List<string> damageByType = new List<string>();
         public List<string> markers = new List<string>();
         public List<string> failures = new List<string>();
@@ -342,6 +343,7 @@ public class PerfScenario : MonoBehaviour
                 if (!captured && Time.realtimeSinceStartup - startReal > 4f / Mathf.Max(1f, run.speed) + 2f)
                 {
                     captured = true;
+                    result.wrongEnemyScale = CountWrongEnemyScales(spawner);
                     Capture(Path.Combine(outputDirectory, "perf-" + run.id + ".png"));
                     skipNextSample = true;
                 }
@@ -745,6 +747,18 @@ public class PerfScenario : MonoBehaviour
         camera.targetTexture = previous;
     }
 
+    // Pooled and prewarmed enemies must look and collide like a fresh copy of the prefab
+    private static int CountWrongEnemyScales(Spawner spawner)
+    {
+        int wrong = 0;
+        foreach (GameObject enemy in spawner.EnemiesAlive)
+        {
+            if (enemy != null && Mathf.Abs(enemy.transform.lossyScale.x - 0.5f) > 0.001f)
+                wrong++;
+        }
+        return wrong;
+    }
+
     private static void Capture(string path)
     {
         Camera camera = Camera.main;
@@ -866,6 +880,7 @@ public class PerfScenario : MonoBehaviour
                 Require(result, result.gameSpeedRatio >= run.speed * 0.98f, "game ran at " + result.gameSpeedRatio.ToString("F2") + "x instead of " + run.speed + "x");
         }
         Require(result, !result.timedOut, "wave did not end within the time limit");
+        Require(result, result.wrongEnemyScale == 0, result.wrongEnemyScale + " enemies don't have the prefab's scale");
         Require(result, result.projectilesSpawned == result.projectilesRequested, "projectiles dropped: " + (result.projectilesRequested - result.projectilesSpawned) + " of " + result.projectilesRequested);
         Require(result, result.deathEffectsPlayed == result.deathEffectsRequested, "death animations skipped: " + (result.deathEffectsRequested - result.deathEffectsPlayed) + " of " + result.deathEffectsRequested);
         Require(result, result.effectsPlayed == result.effectsRequested, "effects skipped: " + (result.effectsRequested - result.effectsPlayed) + " of " + result.effectsRequested);

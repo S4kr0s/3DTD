@@ -1,6 +1,8 @@
 using PolygonArsenal;
 using UnityEngine;
 
+// Bomblet of a cluster rocket. ProjectileSystem simulates bomblets and reads speed and lifetime from this
+// prefab; the behaviour below only runs for a bomblet that is instantiated as a GameObject.
 public class Clusterbomb : MonoBehaviour
 {
     public float lifetime = 1f;

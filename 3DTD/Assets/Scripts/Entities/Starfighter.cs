@@ -61,8 +61,6 @@ public class Starfighter : MonoBehaviour
 
     private HangarTowerActionStrategy strategy;
     private Transform launchPoint;
-    private ProjectilePoolManager cannonPool;
-    private ProjectilePoolManager ordnancePool;
 
     private FlightState state;
     private float stateTimer;
@@ -90,15 +88,10 @@ public class Starfighter : MonoBehaviour
     private readonly RaycastHit[] hitBuffer = new RaycastHit[8];
     private readonly Collider[] colliderBuffer = new Collider[8];
 
-    public void Setup(HangarTowerActionStrategy strategy, Transform launchPoint, int cannonPoolSize, int ordnancePoolSize, GameObject cannonProjectile, GameObject ordnanceProjectile)
+    public void Setup(HangarTowerActionStrategy strategy, Transform launchPoint)
     {
         this.strategy = strategy;
         this.launchPoint = launchPoint;
-
-        cannonPool = gameObject.AddComponent<ProjectilePoolManager>();
-        cannonPool.Setup(cannonProjectile, cannonPoolSize);
-        ordnancePool = gameObject.AddComponent<ProjectilePoolManager>();
-        ordnancePool.Setup(ordnanceProjectile, ordnancePoolSize);
 
         heading = launchPoint.forward;
         speed = patrolSpeed * 0.5f;
@@ -602,18 +595,20 @@ public class Starfighter : MonoBehaviour
         // Leftover time carries over, so the cannon rate doesn't depend on the frame rate
         while (shotCooldown <= 0f && reloadTimer <= 0f && volleys < FireCycle.MaxVolleysPerFrame)
         {
+            // Seconds since this shot was due; the bolt starts that far along its way
+            float age = Mathf.Clamp(-shotCooldown, 0f, Time.deltaTime);
             volleys++;
             shotCooldown += interval;
 
             if (strategy.twinLinkedCannons)
             {
                 foreach (Transform muzzle in cannonMuzzles)
-                    strategy.FireCannon(cannonPool, muzzle, shotTarget);
+                    strategy.FireCannon(muzzle, shotTarget, age);
             }
             else
             {
                 nextMuzzle = (nextMuzzle + 1) % cannonMuzzles.Length;
-                strategy.FireCannon(cannonPool, cannonMuzzles[nextMuzzle], shotTarget);
+                strategy.FireCannon(cannonMuzzles[nextMuzzle], shotTarget, age);
             }
 
             magazine--;
@@ -645,7 +640,7 @@ public class Starfighter : MonoBehaviour
             .CompareTo(Vector3.Distance(b.transform.position, target.transform.position)));
 
         int missileIndex = strategy.missilesPerRun - pendingMissiles;
-        strategy.FireOrdnance(ordnancePool, ordnanceBay, enemies[missileIndex % enemies.Count]);
+        strategy.FireOrdnance(ordnanceBay, enemies[missileIndex % enemies.Count]);
 
         pendingMissiles--;
         missileTimer = missileLaunchInterval;
@@ -672,7 +667,7 @@ public class Starfighter : MonoBehaviour
         if (closest == null)
             return;
 
-        strategy.FireOrdnance(ordnancePool, ordnanceBay, closest);
+        strategy.FireOrdnance(ordnanceBay, closest);
         bombTimer = bombDropInterval;
     }
 

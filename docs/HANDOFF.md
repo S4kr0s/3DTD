@@ -110,11 +110,63 @@ Parity:
 - Dispenser: 132 vs 282.
 - Phase 3's swept hit tests remove this. Before Phase 2, 5x was already "once per frame", because projectiles only moved once per frame.
 
+## Regression found and fixed: half-size enemies (commit 72609b3)
+- **Cause:** Phase 1's enemy prewarm parented its container to the Spawner object. That object (the `SpawnerNew` root) is scaled 0.5, and `SetParent(null, true)` carried the scale over, so prewarmed enemies spawned at world scale 0.25 instead of 0.5: half size, in looks and in collision.
+- **Effect:** the Phase 1 and Phase 2 numbers above were measured with mostly half-size enemies.
+- **Fix:** the container is now a scene root and spawning keeps the prefab's local scale. The benchmark checks every spawned enemy's scale (`wrongEnemyScale`).
+
+## Phase 3 results (projectile system and parity)
+
+What changed:
+- **`ProjectileSystem`** (`Scripts/Combat/`) simulates Round, Basic, Bomb and Cluster projectiles as data.
+  - Each frame a Burst job puts the enemies into a grid, and a parallel job moves the projectiles and sweeps their capsules against the enemies' own movement.
+  - Rockets home in 1/120 s sub-steps.
+  - Hits are applied on the main thread in time order.
+- **Prefabs stay the source:** `ProjectileArchetype` reads the projectile prefabs once (behaviour component, collider as hit shape, `PolygonProjectileScript` effect fields).
+- **`EnemyRegistry`:** enemies register on spawn. Blasts (rockets, bomblets, Mine Factory) query it instead of the unmasked 128-collider `OverlapSphere`.
+- **`FireCycle.VolleyAge`:** projectiles start as far along as the time since their shot was due. Starfighter cannons do the same.
+- **`Enemy.Move`:** leftover movement at a waypoint carries on to the next one.
+- **`Tower.Rng`:** each tower has its own seeded random stream for spread and mine spots.
+- **`EffectPlayer`:** effects play from pooled copies (no Instantiate/Destroy per shot, no leaking flight children).
+  - Particle lights share a budget of 64.
+  - Effect renderers cast no shadows.
+  - The flamethrower's sparks play for every enemy at every speed; their sound is limited to 4 voices per clip.
+- **Unchanged:** Pulse projectiles stay pooled GameObjects.
+
+Parity (T runs, damage at 1x / 3x / 5x):
+
+| Tower | 1x | 3x | 5x |
+|---|---|---|---|
+| Laser | 480 | 480 | 481 |
+| Core | 7 | 7 | 7 |
+| Rocket | 8,161 | 8,165 | 8,165 |
+| Sniper | 1,134 | 1,134 | 1,134 |
+| Bullet Dispenser | 139 | 140 | 139 |
+| Mine Factory | 14,934 | 14,979 | 15,030 |
+| Hangar | 567 | 687 | 563 |
+| Beam | 0 | 0 | 0 |
+
+- **Hangar:** still off. Starfighters integrate their flight with the frame's time step.
+- **Beam:** the harness aims it parallel to the lane but one block width to the side, so the run is uninformative.
+
+Frame times (Editor):
+
+| Run | p50 / p99 / max (ms) | Game speed |
+|---|---|---|
+| S1-1x | 10.9 / 16.4 / 44.9 | 1.00x |
+| S1-5x | 13.8 / 28.7 / 34.4 | 5.00x |
+| S2 | 147 | 0.51x |
+| S3 | 507 | 0.61x |
+
+S2 and S3 are dominated by pooled effect copies (thousands of muzzle, impact and flight effects), which is Phase 4.
+
+Checks: EditMode 45/45, LevelPlaytest 35/35, UIPlaytest pass.
+
 ## Status
 - [x] Phase 0: benchmark harness and baseline.
 - [x] Phase 1: bugs and cheap structural fixes.
 - [x] Phase 2: physics configuration.
-- [ ] Phase 3: projectile system and parity.
+- [x] Phase 3: projectile system and parity. Open: Hangar parity (fixed-step starfighters).
 - [ ] Phase 4: effect batching.
 - [ ] Phase 5: death animations (instanced).
 - [ ] Phase 6: wrap-up.

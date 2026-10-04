@@ -20,6 +20,12 @@ public class ProjectileBomb : Projectile
 
     private bool updateDisabled = false;
 
+    // Read by ProjectileArchetype; towers fire this prefab through ProjectileSystem
+    public GameObject ClusterProjectilePrefab => clusterProjectilePrefab;
+    public Transform[] ClusterProjectileFirePoints => clusterProjectileFirePoints;
+    public float ClusterDamageShare => clusterDamageShare;
+    public float ClusterRadiusShare => clusterRadiusShare;
+
     // Shared by all bombs; explosions are resolved one at a time on the main thread
     private static readonly Collider[] overlapBuffer = new Collider[128];
 

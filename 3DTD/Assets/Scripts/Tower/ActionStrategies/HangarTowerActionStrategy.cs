@@ -39,8 +39,6 @@ public class HangarTowerActionStrategy : ActionStrategy
     [Header("Weapons")]
     [SerializeField] private GameObject cannonProjectile;
     [SerializeField] private GameObject ordnanceProjectile;
-    [SerializeField] private int cannonPoolPerStarfighter = 24;
-    [SerializeField] private int ordnancePoolPerStarfighter = 12;
     [SerializeField] private float ordnanceDamageMultiplier = 3f;
     [SerializeField] private float ordnanceSize = 0.6f;
     [SerializeField] private float ordnanceSpeed = 7f;
@@ -92,7 +90,7 @@ public class HangarTowerActionStrategy : ActionStrategy
     {
         Starfighter starfighter = Instantiate(starfighterPrefab, launchPoint.position, launchPoint.rotation, tower.transform);
         starfighter.name = "Starfighter " + (starfighters.Count + 1);
-        starfighter.Setup(this, launchPoint, cannonPoolPerStarfighter, ordnancePoolPerStarfighter, cannonProjectile, ordnanceProjectile);
+        starfighter.Setup(this, launchPoint);
         starfighters.Add(starfighter);
     }
 
@@ -176,60 +174,45 @@ public class HangarTowerActionStrategy : ActionStrategy
 
     #region Weapons
 
-    public void FireCannon(ProjectilePoolManager pool, Transform muzzle, Enemy target)
+    // Cannon bolts look at their target when they leave the muzzle, then fly straight (ProjectileBasic)
+    public void FireCannon(Transform muzzle, Enemy target, float age)
     {
-        GameObject _projectile = pool.GetPooledProjectile();
-        if (_projectile == null)
-            return;
-
-        _projectile.SetActive(false);
-        _projectile.transform.position = muzzle.position;
-        _projectile.transform.rotation = muzzle.rotation;
-        _projectile.transform.localScale = Vector3.one * tower.StatsManager.GetStatValue(Stat.StatType.SIZE);
-
-        Projectile projectileComponent = _projectile.GetComponent<Projectile>();
-        projectileComponent.Target = target.gameObject;
-        projectileComponent.lifetime = tower.StatsManager.GetStatValue(Stat.StatType.LIFETIME);
-        projectileComponent.damage = tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE);
-        projectileComponent.penetration = ((int)tower.StatsManager.GetStatValue(Stat.StatType.PIERCING));
-        projectileComponent.maxSpeed = tower.StatsManager.GetStatValue(Stat.StatType.SPEED);
-        projectileComponent.accuracy = tower.StatsManager.GetStatValue(Stat.StatType.ACCURACY);
-        projectileComponent.tower = tower;
-        if (projectileComponent.Collider != null)
-            projectileComponent.Collider.enabled = true;
-        _projectile.SetActive(true);
-
-        _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
+        StatsManager stats = tower.StatsManager;
+        ProjectileSystem.Fire(cannonProjectile, new ProjectileSystem.Shot
+        {
+            Position = muzzle.position,
+            Rotation = muzzle.rotation,
+            Scale = stats.GetStatValue(Stat.StatType.SIZE),
+            Damage = stats.GetStatValue(Stat.StatType.DAMAGE),
+            Speed = stats.GetStatValue(Stat.StatType.SPEED),
+            Lifetime = stats.GetStatValue(Stat.StatType.LIFETIME),
+            Accuracy = stats.GetStatValue(Stat.StatType.ACCURACY),
+            Pierce = (int)stats.GetStatValue(Stat.StatType.PIERCING),
+            Target = target,
+            Tower = tower,
+            Age = age,
+        });
     }
 
     // Missiles and bombs: slower, homing, exploding projectiles
-    public void FireOrdnance(ProjectilePoolManager pool, Transform muzzle, Enemy target)
+    public void FireOrdnance(Transform muzzle, Enemy target)
     {
-        GameObject _projectile = pool.GetPooledProjectile();
-        if (_projectile == null)
-            return;
-
-        _projectile.SetActive(false);
-        _projectile.transform.position = muzzle.position;
-        _projectile.transform.rotation = muzzle.rotation;
-        _projectile.transform.localScale = Vector3.one * ordnanceSize;
-
-        ProjectileBomb projectileComponent = _projectile.GetComponent<ProjectileBomb>();
-        projectileComponent.Target = target.gameObject;
-        projectileComponent.aimAtTarget = true;
-        projectileComponent.doClustering = false;
-        projectileComponent.lifetime = ordnanceLifetime;
-        projectileComponent.damage = tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE) * ordnanceDamageMultiplier;
-        projectileComponent.penetration = 1;
-        projectileComponent.maxSpeed = ordnanceSpeed;
-        projectileComponent.accuracy = 1f;
-        projectileComponent.radius = tower.StatsManager.GetStatValue(Stat.StatType.RADIUS);
-        projectileComponent.tower = tower;
-        if (projectileComponent.Collider != null)
-            projectileComponent.Collider.enabled = true;
-        _projectile.SetActive(true);
-
-        _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
+        StatsManager stats = tower.StatsManager;
+        ProjectileSystem.Fire(ordnanceProjectile, new ProjectileSystem.Shot
+        {
+            Position = muzzle.position,
+            Rotation = muzzle.rotation,
+            Scale = ordnanceSize,
+            Damage = stats.GetStatValue(Stat.StatType.DAMAGE) * ordnanceDamageMultiplier,
+            Speed = ordnanceSpeed,
+            Lifetime = ordnanceLifetime,
+            Accuracy = 1f,
+            Pierce = 1,
+            BlastRadius = stats.GetStatValue(Stat.StatType.RADIUS),
+            Target = target,
+            Homing = true,
+            Tower = tower,
+        });
     }
 
     #endregion

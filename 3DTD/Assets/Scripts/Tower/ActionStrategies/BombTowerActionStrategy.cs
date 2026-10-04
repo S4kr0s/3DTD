@@ -7,15 +7,13 @@ using UnityEngine;
 // With the base AMMO of 1 the rate is set almost entirely by RELOAD_SPEED.
 public class BombTowerActionStrategy : ActionStrategy
 {
-    private ProjectilePoolManager projectilePoolManager;
-
     [SerializeField] private GameObject projectile;
     [SerializeField] public bool aimAtTarget = false;
     [SerializeField] public bool doClustering = false;
 
     private FireCycle fireCycle;
     private Tower tower;
-    private GameObject target;
+    private Enemy target;
 
     public override void SetupActionStrategy(Tower tower)
     {
@@ -23,68 +21,53 @@ public class BombTowerActionStrategy : ActionStrategy
         StatsManager stats = tower.StatsManager;
         fireCycle = new FireCycle(stats.GetStatValue(Stat.StatType.AMMO));
 
-        float cycle = stats.GetFireInterval() + stats.GetReloadTime() / Mathf.Max(1f, stats.GetStatValue(Stat.StatType.AMMO));
-        int inFlight = Mathf.CeilToInt((stats.GetStatValue(Stat.StatType.LIFETIME) + 0.6f) / Mathf.Max(0.05f, cycle));
-        projectilePoolManager = ProjectilePoolManager.GetOrCreate(tower.gameObject, projectile, inFlight * Mathf.Max(1, tower.ShootingPoints.Length) + 2);
+        // Rockets are simulated by ProjectileSystem; drop the pool of an earlier strategy
+        foreach (ProjectilePoolManager pool in tower.GetComponents<ProjectilePoolManager>())
+            Destroy(pool);
     }
 
     public override void ExecuteAction()
     {
         Enemy enemy = tower.Targetter.GetEnemy(tower.TargetBehaviour);
 
+        target = enemy;
         if (enemy != null)
-        {
-            target = enemy.gameObject;
-
             tower.RotationPoint.transform.LookAt(enemy.transform.position, Vector3.up);
-        }
-        else
-            target = null;
 
         StatsManager stats = tower.StatsManager;
         int volleys = fireCycle.Tick(Time.deltaTime, target != null, stats.GetFireInterval(), stats.GetStatValue(Stat.StatType.AMMO), stats.GetReloadTime());
 
         for (int i = 0; i < volleys; i++)
-            FireVolley();
+            FireVolley(fireCycle.VolleyAge(i));
     }
 
-    private void FireVolley()
+    private void FireVolley(float age)
     {
         StatsManager stats = tower.StatsManager;
+        ProjectileSystem.Shot shot = new ProjectileSystem.Shot
+        {
+            Scale = stats.GetStatValue(Stat.StatType.SIZE),
+            Damage = stats.GetStatValue(Stat.StatType.DAMAGE),
+            Speed = stats.GetStatValue(Stat.StatType.SPEED),
+            Lifetime = stats.GetStatValue(Stat.StatType.LIFETIME),
+            Accuracy = stats.GetStatValue(Stat.StatType.ACCURACY),
+            Pierce = (int)stats.GetStatValue(Stat.StatType.PIERCING),
+            BlastRadius = stats.GetStatValue(Stat.StatType.RADIUS),
+            Target = target,
+            Homing = aimAtTarget,
+            Cluster = doClustering,
+            Tower = tower,
+            Age = age,
+        };
 
         foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
         {
             if (!shootingPoint.IsReferenceEnabled)
                 continue;
 
-            GameObject _projectile = projectilePoolManager.GetPooledProjectile();
-
-            if (_projectile == null)
-            {
-                continue;
-            }
-
-            _projectile.SetActive(false);
-            _projectile.transform.position = shootingPoint.transform.position;
-            _projectile.transform.rotation = shootingPoint.transform.rotation;
-            _projectile.transform.localScale = Vector3.one * stats.GetStatValue(Stat.StatType.SIZE);
-
-            ProjectileBomb projectileComponent = _projectile.GetComponent<ProjectileBomb>();
-            projectileComponent.Target = target;
-            projectileComponent.lifetime = stats.GetStatValue(Stat.StatType.LIFETIME);
-            projectileComponent.damage = stats.GetStatValue(Stat.StatType.DAMAGE);
-            projectileComponent.penetration = ((int)stats.GetStatValue(Stat.StatType.PIERCING));
-            projectileComponent.maxSpeed = stats.GetStatValue(Stat.StatType.SPEED);
-            projectileComponent.accuracy = stats.GetStatValue(Stat.StatType.ACCURACY);
-            projectileComponent.tower = tower;
-            if (projectileComponent.Collider != null)
-                projectileComponent.Collider.enabled = true;
-            projectileComponent.aimAtTarget = aimAtTarget;
-            projectileComponent.doClustering = doClustering;
-            projectileComponent.radius = stats.GetStatValue(Stat.StatType.RADIUS);
-            _projectile.SetActive(true);
-
-            _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
+            shot.Position = shootingPoint.transform.position;
+            shot.Rotation = shootingPoint.transform.rotation;
+            ProjectileSystem.Fire(projectile, shot);
         }
     }
 

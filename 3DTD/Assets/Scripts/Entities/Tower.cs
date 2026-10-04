@@ -57,6 +57,15 @@ public class Tower : Building
     [SerializeField] private bool useRotationSlider = false;
     [SerializeField] private GameObject rotationBase;
 
+    // Gameplay randomness of this tower (projectile spread, mine spots) comes from its own stream, seeded when
+    // the tower is built: frame timing and cosmetic random calls elsewhere don't change the outcome
+    [NonSerialized] public Unity.Mathematics.Random Rng;
+
+    private void Awake()
+    {
+        Rng = new Unity.Mathematics.Random((uint)UnityEngine.Random.Range(1, int.MaxValue));
+    }
+
     private void Start()
     {
         rangeRenderer.enabled = false;

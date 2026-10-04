@@ -111,7 +111,7 @@ public class MineFactoryActionStrategy : ActionStrategy
     private readonly Stack<Mine> minePool = new Stack<Mine>();
     private readonly List<PendingBlast> pendingBlasts = new List<PendingBlast>();
     private readonly List<Enemy> enemyBuffer = new List<Enemy>();
-    private static readonly Collider[] overlapBuffer = new Collider[128];
+    private readonly List<Enemy> blastTargets = new List<Enemy>();
 
     private readonly List<PathSpan> spans = new List<PathSpan>();
     private readonly List<Vector3> lanePoints = new List<Vector3>();
@@ -166,7 +166,7 @@ public class MineFactoryActionStrategy : ActionStrategy
     {
         return enemy != null
             && enemy.TryGetComponent<Enemy>(out Enemy enemyComponent)
-            && tower.Targetter.GetAllEnemiesInRadius().Contains(enemyComponent);
+            && tower.Targetter.Contains(enemyComponent);
     }
 
     #region Production
@@ -272,7 +272,7 @@ public class MineFactoryActionStrategy : ActionStrategy
     {
         if (spans.Count == 0 || spansTotalLength <= 0f)
         {
-            spot = HoverZoneCenter() + Random.insideUnitSphere * hoverZoneRadius;
+            spot = HoverZoneCenter() + InsideUnitSphere() * hoverZoneRadius;
             lane = -1;
             pathDirection = Vector3.zero;
             return;
@@ -288,7 +288,7 @@ public class MineFactoryActionStrategy : ActionStrategy
         int candidates = Mathf.Max(1, placementCandidates);
         for (int c = 0; c < candidates; c++)
         {
-            float pick = Random.value * spansTotalLength;
+            float pick = tower.Rng.NextFloat() * spansTotalLength;
             PathSpan span = spans[spans.Count - 1];
             for (int i = 0; i < spans.Count; i++)
             {
@@ -524,12 +524,12 @@ public class MineFactoryActionStrategy : ActionStrategy
         // Bomblets bounce along the path (or in all directions for hover mines) and go off a moment later
         for (int i = 0; i < clusterBomblets; i++)
         {
-            Vector3 direction = mine.PathDirection.sqrMagnitude > 0.5f ? mine.PathDirection * (i % 2 == 0 ? 1f : -1f) : Random.onUnitSphere;
+            Vector3 direction = mine.PathDirection.sqrMagnitude > 0.5f ? mine.PathDirection * (i % 2 == 0 ? 1f : -1f) : OnUnitSphere();
             float distance = clusterSpread * (0.4f + 0.6f * ((i / 2) + 1f) / Mathf.Max(1f, Mathf.Ceil(clusterBomblets / 2f)));
             pendingBlasts.Add(new PendingBlast
             {
                 Delay = 0.15f + 0.08f * i,
-                Position = position + direction * distance + Random.insideUnitSphere * 0.2f,
+                Position = position + direction * distance + InsideUnitSphere() * 0.2f,
                 Damage = damage * clusterDamageShare,
                 Radius = radius * clusterRadiusShare,
             });
@@ -563,10 +563,13 @@ public class MineFactoryActionStrategy : ActionStrategy
     {
         SpawnEffect(effect, position, effectLifetime, effectScale);
 
-        int count = Physics.OverlapSphereNonAlloc(position, radius, overlapBuffer);
-        for (int i = 0; i < count; i++)
+        // Every enemy whose collider overlaps the blast; physics overlaps capped at 128 colliders, which a
+        // dense field of blocks and tower ranges could fill before any enemy
+        ProjectileSystem.Instance.OverlapEnemies(position, radius, blastTargets);
+        for (int i = 0; i < blastTargets.Count; i++)
         {
-            if (!overlapBuffer[i].gameObject.TryGetComponent<Enemy>(out Enemy enemy) || !enemy.IsAlive)
+            Enemy enemy = blastTargets[i];
+            if (!enemy.IsAlive)
                 continue;
 
             enemy.TakeDamage(damage, DamageType.EXPLOSIVE, tower);
@@ -577,12 +580,18 @@ public class MineFactoryActionStrategy : ActionStrategy
 
     private void SpawnEffect(GameObject effect, Vector3 position, float lifetime, float scale)
     {
-        if (effect == null)
-            return;
+        EffectPlayer.Play(effect, position, Quaternion.identity, scale, lifetime);
+    }
 
-        GameObject instance = Instantiate(effect, position, Quaternion.identity);
-        instance.transform.localScale = Vector3.one * scale;
-        Destroy(instance, lifetime);
+    // Gameplay randomness from the tower's own stream (see Tower.Rng)
+    private Vector3 OnUnitSphere()
+    {
+        return tower.Rng.NextFloat3Direction();
+    }
+
+    private Vector3 InsideUnitSphere()
+    {
+        return tower.Rng.NextFloat3Direction() * Mathf.Pow(tower.Rng.NextFloat(), 1f / 3f);
     }
 
     #endregion

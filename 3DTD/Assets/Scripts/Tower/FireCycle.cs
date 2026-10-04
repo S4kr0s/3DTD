@@ -7,9 +7,20 @@ using UnityEngine;
 // Magazine rules (unchanged from the original strategies): with AMMO > 0 the tower fires AMMO volleys
 // FIRERATE apart, then reloads for RELOAD_SPEED seconds; the next volley follows FIRERATE after the reload.
 // With AMMO <= 0 the tower fires continuously.
+//
+// VolleyAge(i) tells how long ago (game time) the i-th volley of this frame was due. Projectiles start that far
+// along their way, so the stream of shots looks and hits the same at any frame rate or game speed.
 public class FireCycle
 {
     public const int MaxVolleysPerFrame = 8;
+
+    private readonly float[] volleyAges = new float[MaxVolleysPerFrame];
+
+    // Seconds since the i-th volley of the last Tick was due, between 0 and that frame's deltaTime
+    public float VolleyAge(int i)
+    {
+        return i >= 0 && i < MaxVolleysPerFrame ? volleyAges[i] : 0f;
+    }
 
     public bool IsReloading => reloading;
     public float Magazine => magazine;
@@ -34,6 +45,7 @@ public class FireCycle
     // Advances the timer and returns how many volleys to fire this frame
     public int Tick(float deltaTime, bool hasTarget, float interval, float ammo, float reloadTime)
     {
+        float frameTime = deltaTime;
         interval = Mathf.Max(StatsManager.MinFireInterval, interval);
         bool usesMagazine = ammo > 0f;
 
@@ -66,6 +78,8 @@ public class FireCycle
         int volleys = 0;
         while (cooldown <= 0f && volleys < MaxVolleysPerFrame)
         {
+            // The volley was due -cooldown seconds before the end of this frame
+            volleyAges[volleys] = Mathf.Clamp(-cooldown, 0f, frameTime);
             volleys++;
             cooldown += interval;
 
