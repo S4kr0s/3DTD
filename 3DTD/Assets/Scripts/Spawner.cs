@@ -92,7 +92,11 @@ public class Spawner : MonoBehaviour
 
         currentGameState = GameState.IDLE;
         SetPrewarmTargetForNextWave();
+        DeathEffectRenderer.Prewarm();
     }
+
+    // Whether the enemy pool is still growing towards the next wave's size
+    public bool IsPrewarming => enemyPrefab != null && freshEnemies.Count + enemyPool.Count + enemiesAlive.Count < prewarmTarget;
 
     private void Update()
     {

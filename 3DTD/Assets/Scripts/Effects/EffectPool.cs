@@ -15,8 +15,13 @@ public class EffectPool
     private readonly Transform staging;
     private readonly Stack<EffectInstance> free = new Stack<EffectInstance>();
     private readonly List<EffectInstance> playing = new List<EffectInstance>();
+    // Flights are spread over several shared copies: Unity updates each particle system and builds its geometry
+    // in one job, so all flights of a prefab in one system would leave the render thread waiting on one core
+    private const int FlightsPerShard = 96;
+    private static readonly int MaxFlightShards = Mathf.Clamp(SystemInfo.processorCount / 2, 1, 8);
+
     private BatchedEffect batch;
-    private FlightBatch flightBatch;
+    private readonly List<FlightBatch> flightBatches = new List<FlightBatch>();
     private bool batchChecked;
     private bool flightBatchChecked;
 
@@ -88,11 +93,16 @@ public class EffectPool
         {
             using var scope = CreateMarker.Auto();
             flightBatchChecked = true;
-            flightBatch = EffectPlayer.BatchingEnabled ? FlightBatch.TryCreate(prefab, container) : null;
-            EffectPlayer.LogBackend(prefab, flightBatch != null ? "batched flight" : "pooled flight");
+            FlightBatch first = EffectPlayer.BatchingEnabled ? FlightBatch.TryCreate(prefab, container) : null;
+            if (first != null)
+                flightBatches.Add(first);
+            EffectPlayer.LogBackend(prefab, first != null ? "batched flight" : "pooled flight");
         }
-        if (flightBatch != null)
-            return new FlightHandle(flightBatch, flightBatch.Attach(position, rotation, scale, velocity));
+        if (flightBatches.Count > 0)
+        {
+            FlightBatch shard = PickShard();
+            return new FlightHandle(shard, shard.Attach(position, rotation, scale, velocity));
+        }
 
         EffectInstance effect = Take();
         effect.SetPose(position, rotation, scale);
@@ -116,20 +126,44 @@ public class EffectPool
     {
         if (batch != null)
             batch.Emit(now, deltaTime);
-        if (flightBatch != null)
-            flightBatch.Update(deltaTime);
+        for (int i = 0; i < flightBatches.Count; i++)
+            flightBatches[i].Update(deltaTime);
         Retire(now);
     }
 
     public void Dispose()
     {
         batch?.Dispose();
-        flightBatch?.Dispose();
+        foreach (FlightBatch shard in flightBatches)
+            shard.Dispose();
+    }
+
+    // The shard with the fewest live flights; a new one once all are busy
+    private FlightBatch PickShard()
+    {
+        FlightBatch best = flightBatches[0];
+        for (int i = 1; i < flightBatches.Count; i++)
+        {
+            if (flightBatches[i].LiveFlights < best.LiveFlights)
+                best = flightBatches[i];
+        }
+        if (best.LiveFlights >= FlightsPerShard && flightBatches.Count < MaxFlightShards)
+        {
+            using var scope = CreateMarker.Auto();
+            FlightBatch shard = FlightBatch.TryCreate(prefab, container);
+            if (shard != null)
+            {
+                flightBatches.Add(shard);
+                best = shard;
+            }
+        }
+        return best;
     }
 
     // Puts finished effects back into the pool
     private void Retire(float now)
     {
+        using var scope = EffectMarkers.Retire.Auto();
         for (int i = playing.Count - 1; i >= 0; i--)
         {
             EffectInstance effect = playing[i];

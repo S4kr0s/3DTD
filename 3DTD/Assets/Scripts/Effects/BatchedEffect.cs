@@ -25,6 +25,13 @@ public sealed class BatchedEffect : IDisposable
     // Particle lights share a budget: each lit system of a batched effect may show this many at once
     public const int MaxLightsPerSystem = 64;
 
+    // See ProjectileSystem.WarmUpJobs
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void WarmUpJobs()
+    {
+        IJobParallelForExtensions.EarlyJobInit<PlaceJob>();
+    }
+
     private struct PlayRecord
     {
         public Vector3 Position;
@@ -274,7 +281,9 @@ public sealed class BatchedEffect : IDisposable
                 main.maxParticles = Mathf.NextPowerOfTwo(before + request.Count);
 
             transform.SetPositionAndRotation(play.Position, play.Rotation);
+            EffectMarkers.Emit.Begin();
             system.Emit(request.Count);
+            EffectMarkers.Emit.End();
             int emitted = system.particleCount - before;
             PerfCounters.BatchedParticles += emitted;
 
@@ -282,7 +291,9 @@ public sealed class BatchedEffect : IDisposable
             if (emitted <= 0 || Mathf.Approximately(play.Scale, 1f))
                 continue;
             EnsureBuffer(emitter, emitted);
+            EffectMarkers.Particles.Begin();
             int read = system.GetParticles(emitter.Buffer, emitted, before);
+            EffectMarkers.Particles.End();
             for (int i = 0; i < read; i++)
             {
                 ParticleSystem.Particle particle = emitter.Buffer[i];
@@ -290,7 +301,9 @@ public sealed class BatchedEffect : IDisposable
                 particle.startSize3D *= play.Scale;
                 emitter.Buffer[i] = particle;
             }
+            EffectMarkers.Particles.Begin();
             system.SetParticles(emitter.Buffer, read, before);
+            EffectMarkers.Particles.End();
         }
         transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
     }
@@ -320,6 +333,7 @@ public sealed class BatchedEffect : IDisposable
     // Once per frame, before the particle systems update: emit what is due and move it into place
     public void Emit(float now, float deltaTime)
     {
+        using var scope = EffectMarkers.Batched.Auto();
         bool anyPending = false;
         foreach (Emitter emitter in emitters)
         {
@@ -392,7 +406,15 @@ public sealed class BatchedEffect : IDisposable
         if (before + total > main.maxParticles)
             main.maxParticles = Mathf.NextPowerOfTwo(before + total);
 
+        EffectMarkers.Emit.Begin();
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        long emitStart = EffectStats.Now;
+#endif
         system.Emit(total);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        EffectStats.Record(system, Prefab.name, total, before, emitStart);
+#endif
+        EffectMarkers.Emit.End();
         int emitted = system.particleCount - before;
         if (emitted <= 0)
             return;
@@ -405,7 +427,9 @@ public sealed class BatchedEffect : IDisposable
         }
 
         NativeArray<ParticleSystem.Particle> buffer = emitter.Buffer;
+        EffectMarkers.Particles.Begin();
         int read = system.GetParticles(buffer, emitted, before);
+        EffectMarkers.Particles.End();
         dueEntries.Clear();
         int start = 0;
         for (int r = 0; r < emitter.Due.Count; r++)
@@ -422,7 +446,9 @@ public sealed class BatchedEffect : IDisposable
             Read = read,
             Rotate3D = emitter.Rotate3D,
         }.Schedule(dueEntries.Length, 16).Complete();
+        EffectMarkers.Particles.Begin();
         system.SetParticles(buffer, read, before);
+        EffectMarkers.Particles.End();
         PerfCounters.BatchedParticles += read;
     }
 

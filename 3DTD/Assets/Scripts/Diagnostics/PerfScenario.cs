@@ -134,6 +134,20 @@ public class PerfScenario : MonoBehaviour
         "3DTD.Effects.Update",
         "3DTD.Effects.TrailEmit",
         "3DTD.Effects.Flights",
+        "3DTD.Effects.Batched",
+        "3DTD.Effects.Emit",
+        "3DTD.Effects.Particles",
+        "3DTD.Effects.Retire",
+        "ParticleSystem.WaitForPreviousRenderingToFinish",
+        "ParticleSystem.UpdateJob",
+        "ParticleSystem.GeometryJob",
+        "ParticleSystem.TrailGeometryJob",
+        "ParticleSystem.Sort",
+        "ParticleSystem.Draw",
+        "Gfx.WaitForRenderThread",
+        "WaitForRenderJobs",
+        "CPU Render Thread Frame Time",
+        "GPU Frame Time",
         "3DTD.DeathEffects",
         "3DTD.Enemy.TakeDamage",
         "3DTD.Enemy.PopLayer",
@@ -165,8 +179,9 @@ public class PerfScenario : MonoBehaviour
 
     private RenderTexture batchRenderTarget;
     private bool recording;
-    private bool skipNextSample;
-    private const float SpikeMs = 40f;
+    private int skipSamples;
+    // -perfSpikeMs <ms>: log what frames slower than this spent their time on
+    private float spikeMs = 40f;
     private readonly StringBuilder spikeLog = new StringBuilder(512);
     private readonly List<FrameSample> samples = new List<FrameSample>(16384);
 
@@ -304,6 +319,9 @@ public class PerfScenario : MonoBehaviour
         yield return null;
 
         ApplyBenchmarkSettings();
+        // A window resize takes a few frames; it must not land in the measurement
+        for (int i = 0; i < 120 && !Application.isEditor && (Screen.width != 1920 || Screen.height != 1080); i++)
+            yield return null;
         Random.InitState(run.seed);
 
         GameManager game = GameManager.Instance;
@@ -353,9 +371,14 @@ public class PerfScenario : MonoBehaviour
         yield return null;
 
         game.Round = run.round - 1;
+        // Between waves the Spawner prewarms the enemy pool for the next wave; give it that time here too
+        spawner.RestoreProgress(true);
+        for (int i = 0; i < 2000 && spawner.IsPrewarming; i++)
+            yield return null;
         int livesBefore = game.Lives;
         game.ChangeGameSpeed(run.speed);
         PerfCounters.Reset();
+        EffectStats.Reset();
 
         if (run.visual)
         {
@@ -377,6 +400,9 @@ public class PerfScenario : MonoBehaviour
                 if (!captured && Time.realtimeSinceStartup - startReal > 4f / Mathf.Max(1f, run.speed) + 2f)
                 {
                     captured = true;
+                    // Game time stands still while the screenshots render, and that frame and the next stay out
+                    // of the statistics (the next one would otherwise catch up on the capture's long frame)
+                    Time.timeScale = 0f;
                     result.wrongEnemyScale = CountWrongEnemyScales(spawner);
                     string suffix = EffectPlayer.BatchingEnabled ? "" : "-pooled";
                     Capture(Path.Combine(outputDirectory, "perf-" + run.id + suffix + ".png"), null);
@@ -384,7 +410,9 @@ public class PerfScenario : MonoBehaviour
                     Tower focus = NearestTower(towers, spawner);
                     if (focus != null)
                         Capture(Path.Combine(outputDirectory, "perf-" + run.id + suffix + "-close.png"), focus.transform.position);
-                    skipNextSample = true;
+                    skipSamples = 2;
+                    yield return null;
+                    Time.timeScale = run.speed;
                 }
                 yield return null;
             }
@@ -723,7 +751,9 @@ public class PerfScenario : MonoBehaviour
 
     private void StartRecorders()
     {
-        // -perfMarkers <text>: log the available profiler markers whose name contains the text
+        // -perfMarkers <text>[|<text>...]: log the available profiler markers whose name contains one of the texts
+        if (float.TryParse(Argument("-perfSpikeMs"), NumberStyles.Float, CultureInfo.InvariantCulture, out float spike))
+            spikeMs = spike;
         string filter = Argument("-perfMarkers");
         if (!string.IsNullOrEmpty(filter))
         {
@@ -732,8 +762,14 @@ public class PerfScenario : MonoBehaviour
             foreach (ProfilerRecorderHandle handle in handles)
             {
                 ProfilerRecorderDescription description = ProfilerRecorderHandle.GetDescription(handle);
-                if (description.Name.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0)
-                    Debug.Log("PERF MARKER " + description.Category.Name + " / " + description.Name);
+                foreach (string part in filter.Split('|'))
+                {
+                    if (description.Name.IndexOf(part, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        Debug.Log("PERF MARKER " + description.Category.Name + " / " + description.Name);
+                        break;
+                    }
+                }
             }
         }
 
@@ -746,6 +782,30 @@ public class PerfScenario : MonoBehaviour
             markerFrames[i] = new List<float>(16384);
         for (int i = 0; i < MarkerNames.Length; i++)
             markerRecorders[i] = new ProfilerRecorder(MarkerNames[i], 1, ProfilerRecorderOptions.Default | ProfilerRecorderOptions.StartImmediately);
+    }
+
+    // -perfProfile <file.raw> [-perfProfileStart <frame>] [-perfProfileFrames <n>]: writes a profiler capture of
+    // n recorded frames of every run, for Assets/Editor/Perf/ProfileReport (timings of a profiled run are not valid)
+    private static void CaptureProfile(int frame)
+    {
+        string file = Argument("-perfProfile");
+        if (string.IsNullOrEmpty(file))
+            return;
+        int start = int.TryParse(Argument("-perfProfileStart"), out int s) ? s : 1;
+        int frames = int.TryParse(Argument("-perfProfileFrames"), out int n) ? n : 300;
+        if (frame == start)
+        {
+            UnityEngine.Profiling.Profiler.maxUsedMemory = 512 * 1024 * 1024;
+            UnityEngine.Profiling.Profiler.logFile = file;
+            UnityEngine.Profiling.Profiler.enableBinaryLog = true;
+            UnityEngine.Profiling.Profiler.enabled = true;
+        }
+        else if (frame == start + frames)
+        {
+            UnityEngine.Profiling.Profiler.enabled = false;
+            UnityEngine.Profiling.Profiler.enableBinaryLog = false;
+            UnityEngine.Profiling.Profiler.logFile = "";
+        }
     }
 
     private void StopRecorders()
@@ -761,9 +821,9 @@ public class PerfScenario : MonoBehaviour
     {
         if (!recording)
             return;
-        if (skipNextSample)
+        if (skipSamples > 0)
         {
-            skipNextSample = false;
+            skipSamples--;
             return;
         }
 
@@ -777,6 +837,7 @@ public class PerfScenario : MonoBehaviour
             enemies = Spawner.Instance != null ? Spawner.Instance.EnemiesAlive.Count : 0,
         };
         samples.Add(sample);
+        CaptureProfile(samples.Count);
         for (int i = 0; i < markerRecorders.Length; i++)
         {
             if (markerRecorders[i].Valid)
@@ -787,7 +848,7 @@ public class PerfScenario : MonoBehaviour
         }
 
         // What a slow frame spent its time on
-        if (sample.realMs > SpikeMs)
+        if (sample.realMs > spikeMs)
         {
             spikeLog.Clear();
             spikeLog.Append("PERF SPIKE ").Append(sample.realMs.ToString("F1", CultureInfo.InvariantCulture)).Append(" ms at frame ")
@@ -1037,6 +1098,7 @@ public class PerfScenario : MonoBehaviour
             result.projectilesSpawned, result.projectilesRequested, result.deathEffectsPlayed, result.deathEffectsRequested,
             result.effectsPlayed, result.effectsRequested, string.Join(", ", result.markers), string.Join(", ", result.damageByType),
             result.steadyGcPerFrame));
+        Debug.Log(EffectStats.Report(12));
     }
 
     private static void Require(RunResult result, bool ok, string what)

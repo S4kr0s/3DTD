@@ -98,7 +98,18 @@ public static class PerfBenchmark
             target = BuildTarget.StandaloneOSX,
             options = BuildOptions.Development,
         };
-        BuildReport report = BuildPipeline.BuildPlayer(options);
+        // Frame timing stats give the benchmark render thread and GPU times; only for this build
+        bool frameTimingStats = PlayerSettings.enableFrameTimingStats;
+        PlayerSettings.enableFrameTimingStats = true;
+        BuildReport report;
+        try
+        {
+            report = BuildPipeline.BuildPlayer(options);
+        }
+        finally
+        {
+            PlayerSettings.enableFrameTimingStats = frameTimingStats;
+        }
         Debug.Log("PERF build " + report.summary.result + " -> " + output + " (" + report.summary.totalTime + ")");
         if (Application.isBatchMode)
             EditorApplication.Exit(report.summary.result == BuildResult.Succeeded ? 0 : 1);

@@ -7,7 +7,6 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.ParticleSystemJobs;
 using UnityEngine.Rendering;
-using Random = UnityEngine.Random;
 
 // The flight effect of a projectile (e.g. Polygon Arsenal's LaserBlue: a glow and a core that travel with the
 // bolt, sparks it leaves behind, a trail) for ALL projectiles of a prefab, in one shared copy of the prefab.
@@ -27,27 +26,48 @@ public sealed class FlightBatch : IDisposable
     private const uint IdMask = (1u << IdBits) - 1;
     private const int GenerationMask = 0x3FFF;
 
-    private struct BurstOffset
+    // See ProjectileSystem.WarmUpJobs
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void WarmUpJobs()
     {
-        public float Time;
-        public ParticleSystem.MinMaxCurve Count;
+        IJobExtensions.EarlyJobInit<PrepareJob>();
+        IJobExtensions.EarlyJobInit<FinishJob>();
+        IJobExtensions.EarlyJobInit<TrailJob>();
+        IJobParallelForExtensions.EarlyJobInit<PlaceJob>();
+        IJobParticleSystemParallelForBatchExtensions.EarlyJobInit<FollowJob>();
     }
 
     private sealed class Emitter
     {
         public ParticleSystem System;
         public bool Follows;          // simulated in local space: moves with its flight
-        public float RateOverTime;
-        public float RateOverDistance;
-        public BurstOffset[] Bursts;  // burst times within one loop of the system
-        public float Duration;
-        public float Delay;
         public bool Rotate3D;
         public float Prewarm;         // particles a prewarmed system already shows when the flight starts
         public float InheritVelocity; // share of the flight's velocity new particles get (Inherit Velocity module)
         public bool HasTrails;        // particle trails: emitted at each flight's pose (see BatchedEffect)
-        public float[] Owed;          // per flight: fractional particles carried over
         public NativeArray<ParticleSystem.Particle> Buffer;
+        // This frame's emission, between Emit and SetParticles
+        public int Existing;
+        public int Read;
+    }
+
+    // What an emitter emits per flight, for PrepareJob
+    private struct EmitterRates
+    {
+        public float RateOverTime;
+        public float RateOverDistance;
+        public float Duration;
+        public float Delay;
+        public int FirstBurst;        // its bursts in the bursts array
+        public int BurstCount;
+    }
+
+    // A burst within one loop of its system, with the particle count range
+    private struct BurstOffset
+    {
+        public float Time;
+        public float Min;
+        public float Max;
     }
 
     private struct Flight
@@ -71,14 +91,24 @@ public sealed class FlightBatch : IDisposable
     // Ids of finished flights whose trail is still fading; reused once it is gone
     private readonly List<int> fading = new List<int>();
 
+    private int capacity;
     private NativeArray<Flight> flights;
-    private NativeArray<int3> entries;          // per flight with new particles: id, first particle, count
-    private int[] managedGeneration = new int[InitialFlights];
+    private NativeArray<int> flightGeneration;
     private readonly Stack<int> freeIds = new Stack<int>();
     private int highestId;
-    private readonly List<Vector2Int> counts = new List<Vector2Int>();
+    public int LiveFlights { get; private set; }
 
-    // Read by the follower jobs, written on the main thread before the particle update
+    // Emission, per emitter: rates and bursts; per flight and emitter (id * emitters + e): fractional particles
+    // carried over; per emitter: this frame's entries (flight id, first particle, count) in a block of capacity
+    private NativeArray<EmitterRates> rates;
+    private NativeArray<BurstOffset> bursts;
+    private NativeArray<float> owed;
+    private NativeArray<int3> entries;
+    private NativeArray<int> entryCounts;
+    private NativeArray<int> totals;
+    private uint frameSeed = 1;
+
+    // Read by the follower jobs, written by PrepareJob before the particle update
     private NativeArray<float3> delta;
     private NativeArray<float3> center;
     private NativeArray<float> scaleRatio;
@@ -128,8 +158,18 @@ public sealed class FlightBatch : IDisposable
 
         ParticleSystem[] systems = shared.GetComponentsInChildren<ParticleSystem>(true);
         emitters = new Emitter[systems.Length];
+        rates = new NativeArray<EmitterRates>(systems.Length, Allocator.Persistent);
+        List<BurstOffset> burstList = new List<BurstOffset>();
         for (int i = 0; i < systems.Length; i++)
-            emitters[i] = Configure(systems[i]);
+        {
+            emitters[i] = Configure(systems[i], burstList, out EmitterRates emitterRates);
+            rates[i] = emitterRates;
+        }
+        bursts = new NativeArray<BurstOffset>(Mathf.Max(1, burstList.Count), Allocator.Persistent);
+        for (int i = 0; i < burstList.Count; i++)
+            bursts[i] = burstList[i];
+        entryCounts = new NativeArray<int>(systems.Length, Allocator.Persistent);
+        totals = new NativeArray<int>(systems.Length, Allocator.Persistent);
 
         TrailRenderer trailRenderer = shared.GetComponentInChildren<TrailRenderer>(true);
         if (trailRenderer != null)
@@ -138,13 +178,16 @@ public sealed class FlightBatch : IDisposable
             trailRenderer.enabled = false;
         }
 
-        flights = new NativeArray<Flight>(InitialFlights, Allocator.Persistent);
-        entries = new NativeArray<int3>(InitialFlights, Allocator.Persistent);
-        delta = new NativeArray<float3>(InitialFlights, Allocator.Persistent);
-        center = new NativeArray<float3>(InitialFlights, Allocator.Persistent);
-        scaleRatio = new NativeArray<float>(InitialFlights, Allocator.Persistent);
-        generation = new NativeArray<int>(InitialFlights, Allocator.Persistent);
-        alive = new NativeArray<byte>(InitialFlights, Allocator.Persistent);
+        capacity = InitialFlights;
+        flights = new NativeArray<Flight>(capacity, Allocator.Persistent);
+        flightGeneration = new NativeArray<int>(capacity, Allocator.Persistent);
+        owed = new NativeArray<float>(capacity * emitters.Length, Allocator.Persistent);
+        entries = new NativeArray<int3>(capacity * emitters.Length, Allocator.Persistent);
+        delta = new NativeArray<float3>(capacity, Allocator.Persistent);
+        center = new NativeArray<float3>(capacity, Allocator.Persistent);
+        scaleRatio = new NativeArray<float>(capacity, Allocator.Persistent);
+        generation = new NativeArray<int>(capacity, Allocator.Persistent);
+        alive = new NativeArray<byte>(capacity, Allocator.Persistent);
 
         shared.transform.SetParent(container, false);
         UnityEngine.Object.Destroy(staging);
@@ -156,7 +199,7 @@ public sealed class FlightBatch : IDisposable
         }
     }
 
-    private static Emitter Configure(ParticleSystem system)
+    private static Emitter Configure(ParticleSystem system, List<BurstOffset> burstList, out EmitterRates emitterRates)
     {
         ParticleSystem.MainModule main = system.main;
         ParticleSystem.EmissionModule emission = system.emission;
@@ -167,36 +210,42 @@ public sealed class FlightBatch : IDisposable
             System = system,
             HasTrails = system.trails.enabled,
             Follows = main.simulationSpace == ParticleSystemSimulationSpace.Local,
+        };
+        emitterRates = new EmitterRates
+        {
             Duration = Mathf.Max(0.01f, main.duration),
             Delay = EffectPool.MaxOf(main.startDelay),
-            Owed = new float[InitialFlights],
+            FirstBurst = burstList.Count,
         };
 
-        List<BurstOffset> bursts = new List<BurstOffset>();
         if (emission.enabled)
         {
-            emitter.RateOverTime = EffectPool.MaxOf(emission.rateOverTime);
-            emitter.RateOverDistance = EffectPool.MaxOf(emission.rateOverDistance);
+            emitterRates.RateOverTime = EffectPool.MaxOf(emission.rateOverTime);
+            emitterRates.RateOverDistance = EffectPool.MaxOf(emission.rateOverDistance);
             for (int b = 0; b < emission.burstCount; b++)
             {
                 ParticleSystem.Burst burst = emission.GetBurst(b);
+                ParticleSystem.MinMaxCurve count = burst.count;
+                bool range = count.mode == ParticleSystemCurveMode.TwoConstants;
+                float min = range ? count.constantMin : EffectPool.MaxOf(count);
+                float max = range ? count.constantMax : min;
                 int cycles = burst.cycleCount <= 0 ? int.MaxValue : burst.cycleCount;
                 float interval = Mathf.Max(0.01f, burst.repeatInterval);
                 for (int cycle = 0; cycle < cycles; cycle++)
                 {
                     float time = burst.time + cycle * interval;
-                    if (time >= emitter.Duration)
+                    if (time >= emitterRates.Duration)
                         break;
-                    bursts.Add(new BurstOffset { Time = time, Count = burst.count });
+                    burstList.Add(new BurstOffset { Time = time, Min = min, Max = max });
                 }
             }
         }
-        emitter.Bursts = bursts.ToArray();
+        emitterRates.BurstCount = burstList.Count - emitterRates.FirstBurst;
         if (main.prewarm && main.loop)
-            emitter.Prewarm = emitter.RateOverTime * EffectPool.MaxOf(main.startLifetime);
+            emitter.Prewarm = emitterRates.RateOverTime * EffectPool.MaxOf(main.startLifetime);
         // A non-looping flight system only emits during its first loop
         if (!main.loop)
-            emitter.Duration = float.PositiveInfinity;
+            emitterRates.Duration = float.PositiveInfinity;
 
         bool mesh = renderer != null && renderer.renderMode == ParticleSystemRenderMode.Mesh;
         bool localAligned = renderer != null && renderer.alignment == ParticleSystemRenderSpace.Local;
@@ -239,7 +288,13 @@ public sealed class FlightBatch : IDisposable
                 emitter.Buffer.Dispose();
         }
         flights.Dispose();
+        flightGeneration.Dispose();
+        rates.Dispose();
+        bursts.Dispose();
+        owed.Dispose();
         entries.Dispose();
+        entryCounts.Dispose();
+        totals.Dispose();
         delta.Dispose();
         center.Dispose();
         scaleRatio.Dispose();
@@ -252,8 +307,10 @@ public sealed class FlightBatch : IDisposable
     public int Attach(Vector3 position, Quaternion rotation, float scale, Vector3 velocity)
     {
         int id = freeIds.Count > 0 ? freeIds.Pop() : highestId++;
+        LiveFlights++;
         EnsureCapacity(id + 1);
-        managedGeneration[id] = (managedGeneration[id] + 1) & GenerationMask;
+        int flightGen = (flightGeneration[id] + 1) & GenerationMask;
+        flightGeneration[id] = flightGen;
         flights[id] = new Flight
         {
             Position = position,
@@ -265,10 +322,10 @@ public sealed class FlightBatch : IDisposable
             Velocity = velocity,
             Live = true,
             Fresh = true,
-            Generation = managedGeneration[id],
+            Generation = flightGen,
         };
-        foreach (Emitter emitter in emitters)
-            emitter.Owed[id] = emitter.Prewarm;
+        for (int e = 0; e < emitters.Length; e++)
+            owed[id * emitters.Length + e] = emitters[e].Prewarm;
         if (trail != null)
         {
             trail.EnsureCapacity(id + 1);
@@ -293,6 +350,7 @@ public sealed class FlightBatch : IDisposable
         Flight flight = flights[id];
         flight.Live = false;
         flights[id] = flight;
+        LiveFlights--;
         if (trail != null)
             fading.Add(id);
         else
@@ -301,20 +359,21 @@ public sealed class FlightBatch : IDisposable
 
     private void EnsureCapacity(int needed)
     {
-        if (needed <= flights.Length)
+        if (needed <= capacity)
             return;
         followJobs.Complete();
-        int size = Mathf.NextPowerOfTwo(needed);
-        Grow(ref flights, size);
-        Grow(ref entries, size);
-        Array.Resize(ref managedGeneration, size);
-        foreach (Emitter emitter in emitters)
-            Array.Resize(ref emitter.Owed, size);
-        Grow(ref delta, size);
-        Grow(ref center, size);
-        Grow(ref scaleRatio, size);
-        Grow(ref generation, size);
-        Grow(ref alive, size);
+        capacity = Mathf.NextPowerOfTwo(needed);
+        Grow(ref flights, capacity);
+        Grow(ref flightGeneration, capacity);
+        // Indexed id * emitters + e, so the existing values keep their place
+        Grow(ref owed, capacity * emitters.Length);
+        entries.Dispose();
+        entries = new NativeArray<int3>(capacity * emitters.Length, Allocator.Persistent);
+        Grow(ref delta, capacity);
+        Grow(ref center, capacity);
+        Grow(ref scaleRatio, capacity);
+        Grow(ref generation, capacity);
+        Grow(ref alive, capacity);
     }
 
     private static void Grow<T>(ref NativeArray<T> array, int size) where T : struct
@@ -338,47 +397,79 @@ public sealed class FlightBatch : IDisposable
         if (deltaTime <= 0f)
             return;
 
-        for (int id = 0; id < highestId; id++)
+        frameSeed = frameSeed * 747796405u + 2891336453u;
+        new PrepareJob
         {
-            Flight flight = flights[id];
-            if (!flight.Live && alive[id] == 0 && generation[id] == managedGeneration[id])
-                continue;
+            Flights = flights,
+            FlightGeneration = flightGeneration,
+            HighestId = highestId,
+            DeltaTime = deltaTime,
+            Rates = rates,
+            Bursts = bursts,
+            Owed = owed,
+            Entries = entries,
+            EntryCounts = entryCounts,
+            Totals = totals,
+            Capacity = capacity,
+            Random = new Unity.Mathematics.Random(frameSeed | 1u),
+            Delta = delta,
+            Center = center,
+            ScaleRatio = scaleRatio,
+            Generation = generation,
+            Alive = alive,
+        }.Run();
 
-            delta[id] = flight.Fresh ? float3.zero : flight.Position - flight.Previous;
-            center[id] = flight.Previous;
-            scaleRatio[id] = flight.Fresh || flight.LastScale <= 0f ? 1f : flight.Scale / flight.LastScale;
-            generation[id] = managedGeneration[id];
-            alive[id] = (byte)(flight.Live ? 1 : 0);
+        // Systems with particle trails emit at each flight's pose; the others emit their whole frame at once and
+        // place the particles in parallel jobs
+        JobHandle placing = default;
+        for (int e = 0; e < emitters.Length; e++)
+        {
+            Emitter emitter = emitters[e];
+            emitter.Read = 0;
+            if (totals[e] == 0)
+                continue;
+            if (emitter.HasTrails)
+                EmitAtPoses(emitter, e);
+            else
+                placing = JobHandle.CombineDependencies(placing, EmitAll(emitter, e));
+        }
+        placing.Complete();
+        for (int e = 0; e < emitters.Length; e++)
+        {
+            Emitter emitter = emitters[e];
+            if (emitter.HasTrails || emitter.Read == 0)
+                continue;
+            EffectMarkers.Particles.Begin();
+            emitter.System.SetParticles(emitter.Buffer, emitter.Read, emitter.Existing);
+            EffectMarkers.Particles.End();
+            PerfCounters.BatchedParticles += emitter.Read;
         }
 
-        foreach (Emitter emitter in emitters)
-            Emit(emitter, deltaTime);
+        if (trail != null)
+        {
+            new TrailJob
+            {
+                Flights = flights,
+                HighestId = highestId,
+                Trail = trail.GetWriter(),
+                Now = Time.time,
+            }.Run();
+        }
+        new FinishJob
+        {
+            Flights = flights,
+            HighestId = highestId,
+            DeltaTime = deltaTime,
+        }.Run();
 
         if (trail != null)
             UpdateTrails();
-
-        for (int id = 0; id < highestId; id++)
-        {
-            Flight flight = flights[id];
-            if (!flight.Live)
-                continue;
-            flight.Previous = flight.Position;
-            flight.LastScale = flight.Scale;
-            flight.Clock += deltaTime;
-            flight.Fresh = false;
-            flights[id] = flight;
-        }
     }
 
-    // Trails follow their flights, keep fading after them, and free the id once they are gone
+    // Trails keep fading after their flights and free the id once they are gone
     private void UpdateTrails()
     {
         float now = Time.time;
-        for (int id = 0; id < highestId; id++)
-        {
-            if (flights[id].Live)
-                trail.Add(id, flights[id].Position, now);
-        }
         for (int i = fading.Count - 1; i >= 0; i--)
         {
             int id = fading[i];
@@ -392,54 +483,27 @@ public sealed class FlightBatch : IDisposable
         trail.Draw(highestId, now, Camera.main);
     }
 
-    private void Emit(Emitter emitter, float deltaTime)
+    // Emits the frame's particles of every flight at once and schedules the job that puts them in place
+    private JobHandle EmitAll(Emitter emitter, int e)
     {
-        counts.Clear();
-        int total = 0;
-        for (int id = 0; id < highestId; id++)
-        {
-            Flight flight = flights[id];
-            if (!flight.Live)
-                continue;
-
-            float distance = flight.Fresh ? 0f : math.distance(flight.Position, flight.Previous);
-            float amount = emitter.Owed[id] + emitter.RateOverTime * deltaTime + emitter.RateOverDistance * distance;
-            int count = (int)amount;
-            emitter.Owed[id] = amount - count;
-
-            float before = flight.Clock - emitter.Delay;
-            float after = before + deltaTime;
-            for (int b = 0; b < emitter.Bursts.Length; b++)
-            {
-                int crossings = Crossings(before, after, emitter.Bursts[b].Time, emitter.Duration);
-                for (int c = 0; c < crossings; c++)
-                    count += BurstCount(emitter.Bursts[b].Count);
-            }
-
-            if (count > 0)
-            {
-                counts.Add(new Vector2Int(id, count));
-                total += count;
-            }
-        }
-        if (total == 0)
-            return;
-
-        if (emitter.HasTrails)
-        {
-            EmitAtPoses(emitter);
-            return;
-        }
-
+        int total = totals[e];
         ParticleSystem system = emitter.System;
         int existing = system.particleCount;
         ParticleSystem.MainModule main = system.main;
         if (existing + total > main.maxParticles)
             main.maxParticles = Mathf.NextPowerOfTwo(existing + total);
+        EffectMarkers.Emit.Begin();
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        long emitStart = EffectStats.Now;
+#endif
         system.Emit(total);
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+        EffectStats.Record(system, "flight", total, existing, emitStart);
+#endif
+        EffectMarkers.Emit.End();
         int emitted = system.particleCount - existing;
         if (emitted <= 0)
-            return;
+            return default;
 
         if (!emitter.Buffer.IsCreated || emitter.Buffer.Length < emitted)
         {
@@ -448,26 +512,142 @@ public sealed class FlightBatch : IDisposable
             emitter.Buffer = new NativeArray<ParticleSystem.Particle>(Mathf.NextPowerOfTwo(emitted), Allocator.Persistent);
         }
 
-        NativeArray<ParticleSystem.Particle> buffer = emitter.Buffer;
-        int read = system.GetParticles(buffer, emitted, existing);
-        int first = 0;
-        for (int e = 0; e < counts.Count; e++)
-        {
-            entries[e] = new int3(counts[e].x, first, counts[e].y);
-            first += counts[e].y;
-        }
-        new PlaceJob
+        EffectMarkers.Particles.Begin();
+        emitter.Read = system.GetParticles(emitter.Buffer, emitted, existing);
+        EffectMarkers.Particles.End();
+        emitter.Existing = existing;
+        int entryCount = entryCounts[e];
+        return new PlaceJob
         {
             Flights = flights,
-            Entries = entries,
-            Particles = buffer,
-            Read = read,
+            Entries = entries.GetSubArray(e * capacity, entryCount),
+            Particles = emitter.Buffer,
+            Read = emitter.Read,
             Follows = emitter.Follows,
             Rotate3D = emitter.Rotate3D,
             InheritVelocity = emitter.InheritVelocity,
-        }.Schedule(counts.Count, 16).Complete();
-        system.SetParticles(buffer, read, existing);
-        PerfCounters.BatchedParticles += read;
+        }.Schedule(entryCount, 16);
+    }
+
+    // Follower data for the particle jobs, and how many particles each emitter owes each live flight this frame
+    // (rate over time, rate over distance along the frame's path, looping bursts)
+    [BurstCompile]
+    private struct PrepareJob : IJob
+    {
+        [ReadOnly] public NativeArray<Flight> Flights;
+        [ReadOnly] public NativeArray<int> FlightGeneration;
+        public int HighestId;
+        public float DeltaTime;
+        [ReadOnly] public NativeArray<EmitterRates> Rates;
+        [ReadOnly] public NativeArray<BurstOffset> Bursts;
+        public NativeArray<float> Owed;
+        public NativeArray<int3> Entries;
+        public NativeArray<int> EntryCounts;
+        public NativeArray<int> Totals;
+        public int Capacity;
+        public Unity.Mathematics.Random Random;
+
+        public NativeArray<float3> Delta;
+        public NativeArray<float3> Center;
+        public NativeArray<float> ScaleRatio;
+        public NativeArray<int> Generation;
+        public NativeArray<byte> Alive;
+
+        public void Execute()
+        {
+            int emitterCount = Rates.Length;
+            for (int e = 0; e < emitterCount; e++)
+            {
+                EntryCounts[e] = 0;
+                Totals[e] = 0;
+            }
+
+            for (int id = 0; id < HighestId; id++)
+            {
+                Flight flight = Flights[id];
+                if (!flight.Live && Alive[id] == 0 && Generation[id] == FlightGeneration[id])
+                    continue;
+
+                Delta[id] = flight.Fresh ? float3.zero : flight.Position - flight.Previous;
+                Center[id] = flight.Previous;
+                ScaleRatio[id] = flight.Fresh || flight.LastScale <= 0f ? 1f : flight.Scale / flight.LastScale;
+                Generation[id] = FlightGeneration[id];
+                Alive[id] = (byte)(flight.Live ? 1 : 0);
+                if (!flight.Live)
+                    continue;
+
+                float distance = flight.Fresh ? 0f : math.distance(flight.Position, flight.Previous);
+                for (int e = 0; e < emitterCount; e++)
+                {
+                    EmitterRates rates = Rates[e];
+                    int slot = id * emitterCount + e;
+                    float amount = Owed[slot] + rates.RateOverTime * DeltaTime + rates.RateOverDistance * distance;
+                    int count = (int)amount;
+                    Owed[slot] = amount - count;
+
+                    float before = flight.Clock - rates.Delay;
+                    float after = before + DeltaTime;
+                    for (int b = rates.FirstBurst; b < rates.FirstBurst + rates.BurstCount; b++)
+                    {
+                        BurstOffset burst = Bursts[b];
+                        int crossings = Crossings(before, after, burst.Time, rates.Duration);
+                        for (int c = 0; c < crossings; c++)
+                            count += (int)math.round(burst.Min < burst.Max ? Random.NextFloat(burst.Min, burst.Max) : burst.Min);
+                    }
+
+                    if (count > 0)
+                    {
+                        int k = EntryCounts[e];
+                        Entries[e * Capacity + k] = new int3(id, Totals[e], count);
+                        EntryCounts[e] = k + 1;
+                        Totals[e] += count;
+                    }
+                }
+            }
+        }
+    }
+
+    // Trails follow their flights
+    [BurstCompile]
+    private struct TrailJob : IJob
+    {
+        [ReadOnly] public NativeArray<Flight> Flights;
+        public int HighestId;
+        public TrailMesh.Writer Trail;
+        public float Now;
+
+        public void Execute()
+        {
+            for (int id = 0; id < HighestId; id++)
+            {
+                if (Flights[id].Live)
+                    Trail.Add(id, Flights[id].Position, Now);
+            }
+        }
+    }
+
+    // After the emission each live flight's frame is done
+    [BurstCompile]
+    private struct FinishJob : IJob
+    {
+        public NativeArray<Flight> Flights;
+        public int HighestId;
+        public float DeltaTime;
+
+        public void Execute()
+        {
+            for (int id = 0; id < HighestId; id++)
+            {
+                Flight flight = Flights[id];
+                if (!flight.Live)
+                    continue;
+                flight.Previous = flight.Position;
+                flight.LastScale = flight.Scale;
+                flight.Clock += DeltaTime;
+                flight.Fresh = false;
+                Flights[id] = flight;
+            }
+        }
     }
 
     // Moves each flight's block of fresh particles to it: followers start where the flight was last frame (the
@@ -509,19 +689,23 @@ public sealed class FlightBatch : IDisposable
     }
 
     // Particle trails start where a particle is emitted, so these systems emit at each flight's pose
-    private void EmitAtPoses(Emitter emitter)
+    private void EmitAtPoses(Emitter emitter, int e)
     {
         ParticleSystem system = emitter.System;
         Transform transform = system.transform;
         ParticleSystem.MainModule main = system.main;
-        foreach (Vector2Int entry in counts)
+        int entryCount = entryCounts[e];
+        for (int n = 0; n < entryCount; n++)
         {
+            int3 entry = entries[e * capacity + n];
             Flight flight = flights[entry.x];
             int before = system.particleCount;
-            if (before + entry.y > main.maxParticles)
-                main.maxParticles = Mathf.NextPowerOfTwo(before + entry.y);
+            if (before + entry.z > main.maxParticles)
+                main.maxParticles = Mathf.NextPowerOfTwo(before + entry.z);
             transform.SetPositionAndRotation(emitter.Follows ? (Vector3)flight.Previous : (Vector3)flight.Position, flight.Rotation);
-            system.Emit(entry.y);
+            EffectMarkers.Emit.Begin();
+            system.Emit(entry.z);
+            EffectMarkers.Emit.End();
             int emitted = system.particleCount - before;
             PerfCounters.BatchedParticles += emitted;
             if (emitted <= 0 || (!emitter.Follows && Mathf.Approximately(flight.Scale, 1f) && emitter.InheritVelocity == 0f))
@@ -533,8 +717,10 @@ public sealed class FlightBatch : IDisposable
                     emitter.Buffer.Dispose();
                 emitter.Buffer = new NativeArray<ParticleSystem.Particle>(Mathf.NextPowerOfTwo(emitted), Allocator.Persistent);
             }
-            uint tag = ((uint)managedGeneration[entry.x] << IdBits) | (uint)entry.x;
+            uint tag = ((uint)flightGeneration[entry.x] << IdBits) | (uint)entry.x;
+            EffectMarkers.Particles.Begin();
             int read = system.GetParticles(emitter.Buffer, emitted, before);
+            EffectMarkers.Particles.End();
             for (int i = 0; i < read; i++)
             {
                 ParticleSystem.Particle particle = emitter.Buffer[i];
@@ -544,7 +730,9 @@ public sealed class FlightBatch : IDisposable
                     particle.randomSeed = tag;
                 emitter.Buffer[i] = particle;
             }
+            EffectMarkers.Particles.Begin();
             system.SetParticles(emitter.Buffer, read, before);
+            EffectMarkers.Particles.End();
         }
         transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
     }
@@ -554,18 +742,11 @@ public sealed class FlightBatch : IDisposable
     {
         if (after < offset)
             return 0;
-        if (float.IsInfinity(duration))
+        if (math.isinf(duration))
             return before < offset ? 1 : 0;
         int last = (int)math.floor((after - offset) / duration);
         int first = before < offset ? 0 : (int)math.floor((before - offset) / duration) + 1;
         return math.max(0, last - first + 1);
-    }
-
-    private static int BurstCount(ParticleSystem.MinMaxCurve count)
-    {
-        return count.mode == ParticleSystemCurveMode.TwoConstants
-            ? Mathf.RoundToInt(Random.Range(count.constantMin, count.constantMax))
-            : Mathf.RoundToInt(EffectPool.MaxOf(count));
     }
 
     // ---- follower job -----------------------------------------------------------------------------------

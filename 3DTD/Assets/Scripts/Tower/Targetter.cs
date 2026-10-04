@@ -19,8 +19,9 @@ public class Targetter : MonoBehaviour
         public int Serial;
     }
 
-    private readonly List<Entry> entries = new List<Entry>();
-    private readonly Dictionary<Enemy, int> indexOf = new Dictionary<Enemy, int>();
+    // Sized for a busy lane up front, so they don't grow (allocate) while a wave runs
+    private readonly List<Entry> entries = new List<Entry>(64);
+    private readonly Dictionary<Enemy, int> indexOf = new Dictionary<Enemy, int>(64);
     private int prunedFrame = -1;
 
     public static GameObject GetFirstEnemyInGame(GameObject enemy)

@@ -20,6 +20,25 @@ using UnityEngine;
 [DefaultExecutionOrder(1000)]
 public class ProjectileSystem : MonoBehaviour
 {
+    // The job system builds a job type's reflection data on its first schedule, and the first Burst job of the
+    // app loads the compiled code (~25 ms in the player): done once at startup instead of on the first shot
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void WarmUpJobs()
+    {
+        IJobExtensions.EarlyJobInit<BuildGridJob>();
+        IJobParallelForExtensions.EarlyJobInit<StepJob>();
+
+        NativeArray<float3> none = new NativeArray<float3>(0, Allocator.TempJob);
+        NativeArray<float> noRadii = new NativeArray<float>(0, Allocator.TempJob);
+        NativeArray<int> noSerials = new NativeArray<int>(0, Allocator.TempJob);
+        NativeParallelMultiHashMap<int, int> emptyGrid = new NativeParallelMultiHashMap<int, int>(1, Allocator.TempJob);
+        new BuildGridJob { Positions = none, Previous = none, Radii = noRadii, Serials = noSerials, Grid = emptyGrid }.Run();
+        emptyGrid.Dispose();
+        noSerials.Dispose();
+        noRadii.Dispose();
+        none.Dispose();
+    }
+
     public const int MaxHitsPerStep = 8;
     private const float CellSize = 1.5f;
     private const float HomingStep = 1f / 120f;

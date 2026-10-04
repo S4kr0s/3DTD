@@ -16,6 +16,13 @@ public sealed class TrailMesh : System.IDisposable
     public const int PointsPerTrail = 8;
     private const int CurveSamples = 32;
 
+    // See ProjectileSystem.WarmUpJobs
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void WarmUpJobs()
+    {
+        IJobParallelForExtensions.EarlyJobInit<BuildJob>();
+    }
+
     private struct Vertex
     {
         public float3 Position;
@@ -135,31 +142,51 @@ public sealed class TrailMesh : System.IDisposable
         pointCount[id] = 0;
     }
 
-    // The flight moved: a new point when it got far enough from the last one (TrailRenderer.minVertexDistance)
-    public void Add(int id, Vector3 position, float now)
+    // Adds the points of moving flights from a job (FlightBatch); valid until the next EnsureCapacity
+    public Writer GetWriter()
     {
-        int count = pointCount[id];
-        int head = pointHead[id];
-        int baseIndex = id * PointsPerTrail;
-        float4 last = points[baseIndex + head];
-        if (count > 0 && math.distancesq(last.xyz, (float3)position) < minVertexDistance * minVertexDistance)
+        return new Writer
         {
-            // Keep the head on the projectile without adding a point
-            if (count > 1)
-                points[baseIndex + head] = new float4(position, now);
-            else
-                AddPoint(id, position, now);
-            return;
-        }
-        AddPoint(id, position, now);
+            Points = points,
+            PointCount = pointCount,
+            PointHead = pointHead,
+            MinVertexDistanceSq = minVertexDistance * minVertexDistance,
+        };
     }
 
-    private void AddPoint(int id, Vector3 position, float now)
+    public struct Writer
     {
-        int head = (pointHead[id] + 1) % PointsPerTrail;
-        pointHead[id] = head;
-        pointCount[id] = math.min(pointCount[id] + 1, PointsPerTrail);
-        points[id * PointsPerTrail + head] = new float4(position, now);
+        public NativeArray<float4> Points;
+        public NativeArray<int> PointCount;
+        public NativeArray<int> PointHead;
+        public float MinVertexDistanceSq;
+
+        // The flight moved: a new point when it got far enough from the last one (TrailRenderer.minVertexDistance)
+        public void Add(int id, float3 position, float now)
+        {
+            int count = PointCount[id];
+            int head = PointHead[id];
+            int baseIndex = id * PointsPerTrail;
+            float4 last = Points[baseIndex + head];
+            if (count > 0 && math.distancesq(last.xyz, position) < MinVertexDistanceSq)
+            {
+                // Keep the head on the projectile without adding a point
+                if (count > 1)
+                    Points[baseIndex + head] = new float4(position, now);
+                else
+                    AddPoint(id, position, now);
+                return;
+            }
+            AddPoint(id, position, now);
+        }
+
+        private void AddPoint(int id, float3 position, float now)
+        {
+            int head = (PointHead[id] + 1) % PointsPerTrail;
+            PointHead[id] = head;
+            PointCount[id] = math.min(PointCount[id] + 1, PointsPerTrail);
+            Points[id * PointsPerTrail + head] = new float4(position, now);
+        }
     }
 
     // Builds and draws all trails; flights up to highestId

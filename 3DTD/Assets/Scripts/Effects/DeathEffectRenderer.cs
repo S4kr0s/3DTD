@@ -52,6 +52,12 @@ public class DeathEffectRenderer : MonoBehaviour
         quitting = false;
     }
 
+    // Called at level start: creating the renderer allocates its draw buffers (~0.5 MB), not mid-wave
+    public static void Prewarm()
+    {
+        _ = Instance;
+    }
+
     private static DeathEffectRenderer Instance
     {
         get
