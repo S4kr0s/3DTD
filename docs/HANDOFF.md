@@ -91,10 +91,29 @@ Checks: UIPlaytest 34/34, LevelPlaytest 35/35, EditMode 45/45. The new tests che
 
 Known flakiness: the Burst compiler crashed once (SIGBUS, inside package code) while a batch run was starting. A rerun passed.
 
+## Phase 2 results (physics configuration)
+
+- **Enemy root:** on layer 11 "Enemy", with a kinematic Rigidbody. Enemies no longer generate contacts with each other, with blocks or with towers; their trigger events with tower ranges and the End trigger still fire.
+- **Collision matrix:** Enemy only collides with Default (the End trigger) and Ignore Raycast. Ignore Raycast (tower ranges, the collider-based projectiles) only collides with Enemy, so projectiles no longer hit each other, tower ranges or anchors.
+- **Physics:** `SimulationMode.Update`, one step per frame at any game speed (it used to be 4–5 steps per frame at 5x). OnTriggerStay events are off; nothing listens for them.
+- **Beam raycasts:** masked to enemies (`GameLayers.EnemyMask`). Tower ranges and blocks used to fill the 64-hit buffer.
+- **Pulse/Hindrance:** grow their collider in Update.
+
+Results:
+- **Frame times:** S1-1x 36 / 152 / 211 ms (p50 / p99 / max); S1-5x 167 ms p50 at 1.91x. `FixedUpdate.PhysicsFixedUpdate` dropped to 0.
+- **Remaining cost:** per-shot effect instantiation, projectiles and death effects (Phases 3–5).
+- **Checks:** LevelPlaytest 35/35 (enemies reach the exit; the featured towers deal damage) and UIPlaytest 34/34.
+
+Parity:
+- Hit detection is discrete per frame. In batch mode 1x runs at about 300 fps, so detection there is much finer than at 5x.
+- Rockets: 14.3k damage at 1x vs 20.5k at 5x. The coarser the step, the deeper a rocket gets into the pack before it explodes.
+- Dispenser: 132 vs 282.
+- Phase 3's swept hit tests remove this. Before Phase 2, 5x was already "once per frame", because projectiles only moved once per frame.
+
 ## Status
 - [x] Phase 0: benchmark harness and baseline.
 - [x] Phase 1: bugs and cheap structural fixes.
-- [ ] Phase 2: physics configuration.
+- [x] Phase 2: physics configuration.
 - [ ] Phase 3: projectile system and parity.
 - [ ] Phase 4: effect batching.
 - [ ] Phase 5: death animations (instanced).

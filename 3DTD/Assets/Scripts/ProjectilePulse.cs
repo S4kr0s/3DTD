@@ -29,10 +29,8 @@ public class ProjectilePulse : Projectile
 
         if (lifetime <= 0)
             Die();
-    }
 
-    private void FixedUpdate()
-    {
+        // Physics steps once per frame (SimulationMode.Update), so the collider follows in Update
         Grow();
     }
 

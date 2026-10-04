@@ -55,7 +55,8 @@ public class BeamTowerActionStrategy : ActionStrategy
                 continue;
 
             Transform origin = shootingPointReference.transform;
-            int count = Physics.RaycastNonAlloc(origin.position, origin.forward, hitBuffer, length);
+            // Only enemies: tower ranges, blocks and anchors used to fill the hit buffer too
+            int count = Physics.RaycastNonAlloc(origin.position, origin.forward, hitBuffer, length, GameLayers.EnemyMask, QueryTriggerInteraction.Ignore);
             // Nearest enemies first, so pierce is spent along the beam
             System.Array.Sort(hitBuffer, 0, count, Comparer.Instance);
 

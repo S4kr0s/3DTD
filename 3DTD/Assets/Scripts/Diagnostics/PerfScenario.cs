@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using Unity.Profiling;
+using Unity.Profiling.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -119,11 +120,14 @@ public class PerfScenario : MonoBehaviour
         "FixedUpdate.PhysicsFixedUpdate",
         "FixedUpdate.ScriptRunBehaviourFixedUpdate",
         "PreUpdate.PhysicsUpdate",
+        "Physics.Simulate",
+        "Physics.SyncTransforms",
+        "Physics.SendTriggerEvents",
+        "Physics.SendContactEvents",
         "ParticleSystem.WaitForUpdateThreads",
         "ParticleSystem.EndUpdateAll",
         "GC.Collect",
         "Instantiate",
-        "Camera.Render",
         "Canvas.SendWillRenderCanvases",
     };
 
@@ -669,6 +673,20 @@ public class PerfScenario : MonoBehaviour
 
     private void StartRecorders()
     {
+        // -perfMarkers <text>: log the available profiler markers whose name contains the text
+        string filter = Argument("-perfMarkers");
+        if (!string.IsNullOrEmpty(filter))
+        {
+            List<ProfilerRecorderHandle> handles = new List<ProfilerRecorderHandle>();
+            ProfilerRecorderHandle.GetAvailable(handles);
+            foreach (ProfilerRecorderHandle handle in handles)
+            {
+                ProfilerRecorderDescription description = ProfilerRecorderHandle.GetDescription(handle);
+                if (description.Name.IndexOf(filter, StringComparison.OrdinalIgnoreCase) >= 0)
+                    Debug.Log("PERF MARKER " + description.Category.Name + " / " + description.Name);
+            }
+        }
+
         mainThreadRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Internal, "Main Thread", 1);
         gcRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "GC Allocated In Frame", 1);
         markerRecorders = new ProfilerRecorder[MarkerNames.Length];
