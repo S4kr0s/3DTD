@@ -211,6 +211,9 @@ public class PerfScenario : MonoBehaviour
                 {
                     id = "T-" + tower.Replace(" Tower", "").Replace(" ", "") + "-" + speed + "x",
                     layout = "single", tower = tower, speed = speed, round = 60, waves = 1, parityGroup = tower,
+                    // A squadron's dogfight is chaotic: its damage varies about 6 % between seeds at any speed
+                    // (1x and 5x means over four seeds differ by 3.6 %), so a single run can't show parity
+                    informational = tower == "Hangar Tower",
                 });
             }
         }

@@ -85,6 +85,19 @@ public class Starfighter : MonoBehaviour
     private float bombTimer;
     private bool missilePodsVisible;
 
+    // Flight runs in fixed steps of game time, so a squadron flies the same paths and fires the same shots at
+    // any frame rate or game speed; the model is drawn between the last two simulated poses
+    private const float SimulationStep = 1f / 60f;
+    private const int MaxStepsPerFrame = 30;
+    private float accumulator;
+    private Vector3 simulatedPosition;
+    private Quaternion simulatedRotation;
+    private Vector3 previousPosition;
+    private Quaternion previousRotation;
+    private float stepAge;          // game time from the end of the step being simulated to the end of the frame
+    private float flightClock;
+    private Unity.Mathematics.Random rng;
+
     private readonly RaycastHit[] hitBuffer = new RaycastHit[8];
     private readonly Collider[] colliderBuffer = new Collider[8];
 
@@ -96,7 +109,11 @@ public class Starfighter : MonoBehaviour
         heading = launchPoint.forward;
         speed = patrolSpeed * 0.5f;
         magazine = GetStat(Stat.StatType.AMMO);
-        noiseSeed = Random.value * 100f;
+        // The fighter's own decisions come from the tower's seeded stream (see Tower.Rng)
+        rng = new Unity.Mathematics.Random(strategy.Tower.Rng.NextUInt(1, uint.MaxValue));
+        noiseSeed = rng.NextFloat() * 100f;
+        simulatedPosition = previousPosition = transform.position;
+        simulatedRotation = previousRotation = transform.rotation;
         SetMissilePodsVisible(false);
         SetState(FlightState.LAUNCHING);
     }
@@ -110,6 +127,30 @@ public class Starfighter : MonoBehaviour
         if (deltaTime <= 0f)
             return;
 
+        // The logic works on the simulated pose, the frame shows a blend of the last two steps
+        transform.SetPositionAndRotation(simulatedPosition, simulatedRotation);
+        accumulator += deltaTime;
+        for (int steps = 0; accumulator >= SimulationStep && steps < MaxStepsPerFrame; steps++)
+        {
+            accumulator -= SimulationStep;
+            stepAge = accumulator;
+            previousPosition = transform.position;
+            previousRotation = transform.rotation;
+            Simulate(SimulationStep);
+            if (this == null || strategy == null)
+                return;
+        }
+        simulatedPosition = transform.position;
+        simulatedRotation = transform.rotation;
+
+        float blend = Mathf.Clamp01(accumulator / SimulationStep);
+        transform.SetPositionAndRotation(Vector3.Lerp(previousPosition, simulatedPosition, blend),
+            Quaternion.Slerp(previousRotation, simulatedRotation, blend));
+    }
+
+    private void Simulate(float deltaTime)
+    {
+        flightClock += deltaTime;
         stateTimer += deltaTime;
         UpdateCannonCooldown(deltaTime);
 
@@ -173,7 +214,7 @@ public class Starfighter : MonoBehaviour
         }
 
         // Vary the cruising speed a little so the squadron doesn't fly in lockstep
-        float cruiseSpeed = patrolSpeed * (0.85f + 0.3f * Mathf.PerlinNoise(Time.time * 0.3f, noiseSeed));
+        float cruiseSpeed = patrolSpeed * (0.85f + 0.3f * Mathf.PerlinNoise(flightClock * 0.3f, noiseSeed));
         Fly(patrolPoint - transform.position, cruiseSpeed, patrolTurnRate, deltaTime);
     }
 
@@ -271,7 +312,7 @@ public class Starfighter : MonoBehaviour
         target = null;
 
         // Pull up and veer off to one side, staying inside the patrol sphere
-        Vector3 lateral = Vector3.Cross(runDirection, runOffset).normalized * Random.Range(-1.5f, 1.5f);
+        Vector3 lateral = Vector3.Cross(runDirection, runOffset).normalized * rng.NextFloat(-1.5f, 1.5f);
         breakAwayPoint = ClampToSphere(transform.position + runDirection * 2f + runOffset * breakAwayClimb + lateral, strategy.Range);
 
         if (IsPointBlocked(breakAwayPoint, 0.4f))
@@ -303,12 +344,12 @@ public class Starfighter : MonoBehaviour
 
         for (int attempt = 0; attempt < 12; attempt++)
         {
-            Vector3 direction = Random.onUnitSphere;
+            Vector3 direction = rng.NextFloat3Direction();
             // Mostly patrol the open side of the block the hangar is built on
             if (Vector3.Dot(direction, towerUp) < -0.2f)
                 direction = Vector3.Reflect(direction, towerUp);
 
-            Vector3 point = strategy.Center + direction * radius * Random.Range(0.4f, 1f);
+            Vector3 point = strategy.Center + direction * radius * rng.NextFloat(0.4f, 1f);
 
             // Early attempts insist on a longer, unobstructed leg, later ones take what they get
             bool picky = attempt < 8;
@@ -596,7 +637,7 @@ public class Starfighter : MonoBehaviour
         while (shotCooldown <= 0f && reloadTimer <= 0f && volleys < FireCycle.MaxVolleysPerFrame)
         {
             // Seconds since this shot was due; the bolt starts that far along its way
-            float age = Mathf.Clamp(-shotCooldown, 0f, Time.deltaTime);
+            float age = stepAge + Mathf.Clamp(-shotCooldown, 0f, SimulationStep);
             volleys++;
             shotCooldown += interval;
 

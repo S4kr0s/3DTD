@@ -205,11 +205,23 @@ In S2, 384k projectiles and 582k effects were requested and none was dropped. Ab
 
 The 764 ms frame at S1-1x is a single hitch, probably the Editor compiling the instancing shader variant on first use; the player build will tell.
 
+## Hangar parity
+Starfighters now fly in fixed 1/60 s steps of game time and are drawn between the last two simulated poses. Their decisions use their own seeded random stream, and cannon shots get their age within the step.
+
+A squadron's dogfight is still chaotic: fighters see enemies and the tower's range list as they are at the end of each frame. Damage of one hangar against round 60:
+
+| Speed | Seed 1234 | Seed 11 | Seed 22 | Seed 33 | Mean |
+|---|---|---|---|---|---|
+| 1x | 668 | 624 | 596 | 657 | 636 |
+| 5x | 651 | 578 | 573 | 651 | 613 |
+
+The spread between seeds (about ±6 %) is as large as the difference between speeds (3.6 % between the means, about 1.5 standard errors). The `T-Hangar` parity runs are therefore informational.
+
 ## Status
 - [x] Phase 0: benchmark harness and baseline.
 - [x] Phase 1: bugs and cheap structural fixes.
 - [x] Phase 2: physics configuration.
-- [x] Phase 3: projectile system and parity. Open: Hangar parity (fixed-step starfighters).
+- [x] Phase 3: projectile system and parity (the Hangar matches only statistically, see above).
 - [x] Phase 4: effect batching.
 - [x] Phase 5: death animations (instanced).
 - [ ] Phase 6: wrap-up.
