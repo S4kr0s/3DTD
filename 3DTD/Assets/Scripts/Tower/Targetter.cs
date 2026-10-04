@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +10,18 @@ public class Targetter : MonoBehaviour
     [SerializeField] private new Collider collider;
     public Collider Collider => collider;
 
-    [SerializeField] private List<Enemy> enemiesInsideCollider = new List<Enemy>();
+    // Enemies inside the trigger, each with the spawn serial of the life it entered with. An enemy that dies
+    // inside gets no OnTriggerExit (it is deactivated and pooled), so stale entries are pruned lazily: a dead
+    // enemy, or a pooled one that started a new life elsewhere, no longer matches its serial.
+    private struct Entry
+    {
+        public Enemy Enemy;
+        public int Serial;
+    }
+
+    private readonly List<Entry> entries = new List<Entry>();
+    private readonly Dictionary<Enemy, int> indexOf = new Dictionary<Enemy, int>();
+    private int prunedFrame = -1;
 
     public static GameObject GetFirstEnemyInGame(GameObject enemy)
     {
@@ -30,18 +41,25 @@ public class Targetter : MonoBehaviour
     // Reused by GetAllEnemiesInRadius. Only valid until the next call on this Targetter.
     private readonly List<Enemy> resultBuffer = new List<Enemy>();
 
-    private static bool IsValid(Enemy enemy)
+    private static bool IsValid(Entry entry)
     {
-        return enemy != null && enemy.IsAlive;
+        return entry.Enemy != null && entry.Enemy.IsAlive && entry.Enemy.SpawnSerial == entry.Serial;
+    }
+
+    // Whether the enemy is currently inside the range
+    public bool Contains(Enemy enemy)
+    {
+        return enemy != null && indexOf.TryGetValue(enemy, out int index) && IsValid(entries[index]);
     }
 
     public List<Enemy> GetAllEnemiesInRadius()
     {
+        Prune();
         resultBuffer.Clear();
-        for (int i = 0; i < enemiesInsideCollider.Count; i++)
+        for (int i = 0; i < entries.Count; i++)
         {
-            if (IsValid(enemiesInsideCollider[i]))
-                resultBuffer.Add(enemiesInsideCollider[i]);
+            if (IsValid(entries[i]))
+                resultBuffer.Add(entries[i].Enemy);
         }
         return resultBuffer;
     }
@@ -66,12 +84,13 @@ public class Targetter : MonoBehaviour
 
     public Enemy GetFirstEnemyInRadius()
     {
+        Prune();
         Enemy best = null;
-        for (int i = 0; i < enemiesInsideCollider.Count; i++)
+        for (int i = 0; i < entries.Count; i++)
         {
-            Enemy enemy = enemiesInsideCollider[i];
-            if (IsValid(enemy) && (best == null || enemy.DistanceTraveled > best.DistanceTraveled))
-                best = enemy;
+            Entry entry = entries[i];
+            if (IsValid(entry) && (best == null || entry.Enemy.DistanceTraveled > best.DistanceTraveled))
+                best = entry.Enemy;
         }
         return best;
     }
@@ -79,13 +98,15 @@ public class Targetter : MonoBehaviour
     // Highest Id; ties go to the enemy furthest along the path
     public Enemy GetStrongestEnemyInRadius()
     {
+        Prune();
         Enemy best = null;
-        for (int i = 0; i < enemiesInsideCollider.Count; i++)
+        for (int i = 0; i < entries.Count; i++)
         {
-            Enemy enemy = enemiesInsideCollider[i];
-            if (!IsValid(enemy))
+            Entry entry = entries[i];
+            if (!IsValid(entry))
                 continue;
 
+            Enemy enemy = entry.Enemy;
             if (best == null || enemy.Id > best.Id || (enemy.Id == best.Id && enemy.DistanceTraveled > best.DistanceTraveled))
                 best = enemy;
         }
@@ -94,33 +115,35 @@ public class Targetter : MonoBehaviour
 
     public Enemy GetLastEnemyInRadius()
     {
+        Prune();
         Enemy best = null;
-        for (int i = 0; i < enemiesInsideCollider.Count; i++)
+        for (int i = 0; i < entries.Count; i++)
         {
-            Enemy enemy = enemiesInsideCollider[i];
-            if (IsValid(enemy) && (best == null || enemy.DistanceTraveled < best.DistanceTraveled))
-                best = enemy;
+            Entry entry = entries[i];
+            if (IsValid(entry) && (best == null || entry.Enemy.DistanceTraveled < best.DistanceTraveled))
+                best = entry.Enemy;
         }
         return best;
     }
 
     public Enemy GetNearestEnemyInRadius()
     {
+        Prune();
         float nearestDistance = Mathf.Infinity;
         Enemy nearestEnemy = null;
         Vector3 center = collider.transform.position;
 
-        for (int i = 0; i < enemiesInsideCollider.Count; i++)
+        for (int i = 0; i < entries.Count; i++)
         {
-            Enemy enemy = enemiesInsideCollider[i];
-            if (!IsValid(enemy))
+            Entry entry = entries[i];
+            if (!IsValid(entry))
                 continue;
 
-            float sqrDistance = (center - enemy.transform.position).sqrMagnitude;
+            float sqrDistance = (center - entry.Enemy.transform.position).sqrMagnitude;
             if (sqrDistance < nearestDistance)
             {
                 nearestDistance = sqrDistance;
-                nearestEnemy = enemy;
+                nearestEnemy = entry.Enemy;
             }
         }
 
@@ -129,21 +152,22 @@ public class Targetter : MonoBehaviour
 
     public Enemy GetFarthestEnemyInRadius()
     {
+        Prune();
         float farthestDistance = -Mathf.Infinity;
         Enemy farthestEnemy = null;
         Vector3 center = collider.transform.position;
 
-        for (int i = 0; i < enemiesInsideCollider.Count; i++)
+        for (int i = 0; i < entries.Count; i++)
         {
-            Enemy enemy = enemiesInsideCollider[i];
-            if (!IsValid(enemy))
+            Entry entry = entries[i];
+            if (!IsValid(entry))
                 continue;
 
-            float sqrDistance = (center - enemy.transform.position).sqrMagnitude;
+            float sqrDistance = (center - entry.Enemy.transform.position).sqrMagnitude;
             if (sqrDistance > farthestDistance)
             {
                 farthestDistance = sqrDistance;
-                farthestEnemy = enemy;
+                farthestEnemy = entry.Enemy;
             }
         }
 
@@ -152,39 +176,55 @@ public class Targetter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent<Enemy>(out Enemy enemy) && enemy.IsAlive)
+        if (!other.TryGetComponent<Enemy>(out Enemy enemy) || !enemy.IsAlive)
+            return;
+
+        // A pooled enemy can come back with a new life while its old entry is still here
+        if (indexOf.TryGetValue(enemy, out int index))
         {
-            if (!enemiesInsideCollider.Contains(enemy))
-            {
-                enemiesInsideCollider.Add(enemy);
-                enemy.OnDeath += HandleEnemyDeath;
-            }
+            entries[index] = new Entry { Enemy = enemy, Serial = enemy.SpawnSerial };
+            return;
         }
+
+        indexOf.Add(enemy, entries.Count);
+        entries.Add(new Entry { Enemy = enemy, Serial = enemy.SpawnSerial });
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
+        if (other.TryGetComponent<Enemy>(out Enemy enemy) && indexOf.TryGetValue(enemy, out int index))
+            RemoveAt(index);
+    }
+
+    // Drops dead and recycled enemies, at most once per frame
+    private void Prune()
+    {
+        if (prunedFrame == Time.frameCount)
+            return;
+        prunedFrame = Time.frameCount;
+
+        for (int i = entries.Count - 1; i >= 0; i--)
         {
-            enemy.OnDeath -= HandleEnemyDeath;
-            enemiesInsideCollider.Remove(enemy);
+            if (!IsValid(entries[i]))
+                RemoveAt(i);
         }
     }
 
-    private void HandleEnemyDeath(GameObject gameObject)
+    // Swap-remove: order doesn't matter, every query scans all entries
+    private void RemoveAt(int index)
     {
-        Enemy enemy = gameObject.GetComponent<Enemy>();
-        enemy.OnDeath -= HandleEnemyDeath;
-        enemiesInsideCollider.Remove(enemy);
-    }
-
-    private void OnDestroy()
-    {
-        for (int i = 0; i < enemiesInsideCollider.Count; i++)
+        Enemy removed = entries[index].Enemy;
+        int last = entries.Count - 1;
+        if (index != last)
         {
-            if (enemiesInsideCollider[i] != null)
-                enemiesInsideCollider[i].OnDeath -= HandleEnemyDeath;
+            Entry moved = entries[last];
+            entries[index] = moved;
+            if (!ReferenceEquals(moved.Enemy, null))
+                indexOf[moved.Enemy] = index;
         }
+        entries.RemoveAt(last);
+        if (!ReferenceEquals(removed, null))
+            indexOf.Remove(removed);
     }
 }
 

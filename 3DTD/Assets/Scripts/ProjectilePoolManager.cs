@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class ProjectilePoolManager : MonoBehaviour
 {
-    // Hard cap so a runaway fire rate can't flood the scene with projectiles
-    public const int MaxPoolSize = 256;
+    // Safety net against a runaway configuration. Real fire rates stay far below it; shots are never
+    // dropped below it (that used to happen at 256 for fast towers).
+    public const int MaxPoolSize = 4096;
 
     [SerializeField] private GameObject _projectilePrefab;
     [SerializeField] private int _poolSize = 10;
 
     public GameObject ProjectilePrefab => _projectilePrefab;
 
-    private Queue<GameObject> pooledProjectiles = new Queue<GameObject>();
+    private readonly Queue<GameObject> pooledProjectiles = new Queue<GameObject>();
     private readonly List<GameObject> allProjectiles = new List<GameObject>();
+    private bool warnedAboutCap;
 
     private void OnDestroy()
     {
@@ -68,11 +70,14 @@ public class ProjectilePoolManager : MonoBehaviour
     {
         GameObject projectile = Instantiate(_projectilePrefab);
         projectile.SetActive(false);
+        if (projectile.TryGetComponent(out Projectile component))
+            component.Pool = this;
         allProjectiles.Add(projectile);
         return projectile;
     }
 
-    // Grows on demand: pools used to be sized from the fire rate before upgrades and starved fast towers
+    // Returns an inactive projectile; the caller positions and configures it, then activates it once.
+    // Grows on demand: pools used to be sized from the fire rate before upgrades and starved fast towers.
     public GameObject GetPooledProjectile()
     {
         PerfCounters.ProjectilesRequested++;
@@ -83,26 +88,26 @@ public class ProjectilePoolManager : MonoBehaviour
         if (projectile == null)
         {
             if (allProjectiles.Count >= MaxPoolSize)
+            {
+                if (!warnedAboutCap)
+                {
+                    warnedAboutCap = true;
+                    Debug.LogWarning(name + ": projectile pool reached " + MaxPoolSize + " projectiles; further shots are dropped");
+                }
                 return null;
+            }
 
             projectile = CreateProjectile();
             _poolSize = allProjectiles.Count;
         }
 
-        projectile.SetActive(true);
         PerfCounters.ProjectilesSpawned++;
         return projectile;
     }
 
-    public void ReturnToPool(GameObject projectile)
+    // Called by the projectile once its death fade is over
+    public void Release(GameObject projectile)
     {
-        // Wait because Projectile.cs has fancy animation now
-        StartCoroutine(WaitAndEnqueue(0.5f, projectile));
-    }
-
-    IEnumerator WaitAndEnqueue(float delay, GameObject projectile)
-    {
-        yield return new WaitForSeconds(delay);
         pooledProjectiles.Enqueue(projectile);
     }
 }

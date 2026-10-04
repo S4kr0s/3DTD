@@ -81,7 +81,6 @@ public class BombTowerActionStrategy : ActionStrategy
                 projectileComponent.Collider.enabled = true;
             projectileComponent.aimAtTarget = aimAtTarget;
             projectileComponent.doClustering = doClustering;
-            projectileComponent.OnProjectileDeath += ReturnToPool;
             projectileComponent.radius = stats.GetStatValue(Stat.StatType.RADIUS);
             _projectile.SetActive(true);
 
@@ -89,11 +88,6 @@ public class BombTowerActionStrategy : ActionStrategy
         }
     }
 
-    public void ReturnToPool(GameObject obj)
-    {
-        obj.GetComponent<Projectile>().OnProjectileDeath -= ReturnToPool;
-        projectilePoolManager.ReturnToPool(obj);
-    }
 
     public override bool CanShoot(GameObject enemy)
     {

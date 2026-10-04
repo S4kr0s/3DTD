@@ -1,4 +1,6 @@
 using System.Globalization;
+using System.Text;
+using TMPro;
 using UnityEngine;
 
 // Number and stat formatting shared by HUD, panels and menus
@@ -29,6 +31,56 @@ public static class UIFormat
     private static string Monospace(string digits, float em)
     {
         return "<mspace=" + em.ToString("0.###", Invariant) + "em>" + digits + "</mspace>";
+    }
+
+    private static float cachedOpenTagEm = float.NaN;
+    private static string cachedOpenTag;
+
+    // Tabular(value) for counters that change every frame: no strings are built (TMP still copies the text
+    // into a string in the Editor, but not in builds)
+    public static void SetTabular(TMP_Text text, int value, StringBuilder buffer)
+    {
+        UITheme theme = UITheme.Current;
+        float em = theme != null ? theme.tabularDigitWidth : 0.66f;
+        if (em != cachedOpenTagEm)
+        {
+            cachedOpenTagEm = em;
+            cachedOpenTag = "<mspace=" + em.ToString("0.###", Invariant) + "em>";
+        }
+
+        buffer.Clear();
+        buffer.Append(cachedOpenTag);
+        AppendDigits(buffer, value);
+        buffer.Append("</mspace>");
+        text.SetText(buffer);
+    }
+
+    // StringBuilder.Append(int) formats through a temporary string on Mono
+    private static void AppendDigits(StringBuilder buffer, int value)
+    {
+        if (value == 0)
+        {
+            buffer.Append('0');
+            return;
+        }
+        long remaining = value;
+        if (remaining < 0)
+        {
+            buffer.Append('-');
+            remaining = -remaining;
+        }
+        int start = buffer.Length;
+        while (remaining > 0)
+        {
+            buffer.Append((char)('0' + (int)(remaining % 10)));
+            remaining /= 10;
+        }
+        for (int left = start, right = buffer.Length - 1; left < right; left++, right--)
+        {
+            char swap = buffer[left];
+            buffer[left] = buffer[right];
+            buffer[right] = swap;
+        }
     }
 
     // Up to one decimal, trailing ".0" dropped: 3 / 3.5 / 12

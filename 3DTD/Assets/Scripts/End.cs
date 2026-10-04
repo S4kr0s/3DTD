@@ -24,10 +24,7 @@ public class End : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Enemy")
-        {
-            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+        if (other.CompareTag("Enemy") && other.TryGetComponent(out Enemy enemy))
             OnEnemyReachedExit?.Invoke(enemy);
-        }
     }
 }

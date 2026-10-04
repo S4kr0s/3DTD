@@ -58,6 +58,10 @@ public class Enemy : MonoBehaviour
     public int ShieldHits => shieldHits;
     // False once the enemy died or leaked; pooled enemies stay referenced, so check this instead of null
     public bool IsAlive => isAlive;
+    // Changes every time a pooled enemy starts a new life, so stale references to the old life can be told apart
+    public int SpawnSerial => spawnSerial;
+    // Index in Spawner.EnemiesAlive while the enemy is alive (-1 otherwise); maintained by the Spawner
+    public int AliveIndex { get; set; } = -1;
 
     // Direction the enemy is currently moving along its path (zero once it reached the last waypoint)
     public Vector3 PathDirection
@@ -86,8 +90,13 @@ public class Enemy : MonoBehaviour
     private bool initialized = false;
     private Tower lastTowerDamagedFrom;
 
+    private static int nextSpawnSerial;
+    private int spawnSerial;
     private int spawnId;
     private int shieldHits;
+    // The shape child that is currently shown (several ids can share one child, e.g. the boss)
+    private GameObject activeShape;
+    private bool shapesInitialized;
     private float timeSinceDamaged;
     private float regenTimer;
     private float speedMultiplier = 1f;
@@ -114,6 +123,7 @@ public class Enemy : MonoBehaviour
     public void Initialize(EnemyData enemyData, Waypoints path, EnemyTrait enemyTraits)
     {
         initialized = true;
+        spawnSerial = ++nextSpawnSerial;
         data = enemyData;
         waypoints = path;
         traits = enemyTraits;
@@ -320,14 +330,7 @@ public class Enemy : MonoBehaviour
 
         currentHealth = LayerHealth(data);
 
-        if (allPossibleShapes != null)
-        {
-            for (int i = 0; i < allPossibleShapes.Length; i++)
-            {
-                if (allPossibleShapes[i] != null)
-                    allPossibleShapes[i].SetActive(i == id);
-            }
-        }
+        ShowShape(id);
 
         if (shapeChanged)
         {
@@ -336,6 +339,33 @@ public class Enemy : MonoBehaviour
                 HandleDeathAnimation(id);
         }
         OnShapeOrColorChanged?.Invoke(currentShape, currentColor);
+    }
+
+    // Only the outgoing and the incoming shape change, instead of toggling all 51 children on every pop.
+    // Compared by object, not index: the boss slot reuses the Icosahedron Black child.
+    private void ShowShape(int id)
+    {
+        if (allPossibleShapes == null)
+            return;
+
+        GameObject shape = id >= 0 && id < allPossibleShapes.Length ? allPossibleShapes[id] : null;
+        if (!shapesInitialized)
+        {
+            shapesInitialized = true;
+            foreach (GameObject candidate in allPossibleShapes)
+            {
+                if (candidate != null && candidate != shape)
+                    candidate.SetActive(false);
+            }
+        }
+        else if (activeShape != null && activeShape != shape)
+        {
+            activeShape.SetActive(false);
+        }
+
+        if (shape != null && !shape.activeSelf)
+            shape.SetActive(true);
+        activeShape = shape;
     }
 
     private float LayerHealth(EnemyData layerData)
@@ -408,7 +438,7 @@ public class Enemy : MonoBehaviour
         OnShapeChanged = null;
 
         if (Spawner.Instance != null)
-            Spawner.Instance.ReleaseEnemy(this.gameObject);
+            Spawner.Instance.ReleaseEnemy(this);
         else
             Destroy(this.gameObject);
     }

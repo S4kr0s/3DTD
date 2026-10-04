@@ -139,10 +139,20 @@ public class HangarTowerActionStrategy : ActionStrategy
         if (preferred == null || !IsTargetedByOtherStarfighter(preferred, requester))
             return preferred;
 
-        Enemy untargeted = tower.Targetter.GetAllEnemiesInRadius()
-            .Where(enemy => !IsTargetedByOtherStarfighter(enemy, requester))
-            .OrderBy(enemy => Vector3.Distance(enemy.transform.position, requester.transform.position))
-            .FirstOrDefault();
+        Enemy untargeted = null;
+        float bestDistance = float.MaxValue;
+        Vector3 from = requester.transform.position;
+        foreach (Enemy enemy in tower.Targetter.GetAllEnemiesInRadius())
+        {
+            if (IsTargetedByOtherStarfighter(enemy, requester))
+                continue;
+            float distance = (enemy.transform.position - from).sqrMagnitude;
+            if (distance < bestDistance)
+            {
+                bestDistance = distance;
+                untargeted = enemy;
+            }
+        }
 
         return untargeted != null ? untargeted : preferred;
     }
@@ -166,7 +176,7 @@ public class HangarTowerActionStrategy : ActionStrategy
 
     #region Weapons
 
-    public void FireCannon(ProjectilePoolManager pool, Action<GameObject> onProjectileDeath, Transform muzzle, Enemy target)
+    public void FireCannon(ProjectilePoolManager pool, Transform muzzle, Enemy target)
     {
         GameObject _projectile = pool.GetPooledProjectile();
         if (_projectile == null)
@@ -187,14 +197,13 @@ public class HangarTowerActionStrategy : ActionStrategy
         projectileComponent.tower = tower;
         if (projectileComponent.Collider != null)
             projectileComponent.Collider.enabled = true;
-        projectileComponent.OnProjectileDeath += onProjectileDeath;
         _projectile.SetActive(true);
 
         _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
     }
 
     // Missiles and bombs: slower, homing, exploding projectiles
-    public void FireOrdnance(ProjectilePoolManager pool, Action<GameObject> onProjectileDeath, Transform muzzle, Enemy target)
+    public void FireOrdnance(ProjectilePoolManager pool, Transform muzzle, Enemy target)
     {
         GameObject _projectile = pool.GetPooledProjectile();
         if (_projectile == null)
@@ -218,7 +227,6 @@ public class HangarTowerActionStrategy : ActionStrategy
         projectileComponent.tower = tower;
         if (projectileComponent.Collider != null)
             projectileComponent.Collider.enabled = true;
-        projectileComponent.OnProjectileDeath += onProjectileDeath;
         _projectile.SetActive(true);
 
         _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
@@ -228,8 +236,12 @@ public class HangarTowerActionStrategy : ActionStrategy
 
     public override bool CanShoot(GameObject enemy)
     {
-        return enemy != null
-            && enemy.TryGetComponent<Enemy>(out Enemy enemyComponent)
-            && tower.Targetter.GetAllEnemiesInRadius().Contains(enemyComponent);
+        return enemy != null && enemy.TryGetComponent<Enemy>(out Enemy enemyComponent) && IsInRange(enemyComponent);
+    }
+
+    // Asked by every fighter every frame
+    public bool IsInRange(Enemy enemy)
+    {
+        return tower.Targetter.Contains(enemy);
     }
 }

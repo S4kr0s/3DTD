@@ -102,18 +102,12 @@ public class LaserTowerActionStrategy : ActionStrategy
             projectileComponent.tower = tower;
             if (projectileComponent.Collider != null)
                 projectileComponent.Collider.enabled = true;
-            projectileComponent.OnProjectileDeath += ReturnToPool;
             _projectile.SetActive(true);
 
             _projectile.GetComponent<PolygonProjectileScript>().VisualsStart();
         }
     }
 
-    public void ReturnToPool(GameObject obj)
-    {
-        obj.GetComponent<Projectile>().OnProjectileDeath -= ReturnToPool;
-        projectilePoolManager.ReturnToPool(obj);
-    }
 
     public override bool CanShoot(GameObject enemy)
     {

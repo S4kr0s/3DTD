@@ -8,6 +8,11 @@ public class Spawner : MonoBehaviour
     // A released enemy stays inactive this long (game seconds) before it is reused, so homing
     // projectiles and starfighters that still point at it notice it is gone first
     private const float EnemyReuseDelay = 3f;
+    // The enemy prefab has 52 objects; instantiating many in one frame stalls the game, so the pool is
+    // filled ahead of demand a few per frame, up to the current or next wave's enemy count
+    private const int PrewarmPerFrameIdle = 6;
+    private const int PrewarmPerFrameInWave = 2;
+    private const int MaxPrewarmedEnemies = 2000;
 
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private List<WaveData> waves;
@@ -18,6 +23,8 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float scalingFactor = 0.1f;
 
     private List<GameObject> enemiesAlive = new List<GameObject>();
+    // Parallel to enemiesAlive, so a dead enemy is swapped out in O(1) through Enemy.AliveIndex
+    private readonly List<Enemy> aliveEnemies = new List<Enemy>();
     [SerializeField] private int enemiesInWave = 0;
 
     public event Action<int> OnWaveStarted;
@@ -40,6 +47,11 @@ public class Spawner : MonoBehaviour
         public float ReleasedAt;
     }
     private readonly Queue<PooledEnemy> enemyPool = new Queue<PooledEnemy>();
+    // Prewarmed enemies that never lived yet: usable at once, unlike released ones. They wait under an
+    // inactive container, so they don't run Awake/OnEnable until they are spawned.
+    private readonly Stack<GameObject> freshEnemies = new Stack<GameObject>();
+    private Transform freshEnemyContainer;
+    private int prewarmTarget;
 
     private class RuntimeWave
     {
@@ -79,10 +91,13 @@ public class Spawner : MonoBehaviour
         }
 
         currentGameState = GameState.IDLE;
+        SetPrewarmTargetForNextWave();
     }
 
     private void Update()
     {
+        PrewarmEnemies();
+
         if (currentGameState != GameState.PROGRESSING)
             return;
 
@@ -99,6 +114,7 @@ public class Spawner : MonoBehaviour
         }
 
         OnWaveEnded?.Invoke(GameManager.Instance.Round);
+        SetPrewarmTargetForNextWave();
 
         if (autoPlay)
         {
@@ -120,6 +136,7 @@ public class Spawner : MonoBehaviour
             return;
 
         enemiesInWave = spawnCount * laneCount;
+        prewarmTarget = Mathf.Min(MaxPrewarmedEnemies, Mathf.Max(prewarmTarget, enemiesInWave));
 
         int roundStarted = GameManager.Instance.Round;
         GameManager.Instance.Round++;
@@ -132,11 +149,41 @@ public class Spawner : MonoBehaviour
         }
     }
 
+    private void SetPrewarmTargetForNextWave()
+    {
+        if (waves == null || waves.Count == 0 || GameManager.Instance == null)
+            return;
+        RuntimeWave next = BuildRuntimeWave(GameManager.Instance.Round >= waves.Count);
+        prewarmTarget = Mathf.Min(MaxPrewarmedEnemies, Mathf.Max(prewarmTarget, GetSpawnCount(next) * LaneCount));
+    }
+
+    private void PrewarmEnemies()
+    {
+        if (enemyPrefab == null)
+            return;
+        int available = freshEnemies.Count + enemyPool.Count + enemiesAlive.Count;
+        if (available >= prewarmTarget)
+            return;
+
+        if (freshEnemyContainer == null)
+        {
+            GameObject container = new GameObject("Enemy Pool");
+            container.SetActive(false);
+            container.transform.SetParent(transform, false);
+            freshEnemyContainer = container.transform;
+        }
+
+        int budget = currentGameState == GameState.PROGRESSING ? PrewarmPerFrameInWave : PrewarmPerFrameIdle;
+        for (int i = 0; i < budget && available < prewarmTarget; i++, available++)
+            freshEnemies.Push(Instantiate(enemyPrefab, freshEnemyContainer));
+    }
+
     // A restored savegame continues after its last completed wave; a won game stays won (freeplay)
     public void RestoreProgress(bool won)
     {
         isWon = won;
         currentGameState = GameState.IDLE;
+        SetPrewarmTargetForNextWave();
     }
 
     // The points an enemy of this lane walks through: its spawn point, then every waypoint until it touches
@@ -278,6 +325,13 @@ public class Spawner : MonoBehaviour
         if (enemyPool.Count > 0 && Time.time - enemyPool.Peek().ReleasedAt >= EnemyReuseDelay)
             enemyObject = enemyPool.Dequeue().Enemy;
 
+        bool fresh = false;
+        while (enemyObject == null && freshEnemies.Count > 0)
+        {
+            enemyObject = freshEnemies.Pop();
+            fresh = enemyObject != null;
+        }
+
         if (enemyObject == null)
         {
             enemyObject = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
@@ -285,27 +339,41 @@ public class Spawner : MonoBehaviour
         else
         {
             enemyObject.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
+            if (fresh)
+                enemyObject.transform.SetParent(null, true);
             enemyObject.SetActive(true);
         }
 
         Enemy enemy = enemyObject.GetComponent<Enemy>();
         enemy.Initialize(data, path, traits);
 
+        enemy.AliveIndex = enemiesAlive.Count;
         enemiesAlive.Add(enemyObject);
-        enemy.OnDeath += HandleEnemyDeath;
+        aliveEnemies.Add(enemy);
         return enemy;
     }
 
     // Called by Enemy when it died or leaked
-    public void ReleaseEnemy(GameObject enemy)
+    public void ReleaseEnemy(Enemy enemy)
     {
-        enemy.SetActive(false);
-        enemyPool.Enqueue(new PooledEnemy { Enemy = enemy, ReleasedAt = Time.time });
+        RemoveAlive(enemy);
+        enemy.gameObject.SetActive(false);
+        enemyPool.Enqueue(new PooledEnemy { Enemy = enemy.gameObject, ReleasedAt = Time.time });
     }
 
-    private void HandleEnemyDeath(GameObject enemy)
+    private void RemoveAlive(Enemy enemy)
     {
-        enemiesAlive.Remove(enemy);
+        int index = enemy.AliveIndex;
+        if (index < 0 || index >= aliveEnemies.Count || aliveEnemies[index] != enemy)
+            return;   // placed by hand, not spawned
+
+        int last = aliveEnemies.Count - 1;
+        enemiesAlive[index] = enemiesAlive[last];
+        aliveEnemies[index] = aliveEnemies[last];
+        aliveEnemies[index].AliveIndex = index;
+        enemiesAlive.RemoveAt(last);
+        aliveEnemies.RemoveAt(last);
+        enemy.AliveIndex = -1;
         enemiesInWave--;
     }
 }

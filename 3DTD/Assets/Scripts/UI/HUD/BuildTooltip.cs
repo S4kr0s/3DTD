@@ -69,11 +69,13 @@ public class BuildTooltip : MonoBehaviour
             Place();
     }
 
+    private readonly Vector3[] cornerBuffer = new Vector3[4];
+
     // Left of the tile, vertically centred on it but kept on screen; the notch stays on the tile's centre
     private void Place()
     {
         RectTransform space = (RectTransform)plate.parent;
-        Vector3[] corners = new Vector3[4];
+        Vector3[] corners = cornerBuffer;
         anchor.GetWorldCorners(corners);
         Vector2 min = space.InverseTransformPoint(corners[0]);
         Vector2 max = space.InverseTransformPoint(corners[2]);

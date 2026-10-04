@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
     private DifficultyProfile profile;
     // Fractional income (income multipliers below 1) is banked until it adds up to whole money
     private float incomeRemainder = 0f;
+    // Income from popped layers changes money hundreds of times per frame in late waves; the UI hears about
+    // it once per frame (LateUpdate). Purchases and sells set Money directly and notify at once.
+    private bool moneyChangePending;
     private int startingLives;
 
     public event Action<int> OnMoneyChanged;
@@ -51,6 +54,7 @@ public class GameManager : MonoBehaviour
         set 
         { 
             money = value;
+            moneyChangePending = false;
             OnMoneyChanged?.Invoke(value);
         } 
     }
@@ -221,7 +225,17 @@ public class GameManager : MonoBehaviour
         if (whole > 0)
         {
             incomeRemainder -= whole;
-            Money += whole;
+            money += whole;
+            moneyChangePending = true;
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (moneyChangePending)
+        {
+            moneyChangePending = false;
+            OnMoneyChanged?.Invoke(money);
         }
     }
 

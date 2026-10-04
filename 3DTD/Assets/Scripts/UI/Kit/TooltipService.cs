@@ -151,9 +151,11 @@ public class TooltipService : MonoBehaviour
         notch.localRotation = Quaternion.Euler(0f, 0f, notchAngle);
     }
 
+    private static readonly Vector3[] CornerBuffer = new Vector3[4];
+
     private static Rect LocalRect(RectTransform target, RectTransform space)
     {
-        Vector3[] corners = new Vector3[4];
+        Vector3[] corners = CornerBuffer;
         target.GetWorldCorners(corners);
         Vector2 min = space.InverseTransformPoint(corners[0]);
         Vector2 max = space.InverseTransformPoint(corners[2]);

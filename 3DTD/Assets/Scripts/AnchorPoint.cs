@@ -36,6 +36,7 @@ public class AnchorPoint : MonoBehaviour
     {
         renderer = GetComponent<Renderer>();
         renderer.enabled = false;
+        OutlineSwitch.SetOutline(outlinable, false);
     }
 
     private void OnMouseDown()
@@ -79,12 +80,12 @@ public class AnchorPoint : MonoBehaviour
 
     private void ChangeMaterialSelected()
     {
-        outlinable.OutlineParameters.Enabled = true;
+        OutlineSwitch.SetOutline(outlinable, true);
     }
 
     private void RevertMaterialSelected()
     {
-        outlinable.OutlineParameters.Enabled = false;
+        OutlineSwitch.SetOutline(outlinable, false);
     }
 
     private bool CanBuildHere()

@@ -22,6 +22,9 @@ public class GameStatDisplay : MonoBehaviour
     [SerializeField] private TMP_Text autoWaveState;
 
     private Spawner spawner;
+    // Scrap changes every frame in late waves; the counter is rebuilt without allocating
+    private readonly System.Text.StringBuilder moneyText = new System.Text.StringBuilder(64);
+    private int shownMoney = int.MinValue;
 
     private void Start()
     {
@@ -86,7 +89,10 @@ public class GameStatDisplay : MonoBehaviour
 
     private void HandleMoneyUpdated(int value)
     {
-        moneyDisplay.text = UIFormat.Tabular(value);
+        if (value == shownMoney)
+            return;
+        shownMoney = value;
+        UIFormat.SetTabular(moneyDisplay, value, moneyText);
     }
 
     private void HandleLivesUpdated(int value)

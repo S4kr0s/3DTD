@@ -50,7 +50,8 @@ public class ProjectileBomb : Projectile
 
     private void Update()
     {
-        if (updateDisabled) return;
+        if (UpdateFade() || updateDisabled)
+            return;
 
         // The target died or leaked; keep flying straight
         if (target != null && !target.activeInHierarchy)

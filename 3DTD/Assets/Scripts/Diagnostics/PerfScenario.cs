@@ -33,12 +33,18 @@ public class PerfScenario : MonoBehaviour
     // Dispenser spam: about what a Medium game earns by round 100 (maxed dispenser + block = 1670 scrap)
     public const int SpamTowers = 150;
     public const float MaxEditorGcBytesPerFrame = 1024f;
+    // Prefab names in Beginner Level 01's palette
+    private static readonly string[] ParityTowers =
+    {
+        "Default Tower", "Core Tower", "Bomb Tower", "Sniper Tower", "Beam Tower", "Bullet Dispenser Tower", "Hangar Tower", "Mine Factory",
+    };
 
     [Serializable]
     public class Run
     {
         public string id;
-        public string layout;            // "mixed", "dispensers", "parity"
+        public string layout;            // "mixed", "dispensers", "parity", "single"
+        public string tower;             // prefab name for the "single" layout
         public string scene = "Beginner Level 01";
         public float speed = 1f;
         public int round = 100;          // number of the first wave that is played
@@ -46,6 +52,7 @@ public class PerfScenario : MonoBehaviour
         public int maxTowers = 0;        // 0: every spot found along the lane
         public int seed = 1234;
         public string parityGroup;       // runs with the same group are compared against their 1x run
+        public bool informational;       // parity deviations are logged but don't fail
     }
 
     [Serializable]
@@ -175,26 +182,58 @@ public class PerfScenario : MonoBehaviour
             new Run { id = "S1-5x", layout = "mixed", speed = 5f, round = 100 },
             new Run { id = "S2", layout = "dispensers", speed = 1f, round = 100, maxTowers = SpamTowers },
             new Run { id = "S3", layout = "dispensers", speed = 5f, round = 100, maxTowers = SpamTowers },
-            new Run { id = "P-1x", layout = "parity", speed = 1f, round = 60, waves = 1, parityGroup = "P" },
-            new Run { id = "P-3x", layout = "parity", speed = 3f, round = 60, waves = 1, parityGroup = "P" },
-            new Run { id = "P-5x", layout = "parity", speed = 5f, round = 60, waves = 1, parityGroup = "P" },
+            // A weak mixed defense; results vary about 9 % between seeds, so this group is informational
+            new Run { id = "P-1x", layout = "parity", speed = 1f, round = 60, waves = 1, parityGroup = "P", informational = true },
+            new Run { id = "P-3x", layout = "parity", speed = 3f, round = 60, waves = 1, parityGroup = "P", informational = true },
+            new Run { id = "P-5x", layout = "parity", speed = 5f, round = 60, waves = 1, parityGroup = "P", informational = true },
             new Run { id = "S1-r50", layout = "mixed", speed = 1f, round = 50 },
             new Run { id = "S1-r75", layout = "mixed", speed = 1f, round = 75 },
             new Run { id = "S2P-1x", layout = "dispensers", speed = 1f, round = 60, maxTowers = 12, waves = 1, parityGroup = "S2P" },
             new Run { id = "S2P-5x", layout = "dispensers", speed = 5f, round = 60, maxTowers = 12, waves = 1, parityGroup = "S2P" },
         };
 
-        if (name == "full")
-            return all;
-        if (name == "core")
-            return all.GetRange(0, 7);
-
-        List<Run> picked = new List<Run>();
-        foreach (string id in name.Split(','))
+        // Tower parity: one maxed tower of each type alone against an overwhelming wave, at 1x/3x/5x.
+        // Its damage measures its effectiveness without the noise of a whole defense.
+        List<Run> parity = new List<Run>();
+        foreach (string tower in ParityTowers)
         {
-            Run run = all.Find(r => r.id == id.Trim());
-            if (run != null)
-                picked.Add(run);
+            foreach (float speed in new[] { 1f, 3f, 5f })
+            {
+                parity.Add(new Run
+                {
+                    id = "T-" + tower.Replace(" Tower", "").Replace(" ", "") + "-" + speed + "x",
+                    layout = "single", tower = tower, speed = speed, round = 60, waves = 1, parityGroup = tower,
+                });
+            }
+        }
+
+        List<Run> picked;
+        if (name == "full")
+        {
+            picked = new List<Run>(all);
+            picked.AddRange(parity);
+        }
+        else if (name == "core")
+            picked = all.GetRange(0, 4);
+        else if (name == "parity")
+            picked = parity;
+        else
+        {
+            picked = new List<Run>();
+            foreach (string id in name.Split(','))
+            {
+                Run run = all.Find(r => r.id == id.Trim()) ?? parity.Find(r => r.id == id.Trim());
+                if (run != null)
+                    picked.Add(run);
+            }
+        }
+
+        // -perfSeed n: same runs with another random seed, to see how much results vary between runs
+        string seed = Argument("-perfSeed");
+        if (!string.IsNullOrEmpty(seed) && int.TryParse(seed, out int value))
+        {
+            foreach (Run run in picked)
+                run.seed = value;
         }
         return picked;
     }
@@ -255,8 +294,10 @@ public class PerfScenario : MonoBehaviour
         GameObject blockPrefab = game.Buildings.Find(b => b != null && b.GetComponent<BuildingBlock>() != null);
         for (int i = 0; i < plans.Count && i < spots.Count; i++)
         {
-            // Spread the towers evenly along the lane when there are more spots than towers
-            int spot = plans.Count < spots.Count ? Mathf.FloorToInt(i * spots.Count / (float)plans.Count) : i;
+            // Spread the towers evenly along the lane when there are more spots than towers; a single tower
+            // stands a third of the way along
+            int spot = run.layout == "single" ? spots.Count / 3
+                : plans.Count < spots.Count ? Mathf.FloorToInt(i * spots.Count / (float)plans.Count) : i;
             Tower tower = BuildOnBlock(blockPrefab, plans[i].prefab, spots[spot]);
             if (tower != null)
             {
@@ -354,6 +395,14 @@ public class PerfScenario : MonoBehaviour
             return plans;
         }
 
+        if (run.layout == "single")
+        {
+            GameObject prefab = towerPrefabs.Find(p => p.name == run.tower);
+            if (prefab != null)
+                plans.Add(new TowerPlan { prefab = prefab, tiers = HeaviestTiers(prefab) });
+            return plans;
+        }
+
         if (run.layout == "parity")
         {
             foreach (GameObject prefab in towerPrefabs)
@@ -396,6 +445,19 @@ public class PerfScenario : MonoBehaviour
             }
         }
         return plans;
+    }
+
+    // Path 1 to the top and path 2 to tier 2 (the Bullet Dispenser's bullet build); towers whose path 1 tier 3
+    // swaps the action strategy still get a real, legal maximum this way
+    private static int[] HeaviestTiers(GameObject prefab)
+    {
+        UpgradePath[] paths = prefab.GetComponent<UpgradeManager>().GetUpgradePaths();
+        int[] tiers = new int[paths.Length];
+        if (paths.Length > 0)
+            tiers[0] = ModuleCount(paths[0]);
+        if (paths.Length > 1)
+            tiers[1] = Mathf.Min(2, ModuleCount(paths[1]));
+        return tiers;
     }
 
     private static int ModuleCount(UpgradePath path)
@@ -835,8 +897,10 @@ public class PerfScenario : MonoBehaviour
             if (run.parityGroup == null || Mathf.Approximately(run.speed, 1f) || !baseline.TryGetValue(run.parityGroup, out RunResult reference))
                 continue;
 
-            CompareParity(result, "damage", result.damage, reference.damage, ParityTolerance);
-            CompareParity(result, "leaked lives", result.leakedLives, reference.leakedLives, ParityTolerance);
+            bool info = run.informational;
+            CompareParity(result, "damage", result.damage, reference.damage, ParityTolerance, info);
+            if (run.layout != "single")
+                CompareParity(result, "leaked lives", result.leakedLives, reference.leakedLives, ParityTolerance, info);
             float referenceTotal = Mathf.Max(1f, reference.damage);
             foreach (string entry in reference.damageByType)
             {
@@ -846,21 +910,21 @@ public class PerfScenario : MonoBehaviour
                     continue;
                 string match = result.damageByType.Find(e => e.StartsWith(parts[0] + "=", StringComparison.Ordinal));
                 float damage = match != null ? float.Parse(match.Split('=')[1], CultureInfo.InvariantCulture) : 0f;
-                CompareParity(result, parts[0] + " damage", damage, referenceDamage, ParityTypeTolerance);
+                CompareParity(result, parts[0] + " damage", damage, referenceDamage, ParityTypeTolerance, info);
             }
-            if (reference.leakedLives == 0)
+            if (reference.leakedLives == 0 && run.layout != "single")
                 Debug.LogWarning("PERF " + run.parityGroup + ": the 1x run leaked nothing, so its parity check only compares damage");
         }
     }
 
-    private static void CompareParity(RunResult result, string what, float value, float reference, float tolerance)
+    private static void CompareParity(RunResult result, string what, float value, float reference, float tolerance, bool informational)
     {
         float scale = Mathf.Max(Mathf.Abs(reference), 1f);
         float deviation = Mathf.Abs(value - reference) / scale;
         string line = string.Format(CultureInfo.InvariantCulture, "{0} {1}: {2:F0} vs {3:F0} at 1x ({4:+0.0;-0.0}%)",
             result.id, what, value, reference, (value - reference) / scale * 100f);
         Debug.Log("PERF PARITY " + line);
-        if (deviation > tolerance && Mathf.Abs(value - reference) > 2f)
+        if (deviation > tolerance && Mathf.Abs(value - reference) > 2f && !informational)
             result.failures.Add(line + " exceeds " + (tolerance * 100f) + "%");
     }
 

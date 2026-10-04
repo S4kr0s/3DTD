@@ -103,6 +103,9 @@ public class UpgradeCell : MonoBehaviour
             return;
         int cost = Mathf.Max(1, GameManager.PriceOf(Module.Price));
         float fraction = Mathf.Clamp01(GameManager.Instance.Money / (float)cost);
+        // Setting anchors dirties the canvas layout; skip it while the bar is full or unchanged
+        if (Mathf.Approximately(progressFill.anchorMax.x, fraction) && progressFill.anchorMin == Vector2.zero)
+            return;
         progressFill.anchorMin = Vector2.zero;
         progressFill.anchorMax = new Vector2(fraction, 1f);
         progressFill.offsetMin = progressFill.offsetMax = Vector2.zero;

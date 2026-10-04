@@ -543,7 +543,7 @@ public class Starfighter : MonoBehaviour
 
     private bool IsValidTarget(Enemy enemy)
     {
-        return enemy != null && enemy.IsAlive && strategy.CanShoot(enemy.gameObject);
+        return enemy != null && enemy.IsAlive && strategy.IsInRange(enemy);
     }
 
     private Enemy FindEnemyInFireCone()
@@ -608,12 +608,12 @@ public class Starfighter : MonoBehaviour
             if (strategy.twinLinkedCannons)
             {
                 foreach (Transform muzzle in cannonMuzzles)
-                    strategy.FireCannon(cannonPool, ReturnCannonToPool, muzzle, shotTarget);
+                    strategy.FireCannon(cannonPool, muzzle, shotTarget);
             }
             else
             {
                 nextMuzzle = (nextMuzzle + 1) % cannonMuzzles.Length;
-                strategy.FireCannon(cannonPool, ReturnCannonToPool, cannonMuzzles[nextMuzzle], shotTarget);
+                strategy.FireCannon(cannonPool, cannonMuzzles[nextMuzzle], shotTarget);
             }
 
             magazine--;
@@ -645,7 +645,7 @@ public class Starfighter : MonoBehaviour
             .CompareTo(Vector3.Distance(b.transform.position, target.transform.position)));
 
         int missileIndex = strategy.missilesPerRun - pendingMissiles;
-        strategy.FireOrdnance(ordnancePool, ReturnOrdnanceToPool, ordnanceBay, enemies[missileIndex % enemies.Count]);
+        strategy.FireOrdnance(ordnancePool, ordnanceBay, enemies[missileIndex % enemies.Count]);
 
         pendingMissiles--;
         missileTimer = missileLaunchInterval;
@@ -672,32 +672,8 @@ public class Starfighter : MonoBehaviour
         if (closest == null)
             return;
 
-        strategy.FireOrdnance(ordnancePool, ReturnOrdnanceToPool, ordnanceBay, closest);
+        strategy.FireOrdnance(ordnancePool, ordnanceBay, closest);
         bombTimer = bombDropInterval;
-    }
-
-    private void ReturnCannonToPool(GameObject obj)
-    {
-        ReturnToPool(obj, cannonPool, ReturnCannonToPool);
-    }
-
-    private void ReturnOrdnanceToPool(GameObject obj)
-    {
-        ReturnToPool(obj, ordnancePool, ReturnOrdnanceToPool);
-    }
-
-    private void ReturnToPool(GameObject obj, ProjectilePoolManager pool, System.Action<GameObject> handler)
-    {
-        obj.GetComponent<Projectile>().OnProjectileDeath -= handler;
-
-        // The fighter (and its pool) is gone when the hangar got sold while the projectile was in flight
-        if (this == null || pool == null)
-        {
-            Destroy(obj, 0.5f);
-            return;
-        }
-
-        pool.ReturnToPool(obj);
     }
 
     private void SetMissilePodsVisible(bool visible)

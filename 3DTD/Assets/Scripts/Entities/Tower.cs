@@ -98,9 +98,6 @@ public class Tower : Building
         localUp.Normalize();
         localUp = GetNearestDirection(localUp);
 
-        Debug.Log(localUp);
-        Debug.Log("EULER: " + this.rotationBase.transform.rotation.ToString());
-
         if (localUp == Vector3.right)
         {
             this.rotationBase.transform.rotation = Quaternion.Euler(rotationValue, 0, -90);
@@ -126,8 +123,6 @@ public class Tower : Building
         {
             this.rotationBase.transform.rotation = Quaternion.Euler(rotationValue, 90, -90);
         }
-
-        Debug.Log("EULER: " + this.rotationBase.transform.rotation.ToString());
     }
 
     public Vector3 GetNearestDirection(Vector3 localUp)

@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public static class UIPointer
 {
     private static readonly List<RaycastResult> results = new List<RaycastResult>();
+    private static PointerEventData pointerData;
+    private static EventSystem pointerSystem;
     private static int cachedFrame = -1;
     private static bool cachedValue;
 
@@ -25,7 +27,15 @@ public static class UIPointer
         EventSystem system = EventSystem.current;
         if (system == null)
             return false;
-        PointerEventData data = new PointerEventData(system) { position = screenPosition };
+        // Called every frame (camera zoom, anchors); reuse one event object per EventSystem
+        if (pointerData == null || pointerSystem != system)
+        {
+            pointerData = new PointerEventData(system);
+            pointerSystem = system;
+        }
+        PointerEventData data = pointerData;
+        data.Reset();
+        data.position = screenPosition;
         results.Clear();
         system.RaycastAll(data, results);
         foreach (RaycastResult result in results)

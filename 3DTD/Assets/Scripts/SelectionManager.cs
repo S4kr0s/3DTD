@@ -43,6 +43,12 @@ public class SelectionManager : MonoBehaviour
         OnSelectionChange += HandleSelectionChange;
     }
 
+    // The event is static and outlives the scene
+    private void OnDestroy()
+    {
+        OnSelectionChange -= HandleSelectionChange;
+    }
+
     private void HandleSelectionChange(Selectable oldSelection, Selectable newSelection)
     {
         if (oldSelection == newSelection)
@@ -54,9 +60,10 @@ public class SelectionManager : MonoBehaviour
         if(newSelection != null)
             newSelection.Select();
 
+        // Only the selected tower is watched; this used to subscribe again on every selection change
         if (oldSelection != null)
             if (oldSelection.gameObject.TryGetComponent(out Tower oldTower))
-                oldTower.OnTowerDestroyed += HandleSelectedTowerIsDestroyed;
+                oldTower.OnTowerDestroyed -= HandleSelectedTowerIsDestroyed;
 
         if (newSelection != null)
             if (newSelection.gameObject.TryGetComponent<Tower>(out Tower newTower))

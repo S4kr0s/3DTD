@@ -12,6 +12,12 @@ public class Selectable : MonoBehaviour
         SelectionManager.OnSelectionChange += HandleSelectionChange;
     }
 
+    // The selection event is static: a sold building would otherwise stay subscribed for the rest of the session
+    private void OnDestroy()
+    {
+        SelectionManager.OnSelectionChange -= HandleSelectionChange;
+    }
+
     private void Update()
     {
         if (isSelected)
@@ -30,12 +36,10 @@ public class Selectable : MonoBehaviour
 
     public void Select()
     {
-        Debug.Log(gameObject.name + " selected.");
     }
 
     public void Deselect()
     {
-        Debug.Log(gameObject.name + " deselected.");
     }
 
     private void HandleSelectionChange(Selectable oldSelection, Selectable newSelection)

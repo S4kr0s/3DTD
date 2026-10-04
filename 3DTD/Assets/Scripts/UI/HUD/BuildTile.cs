@@ -24,6 +24,8 @@ public class BuildTile : MonoBehaviour
 
     private bool selected;
     private bool subscribed;
+    // Money changes every frame in late waves; the tile only restyles when affordability flips
+    private int shownAffordability = -1;
 
     private void Awake()
     {
@@ -77,12 +79,14 @@ public class BuildTile : MonoBehaviour
 
     private void HandleMoneyChanged(int money)
     {
-        RefreshAffordability();
+        if ((price.Affordable ? 1 : 0) != shownAffordability)
+            RefreshAffordability();
     }
 
     private void RefreshAffordability()
     {
         bool affordable = price.Affordable;
+        shownAffordability = affordable ? 1 : 0;
         button.SetStyles(affordable ? BevelStyle.Tile : BevelStyle.TileDim, affordable ? BevelStyle.Tile : BevelStyle.TileDim,
             BevelStyle.TileSelected, BevelStyle.TileDim, BevelStyle.TileSelected);
         Color color = image.color;

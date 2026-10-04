@@ -7,6 +7,9 @@ public class ProjectileRound : Projectile
 {
     private void Update()
     {
+        if (UpdateFade())
+            return;
+
         lifetime -= Time.deltaTime;
 
         if (lifetime <= 0)

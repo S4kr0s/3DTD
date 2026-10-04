@@ -12,6 +12,9 @@ public class PriceLabel : MonoBehaviour
     private int price;
     private bool subscribed;
     private bool ignoreAffordability;
+    private int shownPrice = int.MinValue;
+    private string shownPrefix;
+    private int shownAffordability = -1;
 
     public int Price => price;
     public bool Affordable => GameManager.Instance == null || GameManager.Instance.Money >= price;
@@ -60,15 +63,28 @@ public class PriceLabel : MonoBehaviour
 
     private void HandleMoneyChanged(int money)
     {
-        Refresh();
+        // Money changes every frame in late waves; only a flip in affordability changes this label
+        if ((IsShownAffordable() ? 1 : 0) != shownAffordability)
+            Refresh();
+    }
+
+    private bool IsShownAffordable()
+    {
+        return ignoreAffordability || !subscribed || Affordable;
     }
 
     private void Refresh()
     {
         if (text == null)
             return;
-        text.text = prefix + (tabular ? UIFormat.TabularLabel(price) : price.ToString());
-        bool affordable = ignoreAffordability || !subscribed || Affordable;
+        if (price != shownPrice || prefix != shownPrefix)
+        {
+            shownPrice = price;
+            shownPrefix = prefix;
+            text.text = prefix + (tabular ? UIFormat.TabularLabel(price) : price.ToString());
+        }
+        bool affordable = IsShownAffordable();
+        shownAffordability = affordable ? 1 : 0;
         text.color = affordable ? affordableColor : UITheme.Current.cantAfford;
     }
 }

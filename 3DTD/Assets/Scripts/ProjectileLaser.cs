@@ -8,6 +8,9 @@ public class ProjectileLaser : Projectile
 
     private void Update()
     {
+        if (UpdateFade())
+            return;
+
         Start:
 
         lifetime -= Time.deltaTime;

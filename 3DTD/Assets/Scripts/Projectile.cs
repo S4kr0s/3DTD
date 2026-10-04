@@ -1,10 +1,13 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+    // Seconds the projectile shrinks to nothing after it died, before it goes back to its pool
+    public const float FadeDuration = 0.1f;
+
     [SerializeField] public GameObject target;
     [SerializeField] public float damage;
     [SerializeField] public int penetration;
@@ -15,45 +18,50 @@ public class Projectile : MonoBehaviour
     public event Action<GameObject> OnProjectileDeath;
     public Tower tower;
 
-    private void Awake()
-    {
-        OnProjectileDeath += Projectile_OnProjectileDeath;
-    }
-
-    private void Projectile_OnProjectileDeath(GameObject obj)
-    {
-        StartCoroutine(FadeOutCoroutine());
-    }
+    // The pool that created this projectile; it returns itself there once the fade is over
+    public ProjectilePoolManager Pool { get; set; }
+    public bool IsDying => dying;
 
     public GameObject Target { get { return target; } set { target = value; } }
     public int Penetration { get { return penetration; } set { penetration = value; } }
 
-    private IEnumerator FadeOutCoroutine()
+    private bool dying;
+    private float fadeTime;
+    private Vector3 fadeStartScale;
+
+    // Starts the fade; calling it again while fading does nothing
+    protected void Die()
     {
+        if (dying)
+            return;
+
+        dying = true;
+        fadeTime = 0f;
+        fadeStartScale = transform.localScale;
         if (Collider != null)
             Collider.enabled = false;
+        OnProjectileDeath?.Invoke(this.gameObject);
+    }
 
-        float duration = .1f;
-        float currentTime = 0f;
-        Vector3 originalScale = transform.localScale; 
+    // Subclasses call this first in Update. Shrinks a dying projectile; returns true once it is gone
+    // (deactivated and back in its pool), in which case the caller must stop.
+    protected bool UpdateFade()
+    {
+        if (!dying)
+            return false;
 
-        while (currentTime < duration)
+        fadeTime += Time.deltaTime;
+        if (fadeTime < FadeDuration)
         {
-            // Calculate the current time over the duration.
-            currentTime += Time.deltaTime;
-            // Calculate the current scale of the GameObject.
-            float scale = Mathf.Lerp(1, 0, currentTime / duration);
-            transform.localScale = originalScale * scale; 
-            yield return null; 
+            transform.localScale = fadeStartScale * Mathf.Lerp(1f, 0f, fadeTime / FadeDuration);
+            return false;
         }
 
         transform.localScale = Vector3.zero;
-        // Destroy(gameObject); 
-        gameObject.SetActive(false); 
-    }
-
-    protected void Die()
-    {
-        OnProjectileDeath?.Invoke(this.gameObject);
+        dying = false;
+        gameObject.SetActive(false);
+        if (Pool != null)
+            Pool.Release(gameObject);
+        return true;
     }
 }
