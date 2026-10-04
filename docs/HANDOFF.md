@@ -40,7 +40,7 @@ Blocks are placed on the lane's block grid with the top face just below the enem
 
 Checks:
 - Frame p99 ≤ 16.7 ms and max ≤ 33 ms.
-- At most 1 KB of garbage per steady frame in the Editor (TMP copies every changed text into a string in the Editor) and 0 B in builds.
+- At most 1 KB of garbage per steady frame in the Editor (TMP copies every changed text into a string in the Editor) and 0 B in builds. A steady frame is one in the second wave or later, more than 1 s from that wave's start and end, in which the Spawner created no enemy. The first wave grows pools and buffers to the new peak once, as the first waves of any session do.
 - At 5x, the game time ratio is ≥ 98 % of 5.
 - No dropped projectiles, death animations or effects (`PerfCounters`).
 - Parity: each T run's damage within 3 % of its 1x run.
@@ -217,6 +217,70 @@ A squadron's dogfight is still chaotic: fighters see enemies and the tower's ran
 
 The spread between seeds (about ±6 %) is as large as the difference between speeds (3.6 % between the means, about 1.5 standard errors). The `T-Hangar` parity runs are therefore informational.
 
+## After Phase 5: the player build and its render-thread wait
+From here on the reference is the development player (`PerfBenchmark.BuildPlayer`); the Editor adds about 10 ms per frame.
+
+**Main-thread effect work (commits 5401eec, 8ddf739):**
+- Batched particles are placed by Burst jobs.
+- Each bullet used to emit an invisible trail-head particle, about 30 µs per `Emit` and up to 24 ms in a heavy frame. That is replaced by `TrailMesh`: every flight keeps a ring of recent points, and one Burst job builds all the camera-facing ribbons with the `TrailRenderer`'s width, gradient (in linear space) and material.
+- The batched copy emulates Inherit Velocity at emission, so the stretched spark dashes behind each bullet are back.
+
+**Render-thread wait:**
+- In the player, S3 still had frames of 30–50 ms. Unity's `ParticleSystem.WaitForPreviousRenderingToFinish` blocked the first `Emit` of each frame for up to 17 ms, because the render thread was waiting for particle geometry.
+- Unity builds the geometry of each particle system in one job, and all bullet flights lived in one shared copy.
+- Fix: flights are now spread over shards, about a third of the cores (`EffectPool.MaxFlightShards`). On the M4 Pro, 4 shards measured best; 3 brought the wait back and 7 or 12 were slower.
+- The per-flight work runs in Burst jobs, and the place jobs of all emitters run in parallel.
+
+**Other frame-time work:**
+- Projectiles that only move or fade are advanced inside the Burst step job; the main thread handles only hits and expiries.
+- Enemies are ticked in one Spawner loop that writes position and rotation together.
+- Batched systems show at most 32 particle lights each (was 64).
+- The first Burst job and each job type's reflection data are warmed up at app start. That was 25 ms on the first shot.
+- The death-effect renderer is created at level start (it allocates 0.5 MB).
+- The benchmark keeps the window resize, screenshot frames and enemy-pool prewarming out of the measurement.
+
+**Garbage** (found with `-perfProfile` captures and `ProfileReport`'s allocation callstacks):
+- HUD counters keep a width that only follows their digit count. Each resize during a layout rebuild made UGUI start a coroutine.
+- `PhysicsRaycaster` uses a fixed 256-hit buffer (`m_MaxRayIntersections`) instead of `RaycastAll`.
+- Starfighter separation no longer boxes an enumerator.
+- The beam and missile sorts no longer allocate a delegate per call.
+- The trail mesh reuses its vertex layout.
+- Effect queues and pop lists start with room for a busy frame.
+
+## Phase 6 results (macOS development player, M4 Pro, 1920×1080 window)
+
+| Run | p50 / p95 / p99 / max (ms) | Game speed | Steady GC | Frames that allocate |
+|---|---|---|---|---|
+| S1-1x | 5.8 / 9.1 / 11.3 / 31.7 | 1.00x | 18 B/frame | 0.6 % |
+| S1-5x | 6.7 / 10.6 / 13.1 / 18.9 | 5.00x | 33 B/frame | 2.3 % |
+| S2 (150 dispensers) | 9.7 / 12.4 / 13.4 / 15.4 | 1.00x | 8 B/frame | 0.4 % |
+| S3 (S2 at 5x) | 10.7 / 14.7 / 15.8 / 16.8 | 5.00x | 192 B/frame | 2.4 % |
+
+- **Frame-time criteria:** all met (p99 ≤ 16.7 ms, max ≤ 33 ms, ≥ 98 % of 5x).
+- **No culling:** every requested projectile, effect and pop animation played. S3: 386k projectiles, 589k effects, 44k pops.
+- **GC:** the remaining steady garbage is list-capacity growth while the load still rises from round 100 to 102 (a handful of doublings per session), not per-frame garbage, so the strict 0 B criterion is still reported as failed. In the second half of S2, 34 of 6,294 frames allocated.
+- **Run-to-run variation:** S3's p99 varies by about ±0.5 ms. S1-1x's max varies between 24 and 32 ms (one hitch per run).
+
+Parity in the player (T runs, damage at 1x / 3x / 5x):
+
+| Tower | 1x | 3x | 5x |
+|---|---|---|---|
+| Laser | 435 | 435 | 435 |
+| Core | 7 | 7 | 7 |
+| Rocket | 7,600 | 7,620 (+0.3 %) | 7,624 (+0.3 %) |
+| Sniper | 1,080 | 1,080 | 1,080 |
+| Bullet Dispenser | 123 | 123 | 123 |
+| Mine Factory | 15,901 | 15,856 (−0.3 %) | 15,823 (−0.5 %) |
+| Hangar (informational) | 556 | 486 (−12.6 %) | 544 (−2.2 %) |
+| Beam | 0 | 0 | 0 |
+
+The Beam's 0 comes from the benchmark's aim (its beam runs beside the lane). LevelPlaytest builds a Beam Tower on Level 04, where it deals damage.
+
+Other checks:
+- EditMode 45/45, LevelPlaytest 35/35, UIPlaytest 34/34.
+- `extract.py`: the balance data is unchanged.
+- `acceptance.py` runs. `engine.js` needs no change: damage, armor, income and spawning rules are the same. Bullets now pass through anchors, which the engine never modelled. Enemies no longer lose movement at waypoints, which matches the engine better.
+
 ## Status
 - [x] Phase 0: benchmark harness and baseline.
 - [x] Phase 1: bugs and cheap structural fixes.
@@ -224,7 +288,20 @@ The spread between seeds (about ±6 %) is as large as the difference between spe
 - [x] Phase 3: projectile system and parity (the Hangar matches only statistically, see above).
 - [x] Phase 4: effect batching.
 - [x] Phase 5: death animations (instanced).
-- [ ] Phase 6: wrap-up.
+- [x] Phase 6: wrap-up, player build measurements, docs (CLAUDE.md lives outside the repo).
+
+## Open items and ideas
+- **S3 margin:** p99 15.8 ms on an M4 Pro, so slower machines will exceed 16.7 ms in that extreme scenario. The rest of the frame is spread over many 0.5–1 ms items: URP culling and light setup, physics triggers for 150 tower ranges, shadows, and particle geometry on efficiency cores.
+  - The next large step would be range queries through `EnemyRegistry` instead of trigger colliders (about 1.5 ms of physics per frame in S3).
+- **One-time hitches:** Mono JIT compiles methods on their first call, and an effect prefab's shared copy is created on its first use (about 6 ms). IL2CPP for release builds would remove the JIT part.
+- **Hangar:** its damage differs across game speeds by up to about 13 % between single runs, within the dogfight's seed noise. Fighters still decide on end-of-frame enemy positions.
+- **Beam T run:** fix the benchmark's aim so it measures the Beam.
 
 ## Needs user verification
-- How the batched effects look, and how 5x feels with a full dispenser field (after Phase 4/5).
+- How the batched effects look next to the originals, in normal play at 1x and 5x:
+  - bullet trails and spark dashes, muzzle starbursts, impacts, pops;
+  - the 32-light cap per system, which leaves less muzzle light on nearby blocks than the originals.
+  - `-perfSuite V` with and without `-perfNoBatching 1` writes matching close-ups to `tasks/perf/`.
+- How 5x feels with a full dispenser field.
+- That hover and selection outlines still show.
+- Whether the flamethrower's spark sound, limited to 4 voices per clip, sounds right.
