@@ -23,7 +23,7 @@ using Random = UnityEngine.Random;
 public sealed class BatchedEffect : IDisposable
 {
     // Particle lights share a budget: each lit system of a batched effect may show this many at once
-    public const int MaxLightsPerSystem = 64;
+    public const int MaxLightsPerSystem = 32;
 
     // See ProjectileSystem.WarmUpJobs
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -65,9 +65,10 @@ public sealed class BatchedEffect : IDisposable
         // Particle trails remember where a particle was emitted, so these emit at each play's pose directly
         // (moving a fresh particle afterwards would draw a trail from the shared copy's origin)
         public bool HasTrails;
-        public readonly List<Request> Pending = new List<Request>();
-        public readonly List<Stream> Streams = new List<Stream>();
-        public readonly List<Request> Due = new List<Request>();
+        // Sized for a busy frame up front, so they don't grow (allocate) mid-wave
+        public readonly List<Request> Pending = new List<Request>(256);
+        public readonly List<Stream> Streams = new List<Stream>(64);
+        public readonly List<Request> Due = new List<Request>(256);
         public NativeArray<ParticleSystem.Particle> Buffer;
     }
 
@@ -412,7 +413,7 @@ public sealed class BatchedEffect : IDisposable
 #endif
         system.Emit(total);
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-        EffectStats.Record(system, Prefab.name, total, before, emitStart);
+        EffectStats.Record(system, Prefab, total, before, emitStart);
 #endif
         EffectMarkers.Emit.End();
         int emitted = system.particleCount - before;

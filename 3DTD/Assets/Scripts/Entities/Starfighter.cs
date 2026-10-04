@@ -458,8 +458,11 @@ public class Starfighter : MonoBehaviour
     private Vector3 GetSeparation()
     {
         Vector3 push = Vector3.zero;
-        foreach (Starfighter other in strategy.Starfighters)
+        // Indexed: foreach over the IReadOnlyList would box its enumerator every call
+        IReadOnlyList<Starfighter> others = strategy.Starfighters;
+        for (int i = 0; i < others.Count; i++)
         {
+            Starfighter other = others[i];
             if (other == null || other == this)
                 continue;
 
@@ -676,15 +679,27 @@ public class Starfighter : MonoBehaviour
         if (enemies.Count == 0)
             return;
 
-        enemies.Sort((a, b) =>
-            Vector3.Distance(a.transform.position, target.transform.position)
-            .CompareTo(Vector3.Distance(b.transform.position, target.transform.position)));
+        SortByDistance(enemies, target.transform.position);
 
         int missileIndex = strategy.missilesPerRun - pendingMissiles;
         strategy.FireOrdnance(ordnanceBay, enemies[missileIndex % enemies.Count]);
 
         pendingMissiles--;
         missileTimer = missileLaunchInterval;
+    }
+
+    // Nearest to the point first. Insertion sort: List.Sort with a comparer or lambda allocates per call.
+    private static void SortByDistance(List<Enemy> enemies, Vector3 point)
+    {
+        for (int i = 1; i < enemies.Count; i++)
+        {
+            Enemy enemy = enemies[i];
+            float distance = (enemy.transform.position - point).sqrMagnitude;
+            int j = i - 1;
+            for (; j >= 0 && (enemies[j].transform.position - point).sqrMagnitude > distance; j--)
+                enemies[j + 1] = enemies[j];
+            enemies[j + 1] = enemy;
+        }
     }
 
     private void DropBombs(float deltaTime)

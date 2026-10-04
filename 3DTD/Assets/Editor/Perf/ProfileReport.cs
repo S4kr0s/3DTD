@@ -78,6 +78,41 @@ public static class ProfileReport
         foreach (var entry in averageSelf.OrderByDescending(a => a.Value).Take(40))
             text.AppendFormat(CultureInfo.InvariantCulture, "\n  {0,6:F2} ms  {1}", entry.Value / Math.Max(1, frames), entry.Key);
 
+        // Managed callstacks of the allocations (captured with Profiler.enableAllocationCallstacks)
+        Dictionary<string, (double bytes, int count)> stacks = new Dictionary<string, (double, int)>();
+        List<ulong> callstack = new List<ulong>();
+        foreach ((int frame, float ms) in frameTimes)
+        {
+            using RawFrameDataView raw = ProfilerDriver.GetRawFrameDataView(frame, 0);
+            if (raw == null || !raw.valid)
+                continue;
+            int gcMarker = raw.GetMarkerId("GC.Alloc");
+            for (int i = 0; i < raw.sampleCount; i++)
+            {
+                if (raw.GetSampleMarkerId(i) != gcMarker)
+                    continue;
+                raw.GetSampleCallstack(i, callstack);
+                StringBuilder key = new StringBuilder();
+                int shown = 0;
+                foreach (ulong address in callstack)
+                {
+                    FrameDataView.MethodInfo method = raw.ResolveMethodInfo(address);
+                    if (string.IsNullOrEmpty(method.methodName))
+                        continue;
+                    key.Append(shown == 0 ? "" : " < ").Append(method.methodName);
+                    if (++shown == 8)
+                        break;
+                }
+                long size = raw.GetSampleMetadataCount(i) > 0 ? raw.GetSampleMetadataAsLong(i, 0) : 0;
+                string name = key.Length > 0 ? key.ToString() : "(no callstack)";
+                stacks.TryGetValue(name, out var sum);
+                stacks[name] = (sum.bytes + size, sum.count + 1);
+            }
+        }
+        text.Append("\nPROFILE allocation callstacks:");
+        foreach (var entry in stacks.OrderByDescending(s => s.Value.bytes).Take(25))
+            text.AppendFormat(CultureInfo.InvariantCulture, "\n  {0,8:F0} B/frame {1,6:F2} allocs/frame  {2}", entry.Value.bytes / Math.Max(1, frames), entry.Value.count / (double)Math.Max(1, frames), entry.Key);
+
         text.Append("\nPROFILE slowest frames (top self times):");
         foreach ((int frame, float ms) in frameTimes.OrderByDescending(f => f.ms).Take(6))
         {

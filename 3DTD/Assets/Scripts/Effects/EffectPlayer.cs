@@ -116,20 +116,11 @@ public class EffectPlayer : MonoBehaviour
 
     private static readonly Unity.Profiling.ProfilerMarker UpdateMarker = new Unity.Profiling.ProfilerMarker("3DTD.Effects.Update");
 
-    private static readonly bool reversePools = System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "-perfReversePools") >= 0;
-
     private void Update()
     {
         using var scope = UpdateMarker.Auto();
         float now = Time.time;
         float deltaTime = Time.deltaTime;
-        // -perfReversePools: diagnostic, update the pools in reverse order
-        if (reversePools)
-        {
-            for (int i = poolList.Count - 1; i >= 0; i--)
-                poolList[i].Update(now, deltaTime);
-            return;
-        }
         for (int i = 0; i < poolList.Count; i++)
             poolList[i].Update(now, deltaTime);
     }

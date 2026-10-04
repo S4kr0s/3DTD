@@ -23,6 +23,13 @@ public sealed class TrailMesh : System.IDisposable
         IJobParallelForExtensions.EarlyJobInit<BuildJob>();
     }
 
+    private static readonly VertexAttributeDescriptor[] Layout =
+    {
+        new VertexAttributeDescriptor(VertexAttribute.Position, VertexAttributeFormat.Float32, 3),
+        new VertexAttributeDescriptor(VertexAttribute.Color, VertexAttributeFormat.UNorm8, 4),
+        new VertexAttributeDescriptor(VertexAttribute.TexCoord0, VertexAttributeFormat.Float32, 2),
+    };
+
     private struct Vertex
     {
         public float3 Position;
@@ -199,10 +206,7 @@ public sealed class TrailMesh : System.IDisposable
         int maxIndices = highestId * (PointsPerTrail - 1) * 6;
         Mesh.MeshDataArray dataArray = Mesh.AllocateWritableMeshData(1);
         Mesh.MeshData data = dataArray[0];
-        data.SetVertexBufferParams(maxVertices,
-            new VertexAttributeDescriptor(VertexAttribute.Position, VertexAttributeFormat.Float32, 3),
-            new VertexAttributeDescriptor(VertexAttribute.Color, VertexAttributeFormat.UNorm8, 4),
-            new VertexAttributeDescriptor(VertexAttribute.TexCoord0, VertexAttributeFormat.Float32, 2));
+        data.SetVertexBufferParams(maxVertices, Layout);
         data.SetIndexBufferParams(maxIndices, IndexFormat.UInt32);
 
         if (!vertexCount.IsCreated || vertexCount.Length < highestId)

@@ -125,6 +125,8 @@ public class ProjectileSystem : MonoBehaviour
     private NativeList<State> states;
     private NativeList<Step> steps;
     private NativeList<Hit> hits;
+    // Projectiles whose step needs the main thread (hits, end of lifetime), in index order
+    private NativeList<int> events;
     private NativeParallelMultiHashMap<int, int> grid;
     private readonly List<ProjectileArchetype> archetypes = new List<ProjectileArchetype>();
     private readonly List<Tower> towers = new List<Tower>();
@@ -160,6 +162,7 @@ public class ProjectileSystem : MonoBehaviour
         states = new NativeList<State>(1024, Allocator.Persistent);
         steps = new NativeList<Step>(1024, Allocator.Persistent);
         hits = new NativeList<Hit>(1024 * MaxHitsPerStep, Allocator.Persistent);
+        events = new NativeList<int>(1024, Allocator.Persistent);
         grid = new NativeParallelMultiHashMap<int, int>(4096, Allocator.Persistent);
     }
 
@@ -178,6 +181,7 @@ public class ProjectileSystem : MonoBehaviour
         states.Dispose();
         steps.Dispose();
         hits.Dispose();
+        events.Dispose();
         grid.Dispose();
     }
 
@@ -272,6 +276,9 @@ public class ProjectileSystem : MonoBehaviour
         if (grid.Capacity < enemyCount * 27 + 64)
             grid.Capacity = enemyCount * 27 + 64;
         grid.Clear();
+        events.Clear();
+        if (events.Capacity < count)
+            events.Capacity = count;
 
         StepMarker.Begin();
         JobHandle gridJob = new BuildGridJob
@@ -295,31 +302,26 @@ public class ProjectileSystem : MonoBehaviour
             Frame = Time.frameCount,
             Steps = steps.AsArray(),
             Hits = hits.AsArray(),
+            Events = events.AsParallelWriter(),
         }.Schedule(count, 32, gridJob).Complete();
         StepMarker.End();
 
         using (ApplyMarker.Auto())
-            Apply(count);
+            Apply();
     }
 
     // Main thread: hits, blasts, effects and fading, in the order the projectiles were fired
-    private void Apply(int count)
+    // The steps StepJob left to the main thread: hits and ends of lifetime, in projectile order
+    private void Apply()
     {
-        for (int i = 0; i < count; i++)
+        events.Sort();
+        for (int e = 0; e < events.Length; e++)
         {
+            int i = events[e];
             State state = states[i];
             Step step = steps[i];
             ProjectileArchetype archetype = archetypes[i];
             Tower tower = towers[i];
-
-            if (state.Dying != 0)
-            {
-                if (state.Frozen == 0)
-                    state.Position = step.Position;
-                state.FadeTime += step.Time;
-                states[i] = state;
-                continue;
-            }
 
             float3 start = state.Position;
             bool dead = false;
@@ -526,7 +528,8 @@ public class ProjectileSystem : MonoBehaviour
     [BurstCompile(CompileSynchronously = true)]
     private struct StepJob : IJobParallelFor
     {
-        [ReadOnly] public NativeArray<State> States;
+        // Each projectile's own state: a step without hits or expiry is applied right here
+        public NativeArray<State> States;
         [ReadOnly] public NativeArray<float3> EnemyPositions;
         [ReadOnly] public NativeArray<float3> EnemyPrevious;
         [ReadOnly] public NativeArray<float> EnemyRadii;
@@ -537,6 +540,7 @@ public class ProjectileSystem : MonoBehaviour
 
         public NativeArray<Step> Steps;
         [NativeDisableParallelForRestriction] public NativeArray<Hit> Hits;
+        public NativeList<int>.ParallelWriter Events;
 
         public void Execute(int i)
         {
@@ -547,9 +551,15 @@ public class ProjectileSystem : MonoBehaviour
 
             if (s.Dying != 0)
             {
+                // A dead projectile drifts (unless it stopped) while its effect fades
                 if (s.Frozen == 0)
+                {
                     step.Position = s.Position + s.Direction * s.Speed * time;
+                    s.Position = step.Position;
+                }
+                s.FadeTime += time;
                 Steps[i] = step;
+                States[i] = s;
                 return;
             }
 
@@ -600,6 +610,19 @@ public class ProjectileSystem : MonoBehaviour
             step.Rotation = rotation;
             step.HitCount = moveTime > 0f || time == 0f ? FindHits(i, ref s, start, end, windowStart) : 0;
             Steps[i] = step;
+            if (step.HitCount > 0 || step.Expired != 0)
+            {
+                Events.AddNoResize(i);
+                return;
+            }
+
+            s.Remaining -= time;
+            s.Position = end;
+            s.Direction = direction;
+            s.Rotation = rotation;
+            s.Lead = 0f;
+            s.BornFrame = 0;
+            States[i] = s;
         }
 
         // Sweeps the projectile's capsule from start to end against every enemy near the path, relative to the

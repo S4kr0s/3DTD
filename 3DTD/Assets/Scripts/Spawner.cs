@@ -95,11 +95,20 @@ public class Spawner : MonoBehaviour
         DeathEffectRenderer.Prewarm();
     }
 
+    // Enemies instantiated so far (the pool grows until it holds a wave); the benchmark leaves those frames out of
+    // its steady-state garbage figure
+    public int EnemiesCreated { get; private set; }
+
     // Whether the enemy pool is still growing towards the next wave's size
     public bool IsPrewarming => enemyPrefab != null && freshEnemies.Count + enemyPool.Count + enemiesAlive.Count < prewarmTarget;
 
     private void Update()
     {
+        float deltaTime = Time.deltaTime;
+        // Backwards: an enemy that leaves the list swaps the last one into its place
+        for (int i = aliveEnemies.Count - 1; i >= 0; i--)
+            aliveEnemies[i].Tick(deltaTime);
+
         PrewarmEnemies();
 
         if (currentGameState != GameState.PROGRESSING)
@@ -179,7 +188,10 @@ public class Spawner : MonoBehaviour
 
         int budget = currentGameState == GameState.PROGRESSING ? PrewarmPerFrameInWave : PrewarmPerFrameIdle;
         for (int i = 0; i < budget && available < prewarmTarget; i++, available++)
+        {
             freshEnemies.Push(Instantiate(enemyPrefab, freshEnemyContainer));
+            EnemiesCreated++;
+        }
     }
 
     // A restored savegame continues after its last completed wave; a won game stays won (freeplay)
@@ -339,6 +351,7 @@ public class Spawner : MonoBehaviour
         if (enemyObject == null)
         {
             enemyObject = Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+            EnemiesCreated++;
         }
         else
         {

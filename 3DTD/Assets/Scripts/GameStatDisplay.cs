@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 // In-game HUD (redesign B1): Scrap / Hull / Wave plate, pause, game speed, Next wave CTA and the auto-wave switch
@@ -25,6 +26,15 @@ public class GameStatDisplay : MonoBehaviour
     // Scrap changes every frame in late waves; the counter is rebuilt without allocating
     private readonly System.Text.StringBuilder moneyText = new System.Text.StringBuilder(64);
     private int shownMoney = int.MinValue;
+    private readonly System.Text.StringBuilder livesText = new System.Text.StringBuilder(64);
+    private int shownLives = int.MinValue;
+    // The top bar fits its content: a counter's width only follows its digit count, so a new value doesn't
+    // resize the bar (TMP's preferred width also follows the last glyph, and every resize during a layout
+    // rebuild makes UGUI start a coroutine)
+    private LayoutElement moneyWidth;
+    private LayoutElement livesWidth;
+    private int moneyDigits = -1;
+    private int livesDigits = -1;
 
     private void Start()
     {
@@ -92,12 +102,35 @@ public class GameStatDisplay : MonoBehaviour
         if (value == shownMoney)
             return;
         shownMoney = value;
+        FitDigits(moneyDisplay, ref moneyWidth, ref moneyDigits, value);
         UIFormat.SetTabular(moneyDisplay, value, moneyText);
     }
 
     private void HandleLivesUpdated(int value)
     {
-        livesDisplay.text = UIFormat.Tabular(Mathf.Max(0, value));
+        value = Mathf.Max(0, value);
+        if (value == shownLives)
+            return;
+        shownLives = value;
+        FitDigits(livesDisplay, ref livesWidth, ref livesDigits, value);
+        UIFormat.SetTabular(livesDisplay, value, livesText);
+    }
+
+    private static void FitDigits(TMP_Text text, ref LayoutElement width, ref int shownDigits, int value)
+    {
+        int digits = value < 0 ? 1 : 0;
+        for (long remaining = System.Math.Abs((long)value); ; remaining /= 10)
+        {
+            digits++;
+            if (remaining < 10)
+                break;
+        }
+        if (digits == shownDigits)
+            return;
+        shownDigits = digits;
+        if (width == null && !text.TryGetComponent(out width))
+            width = text.gameObject.AddComponent<LayoutElement>();
+        width.preferredWidth = text.GetPreferredValues(UIFormat.Tabular(new string('8', digits))).x;
     }
 
     private void HandleRoundUpdated(int value)

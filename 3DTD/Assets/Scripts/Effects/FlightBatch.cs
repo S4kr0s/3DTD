@@ -89,7 +89,7 @@ public sealed class FlightBatch : IDisposable
     private readonly Emitter[] emitters;
     private readonly TrailMesh trail;
     // Ids of finished flights whose trail is still fading; reused once it is gone
-    private readonly List<int> fading = new List<int>();
+    private readonly List<int> fading = new List<int>(256);
 
     private int capacity;
     private NativeArray<Flight> flights;
@@ -498,7 +498,7 @@ public sealed class FlightBatch : IDisposable
 #endif
         system.Emit(total);
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
-        EffectStats.Record(system, "flight", total, existing, emitStart);
+        EffectStats.Record(system, Prefab, total, existing, emitStart);
 #endif
         EffectMarkers.Emit.End();
         int emitted = system.particleCount - existing;

@@ -294,7 +294,7 @@ MonoBehaviour:
   m_EventMask:
     serializedVersion: 2
     m_Bits: 819
-  m_MaxRayIntersections: 0
+  m_MaxRayIntersections: 256
 --- !u!114 &2117354705
 MonoBehaviour:
   m_ObjectHideFlags: 0

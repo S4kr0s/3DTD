@@ -107,7 +107,14 @@ public class PerfScenario : MonoBehaviour
         public float gameDt;
         public long gcBytes;
         public int enemies;
+        public int wave;          // index of the wave within the run
+        public float sinceWave;   // seconds since that wave started
+        public bool poolGrowth;   // the Spawner instantiated enemies in this frame
     }
+
+    private int recordingWave;
+    private float recordingWaveStart;
+    private int enemiesCreated;
 
     // Set when the suite finished; PerfBenchmark (Editor) polls these
     public static bool Finished { get; private set; }
@@ -129,6 +136,7 @@ public class PerfScenario : MonoBehaviour
         "ParticleSystem.WaitForUpdateThreads",
         "ParticleSystem.EndUpdateAll",
         "GC.Collect",
+        "GarbageCollector.CollectIncremental",
         "3DTD.Projectiles.Step",
         "3DTD.Projectiles.Apply",
         "3DTD.Effects.Update",
@@ -205,9 +213,12 @@ public class PerfScenario : MonoBehaviour
         }
     }
 
+    // GetCommandLineArgs returns a new array per call; read it once
+    private static string[] commandLine;
+
     private static string Argument(string name)
     {
-        string[] args = Environment.GetCommandLineArgs();
+        string[] args = commandLine ??= Environment.GetCommandLineArgs();
         for (int i = 0; i < args.Length - 1; i++)
         {
             if (args[i] == name)
@@ -387,12 +398,15 @@ public class PerfScenario : MonoBehaviour
         }
 
         samples.Clear();
+        enemiesCreated = spawner.EnemiesCreated;
         recording = true;
         float startReal = Time.realtimeSinceStartup;
         float timeout = startReal + 300f;
         bool captured = false;
         for (int wave = 0; wave < Mathf.Max(1, run.waves) && Time.realtimeSinceStartup < timeout; wave++)
         {
+            recordingWave = wave;
+            recordingWaveStart = Time.realtimeSinceStartup;
             spawner.StartNextWave();
             while (spawner.IsWaveActive && Time.realtimeSinceStartup < timeout)
             {
@@ -784,18 +798,26 @@ public class PerfScenario : MonoBehaviour
             markerRecorders[i] = new ProfilerRecorder(MarkerNames[i], 1, ProfilerRecorderOptions.Default | ProfilerRecorderOptions.StartImmediately);
     }
 
+    private static int profileStart = 1;
+    private static int profileFrames = 300;
+
     // -perfProfile <file.raw> [-perfProfileStart <frame>] [-perfProfileFrames <n>]: writes a profiler capture of
     // n recorded frames of every run, for Assets/Editor/Perf/ProfileReport (timings of a profiled run are not valid)
     private static void CaptureProfile(int frame)
     {
+        if (frame != 1 && frame != profileStart && frame != profileStart + profileFrames)
+            return;
         string file = Argument("-perfProfile");
         if (string.IsNullOrEmpty(file))
             return;
-        int start = int.TryParse(Argument("-perfProfileStart"), out int s) ? s : 1;
-        int frames = int.TryParse(Argument("-perfProfileFrames"), out int n) ? n : 300;
+        profileStart = int.TryParse(Argument("-perfProfileStart"), out int s) ? s : 1;
+        profileFrames = int.TryParse(Argument("-perfProfileFrames"), out int n) ? n : 300;
+        int start = profileStart;
+        int frames = profileFrames;
         if (frame == start)
         {
             UnityEngine.Profiling.Profiler.maxUsedMemory = 512 * 1024 * 1024;
+            UnityEngine.Profiling.Profiler.enableAllocationCallstacks = true;
             UnityEngine.Profiling.Profiler.logFile = file;
             UnityEngine.Profiling.Profiler.enableBinaryLog = true;
             UnityEngine.Profiling.Profiler.enabled = true;
@@ -835,7 +857,12 @@ public class PerfScenario : MonoBehaviour
             gameDt = Time.deltaTime,
             gcBytes = gcRecorder.Valid ? gcRecorder.LastValue : 0,
             enemies = Spawner.Instance != null ? Spawner.Instance.EnemiesAlive.Count : 0,
+            wave = recordingWave,
+            sinceWave = Time.realtimeSinceStartup - recordingWaveStart,
         };
+        int created = Spawner.Instance != null ? Spawner.Instance.EnemiesCreated : 0;
+        sample.poolGrowth = created != enemiesCreated;
+        enemiesCreated = created;
         samples.Add(sample);
         CaptureProfile(samples.Count);
         for (int i = 0; i < markerRecorders.Length; i++)
@@ -1006,8 +1033,12 @@ public class PerfScenario : MonoBehaviour
             realSeconds += sample.realMs / 1000f;
             gameSeconds += sample.gameDt;
             totalGc += sample.gcBytes;
-            // Steady state: one second after the wave started until one second before it ended
-            if (sample.time - start > 1f && end - sample.time > 1f)
+            // Steady state: from the second wave on (the first one grows pools and buffers to the new peak once,
+            // as the first waves of a session do), not within a second of a wave's start or end, and not in a
+            // frame that grew the enemy pool (a one-wave run: one second after its start until one second before
+            // its end)
+            bool warmedUp = run.waves > 1 ? sample.wave >= 1 : sample.time - start > 1f;
+            if (warmedUp && sample.sinceWave > 1f && !WaveEndsWithin(samples, i, 1f) && end - sample.time > 1f && !sample.poolGrowth)
             {
                 steadyFrames++;
                 steadyGc += sample.gcBytes;
@@ -1099,6 +1130,17 @@ public class PerfScenario : MonoBehaviour
             result.effectsPlayed, result.effectsRequested, string.Join(", ", result.markers), string.Join(", ", result.damageByType),
             result.steadyGcPerFrame));
         Debug.Log(EffectStats.Report(12));
+    }
+
+    // Whether the wave of sample i ends (the next wave starts) within the given seconds after it
+    private static bool WaveEndsWithin(List<FrameSample> samples, int i, float seconds)
+    {
+        for (int j = i + 1; j < samples.Count && samples[j].time - samples[i].time <= seconds; j++)
+        {
+            if (samples[j].wave != samples[i].wave)
+                return true;
+        }
+        return false;
     }
 
     private static void Require(RunResult result, bool ok, string what)

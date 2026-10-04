@@ -8,7 +8,6 @@ using UnityEngine;
 public class BeamTowerActionStrategy : ActionStrategy
 {
     private static readonly RaycastHit[] hitBuffer = new RaycastHit[64];
-    private static readonly System.Comparison<RaycastHit> byDistance = (a, b) => a.distance.CompareTo(b.distance);
 
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private PolygonBeamStatic beam;
@@ -57,8 +56,16 @@ public class BeamTowerActionStrategy : ActionStrategy
             Transform origin = shootingPointReference.transform;
             // Only enemies: tower ranges, blocks and anchors used to fill the hit buffer too
             int count = Physics.RaycastNonAlloc(origin.position, origin.forward, hitBuffer, length, GameLayers.EnemyMask, QueryTriggerInteraction.Ignore);
-            // Nearest enemies first, so pierce is spent along the beam
-            System.Array.Sort(hitBuffer, 0, count, Comparer.Instance);
+            // Nearest enemies first, so pierce is spent along the beam (insertion sort: Array.Sort with a
+            // comparer allocates a delegate per call, and the beam hits only a handful)
+            for (int i = 1; i < count; i++)
+            {
+                RaycastHit hit = hitBuffer[i];
+                int j = i - 1;
+                for (; j >= 0 && hitBuffer[j].distance > hit.distance; j--)
+                    hitBuffer[j + 1] = hitBuffer[j];
+                hitBuffer[j + 1] = hit;
+            }
 
             for (int i = 0; i < count && internalPierce > 0; i++)
             {
@@ -71,12 +78,6 @@ public class BeamTowerActionStrategy : ActionStrategy
                 }
             }
         }
-    }
-
-    private class Comparer : IComparer<RaycastHit>
-    {
-        public static readonly Comparer Instance = new Comparer();
-        public int Compare(RaycastHit a, RaycastHit b) => byDistance(a, b);
     }
 
     public override bool CanShoot(GameObject enemy)

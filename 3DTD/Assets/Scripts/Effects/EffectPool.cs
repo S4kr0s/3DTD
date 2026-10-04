@@ -16,9 +16,10 @@ public class EffectPool
     private readonly Stack<EffectInstance> free = new Stack<EffectInstance>();
     private readonly List<EffectInstance> playing = new List<EffectInstance>();
     // Flights are spread over several shared copies: Unity updates each particle system and builds its geometry
-    // in one job, so all flights of a prefab in one system would leave the render thread waiting on one core
-    private const int FlightsPerShard = 96;
-    private static readonly int MaxFlightShards = Mathf.Clamp(SystemInfo.processorCount / 2, 1, 8);
+    // in one job, so all flights of a prefab in one system would leave the render thread waiting on one core.
+    // About a third of the cores measured best (M4 Pro, S3 benchmark: 3 and 7 shards were both slower than 4).
+    private const int FlightsPerShard = 128;
+    private static readonly int MaxFlightShards = Mathf.Clamp(SystemInfo.processorCount / 3, 1, 8);
 
     private BatchedEffect batch;
     private readonly List<FlightBatch> flightBatches = new List<FlightBatch>();

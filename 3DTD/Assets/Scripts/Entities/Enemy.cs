@@ -189,12 +189,16 @@ public class Enemy : MonoBehaviour
     // enemy covers the same path in the same game time at any frame rate or game speed.
     public void Move(float deltaTime)
     {
+        transform.position = Advance(transform.position, deltaTime);
+    }
+
+    private Vector3 Advance(Vector3 position, float deltaTime)
+    {
         if (waypoints == null || waypoints.WaypointsArray.Count == 0)
-            return;
+            return position;
 
         List<Transform> path = waypoints.WaypointsArray;
         float remaining = MovementSpeed * deltaTime;
-        Vector3 position = transform.position;
         for (int guard = 0; guard <= path.Count && remaining > 0f; guard++)
         {
             Vector3 waypoint = path[waypointIndex].position;
@@ -214,7 +218,7 @@ public class Enemy : MonoBehaviour
                 break;
             waypointIndex++;
         }
-        transform.position = position;
+        return position;
     }
 
     public bool HasTrait(EnemyTrait trait)
@@ -222,19 +226,18 @@ public class Enemy : MonoBehaviour
         return (traits & trait) != 0;
     }
 
-    private void Update()
+    // Once per frame for every alive enemy, called by the Spawner (one loop instead of an Update per enemy).
+    // Position and rotation are written together: each transform write also syncs the enemy's physics body.
+    public void Tick(float deltaTime)
     {
         if (!isAlive)
             return;
 
-        float deltaTime = Time.deltaTime;
-
-        float abs = Mathf.Abs(Quaternion.Dot(transform.rotation, randomRotation));
-        if (abs >= 0.990f)
+        transform.GetPositionAndRotation(out Vector3 position, out Quaternion rotation);
+        if (Mathf.Abs(Quaternion.Dot(rotation, randomRotation)) >= 0.990f)
             randomRotation = Random.rotation;
-        transform.rotation = Quaternion.Slerp(transform.rotation, randomRotation, speedRandomRotation * deltaTime);
-
-        Move(deltaTime);
+        rotation = Quaternion.Slerp(rotation, randomRotation, speedRandomRotation * deltaTime);
+        transform.SetPositionAndRotation(Advance(position, deltaTime), rotation);
 
         if (slowTimer > 0f)
         {

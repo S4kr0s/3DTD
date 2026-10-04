@@ -27,12 +27,12 @@ public static class EffectStats
 
     public static long Now => System.Diagnostics.Stopwatch.GetTimestamp();
 
-    public static void Record(UnityEngine.ParticleSystem system, string owner, int count, int alive, long startTicks)
+    public static void Record(UnityEngine.ParticleSystem system, UnityEngine.Object owner, int count, int alive, long startTicks)
     {
         long ticks = System.Diagnostics.Stopwatch.GetTimestamp() - startTicks;
         if (!entries.TryGetValue(system, out Entry entry))
         {
-            entry = new Entry { Name = owner + "/" + system.name };
+            entry = new Entry { Name = owner.name + "/" + system.name };
             entries.Add(system, entry);
         }
         entry.Calls++;

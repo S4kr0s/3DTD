@@ -89,6 +89,8 @@ public class BalanceTelemetry : MonoBehaviour
 
     private void HandleWaveStarted(int round)
     {
+        if (!Enabled)
+            return;
         atWaveStart = Snapshot();
         waveStartTime = Time.time;
         waveStartUnscaled = Time.unscaledTime;
@@ -99,6 +101,8 @@ public class BalanceTelemetry : MonoBehaviour
 
     private void HandleWaveEnded(int round)
     {
+        if (!Enabled)
+            return;
         if (filePath == null)
             filePath = CreateFile();
 

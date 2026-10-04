@@ -31,7 +31,7 @@ public class DeathEffectRenderer : MonoBehaviour
         public int SubMeshCount;
         public Matrix4x4 RendererOffset;
         public int Layer;
-        public readonly List<Pop> Pops = new List<Pop>();
+        public readonly List<Pop> Pops = new List<Pop>(256);
     }
 
     private static DeathEffectRenderer instance;
