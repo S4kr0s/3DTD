@@ -167,9 +167,9 @@ public class Spawner : MonoBehaviour
 
         if (freshEnemyContainer == null)
         {
+            // A scene root: the Spawner object itself is scaled, and enemies must keep the prefab's own scale
             GameObject container = new GameObject("Enemy Pool");
             container.SetActive(false);
-            container.transform.SetParent(transform, false);
             freshEnemyContainer = container.transform;
         }
 
@@ -338,9 +338,10 @@ public class Spawner : MonoBehaviour
         }
         else
         {
-            enemyObject.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
+            // Keeps the prefab's local scale (worldPositionStays would carry a parent's scale over)
             if (fresh)
-                enemyObject.transform.SetParent(null, true);
+                enemyObject.transform.SetParent(null, false);
+            enemyObject.transform.SetPositionAndRotation(spawnPoint.position, spawnPoint.rotation);
             enemyObject.SetActive(true);
         }
 
