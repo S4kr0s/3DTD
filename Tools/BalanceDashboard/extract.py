@@ -368,6 +368,8 @@ def extract_tower(pr, path, palette_guids):
                         warn('error', 'Upgrades', '%s / %s references a missing Upgrade component.' % (key, mod.get('name')), rel)
                         continue
                     uname = g.script_of(uid)
+                    if uname in ('VisualUpgrade', 'BeamVisualUpgrade', 'SniperVisualUpgrade'):
+                        continue    # projectile and effect looks (ProjectileVisualsBuilder), no gameplay
                     udata = clean(udoc['data'])
                     beh = {'type': uname, 'comment': udata.get('Comment')}
                     if uname == 'ChangeActionStrategyUpgrade':

@@ -9,12 +9,24 @@ public class BeamTowerActionStrategy : ActionStrategy
 {
     private static readonly RaycastHit[] hitBuffer = new RaycastHit[64];
 
+    private const float EffectLifetime = 2f;
+
     [SerializeField] private LayerMask layerMask;
-    [SerializeField] private PolygonBeamStatic beam;
+    [Tooltip("Draws the beam; its look follows the tower's BeamVisualUpgrades")]
+    [SerializeField] private TowerBeam beam;
 
     [SerializeField] private float internalFireRate;
     [SerializeField] private float internalPierce;
+    [Tooltip("Old pulse particle, only played when no tick effect is set")]
     [SerializeField] private ParticleSystem pulseParticle;
+
+    [Header("Tick visuals (base look; upgrades override the Muzzle/Impact slots)")]
+    [Tooltip("Played at the emitter on every tick")]
+    [SerializeField] private GameObject tickEffect;
+    [SerializeField] private float tickEffectScale = 1f;
+    [Tooltip("Played on every enemy a tick hits")]
+    [SerializeField] private GameObject hitEffect;
+    [SerializeField] private float hitEffectScale = 1f;
 
     [Header("Slow (set by upgrades)")]
     [Tooltip("Share of movement speed removed from enemies hit, 0 = no slow")]
@@ -24,6 +36,8 @@ public class BeamTowerActionStrategy : ActionStrategy
 
     private FireCycle fireCycle;
     private Tower tower;
+    private VisualRef tickVisual;
+    private VisualRef hitVisual;
 
     public override void SetupActionStrategy(Tower tower)
     {
@@ -45,7 +59,11 @@ public class BeamTowerActionStrategy : ActionStrategy
         float damage = stats.GetStatValue(Stat.StatType.DAMAGE);
         float length = stats.GetStatValue(Stat.StatType.RANGE) + 0.5f;
 
-        if (pulseParticle != null)
+        GameObject tick = tickVisual.Get(tower, VisualSlot.Muzzle, tickEffect);
+        GameObject hitSparks = hitVisual.Get(tower, VisualSlot.Impact, hitEffect);
+        if (beam != null)
+            beam.Pulse();
+        if (tick == null && pulseParticle != null)
             pulseParticle.Play();
 
         foreach (ShootingPointReference shootingPointReference in tower.ShootingPoints)
@@ -54,6 +72,8 @@ public class BeamTowerActionStrategy : ActionStrategy
                 continue;
 
             Transform origin = shootingPointReference.transform;
+            if (tick != null)
+                EffectPlayer.Play(tick, origin.position, origin.rotation, tickEffectScale, EffectLifetime);
             // Only enemies: tower ranges, blocks and anchors used to fill the hit buffer too
             int count = Physics.RaycastNonAlloc(origin.position, origin.forward, hitBuffer, length, GameLayers.EnemyMask, QueryTriggerInteraction.Ignore);
             // Nearest enemies first, so pierce is spent along the beam (insertion sort: Array.Sort with a
@@ -71,6 +91,8 @@ public class BeamTowerActionStrategy : ActionStrategy
             {
                 if (hitBuffer[i].collider.gameObject.TryGetComponent(out Enemy enemy) && enemy.IsAlive)
                 {
+                    if (hitSparks != null)
+                        EffectPlayer.Play(hitSparks, enemy.transform.position, Quaternion.LookRotation(-origin.forward), hitEffectScale, EffectLifetime);
                     enemy.TakeDamage(damage, DamageType.MAGIC, this.tower);
                     if (slowOnHit > 0f && enemy.IsAlive)
                         enemy.ApplySlowness(-slowOnHit, slowDuration);

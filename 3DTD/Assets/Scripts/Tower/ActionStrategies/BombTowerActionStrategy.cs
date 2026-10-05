@@ -14,6 +14,10 @@ public class BombTowerActionStrategy : ActionStrategy
     private FireCycle fireCycle;
     private Tower tower;
     private Enemy target;
+    private VisualRef projectileVisual;
+    private VisualRef muzzleVisual;
+    private VisualRef flightVisual;
+    private VisualRef impactVisual;
 
     public override void SetupActionStrategy(Tower tower)
     {
@@ -43,6 +47,8 @@ public class BombTowerActionStrategy : ActionStrategy
 
     private void FireVolley(float age)
     {
+        // Cluster rockets have their own slot: a plain rocket prefab would drop the bomblets
+        GameObject prefab = projectileVisual.Get(tower, doClustering ? VisualSlot.ClusterProjectile : VisualSlot.Projectile, projectile);
         StatsManager stats = tower.StatsManager;
         ProjectileSystem.Shot shot = new ProjectileSystem.Shot
         {
@@ -58,6 +64,9 @@ public class BombTowerActionStrategy : ActionStrategy
             Cluster = doClustering,
             Tower = tower,
             Age = age,
+            MuzzleEffect = muzzleVisual.Get(tower, VisualSlot.Muzzle, null),
+            FlightEffect = flightVisual.Get(tower, VisualSlot.Flight, null),
+            ImpactEffect = impactVisual.Get(tower, VisualSlot.Impact, null),
         };
 
         foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
@@ -67,7 +76,7 @@ public class BombTowerActionStrategy : ActionStrategy
 
             shot.Position = shootingPoint.transform.position;
             shot.Rotation = shootingPoint.transform.rotation;
-            ProjectileSystem.Fire(projectile, shot);
+            ProjectileSystem.Fire(prefab, shot);
         }
     }
 

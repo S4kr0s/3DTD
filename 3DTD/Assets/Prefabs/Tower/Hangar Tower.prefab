@@ -326,6 +326,12 @@ GameObject:
   - component: {fileID: 6361567845099729575}
   - component: {fileID: 2201750931115155125}
   - component: {fileID: 7743146267360451330}
+  - component: {fileID: 6014471630695329197}
+  - component: {fileID: 8986170433199980960}
+  - component: {fileID: 2056213117124615126}
+  - component: {fileID: 6523057548814141814}
+  - component: {fileID: 8877887943958615063}
+  - component: {fileID: 3024763130138515130}
   m_Layer: 0
   m_Name: Hangar Tower
   m_TagString: Untagged
@@ -385,7 +391,8 @@ MonoBehaviour:
 
         +1 Starfighter
 
-        +1 Starfighter'
+        +1
+        Starfighter'
       price: 270
       upgrades: []
       statUpgrades:
@@ -399,7 +406,8 @@ MonoBehaviour:
     - name: Afterburners
       description: 'Hotter engines for faster attack runs.
 
-        +35% Flight Speed, +25% Agility, +2 Range
+        +35% Flight Speed,
+        +25% Agility, +2 Range
 
         +2 Range'
       price: 160
@@ -418,7 +426,8 @@ MonoBehaviour:
 
         +2 Starfighters
 
-        +2 Starfighters'
+        +2
+        Starfighters'
       price: 920
       upgrades: []
       statUpgrades:
@@ -437,6 +446,7 @@ MonoBehaviour:
         Double Cannon Fire'
       price: 180
       upgrades:
+      - {fileID: 6014471630695329197}
       - {fileID: 8860632406680345140}
       statUpgrades: []
       upgradeVisualGameObjects: []
@@ -446,15 +456,18 @@ MonoBehaviour:
     - name: Plasma Bolts
       description: 'Hot plasma melts right through.
 
-        +1 Damage, +1 Pierce, +25% Bolt Size
+        +1 Damage, +1 Pierce,
+        +25% Bolt Size
 
         +1 Damage
 
         +1 Pierce
 
-        +25% Projectile Size'
+        +25% Projectile
+        Size'
       price: 1000
-      upgrades: []
+      upgrades:
+      - {fileID: 8986170433199980960}
       statUpgrades:
       - targetStat: 5
         upgradeValue: 1
@@ -474,11 +487,13 @@ MonoBehaviour:
 
         +33% Fire Rate
 
-        +100% Ammo
+        +100%
+        Ammo
 
         +1 Damage'
       price: 2600
-      upgrades: []
+      upgrades:
+      - {fileID: 2056213117124615126}
       statUpgrades:
       - targetStat: 8
         upgradeValue: -25
@@ -498,9 +513,11 @@ MonoBehaviour:
     - name: Missile Pods
       description: 'Every attack run opens with a homing missile. Explosive damage.
 
-        +1 Missile per Run'
+        +1
+        Missile per Run'
       price: 270
       upgrades:
+      - {fileID: 6523057548814141814}
       - {fileID: 3471772059366314491}
       statUpgrades: []
       upgradeVisualGameObjects:
@@ -511,11 +528,13 @@ MonoBehaviour:
     - name: Missile Barrage
       description: 'More missiles, bigger booms.
 
-        +2 Missiles per Run, +40% Blast Radius
+        +2 Missiles per Run, +40%
+        Blast Radius
 
         +40% Blast Radius'
       price: 940
       upgrades:
+      - {fileID: 8877887943958615063}
       - {fileID: 8305177778810712521}
       statUpgrades:
       - targetStat: 11
@@ -528,9 +547,11 @@ MonoBehaviour:
     - name: Carpet Bombing
       description: 'Starfighters drop a stream of bombs on everything they fly over.
 
-        Carpet Bombing'
+        Carpet
+        Bombing'
       price: 2950
       upgrades:
+      - {fileID: 3024763130138515130}
       - {fileID: 2857286726634842661}
       statUpgrades: []
       upgradeVisualGameObjects: []
@@ -715,12 +736,10 @@ MonoBehaviour:
   - {x: -6.5, y: 0, z: 0}
   hangarDoorSpeed: 13
   hangarDoorOpenTime: 1.5
-  cannonProjectile: {fileID: 2512479460219642988, guid: 1a69f1ca7102f14449fd870a609ea9ee,
+  cannonProjectile: {fileID: 2306082185093262048, guid: 4b14ccd551efe4148ba31c7ddf416ff2,
     type: 3}
-  ordnanceProjectile: {fileID: 2512479460219642988, guid: 2c97b87a782f7124198b4df0f517dc66,
+  ordnanceProjectile: {fileID: 7607997187851456331, guid: 3f53161ca531a400c8ca309970abd1e4,
     type: 3}
-  cannonPoolPerStarfighter: 24
-  ordnancePoolPerStarfighter: 12
   ordnanceDamageMultiplier: 2
   ordnanceSize: 0.6
   ordnanceSpeed: 7
@@ -730,6 +749,114 @@ MonoBehaviour:
   carpetBombing: 0
   flightSpeedMultiplier: 1
   turnRateMultiplier: 1
+--- !u!114 &6014471630695329197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073459130555655686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47537868542ce4fa58da3d297661efcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualUpgrade
+  Comment: fx p2t1
+  priority: 12
+  entries:
+  - slot: 2
+    prefab: {fileID: 7421143260859999372, guid: b8a12b9c249884e1697d41fb6f2fa915,
+      type: 3}
+--- !u!114 &8986170433199980960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073459130555655686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47537868542ce4fa58da3d297661efcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualUpgrade
+  Comment: fx p2t2
+  priority: 22
+  entries:
+  - slot: 2
+    prefab: {fileID: 8229444019580137497, guid: 6d242155bb7c54143831df18f50033ce,
+      type: 3}
+--- !u!114 &2056213117124615126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073459130555655686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47537868542ce4fa58da3d297661efcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualUpgrade
+  Comment: fx p2t3
+  priority: 32
+  entries:
+  - slot: 2
+    prefab: {fileID: 2239794972473082237, guid: 33a892fd9bec445ccb54d1da29361d1d,
+      type: 3}
+--- !u!114 &6523057548814141814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073459130555655686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47537868542ce4fa58da3d297661efcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualUpgrade
+  Comment: fx p3t1
+  priority: 13
+  entries:
+  - slot: 3
+    prefab: {fileID: 3699763515956694520, guid: f3f01716873324ea2b7d5cebdbc0084f,
+      type: 3}
+--- !u!114 &8877887943958615063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073459130555655686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47537868542ce4fa58da3d297661efcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualUpgrade
+  Comment: fx p3t2
+  priority: 23
+  entries:
+  - slot: 3
+    prefab: {fileID: 6363422715174148724, guid: 4b02547d94c1140b9bc6c667873747a5,
+      type: 3}
+--- !u!114 &3024763130138515130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073459130555655686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47537868542ce4fa58da3d297661efcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualUpgrade
+  Comment: fx p3t3
+  priority: 33
+  entries:
+  - slot: 3
+    prefab: {fileID: 4331479160087201518, guid: 2ac5f37853d7c429ba2c895267d5b308,
+      type: 3}
 --- !u!1 &1520263930798066330
 GameObject:
   m_ObjectHideFlags: 0
@@ -1844,7 +1971,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Targetter
   tower: {fileID: 1324200797801828183}
   collider: {fileID: 5829729572441974419}
-  enemiesInsideCollider: []
 --- !u!1 &5579683410636969385
 GameObject:
   m_ObjectHideFlags: 0

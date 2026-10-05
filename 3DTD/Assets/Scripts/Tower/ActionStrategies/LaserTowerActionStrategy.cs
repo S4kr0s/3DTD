@@ -12,6 +12,10 @@ public class LaserTowerActionStrategy : ActionStrategy
     private FireCycle fireCycle;
     private Tower tower;
     private Enemy target;
+    private VisualRef projectileVisual;
+    private VisualRef muzzleVisual;
+    private VisualRef flightVisual;
+    private VisualRef impactVisual;
 
     public override void SetupActionStrategy(Tower tower)
     {
@@ -48,6 +52,7 @@ public class LaserTowerActionStrategy : ActionStrategy
 
     private void FireVolley(float age)
     {
+        GameObject prefab = projectileVisual.Get(tower, VisualSlot.Projectile, projectile);
         StatsManager stats = tower.StatsManager;
         ProjectileSystem.Shot shot = new ProjectileSystem.Shot
         {
@@ -59,6 +64,9 @@ public class LaserTowerActionStrategy : ActionStrategy
             Pierce = (int)stats.GetStatValue(Stat.StatType.PIERCING),
             Tower = tower,
             Age = age,
+            MuzzleEffect = muzzleVisual.Get(tower, VisualSlot.Muzzle, null),
+            FlightEffect = flightVisual.Get(tower, VisualSlot.Flight, null),
+            ImpactEffect = impactVisual.Get(tower, VisualSlot.Impact, null),
         };
 
         foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
@@ -80,7 +88,7 @@ public class LaserTowerActionStrategy : ActionStrategy
                 shot.Rotation = barrel.rotation;
                 shot.Target = target;
             }
-            ProjectileSystem.Fire(projectile, shot);
+            ProjectileSystem.Fire(prefab, shot);
         }
     }
 

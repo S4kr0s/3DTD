@@ -22,6 +22,8 @@ using Random = UnityEngine.Random;
 //   S1  every tower type in each of its heaviest legal upgrade combinations, on blocks along the lane
 //   S2  Bullet Dispensers (path 1 tier 3 + path 2 tier 2) on every block spot along the lane
 //   P   a weak mixed defense whose leaks make tower effectiveness visible, for 1x/3x/5x parity
+//   FX  (suite "fx") effect gallery: per tower type, a copy with each single upgrade path at tier 1-3 and an
+//       unupgraded one along the lane, close-ups of each during a dense wave (fx-<tower>-<path><tier>-<n>.png)
 // Each run reloads its scene, builds the layout, jumps to the round and measures the wave(s).
 // Log lines: PERF RUN|PASS|FAIL. Results: perf-<suite>-<time>.csv (per frame) and .json (summary).
 [DefaultExecutionOrder(-10000)]
@@ -44,7 +46,7 @@ public class PerfScenario : MonoBehaviour
     public class Run
     {
         public string id;
-        public string layout;            // "mixed", "dispensers", "parity", "single"
+        public string layout;            // "mixed", "dispensers", "parity", "single", "gallery"
         public string tower;             // prefab name for the "single" layout
         public string scene = "Beginner Level 01";
         public float speed = 1f;
@@ -265,8 +267,22 @@ public class PerfScenario : MonoBehaviour
             }
         }
 
+        // Effect gallery: every visual upgrade of one tower type at once, in fixed frames
+        List<Run> gallery = new List<Run>();
+        foreach (string tower in ParityTowers)
+        {
+            gallery.Add(new Run
+            {
+                id = "FX-" + tower.Replace(" Tower", "").Replace(" ", ""),
+                // A middle round: enemies in a stream that reaches every tower, not a wall that hides the projectiles
+                layout = "gallery", tower = tower, speed = 1f, round = 40, waves = 1, visual = true,
+            });
+        }
+
         List<Run> picked;
-        if (name == "full")
+        if (name == "fx")
+            picked = gallery;
+        else if (name == "full")
         {
             picked = new List<Run>(all);
             picked.AddRange(parity);
@@ -280,7 +296,7 @@ public class PerfScenario : MonoBehaviour
             picked = new List<Run>();
             foreach (string id in name.Split(','))
             {
-                Run run = all.Find(r => r.id == id.Trim()) ?? parity.Find(r => r.id == id.Trim());
+                Run run = all.Find(r => r.id == id.Trim()) ?? parity.Find(r => r.id == id.Trim()) ?? gallery.Find(r => r.id == id.Trim());
                 if (run != null)
                     picked.Add(run);
             }
@@ -360,6 +376,10 @@ public class PerfScenario : MonoBehaviour
             // stands a third of the way along
             int spot = run.layout == "single" ? spots.Count / 3
                 : plans.Count < spots.Count ? Mathf.FloorToInt(i * spots.Count / (float)plans.Count) : i;
+            // Gallery from the exit backwards: the first towers see enemies only after the hangar and the
+            // mine factory had time to get going
+            if (run.layout == "gallery")
+                spot = plans.Count == 1 ? spots.Count / 2 : spots.Count - 1 - spot;
             Tower tower = BuildOnBlock(blockPrefab, plans[i].prefab, spots[spot]);
             if (tower != null)
             {
@@ -391,6 +411,11 @@ public class PerfScenario : MonoBehaviour
         PerfCounters.Reset();
         EffectStats.Reset();
 
+        if (run.visual && run.layout == "gallery")
+        {
+            yield return CaptureGallery(run, game, spawner, plans);
+            yield break;
+        }
         if (run.visual)
         {
             yield return CaptureSeries(run, game, spawner, towers);
@@ -493,6 +518,25 @@ public class PerfScenario : MonoBehaviour
             GameObject prefab = towerPrefabs.Find(p => p.name == run.tower);
             if (prefab != null)
                 plans.Add(new TowerPlan { prefab = prefab, tiers = HeaviestTiers(prefab) });
+            return plans;
+        }
+
+        if (run.layout == "gallery")
+        {
+            GameObject prefab = towerPrefabs.Find(p => p.name == run.tower);
+            if (prefab == null)
+                return plans;
+            plans.Add(new TowerPlan { prefab = prefab, tiers = new int[0] });
+            UpgradePath[] paths = prefab.GetComponent<UpgradeManager>().GetUpgradePaths();
+            for (int path = 0; path < paths.Length; path++)
+            {
+                for (int tier = 1; tier <= ModuleCount(paths[path]); tier++)
+                {
+                    int[] tiers = new int[paths.Length];
+                    tiers[path] = tier;
+                    plans.Add(new TowerPlan { prefab = prefab, tiers = tiers });
+                }
+            }
             return plans;
         }
 
@@ -955,6 +999,84 @@ public class PerfScenario : MonoBehaviour
         Time.captureDeltaTime = 0f;
         game.ChangeGameSpeed(1f);
         Debug.Log("PERF VISUAL " + suffix + " captured around " + (focus != null ? focus.transform.position.ToString() : "nothing"));
+    }
+
+    // Fixed 1/60 s frames of a dense wave: two close-ups of every tower of the gallery (0.1 s apart) once enemies
+    // pass close by, and views of the whole map (smoke and clutter), named after the tower's upgrade tiers
+    private IEnumerator CaptureGallery(Run run, GameManager game, Spawner spawner, List<TowerPlan> plans)
+    {
+        const int warmUpFrames = 240, maxFrames = 3600, shots = 2;
+        Time.captureDeltaTime = 1f / 60f;
+        spawner.StartNextWave();
+
+        string name = run.id.Substring(3);
+        int[] taken = new int[plans.Count];
+        int[] nextFrame = new int[plans.Count];
+        int wide = 0;
+        for (int frame = 0; frame < maxFrames; frame++)
+        {
+            bool done = wide >= 2;
+            for (int i = 0; i < plans.Count; i++)
+            {
+                Tower tower = plans[i].instance;
+                if (tower == null || taken[i] >= shots)
+                    continue;
+                done = false;
+                if (frame < warmUpFrames || frame < nextFrame[i] || !EnemyNear(spawner, tower.transform.position, 4f, out Vector3 enemy))
+                    continue;
+                // Between the tower and the enemy, where the shots fly
+                Capture(Path.Combine(outputDirectory, "fx-" + name + "-" + GalleryLabel(plans[i].tiers) + "-" + taken[i] + ".png"), Vector3.Lerp(tower.transform.position, enemy, 0.4f));
+                taken[i]++;
+                nextFrame[i] = frame + 6;
+            }
+            if (wide < 2 && frame == 600 * (wide + 1))
+            {
+                Capture(Path.Combine(outputDirectory, "fx-" + name + "-wide-" + wide + ".png"), null);
+                wide++;
+            }
+            if (done)
+                break;
+            yield return null;
+        }
+
+        for (int i = 0; i < plans.Count; i++)
+        {
+            if (plans[i].instance != null && taken[i] < shots)
+                Debug.LogWarning("PERF VISUAL gallery " + run.id + ": no enemy came near " + GalleryLabel(plans[i].tiers));
+        }
+        Time.captureDeltaTime = 0f;
+        game.ChangeGameSpeed(1f);
+        Debug.Log("PERF VISUAL gallery " + run.id + ": " + plans.Count + " towers");
+    }
+
+    private static string GalleryLabel(int[] tiers)
+    {
+        for (int p = 0; p < tiers.Length; p++)
+        {
+            if (tiers[p] > 0)
+                return "p" + (p + 1) + "t" + tiers[p];
+        }
+        return "base";
+    }
+
+    private static bool EnemyNear(Spawner spawner, Vector3 position, float distance, out Vector3 nearest)
+    {
+        nearest = position;
+        float best = distance * distance;
+        bool found = false;
+        foreach (GameObject enemy in spawner.EnemiesAlive)
+        {
+            if (enemy == null)
+                continue;
+            float d = (enemy.transform.position - position).sqrMagnitude;
+            if (d < best)
+            {
+                best = d;
+                nearest = enemy.transform.position;
+                found = true;
+            }
+        }
+        return found;
     }
 
     private static Tower NearestTower(List<Tower> towers, Spawner spawner)

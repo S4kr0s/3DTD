@@ -9,8 +9,21 @@ public class UpgradeModule
     public string Description => description;
     public int Price => price;
     public StatUpgrade[] StatUpgrades => statUpgrades ?? new StatUpgrade[0];
-    // Behaviour changes beyond plain stats (strategy swaps, cluster bomblets, salvage...)
-    public bool HasBehaviourUpgrades => upgrades != null && upgrades.Length > 0;
+    // Behaviour changes beyond plain stats (strategy swaps, cluster bomblets, salvage...); visual upgrades don't count
+    public bool HasBehaviourUpgrades
+    {
+        get
+        {
+            if (upgrades == null)
+                return false;
+            foreach (Upgrade upgrade in upgrades)
+            {
+                if (upgrade != null && !(upgrade is VisualUpgrade))
+                    return true;
+            }
+            return false;
+        }
+    }
 
     [SerializeField] private string name;
     [Multiline]

@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-10-04T02:02:12",
+  "generatedAt": "2026-10-05T18:57:10",
   "unityVersion": "6000.5.8f1",
   "project": "/Users/philipp/Projects/3DTD/3DTD/3DTD",
   "generator": "Tools/BalanceDashboard/extract.py",
@@ -1267,7 +1267,11 @@
     "type": "BeamTowerActionStrategy",
     "fileID": 5454529783904074006,
     "internalFireRate": 0.0,
-    "internalPierce": 0.0
+    "internalPierce": 0.0,
+    "tickEffectScale": 1.0,
+    "hitEffectScale": 1.0,
+    "slowOnHit": 0.0,
+    "slowDuration": 0.5
    },
    "shootingPoints": [
     {
@@ -1523,7 +1527,7 @@
     "type": "BombTowerActionStrategy",
     "fileID": 1988205622613384585,
     "projectile": {
-     "prefab": "Assets/Prefabs/ProjectileParentBomb.prefab",
+     "prefab": "Assets/Prefabs/Projectiles/Bomb/Rocket.prefab",
      "script": "ProjectileBomb",
      "colliderRadius": 0.075,
      "defaults": {
@@ -1533,7 +1537,11 @@
       "lifetime": 2.0,
       "accuracy": 1.0,
       "aimAtTarget": 0.0,
-      "radius": 1.0
+      "radius": 1.0,
+      "doClustering": 0.0,
+      "clusterLifetime": 0.5,
+      "clusterDamageShare": 0.5,
+      "clusterRadiusShare": 0.6
      }
     },
     "aimAtTarget": 0.0,
@@ -1809,7 +1817,7 @@
          "type": "BombTowerActionStrategy",
          "fileID": -5199183928171678811,
          "projectile": {
-          "prefab": "Assets/Prefabs/ProjectileParentBombClustering.prefab",
+          "prefab": "Assets/Prefabs/Projectiles/Bomb/ClusterRocket.prefab",
           "script": "ProjectileBomb",
           "colliderRadius": 0.075,
           "defaults": {
@@ -1820,10 +1828,13 @@
            "accuracy": 1.0,
            "aimAtTarget": 0.0,
            "radius": 1.0,
-           "doClustering": 1.0
+           "doClustering": 1.0,
+           "clusterLifetime": 0.5,
+           "clusterDamageShare": 0.5,
+           "clusterRadiusShare": 0.6
           },
           "cluster": {
-           "prefab": "Assets/Prefabs/GrenadeBlueOBJ.prefab",
+           "prefab": "Assets/Prefabs/Projectiles/Bomb/Bomblet.prefab",
            "count": 6,
            "damageShare": 0.5,
            "radiusShare": 0.6,
@@ -1993,7 +2004,7 @@
     "type": "BulletDispenserTowerActionStrategy",
     "fileID": -6864983426715245250,
     "projectile": {
-     "prefab": "Assets/Prefabs/ProjectileParentRound.prefab",
+     "prefab": "Assets/Prefabs/Projectiles/Dispenser/Needle.prefab",
      "script": "ProjectileRound",
      "colliderRadius": 0.075,
      "defaults": {
@@ -2658,14 +2669,15 @@
          "type": "BulletDispenserTowerActionStrategy",
          "fileID": 2041046278736788530,
          "projectile": {
-          "prefab": "Assets/Prefabs/ProjectileParentPulse.prefab",
+          "prefab": "Assets/Prefabs/Projectiles/Dispenser/Pulse.prefab",
           "script": "ProjectilePulse",
           "colliderRadius": null,
           "defaults": {
            "damage": 1.0,
            "penetration": 10.0,
            "maxSpeed": 0.0,
-           "lifetime": 2.0
+           "lifetime": 2.0,
+           "accuracy": 1.0
           }
          },
          "AuraMode": 0.0,
@@ -2719,7 +2731,7 @@
     "type": "LaserTowerActionStrategy",
     "fileID": 3369052788828412313,
     "projectile": {
-     "prefab": "Assets/Prefabs/ProjectileParent.prefab",
+     "prefab": "Assets/Prefabs/Projectiles/Core/CoreBolt.prefab",
      "script": "ProjectileBasic",
      "colliderRadius": 0.075,
      "defaults": {
@@ -2729,7 +2741,8 @@
       "lifetime": 2.0,
       "accuracy": 1.0
      }
-    }
+    },
+    "aimWithLead": 1.0
    },
    "shootingPoints": [
     {
@@ -2814,7 +2827,8 @@
       "lifetime": 2.0,
       "accuracy": 1.0
      }
-    }
+    },
+    "aimWithLead": 1.0
    },
    "shootingPoints": [
     {
@@ -3334,7 +3348,7 @@
     "hangarDoorSpeed": 13.0,
     "hangarDoorOpenTime": 1.5,
     "cannonProjectile": {
-     "prefab": "Assets/Prefabs/ProjectileParent.prefab",
+     "prefab": "Assets/Prefabs/Projectiles/Hangar/CannonBolt.prefab",
      "script": "ProjectileBasic",
      "colliderRadius": 0.075,
      "defaults": {
@@ -3346,7 +3360,7 @@
      }
     },
     "ordnanceProjectile": {
-     "prefab": "Assets/Prefabs/ProjectileParentBomb.prefab",
+     "prefab": "Assets/Prefabs/Projectiles/Hangar/Missile.prefab",
      "script": "ProjectileBomb",
      "colliderRadius": 0.075,
      "defaults": {
@@ -3356,11 +3370,13 @@
       "lifetime": 2.0,
       "accuracy": 1.0,
       "aimAtTarget": 0.0,
-      "radius": 1.0
+      "radius": 1.0,
+      "doClustering": 0.0,
+      "clusterLifetime": 0.5,
+      "clusterDamageShare": 0.5,
+      "clusterRadiusShare": 0.6
      }
     },
-    "cannonPoolPerStarfighter": 24.0,
-    "ordnancePoolPerStarfighter": 12.0,
     "ordnanceDamageMultiplier": 2.0,
     "ordnanceSize": 0.6,
     "ordnanceSpeed": 7.0,
@@ -4029,7 +4045,11 @@
     "type": "SniperTowerActionStrategy",
     "fileID": 7147410859371744081,
     "secondShotStrongTargetting": 0.0,
-    "thirdShotLastTargetting": 0.0
+    "thirdShotLastTargetting": 0.0,
+    "tracerWidth": 0.6,
+    "tracerDuration": 0.16,
+    "muzzleScale": 1.5,
+    "impactScale": 1.0
    },
    "shootingPoints": [
     {
@@ -4198,7 +4218,11 @@
          "type": "SniperTowerActionStrategy",
          "fileID": 8885623816495132222,
          "secondShotStrongTargetting": 1.0,
-         "thirdShotLastTargetting": 0.0
+         "thirdShotLastTargetting": 0.0,
+         "tracerWidth": 0.6,
+         "tracerDuration": 0.16,
+         "muzzleScale": 1.5,
+         "impactScale": 1.0
         }
        }
       ],
@@ -4233,7 +4257,11 @@
          "type": "SniperTowerActionStrategy",
          "fileID": 5242106787713140335,
          "secondShotStrongTargetting": 1.0,
-         "thirdShotLastTargetting": 1.0
+         "thirdShotLastTargetting": 1.0,
+         "tracerWidth": 0.6,
+         "tracerDuration": 0.16,
+         "muzzleScale": 1.5,
+         "impactScale": 1.0
         }
        }
       ],

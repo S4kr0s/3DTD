@@ -20,6 +20,11 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
     private FireCycle fireCycle;
     private Tower tower;
     private Enemy target;
+    private VisualRef projectileVisual;
+    private VisualRef auraHitVisual;
+    private VisualRef muzzleVisual;
+    private VisualRef flightVisual;
+    private VisualRef impactVisual;
     private readonly List<Enemy> auraTargets = new List<Enemy>();
 
     public override void SetupActionStrategy(Tower tower)
@@ -37,7 +42,7 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
         }
 
         int inFlight = Mathf.CeilToInt((tower.StatsManager.GetStatValue(Stat.StatType.LIFETIME) + 0.6f) / tower.StatsManager.GetFireInterval());
-        projectilePoolManager = ProjectilePoolManager.GetOrCreate(tower.gameObject, projectile, inFlight + 2);
+        projectilePoolManager = ProjectilePoolManager.GetOrCreate(tower.gameObject, tower.Visuals.Resolve(VisualSlot.PulseProjectile, projectile), inFlight + 2);
     }
 
     public override void ExecuteAction()
@@ -62,6 +67,7 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
     private void FireAura()
     {
         float damage = tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE);
+        GameObject hitEffect = auraHitVisual.Get(tower, VisualSlot.AuraHit, hitParticle);
 
         // Copy: kills remove enemies from the Targetter while we iterate
         auraTargets.Clear();
@@ -74,7 +80,7 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
 
             // Every enemy gets its sparks, at any game speed; their sound is limited by EffectAudio
             Transform enemyTransform = enemy.transform;
-            EffectPlayer.Play(hitParticle, enemyTransform.position, enemyTransform.rotation, 1f, AuraHitEffectLifetime);
+            EffectPlayer.Play(hitEffect, enemyTransform.position, enemyTransform.rotation, 1f, AuraHitEffectLifetime);
             enemy.TakeDamage(damage, DamageType.MAGIC, this.tower);
         }
     }
@@ -112,6 +118,7 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
 
     private void FireBullets(float age)
     {
+        GameObject prefab = projectileVisual.Get(tower, VisualSlot.Projectile, projectile);
         StatsManager stats = tower.StatsManager;
         ProjectileSystem.Shot shot = new ProjectileSystem.Shot
         {
@@ -124,6 +131,9 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
             Target = target,
             Tower = tower,
             Age = age,
+            MuzzleEffect = muzzleVisual.Get(tower, VisualSlot.Muzzle, null),
+            FlightEffect = flightVisual.Get(tower, VisualSlot.Flight, null),
+            ImpactEffect = impactVisual.Get(tower, VisualSlot.Impact, null),
         };
 
         foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
@@ -134,7 +144,7 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
             Transform barrel = shootingPoint.transform;
             shot.Position = barrel.position;
             shot.Rotation = barrel.rotation;
-            ProjectileSystem.Fire(projectile, shot);
+            ProjectileSystem.Fire(prefab, shot);
         }
     }
 

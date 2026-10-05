@@ -73,6 +73,8 @@ public sealed class BatchedEffect : IDisposable
     }
 
     public readonly GameObject Prefab;
+    // The prefab's own (uniform) scale: plays scale relative to it, like the pooled copies
+    private readonly float rootScale;
     private readonly GameObject shared;
     private readonly Emitter[] emitters;
     private readonly AudioSource[] sounds;
@@ -136,6 +138,7 @@ public sealed class BatchedEffect : IDisposable
     private BatchedEffect(GameObject prefab, Transform container)
     {
         Prefab = prefab;
+        rootScale = prefab.transform.localScale.x;
 
         // Built under an inactive parent so nothing plays on awake before it is configured
         GameObject staging = new GameObject(prefab.name + " (batched staging)");
@@ -235,7 +238,7 @@ public sealed class BatchedEffect : IDisposable
     public void Play(Vector3 position, Quaternion rotation, float scale, float age)
     {
         int play = plays.Length;
-        plays.Add(new PlayRecord { Position = position, Rotation = rotation, Scale = scale });
+        plays.Add(new PlayRecord { Position = position, Rotation = rotation, Scale = scale * rootScale });
         float start = Time.time - age;
 
         foreach (Emitter emitter in emitters)

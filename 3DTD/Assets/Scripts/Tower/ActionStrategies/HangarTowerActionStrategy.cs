@@ -52,6 +52,8 @@ public class HangarTowerActionStrategy : ActionStrategy
     [SerializeField] public float turnRateMultiplier = 1f;
 
     private Tower tower;
+    private VisualRef cannonVisual;
+    private VisualRef ordnanceVisual;
     private readonly List<Starfighter> starfighters = new List<Starfighter>();
     private float launchCooldown = 0f;
     private float doorOpenTimer = 0f;
@@ -178,7 +180,7 @@ public class HangarTowerActionStrategy : ActionStrategy
     public void FireCannon(Transform muzzle, Enemy target, float age)
     {
         StatsManager stats = tower.StatsManager;
-        ProjectileSystem.Fire(cannonProjectile, new ProjectileSystem.Shot
+        ProjectileSystem.Fire(cannonVisual.Get(tower, VisualSlot.Cannon, cannonProjectile), new ProjectileSystem.Shot
         {
             Position = muzzle.position,
             Rotation = muzzle.rotation,
@@ -198,7 +200,7 @@ public class HangarTowerActionStrategy : ActionStrategy
     public void FireOrdnance(Transform muzzle, Enemy target)
     {
         StatsManager stats = tower.StatsManager;
-        ProjectileSystem.Fire(ordnanceProjectile, new ProjectileSystem.Shot
+        ProjectileSystem.Fire(ordnanceVisual.Get(tower, VisualSlot.Ordnance, ordnanceProjectile), new ProjectileSystem.Shot
         {
             Position = muzzle.position,
             Rotation = muzzle.rotation,

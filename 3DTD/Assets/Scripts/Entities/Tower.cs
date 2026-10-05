@@ -61,6 +61,9 @@ public class Tower : Building
     // the tower is built: frame timing and cosmetic random calls elsewhere don't change the outcome
     [NonSerialized] public Unity.Mathematics.Random Rng;
 
+    // Effect prefabs replaced by the upgrades bought (VisualUpgrade)
+    public TowerVisuals Visuals { get; } = new TowerVisuals();
+
     private void Awake()
     {
         Rng = new Unity.Mathematics.Random((uint)UnityEngine.Random.Range(1, int.MaxValue));

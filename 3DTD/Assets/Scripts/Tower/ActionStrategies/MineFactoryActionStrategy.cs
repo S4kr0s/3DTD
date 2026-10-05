@@ -106,6 +106,10 @@ public class MineFactoryActionStrategy : ActionStrategy
     [SerializeField] public float waveEndPayoutPerMine = 0f;
 
     private Tower tower;
+    private VisualRef blastVisual;
+    private VisualRef heavyBlastVisual;
+    private VisualRef clusterBlastVisual;
+    private VisualRef launchVisual;
     private FireCycle fireCycle;
     private readonly List<Mine> mines = new List<Mine>();
     private readonly Stack<Mine> minePool = new Stack<Mine>();
@@ -214,7 +218,7 @@ public class MineFactoryActionStrategy : ActionStrategy
 
         pressPosition = 1f;
         loadedHiddenTimer = 0.35f;
-        SpawnEffect(launchEffect, from, 1.5f, smallEffectScale);
+        SpawnEffect(launchVisual.Get(tower, VisualSlot.MineLaunch, launchEffect), from, 1.5f, smallEffectScale);
     }
 
     // The field is full: the finished mine is sold for scrap (and maybe patches up the base)
@@ -519,7 +523,9 @@ public class MineFactoryActionStrategy : ActionStrategy
         float radius = Mathf.Max(0.1f, stats.GetStatValue(Stat.StatType.RADIUS));
         Vector3 position = mine.transform.position;
 
-        Blast(position, damage, radius, heavyExplosions && heavyExplosionEffect != null ? heavyExplosionEffect : explosionEffect, radius * explosionScalePerRadius);
+        GameObject heavy = heavyBlastVisual.Get(tower, VisualSlot.MineHeavyBlast, heavyExplosionEffect);
+        GameObject effect = heavyExplosions && heavy != null ? heavy : blastVisual.Get(tower, VisualSlot.MineBlast, explosionEffect);
+        Blast(position, damage, radius, effect, radius * explosionScalePerRadius);
 
         // Bomblets bounce along the path (or in all directions for hover mines) and go off a moment later
         for (int i = 0; i < clusterBomblets; i++)
@@ -555,7 +561,7 @@ public class MineFactoryActionStrategy : ActionStrategy
             }
 
             pendingBlasts.RemoveAt(i);
-            Blast(blast.Position, blast.Damage, blast.Radius, clusterExplosionEffect, clusterEffectScale);
+            Blast(blast.Position, blast.Damage, blast.Radius, clusterBlastVisual.Get(tower, VisualSlot.MineClusterBlast, clusterExplosionEffect), clusterEffectScale);
         }
     }
 

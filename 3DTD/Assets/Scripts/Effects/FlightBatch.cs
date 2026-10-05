@@ -85,6 +85,8 @@ public sealed class FlightBatch : IDisposable
     }
 
     public readonly GameObject Prefab;
+    // The prefab's own (uniform) scale: flights scale relative to it, like the pooled copies
+    private readonly float rootScale;
     private readonly GameObject shared;
     private readonly Emitter[] emitters;
     private readonly TrailMesh trail;
@@ -148,6 +150,7 @@ public sealed class FlightBatch : IDisposable
     private FlightBatch(GameObject prefab, Transform container)
     {
         Prefab = prefab;
+        rootScale = prefab.transform.localScale.x;
         GameObject staging = new GameObject(prefab.name + " (flight staging)");
         staging.SetActive(false);
         staging.transform.SetParent(container, false);
@@ -306,6 +309,7 @@ public sealed class FlightBatch : IDisposable
 
     public int Attach(Vector3 position, Quaternion rotation, float scale, Vector3 velocity)
     {
+        scale *= rootScale;
         int id = freeIds.Count > 0 ? freeIds.Pop() : highestId++;
         LiveFlights++;
         EnsureCapacity(id + 1);
@@ -340,7 +344,7 @@ public sealed class FlightBatch : IDisposable
         flight.Position = position;
         flight.Velocity = velocity;
         flight.Rotation = rotation;
-        flight.Scale = scale;
+        flight.Scale = scale * rootScale;
         flights[id] = flight;
     }
 

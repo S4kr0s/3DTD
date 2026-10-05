@@ -47,6 +47,11 @@ public class ProjectileSystem : MonoBehaviour
     private const float ImpactLifetime = 5f;
     // The enemy prefab's sphere collider (radius 0.75 at scale 0.5)
     private const float DefaultEnemyRadius = 0.375f;
+    // Explosions play at their prefab's size for this blast radius (the Rocket System's base RADIUS) and grow
+    // or shrink with the real one, within these bounds
+    public const float ReferenceBlastRadius = 0.8f;
+    private const float MinImpactScale = 0.4f;
+    private const float MaxImpactScale = 2.2f;
 
     public struct Shot
     {
@@ -67,6 +72,10 @@ public class ProjectileSystem : MonoBehaviour
         public Tower Tower;
         // Seconds since the shot was due (FireCycle.VolleyAge): it starts that far along its way
         public float Age;
+        // Effects replacing the prefab's own (upgrade looks, see VisualSlot); null keeps the prefab's
+        public GameObject MuzzleEffect;
+        public GameObject FlightEffect;
+        public GameObject ImpactEffect;
     }
 
     private struct State
@@ -79,6 +88,8 @@ public class ProjectileSystem : MonoBehaviour
         public float Radius;
         public float HalfLength;
         public float Scale;
+        // Size of the impact or explosion effect: SIZE for bolts and bullets, the blast radius for rockets
+        public float ImpactScale;
         public float Damage;
         public float BlastRadius;
         public int Pierce;
@@ -129,6 +140,7 @@ public class ProjectileSystem : MonoBehaviour
     private NativeList<int> events;
     private NativeParallelMultiHashMap<int, int> grid;
     private readonly List<ProjectileArchetype> archetypes = new List<ProjectileArchetype>();
+    private readonly List<GameObject> impactEffects = new List<GameObject>();
     private readonly List<Tower> towers = new List<Tower>();
     private readonly List<FlightHandle> flights = new List<FlightHandle>();
     private readonly List<Enemy> overlap = new List<Enemy>();
@@ -219,6 +231,9 @@ public class ProjectileSystem : MonoBehaviour
         }
 
         float scale = shot.Scale > 0f ? shot.Scale : 1f;
+        float impactScale = archetype.Kind == ProjectileKind.Bomb || archetype.Kind == ProjectileKind.Cluster
+            ? BlastImpactScale(shot.BlastRadius)
+            : scale;
         State state = new State
         {
             Position = shot.Position,
@@ -229,6 +244,7 @@ public class ProjectileSystem : MonoBehaviour
             Radius = archetype.HitRadius * scale,
             HalfLength = archetype.HitHalfLength * scale,
             Scale = scale,
+            ImpactScale = impactScale,
             Damage = shot.Damage,
             BlastRadius = shot.BlastRadius,
             Pierce = shot.Pierce,
@@ -242,16 +258,28 @@ public class ProjectileSystem : MonoBehaviour
         };
         states.Add(state);
         archetypes.Add(archetype);
+        impactEffects.Add(shot.ImpactEffect != null ? shot.ImpactEffect : archetype.ImpactEffect);
         towers.Add(shot.Tower);
 
         FlightHandle flight = default;
         if (archetype.Kind != ProjectileKind.Cluster)
         {
-            EffectPlayer.Play(archetype.MuzzleEffect, shot.Position, rotation, 1f, MuzzleLifetime, lead);
-            flight = EffectPlayer.Attach(archetype.FlightEffect, shot.Position, rotation, scale, rotation * Vector3.forward * shot.Speed);
+            GameObject muzzle = shot.MuzzleEffect != null ? shot.MuzzleEffect : archetype.MuzzleEffect;
+            GameObject flightEffect = shot.FlightEffect != null ? shot.FlightEffect : archetype.FlightEffect;
+            EffectPlayer.Play(muzzle, shot.Position, rotation, scale, MuzzleLifetime, lead);
+            flight = EffectPlayer.Attach(flightEffect, shot.Position, rotation, scale, rotation * Vector3.forward * shot.Speed);
         }
         flights.Add(flight);
         PerfCounters.ProjectilesSpawned++;
+    }
+
+    // Size of an explosion effect for a blast radius (1 at ReferenceBlastRadius)
+    public static float BlastImpactScale(float blastRadius)
+    {
+        if (blastRadius <= 0f)
+            return 1f;
+        // Grows a little slower than the radius: the effects' glow spheres reach well past the blast already
+        return Mathf.Clamp(Mathf.Pow(blastRadius / ReferenceBlastRadius, 0.7f), MinImpactScale, MaxImpactScale);
     }
 
     private static float Spread(Tower tower, float maxAngle)
@@ -321,6 +349,7 @@ public class ProjectileSystem : MonoBehaviour
             State state = states[i];
             Step step = steps[i];
             ProjectileArchetype archetype = archetypes[i];
+            GameObject impact = impactEffects[i];
             Tower tower = towers[i];
 
             float3 start = state.Position;
@@ -341,7 +370,7 @@ public class ProjectileSystem : MonoBehaviour
                     case ProjectileKind.Round:
                         enemy.TakeDamage(state.Damage, DamageType.PROJECTILE, tower);
                         state.Pierce--;
-                        EffectPlayer.Play(archetype.ImpactEffect, point, Quaternion.identity, 1f, ImpactLifetime);
+                        EffectPlayer.Play(impact, point, Quaternion.identity, state.ImpactScale, ImpactLifetime);
                         dead = state.Pierce <= 0;
                         break;
 
@@ -351,20 +380,20 @@ public class ProjectileSystem : MonoBehaviour
                             enemy.TakeDamage(state.Damage, DamageType.PROJECTILE, tower);
                             state.Pierce--;
                         }
-                        EffectPlayer.Play(archetype.ImpactEffect, point, Quaternion.identity, 1f, ImpactLifetime);
+                        EffectPlayer.Play(impact, point, Quaternion.identity, state.ImpactScale, ImpactLifetime);
                         dead = state.Pierce <= 0;
                         break;
 
                     case ProjectileKind.Bomb:
                         // A rocket goes off on its first hit
                         state.Pierce--;
-                        Explode(ref state, archetype, tower, point, step.Time * (1f - hit.T));
+                        Explode(ref state, archetype, impact, tower, point, step.Time * (1f - hit.T));
                         dead = true;
                         break;
 
                     case ProjectileKind.Cluster:
                         Blast(point, state.BlastRadius, state.Damage, tower);
-                        EffectPlayer.Play(archetype.ImpactEffect, point, Quaternion.identity, 1f, ImpactLifetime);
+                        EffectPlayer.Play(impact, point, Quaternion.identity, state.ImpactScale, ImpactLifetime);
                         dead = true;
                         break;
                 }
@@ -380,12 +409,12 @@ public class ProjectileSystem : MonoBehaviour
                 {
                     case ProjectileKind.Bomb:
                         // Out of fuel: the rocket goes off where it is and stops (ProjectileBomb.updateDisabled)
-                        Explode(ref state, archetype, tower, step.Position, 0f);
+                        Explode(ref state, archetype, impact, tower, step.Position, 0f);
                         state.Frozen = 1;
                         break;
                     case ProjectileKind.Cluster:
                         Blast(step.Position, state.BlastRadius, state.Damage, tower);
-                        EffectPlayer.Play(archetype.ImpactEffect, step.Position, Quaternion.identity, 1f, ImpactLifetime);
+                        EffectPlayer.Play(impact, step.Position, Quaternion.identity, state.ImpactScale, ImpactLifetime);
                         break;
                 }
                 dead = true;
@@ -433,10 +462,10 @@ public class ProjectileSystem : MonoBehaviour
     }
 
     // ProjectileBomb.ExplosionTrigger: blast, impact effect, and the bomblets of a cluster rocket (once)
-    private void Explode(ref State state, ProjectileArchetype archetype, Tower tower, float3 point, float leftover)
+    private void Explode(ref State state, ProjectileArchetype archetype, GameObject impact, Tower tower, float3 point, float leftover)
     {
         Blast(point, state.BlastRadius, state.Damage, tower);
-        EffectPlayer.Play(archetype.ImpactEffect, point, Quaternion.identity, 1f, ImpactLifetime);
+        EffectPlayer.Play(impact, point, Quaternion.identity, state.ImpactScale, ImpactLifetime);
 
         if (state.Cluster == 0 || archetype.ClusterBomblet == null)
             return;
@@ -478,6 +507,8 @@ public class ProjectileSystem : MonoBehaviour
         states.RemoveAtSwapBack(index);
         archetypes[index] = archetypes[last];
         archetypes.RemoveAt(last);
+        impactEffects[index] = impactEffects[last];
+        impactEffects.RemoveAt(last);
         towers[index] = towers[last];
         towers.RemoveAt(last);
         flights[index] = flights[last];

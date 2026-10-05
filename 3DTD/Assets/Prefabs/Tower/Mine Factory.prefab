@@ -6204,7 +6204,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -6220,7 +6220,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -6236,7 +6236,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -6252,7 +6252,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -6268,7 +6268,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -6284,7 +6284,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -6300,7 +6300,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -6316,7 +6316,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -6332,7 +6332,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -23499,6 +23499,12 @@ GameObject:
   - component: {fileID: 4817992139123975177}
   - component: {fileID: 5036265973087928531}
   - component: {fileID: 369340155017543659}
+  - component: {fileID: 5503755578338001024}
+  - component: {fileID: 8989398792947890837}
+  - component: {fileID: 4861833363432834560}
+  - component: {fileID: 2458969626966850139}
+  - component: {fileID: 9094539123341159525}
+  - component: {fileID: 8122394943217742020}
   m_Layer: 0
   m_Name: Mine Factory
   m_TagString: Untagged
@@ -23561,7 +23567,8 @@ MonoBehaviour:
         +25%
         Blast Radius'
       price: 120
-      upgrades: []
+      upgrades:
+      - {fileID: 5503755578338001024}
       statUpgrades:
       - targetStat: 5
         upgradeValue: 1
@@ -23581,6 +23588,7 @@ MonoBehaviour:
         per Blast (40% damage, 60% radius each)'
       price: 350
       upgrades:
+      - {fileID: 8989398792947890837}
       - {fileID: 124728545509212889}
       statUpgrades: []
       upgradeVisualGameObjects:
@@ -23602,6 +23610,7 @@ MonoBehaviour:
         slow enemies by 50% for 1.5 s'
       price: 1450
       upgrades:
+      - {fileID: 4861833363432834560}
       - {fileID: 5015150991065029247}
       statUpgrades:
       - targetStat: 5
@@ -23628,6 +23637,7 @@ MonoBehaviour:
         +2 Mine Capacity'
       price: 90
       upgrades:
+      - {fileID: 2458969626966850139}
       - {fileID: 967344288219647400}
       statUpgrades:
       - targetStat: 10
@@ -23649,7 +23659,8 @@ MonoBehaviour:
         +3
         Mine Capacity'
       price: 290
-      upgrades: []
+      upgrades:
+      - {fileID: 9094539123341159525}
       statUpgrades:
       - targetStat: 8
         upgradeValue: -33.333332
@@ -23675,7 +23686,8 @@ MonoBehaviour:
         +1
         Damage'
       price: 2000
-      upgrades: []
+      upgrades:
+      - {fileID: 8122394943217742020}
       statUpgrades:
       - targetStat: 6
         upgradeValue: 1
@@ -23927,13 +23939,13 @@ MonoBehaviour:
   placementCandidates: 8
   hoverZoneHeight: 1.4
   hoverZoneRadius: 0.7
-  explosionEffect: {fileID: 1070101629368536, guid: 1ef475ebfb44d964bb2037eaa9db1cb2,
+  explosionEffect: {fileID: 2641016791123945340, guid: 24e0a40a4584645bd87d9b414a86c284,
     type: 3}
-  heavyExplosionEffect: {fileID: 1822773341328252, guid: 8aea2a892ad46aa439b8be49adccdcad,
+  heavyExplosionEffect: {fileID: 2458895262486637932, guid: 87f130174835046bca9e0fed2f18a88a,
     type: 3}
   clusterExplosionEffect: {fileID: 3839143787689636487, guid: fcd3a89a131f9304c81a72ecc33235d5,
     type: 3}
-  launchEffect: {fileID: 1569006322450168, guid: 75cfaf6591c21e74191917c34643c61b,
+  launchEffect: {fileID: 7692369420305876523, guid: 2427c148417cb4fbe819d04ebf6e6c4e,
     type: 3}
   salvageEffect: {fileID: 1558547209356840, guid: 8fb9af5dc0b6bdd4a9b6a5051bff73d2,
     type: 3}
@@ -23967,6 +23979,114 @@ MonoBehaviour:
   scrapsPerLife: 0
   maxLivesPerWave: 0
   waveEndPayoutPerMine: 0
+--- !u!114 &5503755578338001024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7183759700528689366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47537868542ce4fa58da3d297661efcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualUpgrade
+  Comment: fx p1t1
+  priority: 11
+  entries:
+  - slot: 6
+    prefab: {fileID: 9098092330902379001, guid: 903df5c5167c64cf59c8a1291074f268,
+      type: 3}
+--- !u!114 &8989398792947890837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7183759700528689366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47537868542ce4fa58da3d297661efcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualUpgrade
+  Comment: fx p1t2
+  priority: 21
+  entries:
+  - slot: 8
+    prefab: {fileID: 7619653593714799407, guid: 14454b45e6ef6448680777c90b4da112,
+      type: 3}
+--- !u!114 &4861833363432834560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7183759700528689366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47537868542ce4fa58da3d297661efcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualUpgrade
+  Comment: fx p1t3
+  priority: 31
+  entries:
+  - slot: 7
+    prefab: {fileID: 6357298366003140353, guid: 947799eb0d42a436aa2355ecd545b767,
+      type: 3}
+--- !u!114 &2458969626966850139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7183759700528689366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47537868542ce4fa58da3d297661efcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualUpgrade
+  Comment: fx p2t1
+  priority: 12
+  entries:
+  - slot: 9
+    prefab: {fileID: 6594602978563525780, guid: 907a6c46ea8d6484f9cf04a16004f5da,
+      type: 3}
+--- !u!114 &9094539123341159525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7183759700528689366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47537868542ce4fa58da3d297661efcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualUpgrade
+  Comment: fx p2t2
+  priority: 22
+  entries:
+  - slot: 9
+    prefab: {fileID: 1389255743115720988, guid: 0aacb13119d5d4fd6b64eb5705bb4220,
+      type: 3}
+--- !u!114 &8122394943217742020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7183759700528689366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47537868542ce4fa58da3d297661efcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VisualUpgrade
+  Comment: fx p2t3
+  priority: 32
+  entries:
+  - slot: 9
+    prefab: {fileID: 1900892725918864913, guid: 09572c5f700254f5f80c4c4af7ac0bc1,
+      type: 3}
 --- !u!1 &7192455146060997352
 GameObject:
   m_ObjectHideFlags: 0
@@ -24036,7 +24156,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Targetter
   tower: {fileID: 7466013709320148046}
   collider: {fileID: 2401011955710086983}
-  enemiesInsideCollider: []
 --- !u!1 &7559741747298024325
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,6 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 465838730455241269}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -32,7 +33,6 @@ Transform:
   m_Children:
   - {fileID: 700797690335171952}
   m_Father: {fileID: 8641120566026317396}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2075330066222560819
 MonoBehaviour:
@@ -50,7 +50,7 @@ MonoBehaviour:
   drawingMode: 1
   outlineLayer: 0
   outlineTargets:
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -66,7 +66,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -82,7 +82,7 @@ MonoBehaviour:
     cutoutTextureName: 
     DilateRenderingMode: 0
     cutoutTextureIndex: 0
-  - IsVisible: 1
+  - IsVisible: 0
     CutoutMask: 8
     edgeDilateAmount: 5
     frontEdgeDilateAmount: 5
@@ -253,6 +253,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 697310814470366670}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.70710576, y: -0, z: -0, w: 0.7071079}
   m_LocalPosition: {x: 0, y: 0, z: -0.5}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
@@ -260,7 +261,6 @@ Transform:
   m_Children:
   - {fileID: 700588598151202638}
   m_Father: {fileID: 3034476442037721275}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &711462225784091774
 MeshFilter:
@@ -287,6 +287,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -308,9 +313,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8471298905916737000
 MonoBehaviour:
@@ -350,6 +357,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 697457981460457348}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.000000089406946, y: -0.039805107, z: -0.0000001210719, w: 0.9992075}
   m_LocalPosition: {x: -0.0000019073486, y: 0.9694569, z: -0.21835022}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -357,7 +365,6 @@ Transform:
   m_Children:
   - {fileID: 3122312475128571876}
   m_Father: {fileID: 700797690335171952}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -4.563, z: 0}
 --- !u!33 &711054953491991762
 MeshFilter:
@@ -384,6 +391,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -405,9 +417,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &2738445912291202359
 MonoBehaviour:
@@ -447,6 +461,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3125423384811926696}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.1881303, z: -0.23376751}
   m_LocalScale: {x: 2, y: 2, z: 2}
@@ -454,7 +469,6 @@ Transform:
   m_Children:
   - {fileID: 5759249171769889678}
   m_Father: {fileID: 700588598151202638}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3111278150039400064
 MeshFilter:
@@ -481,6 +495,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -502,9 +521,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3103644531315372302
 MonoBehaviour:
@@ -527,8 +548,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5759249171769889678}
-  - component: {fileID: 5759249171769889665}
   - component: {fileID: 8501033419814907210}
+  - component: {fileID: 5486721295659215761}
   m_Layer: 14
   m_Name: PolyBeamStaticBlue
   m_TagString: Untagged
@@ -543,43 +564,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5759249171769889664}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3122312475128571876}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5759249171769889665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5759249171769889664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20c23a8bcd5b0134d84a61ddd807fdc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  beamLineRendererPrefab: {fileID: 1773250190492750, guid: f4e37925a54636e4293491c991143948,
-    type: 3}
-  beamStartPrefab: {fileID: 1450890654167080, guid: 864c4fff065664a458869a3f6fe0057b,
-    type: 3}
-  beamEndPrefab: {fileID: 1124451057500510, guid: 59b8686ac2191c145aa7aeb4f3ee4f37,
-    type: 3}
-  alwaysOn: 1
-  beamCollides: 0
-  beamLength: 2
-  beamEndOffset: 0
-  textureScrollSpeed: 0
-  textureLengthScale: 1
-  layersToDetectCollisions:
-    serializedVersion: 2
-    m_Bits: 513
-  end: {x: 0, y: 0, z: 0}
-  statsManager: {fileID: 147286872823315961}
 --- !u!114 &8501033419814907210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -593,6 +585,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootingPointReference: {fileID: 3125423384811926696}
+--- !u!114 &5486721295659215761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5759249171769889664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5e62cf8b83844adb9e9600dffad1a7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TowerBeam
+  linePrefab: {fileID: 1801798944994376, guid: 89393581439b2f845a76dab652442825, type: 3}
+  startPrefab: {fileID: 1569048298829072, guid: f553384660fc82d48a16f9421a25b1d7,
+    type: 3}
+  endPrefab: {fileID: 1107562920683562, guid: 4910da04669ef424c9d560e761e78458, type: 3}
+  width: 1
+  flicker: 0
+  tickSwell: 0.35
+  endScale: 1
+  swellDecay: 0.18
 --- !u!1 &8641120566026317397
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,6 +624,15 @@ GameObject:
   - component: {fileID: 8025507499586909913}
   - component: {fileID: 5454529783904074006}
   - component: {fileID: 4117390561274803311}
+  - component: {fileID: 6354777667403501356}
+  - component: {fileID: 5599173081511341597}
+  - component: {fileID: 2495118622661839101}
+  - component: {fileID: 572363940669570653}
+  - component: {fileID: 1500297831242608106}
+  - component: {fileID: 3815663461963079078}
+  - component: {fileID: 6156308628009653038}
+  - component: {fileID: 5712020589439310357}
+  - component: {fileID: 5632265751560978516}
   m_Layer: 0
   m_Name: Beam Tower
   m_TagString: Untagged
@@ -625,6 +647,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8641120566026317397}
+  serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -634,7 +657,6 @@ Transform:
   - {fileID: 3034476442037721275}
   - {fileID: 6447036841888362981}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!114 &8641120566026317399
 MonoBehaviour:
@@ -652,6 +674,7 @@ MonoBehaviour:
   description: Shoots a continuous beam in a configurable direction.
   uiSprite: {fileID: 21300000, guid: d8552ef98a19fe24ca3f11cdaf968517, type: 3}
   cost: 125
+  DamageCount: 0
   upgradeManager: {fileID: 8025507499586909913}
   statsManager: {fileID: 147286872823315961}
   targetter: {fileID: 1697263479036677693}
@@ -671,9 +694,17 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8641120566026317397}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Size: {x: 0.75, y: 0.75, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &-3260138430412912089
@@ -683,10 +714,21 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8641120566026317397}
-  serializedVersion: 2
+  serializedVersion: 5
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 1
@@ -803,7 +845,8 @@ MonoBehaviour:
 
         +2 Range'
       price: 50
-      upgrades: []
+      upgrades:
+      - {fileID: 6354777667403501356}
       statUpgrades:
       - targetStat: 10
         upgradeValue: 2
@@ -817,7 +860,8 @@ MonoBehaviour:
 
         +3 Range'
       price: 100
-      upgrades: []
+      upgrades:
+      - {fileID: 5599173081511341597}
       statUpgrades:
       - targetStat: 10
         upgradeValue: 3
@@ -831,9 +875,11 @@ MonoBehaviour:
 
         +6 Range
 
-        +4 Pierce'
+        +4
+        Pierce'
       price: 310
-      upgrades: []
+      upgrades:
+      - {fileID: 2495118622661839101}
       statUpgrades:
       - targetStat: 10
         upgradeValue: 6
@@ -852,7 +898,8 @@ MonoBehaviour:
 
         +60% Fire Rate'
       price: 80
-      upgrades: []
+      upgrades:
+      - {fileID: 572363940669570653}
       statUpgrades:
       - targetStat: 8
         upgradeValue: -37.5
@@ -866,7 +913,8 @@ MonoBehaviour:
 
         +60% Fire Rate'
       price: 170
-      upgrades: []
+      upgrades:
+      - {fileID: 1500297831242608106}
       statUpgrades:
       - targetStat: 8
         upgradeValue: -37.5
@@ -878,11 +926,13 @@ MonoBehaviour:
     - name: Instantaneous
       description: 'Plasma burns so hot that enemies in the beam slow down.
 
-        Slows enemies hit by 20% for 0.5 s
+        Slows
+        enemies hit by 20% for 0.5 s
 
         +100% Fire Rate'
       price: 520
       upgrades:
+      - {fileID: 3815663461963079078}
       - {fileID: 4117390561274803311}
       statUpgrades:
       - targetStat: 8
@@ -899,7 +949,8 @@ MonoBehaviour:
 
         +1 Damage'
       price: 140
-      upgrades: []
+      upgrades:
+      - {fileID: 6156308628009653038}
       statUpgrades:
       - targetStat: 5
         upgradeValue: 1
@@ -913,7 +964,8 @@ MonoBehaviour:
 
         +2 Damage'
       price: 350
-      upgrades: []
+      upgrades:
+      - {fileID: 5712020589439310357}
       statUpgrades:
       - targetStat: 5
         upgradeValue: 2
@@ -925,9 +977,11 @@ MonoBehaviour:
     - name: UNLIMITED POWER?
       description: 'Someone switched the switch, the switch is now burned.
 
-        +5 Damage'
+        +5
+        Damage'
       price: 970
-      upgrades: []
+      upgrades:
+      - {fileID: 5632265751560978516}
       statUpgrades:
       - targetStat: 5
         upgradeValue: 5
@@ -951,15 +1005,534 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 2049
-  beam: {fileID: 5759249171769889665}
+  beam: {fileID: 5486721295659215761}
   internalFireRate: 0
   internalPierce: 0
   pulseParticle: {fileID: 6418627084808338551}
+  tickEffect: {fileID: 1873671785923835274, guid: 14c7bb351f2e547a89fa8b9725a1b4c5,
+    type: 3}
+  tickEffectScale: 1
+  hitEffect: {fileID: 3149596017126414933, guid: 981ed74f4a3e848c2a1b1e6c383f767a,
+    type: 3}
+  hitEffectScale: 1
+  slowOnHit: 0
+  slowDuration: 0.5
+--- !u!114 &4117390561274803311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8641120566026317397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f89988d0c74142d1ba5a0181aa174d05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Comment: 030 Instantaneous slow
+  slowOnHit: 0.2
+  slowDuration: 0.5
+--- !u!114 &6354777667403501356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8641120566026317397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a20d6b12aef6424ebf5888b4381f04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeamVisualUpgrade
+  Comment: fx p1t1
+  priority: 11
+  entries: []
+  line: {fileID: 0}
+  start: {fileID: 0}
+  end: {fileID: 0}
+  width: 0
+  flicker: 0
+  tickSwell: 0
+  endScale: 1.3
+  overrideColor: 0
+  color:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+--- !u!114 &5599173081511341597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8641120566026317397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a20d6b12aef6424ebf5888b4381f04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeamVisualUpgrade
+  Comment: fx p1t2
+  priority: 21
+  entries: []
+  line: {fileID: 0}
+  start: {fileID: 0}
+  end: {fileID: 8050097367782174282, guid: f4d615b6ef6314e1a9de2f20db1ae7dc, type: 3}
+  width: 0
+  flicker: 0
+  tickSwell: 0
+  endScale: 1.4
+  overrideColor: 0
+  color:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+--- !u!114 &2495118622661839101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8641120566026317397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a20d6b12aef6424ebf5888b4381f04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeamVisualUpgrade
+  Comment: fx p1t3
+  priority: 31
+  entries:
+  - slot: 11
+    prefab: {fileID: 4457273297467861417, guid: 29fe6441bf10d484cbeb376fa1fcdff4,
+      type: 3}
+  line: {fileID: 0}
+  start: {fileID: 0}
+  end: {fileID: 6020987118994642256, guid: ee55de0a945384961bf95c3e63702222, type: 3}
+  width: 0
+  flicker: 0
+  tickSwell: 0
+  endScale: 1.5
+  overrideColor: 0
+  color:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+--- !u!114 &572363940669570653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8641120566026317397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a20d6b12aef6424ebf5888b4381f04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeamVisualUpgrade
+  Comment: fx p2t1
+  priority: 12
+  entries:
+  - slot: 10
+    prefab: {fileID: 2448927160445164471, guid: 49dd94accbd8540d78238cdb022e66e6,
+      type: 3}
+  line: {fileID: 0}
+  start: {fileID: 0}
+  end: {fileID: 0}
+  width: 0
+  flicker: 0
+  tickSwell: 0.7
+  endScale: 0
+  overrideColor: 0
+  color:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+--- !u!114 &1500297831242608106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8641120566026317397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a20d6b12aef6424ebf5888b4381f04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeamVisualUpgrade
+  Comment: fx p2t2
+  priority: 22
+  entries:
+  - slot: 10
+    prefab: {fileID: 2448927160445164471, guid: 49dd94accbd8540d78238cdb022e66e6,
+      type: 3}
+  line: {fileID: 0}
+  start: {fileID: 0}
+  end: {fileID: 0}
+  width: 0
+  flicker: 0.12
+  tickSwell: 0.7
+  endScale: 0
+  overrideColor: 0
+  color:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+--- !u!114 &3815663461963079078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8641120566026317397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a20d6b12aef6424ebf5888b4381f04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeamVisualUpgrade
+  Comment: fx p2t3
+  priority: 32
+  entries:
+  - slot: 10
+    prefab: {fileID: 2448927160445164471, guid: 49dd94accbd8540d78238cdb022e66e6,
+      type: 3}
+  - slot: 11
+    prefab: {fileID: 4332534245665761400, guid: 9dac209a19ed6439ea7bac0d84ed0b73,
+      type: 3}
+  line: {fileID: 0}
+  start: {fileID: 0}
+  end: {fileID: 0}
+  width: 0
+  flicker: 0.2
+  tickSwell: 0.8
+  endScale: 0
+  overrideColor: 0
+  color:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+--- !u!114 &6156308628009653038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8641120566026317397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a20d6b12aef6424ebf5888b4381f04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeamVisualUpgrade
+  Comment: fx p3t1
+  priority: 13
+  entries: []
+  line: {fileID: 0}
+  start: {fileID: 0}
+  end: {fileID: 0}
+  width: 1.35
+  flicker: 0
+  tickSwell: 0
+  endScale: 0
+  overrideColor: 0
+  color:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+--- !u!114 &5712020589439310357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8641120566026317397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a20d6b12aef6424ebf5888b4381f04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeamVisualUpgrade
+  Comment: fx p3t2
+  priority: 23
+  entries: []
+  line: {fileID: 0}
+  start: {fileID: 0}
+  end: {fileID: 0}
+  width: 1.7
+  flicker: 0
+  tickSwell: 0
+  endScale: 0
+  overrideColor: 1
+  color:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 0.55, b: 0.12, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+--- !u!114 &5632265751560978516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8641120566026317397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a20d6b12aef6424ebf5888b4381f04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BeamVisualUpgrade
+  Comment: fx p3t3
+  priority: 33
+  entries:
+  - slot: 10
+    prefab: {fileID: 8049253360432024061, guid: 08390e3afb13545af90c9932a4a91171,
+      type: 3}
+  line: {fileID: 0}
+  start: {fileID: 6825417418799539718, guid: 5b027df9937964b92a210c93df236021, type: 3}
+  end: {fileID: 0}
+  width: 2.3
+  flicker: 0
+  tickSwell: 0
+  endScale: 1.6
+  overrideColor: 1
+  color:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 0.92, b: 0.6, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
 --- !u!1001 &7292161071487675791
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8641120566026317396}
     m_Modifications:
     - target: {fileID: 79392376221738671, guid: 249f2d7c150622f4fa38432374750332,
@@ -1048,6 +1621,9 @@ PrefabInstance:
       value: MiniExploFrost
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 249f2d7c150622f4fa38432374750332, type: 3}
 --- !u!198 &6418627084808338551 stripped
 ParticleSystem:
@@ -1066,6 +1642,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8641120566026317396}
     m_Modifications:
     - target: {fileID: 5064043111018325292, guid: 308b02c228f140c438498e255233c2c1,
@@ -1154,6 +1731,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8641120566026317399}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 308b02c228f140c438498e255233c2c1, type: 3}
 --- !u!114 &1697263479036677693 stripped
 MonoBehaviour:
@@ -1179,18 +1759,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8531945976007180472}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4117390561274803311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8641120566026317397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f89988d0c74142d1ba5a0181aa174d05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Comment: 030 Instantaneous slow
-  slowOnHit: 0.2
-  slowDuration: 0.5
