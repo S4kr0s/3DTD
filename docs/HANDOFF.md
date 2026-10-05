@@ -305,3 +305,45 @@ Other checks:
 - How 5x feels with a full dispenser field.
 - That hover and selection outlines still show.
 - Whether the flamethrower's spark sound, limited to 4 voices per clip, sounds right.
+
+---
+
+# Handoff: projectile visuals revamp (branch `fx/projectile-visuals`)
+
+Started 2026-10-05. The plan is in `~/.claude/plans/plan-a-revamp-of-distributed-moon.md`.
+
+## Done
+- **Colours per tower:** Laser keeps its blue bolt; Core is a paler sky blue; Rocket System green; Bullet Dispenser small dark green needles; Hangar small red bolts and mini missiles; Beam yellow; Sniper red tracers; Mine Factory red.
+- **Smoke:** the opaque lit smoke puffs of every generated explosion, muzzle and rocket trail are now a few small ember wisps that fade within about half a second.
+- **A look per upgrade module:** `VisualUpgrade` components (generated, first in each module) replace the muzzle, flight or impact part of the shot, or the Hangar's cannon/ordnance, the Mine Factory's blasts and launch, the Beam's stage (width, colour, flicker, tick swell, end effects) and the Sniper's tracers. Each path styles its own part, so combined paths stay visible. The exceptions are the Hangar's squadron path, the Mine Factory's salvage path, the cluster rockets and the pulse, which keep their own base look.
+- **Stat-driven sizes:** explosions grow with the blast radius (`ProjectileSystem.BlastImpactScale`), and impacts and muzzles grow with SIZE.
+- **Sniper:** a muzzle flash per barrel, a tracer line (`TracerRenderer`) and an impact; Double- and Triple-Shot add amber and violet tracers. **Beam:** `TowerBeam` replaces `PolygonBeamStatic`.
+- **Tooling:** `ProjectileVisualsBuilder.Run` generates everything; `-perfSuite fx` captures a gallery of every tower and tier; `ProjectileVisualsTests` covers it in EditMode. `extract.py` skips visual upgrades, so the balance data is unchanged apart from the new prefab paths.
+
+## Results
+- EditMode 49/49, UIPlaytest 34/34, LevelPlaytest 35/35.
+- **Parity:** damage of every tower matches within 1 % at 1x/3x/5x. The exception is the Hangar, whose dogfight noise is informational. Four seeds averaged 608 (1x) and 654 (5x), and the sign of the difference flips between seeds.
+- **Particle collision:** generated effects have world collision off. The Bullet and Spike impacts collide their sparks with the world, which first made S2 run at 0.4x (900 ms spikes in `ParticleSystem.UpdateJob`).
+- **Player, M4 Pro, `-perfSuite core`** (p50 / p95 / p99 / max ms):
+
+| Run | Before (Phase 6) | Now |
+|---|---|---|
+| S1-1x | 5.8 / 9.1 / 11.3 / 31.7 | 6.4 / 10.3 / 12.1 / 228.6 |
+| S1-5x | 6.7 / 10.6 / 13.1 / 18.9 | 7.7 / 11.1 / 13.4 / 21.1 |
+| S2 | 9.7 / 12.4 / 13.4 / 15.4 | 8.7 / 10.9 / 11.7 / 157.4 |
+| S3 | 10.7 / 14.7 / 15.8 / 16.8 | 9.2 / 11.9 / 13.2 / 28.4 |
+
+The dispensers are cheaper than before. S1 is about 1 ms slower at p50 because of the heavier tier-3 looks. The single max frames are first-use hitches: about 70 new effect prefabs each create their shared copy or pool on first play.
+
+## Open items
+- **First-use hitches:** prewarm every effect pool of the level's towers at level start, like `DeathEffectRenderer.Prewarm`.
+- **Diff noise:** effects built with `Merge` get new local file IDs on every builder run (same GUIDs).
+- **Pooled effects:** the rocket and grenade explosions (and their merged variants) keep their sub-emitters, so they stay pooled.
+- **Repository size:** the generated effects add about 46 MB of prefab YAML.
+
+## Needs user verification
+- The look of every tower and tier in normal play (`-perfSuite fx` writes the gallery to `tasks/perf/`).
+- Whether the dark green needles read well against the space background.
+- Whether there's still too much or too little smoke; the ember wisps render as small solid glowing shards rather than soft haze.
+- The Beam widths at Fusion and UNLIMITED POWER, and the Sniper tracer widths and durations.
+- The toxic green flamethrower.
