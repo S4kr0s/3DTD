@@ -1,0 +1,40 @@
+{
+  "$schema": "https://sakros.de/schema/project.v1.json",
+  "version": 1,
+  "slug": "3dtd",
+  "name": "3DTD",
+  "tagline": "I'm building a 3D tower defense in low-poly space: stack blocks, bolt towers onto any face, and stop enemies flying along 3D paths.",
+  "kind": "game",
+  "state": "active",
+  "public": true,
+  "showcase": {
+    "featured": false,
+    "description": "README.md",
+    "facts": {
+      "genre": "Tower defense",
+      "style": "Low-poly space",
+      "engine": "Unity 6"
+    },
+    "controls": [
+      { "keys": "WASD / Q E / Shift / Space", "action": "Move" },
+      { "keys": "Right mouse", "action": "Look" },
+      { "keys": "Scroll", "action": "Zoom" },
+      { "keys": "1–0", "action": "Pick a tile" },
+      { "keys": "Left click", "action": "Place" },
+      { "keys": "Esc", "action": "Cancel or pause" },
+      { "keys": "Del", "action": "Sell" },
+      { "keys": "O", "action": "Toggle the HUD" }
+    ],
+    "download": null
+  },
+  "play": null,
+  "services": [],
+  "workbench": {
+    "roadmap": "ROADMAP.md",
+    "claudeMd": "CLAUDE.md"
+  },
+  "links": {
+    "repo": "https://github.com/S4kr0s/3DTD",
+    "website": null
+  }
+}
