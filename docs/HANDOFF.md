@@ -13,7 +13,7 @@ Started 2026-10-04. The plan is in `~/.claude/plans/analyze-the-codebase-and-daz
 `Assets/Scripts/Diagnostics/PerfScenario.cs` runs inside the game, so the Editor and a development player build use the same code. `Assets/Editor/Perf/PerfBenchmark.cs` is the batch entry point:
 
 ```
-Unity -batchmode -projectPath 3DTD/3DTD -executeMethod PerfBenchmark.Run -perfSuite core -logFile <log>
+Unity -batchmode -projectPath 3DTD -executeMethod PerfBenchmark.Run -perfSuite core -logFile <log>
 ```
 
 Run it with graphics, not `-nographics`. The suite is selected with `-perfSuite`:

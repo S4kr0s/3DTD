@@ -210,7 +210,7 @@ public class PerfScenario : MonoBehaviour
         if (string.IsNullOrEmpty(scenario.outputDirectory))
         {
             scenario.outputDirectory = Application.isEditor
-                ? Path.GetFullPath(Path.Combine(Application.dataPath, "../../../tasks/perf"))
+                ? Path.GetFullPath(Path.Combine(Application.dataPath, "../../tasks/perf"))
                 : Path.Combine(Application.persistentDataPath, "perf");
         }
     }

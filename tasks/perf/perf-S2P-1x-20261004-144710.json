@@ -1,0 +1,62 @@
+{
+    "suite": "S2P-1x",
+    "startedAt": "2026-10-04T14:46:20",
+    "unityVersion": "6000.5.8f1",
+    "device": "Apple M4 Pro / Apple M4 Pro",
+    "runs": [
+        {
+            "id": "S2P-1x",
+            "layout": "dispensers",
+            "speed": 1.0,
+            "round": 60,
+            "towers": 12,
+            "frames": 10415,
+            "realSeconds": 48.8356819152832,
+            "gameSeconds": 48.8356819152832,
+            "gameSpeedRatio": 1.0,
+            "frameP50": 4.602494239807129,
+            "frameP95": 5.869578838348389,
+            "frameP99": 6.96808385848999,
+            "frameMax": 30.68179702758789,
+            "mainP50": 4.597582817077637,
+            "mainP99": 6.938833236694336,
+            "mainMax": 30.997207641601564,
+            "steadyGcFrameShare": 1.0,
+            "steadyGcPerFrame": 599.638916015625,
+            "steadyGcBytes": 5945420,
+            "totalGcBytes": 25965009,
+            "damage": 3461.8427734375,
+            "kills": 7,
+            "leakedLives": 6178,
+            "projectilesRequested": 10908,
+            "projectilesSpawned": 10908,
+            "pops": 316,
+            "deathEffectsRequested": 350,
+            "deathEffectsPlayed": 350,
+            "effectsRequested": 14207,
+            "effectsPlayed": 14207,
+            "timedOut": false,
+            "wrongEnemyScale": 0,
+            "damageByType": [
+                "Bullet Dispenser=3462"
+            ],
+            "markers": [
+                "PlayerLoop=4.45ms",
+                "Update.ScriptRunBehaviourUpdate=0.72ms",
+                "PreLateUpdate.ScriptRunBehaviourLateUpdate=3.05ms",
+                "FixedUpdate.PhysicsFixedUpdate=0.00ms",
+                "FixedUpdate.ScriptRunBehaviourFixedUpdate=0.00ms",
+                "PreUpdate.PhysicsUpdate=0.00ms",
+                "Physics.Simulate=0.17ms",
+                "Physics.SyncTransforms=0.18ms",
+                "Physics.SendTriggerEvents=0.01ms",
+                "Physics.SendContactEvents=0.00ms",
+                "ParticleSystem.EndUpdateAll=0.01ms",
+                "GC.Collect=0.00ms",
+                "Instantiate=0.01ms"
+            ],
+            "failures": []
+        }
+    ],
+    "failures": []
+}

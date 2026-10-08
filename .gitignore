@@ -65,3 +65,10 @@ crashlytics-build.properties
 
 # macOS
 .DS_Store
+
+# Perf player builds and profiler captures (large, regenerable)
+tasks/perf/player/
+tasks/perf/*.raw
+
+# Local backups
+*.bak

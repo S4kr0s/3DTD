@@ -1,0 +1,58 @@
+{
+    "suite": "T-Default-1x",
+    "startedAt": "2026-10-04T13:43:35",
+    "unityVersion": "6000.5.8f1",
+    "device": "Apple M4 Pro / Apple M4 Pro",
+    "runs": [
+        {
+            "id": "T-Default-1x",
+            "layout": "single",
+            "speed": 1.0,
+            "round": 60,
+            "towers": 1,
+            "frames": 14343,
+            "realSeconds": 49.48344421386719,
+            "gameSeconds": 49.48344421386719,
+            "gameSpeedRatio": 1.0,
+            "frameP50": 3.1080002784729006,
+            "frameP95": 6.560997486114502,
+            "frameP99": 9.778748512268067,
+            "frameMax": 19.31045913696289,
+            "mainP50": 3.1007089614868166,
+            "mainP99": 9.790166854858399,
+            "mainMax": 19.302623748779298,
+            "steadyGcFrameShare": 1.0,
+            "steadyGcPerFrame": 800.9862670898438,
+            "steadyGcBytes": 10853364,
+            "totalGcBytes": 30549668,
+            "damage": 466.1980895996094,
+            "kills": 0,
+            "leakedLives": 6475,
+            "projectilesRequested": 169,
+            "projectilesSpawned": 169,
+            "pops": 19,
+            "deathEffectsRequested": 22,
+            "deathEffectsPlayed": 22,
+            "effectsRequested": 0,
+            "effectsPlayed": 0,
+            "timedOut": false,
+            "damageByType": [
+                "Laser Tower=466"
+            ],
+            "markers": [
+                "PlayerLoop=3.23ms",
+                "Update.ScriptRunBehaviourUpdate=0.41ms",
+                "PreLateUpdate.ScriptRunBehaviourLateUpdate=2.24ms",
+                "FixedUpdate.PhysicsFixedUpdate=0.00ms",
+                "FixedUpdate.ScriptRunBehaviourFixedUpdate=0.00ms",
+                "PreUpdate.PhysicsUpdate=0.00ms",
+                "ParticleSystem.EndUpdateAll=0.06ms",
+                "GC.Collect=0.00ms",
+                "Instantiate=0.04ms",
+                "Camera.Render=0.00ms"
+            ],
+            "failures": []
+        }
+    ],
+    "failures": []
+}

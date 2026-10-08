@@ -1,0 +1,1110 @@
+Unity Editor version:    6000.5.8f1 (5cb7df797b7d)
+Branch:                  6000.5/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 27.0 (Build 26A428)
+Darwin version:          27.0.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        65536 MB
+Date:                    2026-10-04T12:52:25Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-philipp" at "2026-10-04T12:52:25.949948Z"
+Launching external process: /Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Helpers/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/MacOS/Unity
+-batchmode
+-projectPath
+/Users/philipp/Projects/3DTD/3DTD/3DTD
+-executeMethod
+PerfBenchmark.Run
+-perfSuite
+V
+-logFile
+tasks/perf/logs/visual-batched.log
+Successfully changed project path to: /Users/philipp/Projects/3DTD/3DTD/3DTD
+/Users/philipp/Projects/3DTD/3DTD/3DTD
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=0"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.Player connection [8171323264]  Target information:
+
+Player connection [8171323264]  * "[IP] 192.168.178.132 [Port] 55504 [Flags] 2 [Guid] 1149154020 [EditorId] 1149154020 [Version] 1048832 [Id] OSXEditor(0,Philipps-Mac-LAN.fritz.box) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8171323264]  * "[IP] 192.168.178.133 [Port] 55504 [Flags] 2 [Guid] 1149154020 [EditorId] 1149154020 [Version] 1048832 [Id] OSXEditor(0,Philipps-Mac-LAN.fritz.box) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8171323264]  * "[IP] 192.168.139.3 [Port] 55504 [Flags] 2 [Guid] 1149154020 [EditorId] 1149154020 [Version] 1048832 [Id] OSXEditor(0,Philipps-Mac-LAN.fritz.box) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8171323264]  * "[IP] 192.168.215.0 [Port] 55504 [Flags] 2 [Guid] 1149154020 [EditorId] 1149154020 [Version] 1048832 [Id] OSXEditor(0,Philipps-Mac-LAN.fritz.box) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8171323264]  * "[IP] 192.168.97.0 [Port] 55504 [Flags] 2 [Guid] 1149154020 [EditorId] 1149154020 [Version] 1048832 [Id] OSXEditor(0,Philipps-Mac-LAN.fritz.box) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8171323264] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8171323264] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-76506" after 0.1 seconds.
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              f64bfb01be104a5291aed61678629310
+  Correlation Id:          910c49780be0d37de9010221086ac5fe
+  External correlation Id: 7294539624001028339
+  Machine Id:              RvZ12cVBd6PoVZKbkiBOwYmsOqI=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-philipp" (connect: 0.00s, validation: 0.00s, handshake: 0.35s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-philipp-notifications" at "2026-10-04T12:52:26.298941Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Module] Licensing Background thread has ended after 0.35s
+[Licensing::Module] Licensing is initialized (took 0.06s).
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.5.8f1 (5cb7df797b7d)
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+ preferred device: Apple M4 Pro (high power)
+Metal devices available: 1
+0: Apple M4 Pro (high power)
+Using device Apple M4 Pro (high power)
+Initializing Metal device caps: Apple M4 Pro
+Mac GPU Family: 2
+Apple GPU Family: 9
+MSL Version: 3.0
+Has Float MSAA: 1
+Has Float Filtering: 1
+ReadWrite Texture Tier: 2
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/Scripting/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/Scripting/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = '/Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
+Mono config path = '/Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56506
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
+Registered in 0.005517 seconds.
+Native extension for LinuxStandalone target not found
+[usbmuxd] Start listen thread
+[usbmuxd] Listen thread started
+[usbmuxd] Send listen message
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+[Licensing::Client] Successfully resolved entitlement details
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.750 seconds
+Domain Reload Profiling: 2091ms
+	BeginReloadAssembly (92ms)
+		CreateAndSetChildDomain (20ms)
+	RebuildCommonClasses (3ms)
+	RebuildNativeTypeToScriptingClass (13ms)
+	initialDomainReloadingComplete (47ms)
+	LoadAllAssembliesAndSetupDomain (186ms)
+		LoadAssemblies (74ms)
+		AnalyzeDomain (139ms)
+			TypeCache.Refresh (139ms)
+				TypeCache.ScanAssembly (128ms)
+	FinalizeReload (1751ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (43ms)
+			BeforeProcessingInitializeOnLoad (45ms)
+			ProcessInitializeOnLoadAttributes (54ms)
+			ProcessInitializeOnLoadMethodAttributes (1569ms)
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 59 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ai.navigation@2.0.14 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.ai.navigation@134dd6a3b97b)
+    com.unity.burst@1.8.30 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.burst@2f3d916873ea)
+    com.unity.collab-proxy@2.13.5 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.collab-proxy@120d77864ebc)
+    com.unity.ide.rider@3.0.38 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.ide.rider@1f60b3138684)
+    com.unity.ide.visualstudio@2.0.26 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.ide.visualstudio@a99d56dec63f)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.timeline@1.8.12 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.timeline@8cd8509afae5)
+    com.unity.searcher@4.9.5 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.searcher@a463122f2c00)
+    com.unity.nuget.mono-cecil@1.11.6 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.test-framework.performance@3.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.test-framework.performance@8b56083ec0f0)
+  Built-in packages:
+    com.unity.2d.sprite@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.2d.sprite@053a968eab56)
+    com.unity.multiplayer.center@1.0.1 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.multiplayer.center@b860850997d0)
+    com.unity.render-pipelines.universal@17.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.render-pipelines.universal@73b4c4ff130e)
+    com.unity.test-framework@1.7.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.test-framework@1405238725ab)
+    com.unity.ugui@2.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.ugui@1c4864518158)
+    com.unity.visualeffectgraph@17.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.visualeffectgraph@b1f03b147b92)
+    com.unity.modules.accessibility@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.physicscore2d@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.physicscore2d)
+    com.unity.modules.screencapture@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.wind@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.hierarchycore)
+    com.unity.shadergraph@17.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.shadergraph@8d7376ec43ee)
+    com.unity.render-pipelines.core@17.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.render-pipelines.core@a4c9a9793789)
+    com.unity.ext.nunit@2.1.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.ext.nunit@44f7d31723bd)
+    com.unity.render-pipelines.universal-config@17.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.render-pipelines.universal-config@fdda01c80fe3)
+    com.unity.collections@6.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.collections@ec2c217e4cb2)
+    com.unity.mathematics@1.4.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.mathematics@981956d94fb6)
+  Git packages:
+    com.unify.unified-universal-blur@https://github.com/lukakldiashvili/Unified-Universal-Blur.git#0.9.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unify.unified-universal-blur@6a18634d9a56)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+[ScriptCompilation] Requested script compilation because: AssetDatabase observed changes in script compilation related files
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://unix:/tmp/ilpp.sock-abe43804ae87d25423edb61801c047fd
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /Users/philipp/Projects/3DTD/3DTD/3DTD
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - 200 - application/grpc 23.5908ms
+Starting: /Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/200b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: /Users/philipp/Projects/3DTD/3DTD/3DTD
+DisplayProgressbar: Compiling Scripts
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly unityeditor.ios.extensions.xcode has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll" in favor of "/Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/MacStandaloneSupport/UnityEditor.iOS.Extensions.Xcode.dll"
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Burst.Cecil, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.burst@2f3d916873ea/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Mono.Cecil, Version=0.11.5.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.dll
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - 200 - application/grpc 16.0009ms
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      Processing assembly Library/Bee/artifacts/200b0aE.dag/Assembly-CSharp.dll, with 134 defines and 343 references
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running Unity.Jobs.CodeGen.JobsILPostProcessor
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Collections, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null with Library/Bee/artifacts/200b0aE.dag/Unity.Collections.dll
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null with /Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/Scripting/Managed/UnityEngine/UnityEditor.CoreModule.dll
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null with /Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/Scripting/Managed/UnityEngine/UnityEngine.CoreModule.dll
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Scripting, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null with /Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/Scripting/Managed/UnityEngine/Unity.Scripting.dll
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Mono.Cecil.Rocks, Version=0.11.5.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.Rocks.dll
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      Processing assembly Library/Bee/artifacts/200b0aE.dag/Assembly-CSharp-Editor.dll, with 135 defines and 365 references
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running Unity.Jobs.CodeGen.JobsILPostProcessor
+info: Unity.ILPP.Runner.PostProcessingPipeline[0]
+      running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Burst.Cecil.Rocks, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.burst@2f3d916873ea/Unity.Burst.CodeGen/Unity.Burst.Cecil.Rocks.dll
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - 200 - application/grpc 87.2163ms
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/PostProcessAssembly'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/PostProcessAssembly - 200 - application/grpc 434.9465ms
+ExitCode: 0 Duration: 2s869ms
+[625/805    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+[797/805    2s] Csc Library/Bee/artifacts/200b0aE.dag/Assembly-CSharp.dll (+2 others)
+Assets/Scripts/Tower/Targetter.cs(10,43): warning CS0109: The member 'Targetter.collider' does not hide an accessible member. The new keyword is not required.
+Assets/Scripts/AnchorPoint.cs(33,26): warning CS0109: The member 'AnchorPoint.renderer' does not hide an accessible member. The new keyword is not required.
+Assets/Modern UI Pack/Scripts/Window/WindowDragger.cs(24,42): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets/Scripts/Entities/Tower.cs(24,32): warning CS0067: The event 'Tower.OnTowerDestroyed' is never used
+Assets/Scripts/ProjectileBomb.cs(16,36): warning CS0414: The field 'ProjectileBomb.clusterLifetime' is assigned but its value is never used
+Assets/Scripts/ProjectileLaser.cs(7,18): warning CS0414: The field 'ProjectileLaser.shouldTargetAnother' is assigned but its value is never used
+Assets/Scripts/OrbitCamera.cs(33,8): warning CS0414: The field 'OrbitCamera.alignSmoothRange' is assigned but its value is never used
+[798/805    0s] Csc Library/Bee/artifacts/200b0aE.dag/Assembly-CSharp-Editor.dll (+2 others)
+Assets/Modern UI Pack/Editor/ContextMenu.cs(18,42): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets/Modern UI Pack/Editor/ContextMenu.cs(36,38): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets/Modern UI Pack/Editor/ContextMenu.cs(53,42): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets/Modern UI Pack/Editor/ContextMenu.cs(71,38): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+[799/805    0s] ILPostProcess Library/Bee/artifacts/200b0aE.dag/post-processed/Assembly-CSharp-Editor.dll (+pdb)
+Processing assembly Library/Bee/artifacts/200b0aE.dag/Assembly-CSharp-Editor.dll, with 135 defines and 365 references
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[800/805    0s] ILPostProcess Library/Bee/artifacts/200b0aE.dag/post-processed/Assembly-CSharp.dll (+pdb)
+Processing assembly Library/Bee/artifacts/200b0aE.dag/Assembly-CSharp.dll, with 134 defines and 343 references
+processors: Unity.Jobs.CodeGen.JobsILPostProcessor, zzzUnity.Burst.CodeGen.BurstILPostProcessor
+running Unity.Jobs.CodeGen.JobsILPostProcessor
+running zzzUnity.Burst.CodeGen.BurstILPostProcessor
+[801/805    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
+[802/805    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp-Editor.pdb
+[803/805    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+[804/805    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+*** Tundra build success (2.84 seconds), 9 items updated, 805 evaluated
+Assets/Scripts/Tower/Targetter.cs(10,43): warning CS0109: The member 'Targetter.collider' does not hide an accessible member. The new keyword is not required.
+Assets/Scripts/AnchorPoint.cs(33,26): warning CS0109: The member 'AnchorPoint.renderer' does not hide an accessible member. The new keyword is not required.
+Assets/Modern UI Pack/Scripts/Window/WindowDragger.cs(24,42): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets/Scripts/Entities/Tower.cs(24,32): warning CS0067: The event 'Tower.OnTowerDestroyed' is never used
+Assets/Scripts/ProjectileBomb.cs(16,36): warning CS0414: The field 'ProjectileBomb.clusterLifetime' is assigned but its value is never used
+Assets/Scripts/ProjectileLaser.cs(7,18): warning CS0414: The field 'ProjectileLaser.shouldTargetAnother' is assigned but its value is never used
+Assets/Scripts/OrbitCamera.cs(33,8): warning CS0414: The field 'OrbitCamera.alignSmoothRange' is assigned but its value is never used
+Assets/Modern UI Pack/Editor/ContextMenu.cs(18,42): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets/Modern UI Pack/Editor/ContextMenu.cs(36,38): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets/Modern UI Pack/Editor/ContextMenu.cs(53,42): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets/Modern UI Pack/Editor/ContextMenu.cs(71,38): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets/Modern UI Pack/Editor/ContextMenu.cs(36,38): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets/Modern UI Pack/Editor/ContextMenu.cs(53,42): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets/Modern UI Pack/Editor/ContextMenu.cs(71,38): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets/Modern UI Pack/Scripts/Window/WindowDragger.cs(24,42): warning CS0618: 'Object.FindObjectsOfType(Type)' is obsolete: 'Object.FindObjectsOfType has been deprecated. Use Object.FindObjectsByType instead which lets you decide whether you need the results sorted or not.  FindObjectsOfType sorts the results by InstanceID, but if you do not need this using FindObjectSortMode.None is considerably faster.'
+Assets/Scripts/Entities/Tower.cs(24,32): warning CS0067: The event 'Tower.OnTowerDestroyed' is never used
+Assets/Scripts/ProjectileBomb.cs(16,36): warning CS0414: The field 'ProjectileBomb.clusterLifetime' is assigned but its value is never used
+Assets/Scripts/ProjectileLaser.cs(7,18): warning CS0414: The field 'ProjectileLaser.shouldTargetAnother' is assigned but its value is never used
+Assets/Scripts/OrbitCamera.cs(33,8): warning CS0414: The field 'OrbitCamera.alignSmoothRange' is assigned but its value is never used
+AssetDatabase: script compilation time: 3.350273s
+Total cache size 267357162
+Total cache size after purge 267357162, took 00:00:00.1370280
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+Native extension for LinuxStandalone target not found
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  2.120 seconds
+Domain Reload Profiling: 2554ms
+	BeginReloadAssembly (97ms)
+		DisableScriptedObjects (12ms)
+		CreateAndSetChildDomain (20ms)
+	RebuildCommonClasses (5ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (24ms)
+	LoadAllAssembliesAndSetupDomain (298ms)
+		LoadAssemblies (156ms)
+		AnalyzeDomain (126ms)
+			TypeCache.Refresh (98ms)
+				TypeCache.ScanAssembly (88ms)
+			BuildScriptInfoCaches (23ms)
+			ResolveRequiredComponents (3ms)
+	FinalizeReload (2121ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (10ms)
+			BeforeProcessingInitializeOnLoad (45ms)
+			ProcessInitializeOnLoadAttributes (1734ms)
+			ProcessInitializeOnLoadMethodAttributes (62ms)
+		AwakeInstancesAfterBackupRestoration (11ms)
+Starting new worker id: 0 with log in /Users/philipp/Projects/3DTD/3DTD/3DTD/Logs/AssetImportWorkerHW0.log
+
+Asset Pipeline Refresh (id=f8b1d69cab6134beb8604afd55e0a1a2): Total: 7.398 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=3309 ms
+		Asset DB Callback time: managed=242 ms, native=20 ms
+		Scripting: domain reloads=1, domain reload time=449 ms, compile time=3352 ms, other=23 ms
+		Project Asset Count: scripts=1963, non-scripts=12974
+		Asset File Changes: new=0, changed=2, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokePackagesCallback: 14.750ms
+	ApplyChangesToAssetFolders: 0.224ms
+	Scan: 740.013ms
+	Collect global state as custom dependencies: 9.877ms
+	OnSourceAssetsModified: 0.341ms
+	CategorizeScriptCompilationAssets: 26.392ms
+	ProcessAssetsWithTransientArtifactChanges: 45.541ms
+	CategorizeAssets: 142.079ms
+	CompileScripts: 3351.870ms
+	ImportOutOfDateAssets: 2272.998ms (2141.540ms without children)
+		ReloadNativeAssets: 0.080ms
+		UnloadImportedAssets: 1.618ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.620ms
+		ImportSchedulerStart: 128.136ms
+	PostProcessAllAssets: 244.313ms
+		VCAutoAddAssetPostprocess 1.461ms
+		XRBuildSystem.XRAssetImported 0.070ms
+		MonoPostProcessAllAssets: 242.311ms
+			AssetPostprocessor.OnPostprocessAllAssets 162.052ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 18.192ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 15.598ms
+			SyncVS.PostprocessSyncProject 7.634ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 3.719ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 2.207ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 1.679ms
+			SpriteSlicePostprocessor.OnPostprocessAllAssets 1.660ms
+			AssetChangedListener.OnPostprocessAllAssets 1.155ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.109ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 1.039ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 0.948ms
+			VFXGraphPreprocessor.OnPostprocessAllAssets 0.786ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.663ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.579ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.430ms
+			MaterialPostprocessor.OnPostprocessAllAssets 0.411ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 0.366ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.311ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 0.269ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.250ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.220ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.162ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.157ms
+			PostProcessor.OnPostprocessAllAssets 0.155ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.146ms
+			AssetEvents.OnPostprocessAllAssets 0.135ms
+			AssetReloadNotifier.OnPostprocessAllAssets 0.090ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.085ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.081ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.070ms
+			SamplePostprocessor.OnPostprocessAllAssets 0.067ms
+			ScenarioDriftAssetsTracker.OnPostprocessAllAssets 0.051ms
+	PostAssetChangesProfiler: 4.830ms
+	UnloadStreamsBegin: 1.311ms
+	PersistCurrentRevisions: 0.327ms
+	GenerateScriptTypeHashes: 5.025ms
+	GenerateScriptTypeSerializationHashes: 7.878ms
+	Untracked: 540.852ms
+
+Application.AssetDatabase Initial Refresh End
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Launching external process: /Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Helpers/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.05 seconds
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Scanning for USB devices : 0.280ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-3DTD
+2026-10-04 14:52:37.181 Unity[76506:16772972] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x77114d6ee0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Unloading 120 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 5681 unused Assets / (21.5 MB). Loaded Objects now: 6648.
+Memory consumption went from 322.5 MB to 301.0 MB.
+Total: 13.863333 ms (FindLiveObjects: 0.279208 ms CreateObjectMapping: 0.956209 ms MarkObjects: 5.161500 ms  DeleteObjects: 7.465917 ms)
+
+2026-10-04 14:52:37.258 Unity[76506:16772972] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x77114cdf40 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+[Project] Loading completed in 11.316 seconds
+	Project init time: 				11.058 seconds
+		Template init time: 		0.000 seconds
+		Package Manager init time: 		0.202 seconds
+		Asset Database init time: 		0.421 seconds
+		Global illumination init time: 	0.000 seconds
+		Assemblies load time: 			2.136 seconds
+		Unity extensions init time: 	0.012 seconds
+		Asset Database refresh time: 	7.398 seconds
+	Scene opening time: 			0.126 seconds
+##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1791118357262,"processId":76506,"projectLoad":11.316017792,"projectInit":11.0584575,"templateInit":0.0,"packageManagerInit":0.201679958,"assetDatabaseInit":0.420581166,"globalIlluminationInit":0.000497791,"assembliesLoad":2.135796416,"unityExtensionsInit":0.012463292,"assetDatabaseRefresh":7.397852417,"sceneOpening":0.125891417}
+##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1791118357262,"processId":76506,"editorVersion":"6000.5.8f1 (5cb7df797b7d)","branch":"6000.5/staging","buildType":"Release","platform":"OSX"}
+Subscribe to USB device events
+Scanning for USB devices : 0.217ms
+Worker ready: AssetImportWorkerHW0 0
+
+Asset Pipeline Refresh (id=ffa88060593da4208ad3ab63f9a2fffd): Total: 0.571 seconds - Initiated by RefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=570 ms
+		Asset DB Callback time: managed=0 ms, native=0 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=1963, non-scripts=12974
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokePackagesCallback: 0.402ms
+	ApplyChangesToAssetFolders: 0.108ms
+	Scan: 356.057ms
+	Collect global state as custom dependencies: 0.265ms
+	CategorizeAssets: 95.206ms
+	ImportOutOfDateAssets: 110.721ms (12.919ms without children)
+		ReloadNativeAssets: 0.053ms
+		UnloadImportedAssets: 0.091ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.047ms
+		ImportSchedulerStart: 96.609ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.473ms
+	PersistCurrentRevisions: 0.341ms
+	Untracked: 5.886ms
+
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+Opening scene 'Assets/Scenes/Beginner Level 01.unity'
+LightingSettings: switching bake backend from 2 to 1.
+Unloading 60 Unused Serialized files (Serialized files now loaded: 0)
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:63)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/Perf/PerfBenchmark.cs line 63]
+
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:63)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/Perf/PerfBenchmark.cs line 63]
+
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:63)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/Perf/PerfBenchmark.cs line 63]
+
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:63)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/Perf/PerfBenchmark.cs line 63]
+
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:63)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/Perf/PerfBenchmark.cs line 63]
+
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:63)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/Perf/PerfBenchmark.cs line 63]
+
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:63)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/Perf/PerfBenchmark.cs line 63]
+
+Loaded scene 'Assets/Scenes/Beginner Level 01.unity'
+	Deserialize:            22.520 ms
+	Integration:            507.807 ms
+	Integration of assets:  0.169 ms
+	Thread Wait Time:       0.016 ms
+	Total Operation Time:   530.512 ms
+Unloading 6 unused Assets / (138.2 KB). Loaded Objects now: 21655.
+Memory consumption went from 346.0 MB to 345.9 MB.
+Total: 13.239125 ms (FindLiveObjects: 1.002750 ms CreateObjectMapping: 1.253000 ms MarkObjects: 10.774833 ms  DeleteObjects: 0.208083 ms)
+
+Start Indexing on Editor startup
+[Indexing] Starting Initial Indexing for Assets
+Thread 0x7052fc7000 may have been prematurely finalized
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+2026-10-04 14:52:39.169 Unity[76506:16772972] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x77114ce620 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 14:52:39.173 Unity[76506:16772972] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x77114e1fe0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 14:52:39.177 Unity[76506:16772972] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x77114d61c0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 14:52:39.181 Unity[76506:16772972] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x771189f340 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Symbol file LoadedFromMemory is not a mono symbol file
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Native extension for LinuxStandalone target not found
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.600 seconds
+Domain Reload Profiling: 1205ms
+	BeginReloadAssembly (463ms)
+		DisableScriptedObjects (89ms)
+		CreateAndSetChildDomain (288ms)
+	RebuildCommonClasses (5ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (25ms)
+	LoadAllAssembliesAndSetupDomain (101ms)
+		LoadAssemblies (56ms)
+		AnalyzeDomain (22ms)
+			TypeCache.Refresh (6ms)
+			ResolveRequiredComponents (13ms)
+	FinalizeReload (603ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (10ms)
+			BeforeProcessingInitializeOnLoad (46ms)
+			ProcessInitializeOnLoadAttributes (203ms)
+			ProcessInitializeOnLoadMethodAttributes (57ms)
+		AwakeInstancesAfterBackupRestoration (68ms)
+No restricted APIs configured; Validation skipped.
+Checking 20 assemblies for restricted APIs found 0 usage(s) in 2 ms
+
+Asset Pipeline Refresh (id=136a82c979d2b488b85b20cbf8dc395b): Total: 2.118 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=956 ms
+		Asset DB Callback time: managed=408 ms, native=132 ms
+		Scripting: domain reloads=1, domain reload time=618 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=1963, non-scripts=12974
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 0.923ms
+	ApplyChangesToAssetFolders: 0.200ms
+	Collect global state as custom dependencies: 1.560ms
+	ProcessAssetsWithTransientArtifactChanges: 99.106ms
+	CategorizeAssets: 124.999ms
+	CompileScripts: 0.665ms
+	ImportOutOfDateAssets: 701.531ms (616.203ms without children)
+		CollectScriptTypesHashes: 1.460ms
+		ReloadNativeAssets: 0.936ms
+		UnloadImportedAssets: 0.115ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.431ms
+		ImportSchedulerStart: 82.823ms
+	PostProcessAllAssets: 532.505ms
+		PostProcessCallbackCreateDeferredMaterials 24.916ms
+		AssemblyValidation.PostprocessAllAssets 23.706ms
+		ShaderAssetModifiedCallback 11.299ms
+		RaytracingShaderImportPostprocess 7.374ms
+		ComputeShaderImportPostprocess 7.101ms
+		SpeedTreeImporter.PostprocessAllAssets 6.652ms
+		LocalizationDatabase.AssetDatabasePostprocessCallback 2.762ms
+		BlockShaderImporter.PostprocessAllAssets 2.674ms
+		XRBuildSystem.XRAssetImported 0.078ms
+		MonoPostProcessAllAssets: 408.256ms
+			SyncVS.PostprocessSyncProject 135.200ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 94.231ms
+			AssetPostprocessor.OnPostprocessAllAssets 28.204ms
+			PostProcessor.OnPostprocessAllAssets 23.851ms
+			VFXGraphPreprocessor.OnPostprocessAllAssets 17.705ms
+			MaterialPostprocessor.OnPostprocessAllAssets 16.804ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 14.368ms
+			SpriteSlicePostprocessor.OnPostprocessAllAssets 12.479ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 11.271ms
+			AssetChangedListener.OnPostprocessAllAssets 7.554ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 6.128ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 3.793ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 2.725ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 1.984ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 1.032ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 1.002ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 0.862ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.703ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.291ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.254ms
+			SamplePostprocessor.OnPostprocessAllAssets 0.178ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.161ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.147ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.142ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.132ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.129ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.126ms
+			AssetEvents.OnPostprocessAllAssets 0.124ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.095ms
+			AssetReloadNotifier.OnPostprocessAllAssets 0.061ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.057ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.057ms
+	PostAssetChangesProfiler: 9.047ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.475ms
+	UnloadStreamsBegin: 3.629ms
+	PersistCurrentRevisions: 0.302ms
+	GenerateScriptTypeHashes: 4.354ms
+	GenerateScriptTypeSerializationHashes: 6.572ms
+	Untracked: 639.829ms
+
+LightingSettings: switching bake backend from 2 to 1.
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            63.175 ms
+	Integration:            228.646 ms
+	Integration of assets:  2.083 ms
+	Thread Wait Time:       -0.011 ms
+	Total Operation Time:   293.892 ms
+PERF RUN V (dispensers, 1x, round 60)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+PerfScenario/<RunOne>d__41:MoveNext () (at Assets/Scripts/Diagnostics/PerfScenario.cs:276)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: Assets/Scripts/Diagnostics/PerfScenario.cs Line: 276)
+
+LightingSettings: switching bake backend from 2 to 1.
+Unloading 65 Unused Serialized files (Serialized files now loaded: 0)
+Created GICache directory at /Users/philipp/Library/Caches/com.unity3d.UnityEditor/GiCache. Took: 0.056s, timestamps: [11.319 - 11.376]
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+UnloadTime: 7.911500 ms
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            38.354 ms
+	Integration:            173.811 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       173.956 ms
+	Total Operation Time:   386.122 ms
+Unloading 8521 unused Assets / (5.0 MB). Loaded Objects now: 18322.
+Memory consumption went from 353.6 MB to 348.6 MB.
+Total: 13.509291 ms (FindLiveObjects: 0.728417 ms CreateObjectMapping: 2.245416 ms MarkObjects: 7.965917 ms  DeleteObjects: 2.569166 ms)
+
+Couldn't create a Convex Mesh from source mesh, within the maximum polygons limit (256). The partial hull will be used. Consider simplifying your mesh. Source mesh name: default
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.Object:Internal_InstantiateSingle (UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion)
+UnityEngine.Object:Instantiate (UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:534)
+UnityEngine.Object:Instantiate<UnityEngine.GameObject> (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:681)
+PerfScenario:BuildOnBlock (UnityEngine.GameObject,UnityEngine.GameObject,UnityEngine.Vector3) (at Assets/Scripts/Diagnostics/PerfScenario.cs:629)
+PerfScenario/<RunOne>d__41:MoveNext () (at Assets/Scripts/Diagnostics/PerfScenario.cs:310)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+[/Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs line 35]
+
+PERF layout V: 154 block spots, 12 towers planned, 12 built
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+PerfScenario/<RunOne>d__41:MoveNext () (at Assets/Scripts/Diagnostics/PerfScenario.cs:318)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: Assets/Scripts/Diagnostics/PerfScenario.cs Line: 318)
+
+EffectPlayer: LaserMuzzleBlue plays batched one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at Assets/Scripts/Effects/EffectPool.cs:65)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at Assets/Scripts/Effects/EffectPlayer.cs:77)
+ProjectileSystem:Spawn (ProjectileArchetype,ProjectileSystem/Shot&,int,single) (at Assets/Scripts/Combat/ProjectileSystem.cs:221)
+ProjectileSystem:Fire (UnityEngine.GameObject,ProjectileSystem/Shot&) (at Assets/Scripts/Combat/ProjectileSystem.cs:166)
+BulletDispenserTowerActionStrategy:FireBullets (single) (at Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:137)
+BulletDispenserTowerActionStrategy:FireVolley (single) (at Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:59)
+BulletDispenserTowerActionStrategy:ExecuteAction () (at Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:49)
+Tower:Update () (at Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: Assets/Scripts/Effects/EffectPlayer.cs Line: 93)
+
+EffectPlayer: LaserBlue plays batched flight
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:Attach (UnityEngine.Vector3,UnityEngine.Quaternion,single) (at Assets/Scripts/Effects/EffectPool.cs:90)
+EffectPlayer:Attach (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single) (at Assets/Scripts/Effects/EffectPlayer.cs:87)
+ProjectileSystem:Spawn (ProjectileArchetype,ProjectileSystem/Shot&,int,single) (at Assets/Scripts/Combat/ProjectileSystem.cs:222)
+ProjectileSystem:Fire (UnityEngine.GameObject,ProjectileSystem/Shot&) (at Assets/Scripts/Combat/ProjectileSystem.cs:166)
+BulletDispenserTowerActionStrategy:FireBullets (single) (at Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:137)
+BulletDispenserTowerActionStrategy:FireVolley (single) (at Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:59)
+BulletDispenserTowerActionStrategy:ExecuteAction () (at Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:49)
+Tower:Update () (at Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: Assets/Scripts/Effects/EffectPlayer.cs Line: 93)
+
+EffectPlayer: LaserExplosionBlue plays batched one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at Assets/Scripts/Effects/EffectPool.cs:65)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at Assets/Scripts/Effects/EffectPlayer.cs:77)
+ProjectileSystem:Apply (int) (at Assets/Scripts/Combat/ProjectileSystem.cs:314)
+ProjectileSystem:Update () (at Assets/Scripts/Combat/ProjectileSystem.cs:274)
+
+(Filename: Assets/Scripts/Effects/EffectPlayer.cs Line: 93)
+
+PERF VISUAL batched captured around (9.00, 2.00, -0.50)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+PerfScenario/<CaptureSeries>d__59:MoveNext () (at Assets/Scripts/Diagnostics/PerfScenario.cs:801)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: Assets/Scripts/Diagnostics/PerfScenario.cs Line: 801)
+
+PERF finished, 0 failed checks, results in /Users/philipp/Projects/3DTD/tasks/perf/perf-V-20261004-145243.json
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+PerfScenario:WriteResults () (at Assets/Scripts/Diagnostics/PerfScenario.cs:1054)
+PerfScenario/<Start>d__40:MoveNext () (at Assets/Scripts/Diagnostics/PerfScenario.cs:269)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: Assets/Scripts/Diagnostics/PerfScenario.cs Line: 1054)
+
+Thread 0x704f4b3000 may have been prematurely finalized
+LightingSettings: switching bake backend from 2 to 1.
+Unloading 18 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            35.553 ms
+	Integration:            193.720 ms
+	Integration of assets:  0.014 ms
+	Thread Wait Time:       -0.006 ms
+	Total Operation Time:   229.281 ms
+Unloading 21 unused Assets / (2.4 MB). Loaded Objects now: 21770.
+Memory consumption went from 0.65 GB to 0.65 GB.
+Total: 17.113750 ms (FindLiveObjects: 0.924333 ms CreateObjectMapping: 1.549042 ms MarkObjects: 13.901792 ms  DeleteObjects: 0.738500 ms)
+
+[UnityConnectServicesConfig] config is NOT valid, switching to default
+PERF benchmark finished, 0 failed checks
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+PerfBenchmark:Finish () (at Assets/Editor/Perf/PerfBenchmark.cs:86)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:57)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/Perf/PerfBenchmark.cs Line: 86)
+
+MonoPathRemapper: Attempts to remap: 50313; Successful remaps: 4
+Serialized file version minimum: 23, current 23
+Clearing [Manrope-Bold SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+PerfBenchmark:Finish () (at Assets/Editor/Perf/PerfBenchmark.cs:88)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:57)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Clearing [Manrope-ExtraBold SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+PerfBenchmark:Finish () (at Assets/Editor/Perf/PerfBenchmark.cs:88)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:57)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Clearing [Manrope-Medium SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+PerfBenchmark:Finish () (at Assets/Editor/Perf/PerfBenchmark.cs:88)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:57)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Clearing [Manrope-SemiBold SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+PerfBenchmark:Finish () (at Assets/Editor/Perf/PerfBenchmark.cs:88)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:57)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Clearing [Sora-Bold SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+PerfBenchmark:Finish () (at Assets/Editor/Perf/PerfBenchmark.cs:88)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:57)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Clearing [Sora-ExtraBold SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+PerfBenchmark:Finish () (at Assets/Editor/Perf/PerfBenchmark.cs:88)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:57)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Clearing [Sora-SemiBold SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+PerfBenchmark:Finish () (at Assets/Editor/Perf/PerfBenchmark.cs:88)
+PerfBenchmark:Tick () (at Assets/Editor/Perf/PerfBenchmark.cs:57)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Killing ADB server in 0.05849 seconds.
+Importing 'GUID: b5f29bad05304450b9ab7277dfd32ce8 - Path: Assets/Fonts/Manrope/Manrope-Medium SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: b5f29bad05304450b9ab7277dfd32ce8' -> (Import Result ID: 'cb61bb827e031fa6239d66c2fa0f8afc') in 0.005 seconds [static dependencies only]. Details - ImportResultOutputID=ec3ec3f93bcf507604567c953f0b5957 DependenciesID=0e93cbb86ed043d6c0888f94658301af StaticDependenciesID=8ea8a00619bf04645ebfb69cfeab46c1 
+Importing 'GUID: 960a4a1fee038423aa04c0a49d711d9b - Path: Assets/Fonts/Sora/Sora-SemiBold SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 960a4a1fee038423aa04c0a49d711d9b' -> (Import Result ID: 'f0ee152553e8dc9ac62a81a89426c631') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=c5376367d9140c4416bf39f8fde47f00 DependenciesID=5c744164e1951a442ae180395d62e8b6 StaticDependenciesID=f13d0a39dfad3eb2dbaac050dfbcbc39 
+Importing 'GUID: c72df4aa697254381b2ff24a4f97e6d3 - Path: Assets/Fonts/Manrope/Manrope-SemiBold SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: c72df4aa697254381b2ff24a4f97e6d3' -> (Import Result ID: '070301d1491a0a501e5cdab33f309727') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=2e7c58826d8c337f1c251c33b9ba64de DependenciesID=3c4bb27d96b34c1e8f718436c8471291 StaticDependenciesID=3865d2f26254e37be2f57786f222801d 
+Importing 'GUID: b81218380dce5435392e5af2bdd5146f - Path: Assets/Fonts/Sora/Sora-ExtraBold SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: b81218380dce5435392e5af2bdd5146f' -> (Import Result ID: '952eaa173b921a4527748364df4e20b5') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=2af47ebb0121feff9988dee99997374f DependenciesID=10babd8e3a758188fd534925dec15bf3 StaticDependenciesID=5b137e6e3eced2c0039820e8c6cb931b 
+Importing 'GUID: 9dbec836a26194eee9c3e94b0b2a02fe - Path: Assets/Fonts/Manrope/Manrope-ExtraBold SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 9dbec836a26194eee9c3e94b0b2a02fe' -> (Import Result ID: 'e2b437b14b599a3a5c1993c327428e8d') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=c965e93c81ab70ea8c040638d843abce DependenciesID=5803e16bd1725a33189edaa35a368a9a StaticDependenciesID=93dacaa17b23f991adbbf43d15d11526 
+Importing 'GUID: 1f393a07920384164ace0f7c2173264d - Path: Assets/Fonts/Manrope/Manrope-Bold SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 1f393a07920384164ace0f7c2173264d' -> (Import Result ID: 'ca9f0dcacc57f40995654255728eb9d7') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=3743d3df6aade6316de34d1f0cd20126 DependenciesID=02b0bfd84aa6cd32b4032df49b5f3bdc StaticDependenciesID=d41a957394ebfb9fa858d1deb4161887 
+Importing 'GUID: 7f6a6978d2a4943d9aaa8c7cba6e7253 - Path: Assets/Fonts/Sora/Sora-Bold SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 7f6a6978d2a4943d9aaa8c7cba6e7253' -> (Import Result ID: '6532add561161054dda27c460bc06877') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=8e8b4bce18643da22ccdc54c9e891c81 DependenciesID=53ba04d9b6026a3964a05a452e103e99 StaticDependenciesID=5a6cf94023de4b5e983bb54f40f87bc7 
+"MSBuild-Server" wird heruntergefahren...
+"VB/C#-Compilerserver" wird heruntergefahren...
+Asset Pipeline Refresh (id=9c3076d31f0274a459457cfbb044174b): Total: 0.144 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Thread 0x70a3d47000 may have been prematurely finalized
+"VB/C#-Compilerserver" wurde erfolgreich heruntergefahren.
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+[Licensing::IpcConnector] LicenseClient-philipp-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-philipp channel disconnected successfully.
+Thread 0x16cbfb000 may have been prematurely finalized
+Thread 0x16cd9f000 may have been prematurely finalized
+Thread 0x16cb6f000 may have been prematurely finalized
+Thread 0x16ceb7000 may have been prematurely finalized
+Thread 0x16cc87000 may have been prematurely finalized
+Thread 0x16cd13000 may have been prematurely finalized
+Thread 0x16cf43000 may have been prematurely finalized
+Thread 0x16ce2b000 may have been prematurely finalized
+Lingering sessions upon destruction of worker manager
+AcceleratorClientConnectionCallback - disconnected - :0
+Thread 0x17b1b3000 may have been prematurely finalized
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+Cleanup mono
+CodeReloadManager destroyed
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      ALC ILPP context 1 is unloading
+"MSBuild-Server" wurde erfolgreich heruntergefahren.
+debugger-agent: Unable to listen on 43
+[usbmuxd] Stop listen thread
+[usbmuxd] Error: 
+[usbmuxd] Listen thread exiting

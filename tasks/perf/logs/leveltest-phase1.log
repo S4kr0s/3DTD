@@ -1,0 +1,2291 @@
+Unity Editor version:    6000.5.8f1 (5cb7df797b7d)
+Branch:                  6000.5/staging
+Build type:              Release
+Batch mode:              YES
+macOS version:           Version 27.0 (Build 26A428)
+Darwin version:          27.0.0
+Architecture:            arm64
+Running under Rosetta:   NO
+Available memory:        65536 MB
+Date:                    2026-10-04T11:32:09Z
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-philipp" at "2026-10-04T11:32:09.004467Z"
+Launching external process: /Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Helpers/PackageManager/Server/UnityPackageManager
+
+COMMAND LINE ARGUMENTS:
+/Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/MacOS/Unity
+-batchmode
+-projectPath
+/Users/philipp/Projects/3DTD/3DTD/3DTD
+-executeMethod
+LevelPlaytest.Run
+-captureOut
+/Users/philipp/Projects/3DTD/tasks/perf/levelshots
+-logFile
+tasks/perf/logs/leveltest-phase1.log
+Successfully changed project path to: /Users/philipp/Projects/3DTD/3DTD/3DTD
+/Users/philipp/Projects/3DTD/3DTD/3DTD
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-gfx=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-main-allocator-mimalloc-enabled=0"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+Logging is directed to a specific file, skipping project log.Player connection [8171323264]  Target information:
+
+Player connection [8171323264]  * "[IP] 192.168.178.132 [Port] 55504 [Flags] 2 [Guid] 1917850399 [EditorId] 1917850399 [Version] 1048832 [Id] OSXEditor(0,Philipps-Mac-LAN.fritz.box) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8171323264]  * "[IP] 192.168.178.133 [Port] 55504 [Flags] 2 [Guid] 1917850399 [EditorId] 1917850399 [Version] 1048832 [Id] OSXEditor(0,Philipps-Mac-LAN.fritz.box) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8171323264]  * "[IP] 192.168.139.3 [Port] 55504 [Flags] 2 [Guid] 1917850399 [EditorId] 1917850399 [Version] 1048832 [Id] OSXEditor(0,Philipps-Mac-LAN.fritz.box) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8171323264]  * "[IP] 192.168.215.0 [Port] 55504 [Flags] 2 [Guid] 1917850399 [EditorId] 1917850399 [Version] 1048832 [Id] OSXEditor(0,Philipps-Mac-LAN.fritz.box) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8171323264]  * "[IP] 192.168.97.0 [Port] 55504 [Flags] 2 [Guid] 1917850399 [EditorId] 1917850399 [Version] 1048832 [Id] OSXEditor(0,Philipps-Mac-LAN.fritz.box) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+
+Player connection [8171323264] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [8171323264] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-14369" after 0.1 seconds.
+[Licensing::Module] Licensing is not yet initialized.
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.18.3+d7ffd15
+  Session Id:              d9e0f83a62ea4cd5bf09056fb0fa2b53
+  Correlation Id:          910c49780be0d37de9010221086ac5fe
+  External correlation Id: 1703334506530005586
+  Machine Id:              RvZ12cVBd6PoVZKbkiBOwYmsOqI=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-philipp" (connect: 0.00s, validation: 0.00s, handshake: 0.28s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-philipp-notifications" at "2026-10-04T11:32:09.283933Z"
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+[Licensing::Module] Licensing Background thread has ended after 0.28s
+[Licensing::Module] Licensing is initialized (took 0.05s).
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Library Redirect Path: Library/
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Initialize engine version: 6000.5.8f1 (5cb7df797b7d)
+[Subsystems] Discovering subsystems at path /Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+ preferred device: Apple M4 Pro (high power)
+Metal devices available: 1
+0: Apple M4 Pro (high power)
+Using device Apple M4 Pro (high power)
+Initializing Metal device caps: Apple M4 Pro
+Mac GPU Family: 2
+Apple GPU Family: 9
+MSL Version: 3.0
+Has Float MSAA: 1
+Has Float Filtering: 1
+ReadWrite Texture Tier: 2
+Initialize mono
+Mono path[0] = '/Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/Scripting/Managed'
+Mono path[1] = '/Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/Scripting/BCLExtensions/runtime/netstandard2.1'
+Mono path[2] = '/Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
+Mono config path = '/Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56369
+CodeReloadManager initialized
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
+Register platform support module: /Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
+Registered in 0.002545 seconds.
+Native extension for LinuxStandalone target not found
+[usbmuxd] Start listen thread
+[usbmuxd] Listen thread started
+[usbmuxd] Send listen message
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+Package Manager log level set to [2]
+[Licensing::Client] Successfully resolved entitlement details
+ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.814 seconds
+Domain Reload Profiling: 2071ms
+	BeginReloadAssembly (48ms)
+		CreateAndSetChildDomain (6ms)
+	RebuildCommonClasses (3ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (31ms)
+	LoadAllAssembliesAndSetupDomain (166ms)
+		LoadAssemblies (43ms)
+		AnalyzeDomain (123ms)
+			TypeCache.Refresh (122ms)
+				TypeCache.ScanAssembly (113ms)
+	FinalizeReload (1815ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (40ms)
+			BeforeProcessingInitializeOnLoad (46ms)
+			ProcessInitializeOnLoadAttributes (54ms)
+			ProcessInitializeOnLoadMethodAttributes (1638ms)
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Application.AssetDatabase Initial Refresh Start
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 59 packages:
+  Packages from [https://packages.unity.com]:
+    com.unity.ai.navigation@2.0.14 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.ai.navigation@134dd6a3b97b)
+    com.unity.collab-proxy@2.13.5 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.collab-proxy@120d77864ebc)
+    com.unity.ide.rider@3.0.38 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.ide.rider@1f60b3138684)
+    com.unity.ide.visualstudio@2.0.26 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.ide.visualstudio@a99d56dec63f)
+    com.unity.nuget.newtonsoft-json@3.2.2 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.nuget.newtonsoft-json@4dfd81071c64)
+    com.unity.timeline@1.8.12 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.timeline@8cd8509afae5)
+    com.unity.burst@1.8.30 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.burst@2f3d916873ea)
+    com.unity.searcher@4.9.5 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.searcher@a463122f2c00)
+    com.unity.nuget.mono-cecil@1.11.6 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff)
+    com.unity.test-framework.performance@3.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.test-framework.performance@8b56083ec0f0)
+  Built-in packages:
+    com.unity.2d.sprite@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.2d.sprite@053a968eab56)
+    com.unity.multiplayer.center@1.0.1 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.multiplayer.center@b860850997d0)
+    com.unity.render-pipelines.universal@17.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.render-pipelines.universal@73b4c4ff130e)
+    com.unity.test-framework@1.7.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.test-framework@1405238725ab)
+    com.unity.ugui@2.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.ugui@1c4864518158)
+    com.unity.visualeffectgraph@17.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.visualeffectgraph@b1f03b147b92)
+    com.unity.modules.accessibility@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.accessibility)
+    com.unity.modules.adaptiveperformance@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.adaptiveperformance)
+    com.unity.modules.ai@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.ai)
+    com.unity.modules.androidjni@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.androidjni)
+    com.unity.modules.animation@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.animation)
+    com.unity.modules.assetbundle@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.assetbundle)
+    com.unity.modules.audio@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.audio)
+    com.unity.modules.cloth@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.cloth)
+    com.unity.modules.director@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.director)
+    com.unity.modules.imageconversion@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.imageconversion)
+    com.unity.modules.imgui@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.particlesystem)
+    com.unity.modules.physics@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.physics)
+    com.unity.modules.physics2d@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.physics2d)
+    com.unity.modules.physicscore2d@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.physicscore2d)
+    com.unity.modules.screencapture@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.screencapture)
+    com.unity.modules.terrain@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.terrain)
+    com.unity.modules.terrainphysics@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.terrainphysics)
+    com.unity.modules.tilemap@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.tilemap)
+    com.unity.modules.ui@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.ui)
+    com.unity.modules.uielements@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.uielements)
+    com.unity.modules.umbra@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.umbra)
+    com.unity.modules.unityanalytics@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.unityanalytics)
+    com.unity.modules.unitywebrequest@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestassetbundle@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.unitywebrequestassetbundle)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.unitywebrequestwww@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.unitywebrequestwww)
+    com.unity.modules.vectorgraphics@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.vectorgraphics)
+    com.unity.modules.vehicles@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.vehicles)
+    com.unity.modules.video@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.video)
+    com.unity.modules.wind@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.wind)
+    com.unity.modules.xr@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.xr)
+    com.unity.modules.subsystems@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.subsystems)
+    com.unity.modules.hierarchycore@1.0.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.modules.hierarchycore)
+    com.unity.shadergraph@17.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.shadergraph@8d7376ec43ee)
+    com.unity.render-pipelines.core@17.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.render-pipelines.core@a4c9a9793789)
+    com.unity.ext.nunit@2.1.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.ext.nunit@44f7d31723bd)
+    com.unity.render-pipelines.universal-config@17.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.render-pipelines.universal-config@fdda01c80fe3)
+    com.unity.collections@6.5.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.collections@ec2c217e4cb2)
+    com.unity.mathematics@1.4.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unity.mathematics@981956d94fb6)
+  Git packages:
+    com.unify.unified-universal-blur@https://github.com/lukakldiashvili/Unified-Universal-Blur.git#0.9.0 (location: /Users/philipp/Projects/3DTD/3DTD/3DTD/Library/PackageCache/com.unify.unified-universal-blur@6a18634d9a56)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.01 seconds
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://unix:/tmp/ilpp.sock-abe43804ae87d25423edb61801c047fd
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /Users/philipp/Projects/3DTD/3DTD/3DTD
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping - 200 - application/grpc 16.1840ms
+Starting: /Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/200b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: /Users/philipp/Projects/3DTD/3DTD/3DTD
+DisplayProgressbar: Compiling Scripts
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - application/grpc -
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
+      Executing endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+warn: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Assembly unityeditor.ios.extensions.xcode has duplicate hint path. Ignoring "/Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll" in favor of "/Applications/Unity/Hub/Editor/6000.5.8f1/PlaybackEngines/MacStandaloneSupport/UnityEditor.iOS.Extensions.Xcode.dll"
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Unity.Burst.Cecil, Version=0.11.6.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.burst@2f3d916873ea/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      Resolved Mono.Cecil, Version=0.11.5.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e with Library/PackageCache/com.unity.nuget.mono-cecil@ecb9724e46ff/Mono.Cecil.dll
+info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
+      Executed endpoint 'gRPC - /UnityILPP.PostProcessing/ConfigurePostProcessors'
+info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/ConfigurePostProcessors - 200 - application/grpc 14.3425ms
+ExitCode: 0 Duration: 0s242ms
+[627/805    0s] ILPP-Configuration Library/ilpp-configuration.nevergeneratedoutput
+*** Tundra build success (0.22 seconds), 1 items updated, 805 evaluated
+AssetDatabase: script compilation time: 0.592295s
+Total cache size 267357162
+Total cache size after purge 267357162, took 00:00:00.1292519
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+Native extension for LinuxStandalone target not found
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.935 seconds
+Domain Reload Profiling: 2342ms
+	BeginReloadAssembly (96ms)
+		DisableScriptedObjects (11ms)
+		CreateAndSetChildDomain (21ms)
+	RebuildCommonClasses (5ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (24ms)
+	LoadAllAssembliesAndSetupDomain (273ms)
+		LoadAssemblies (126ms)
+		AnalyzeDomain (124ms)
+			TypeCache.Refresh (96ms)
+				TypeCache.ScanAssembly (86ms)
+			BuildScriptInfoCaches (24ms)
+			ResolveRequiredComponents (3ms)
+	FinalizeReload (1936ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (10ms)
+			BeforeProcessingInitializeOnLoad (45ms)
+			ProcessInitializeOnLoadAttributes (1574ms)
+			ProcessInitializeOnLoadMethodAttributes (100ms)
+		AwakeInstancesAfterBackupRestoration (10ms)
+Starting new worker id: 0 with log in /Users/philipp/Projects/3DTD/3DTD/3DTD/Logs/AssetImportWorkerHW0.log
+
+Asset Pipeline Refresh (id=954b53be9d2d74e3c8b70ce02d83ed4f): Total: 4.039 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=2859 ms
+		Asset DB Callback time: managed=126 ms, native=13 ms
+		Scripting: domain reloads=1, domain reload time=423 ms, compile time=593 ms, other=23 ms
+		Project Asset Count: scripts=1961, non-scripts=12974
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokePackagesCallback: 14.023ms
+	ApplyChangesToAssetFolders: 0.187ms
+	Scan: 541.066ms
+	Collect global state as custom dependencies: 9.408ms
+	CategorizeScriptCompilationAssets: 17.515ms
+	ProcessAssetsWithTransientArtifactChanges: 46.602ms
+	CategorizeAssets: 122.798ms
+	CompileScripts: 593.026ms
+	ImportOutOfDateAssets: 2075.229ms (1951.302ms without children)
+		UnloadImportedAssets: 0.708ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.236ms
+		ImportSchedulerStart: 121.939ms
+	PostProcessAllAssets: 126.298ms
+		MonoPostProcessAllAssets: 126.271ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 10.977ms
+			SyncVS.PostprocessSyncProject 8.035ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 3.283ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 1.667ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.934ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.527ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.390ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.171ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.155ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.091ms
+	UnloadStreamsBegin: 0.851ms
+	PersistCurrentRevisions: 0.316ms
+	GenerateScriptTypeHashes: 2.940ms
+	GenerateScriptTypeSerializationHashes: 4.471ms
+	Untracked: 489.806ms
+
+Application.AssetDatabase Initial Refresh End
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Launching external process: /Applications/Unity/Hub/Editor/6000.5.8f1/Unity.app/Contents/Helpers/UnityShaderCompiler
+Launched and connected shader compiler UnityShaderCompiler after 0.03 seconds
+Shader Hidden/ChartRasterizerHardware is not supported: GPU does not support conservative rasterization
+Scanning for USB devices : 0.230ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-3DTD
+2026-10-04 13:32:16.425 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0dd3af80 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Unloading 120 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 5671 unused Assets / (19.7 MB). Loaded Objects now: 6638.
+Memory consumption went from 313.8 MB to 294.1 MB.
+Total: 13.801750 ms (FindLiveObjects: 0.237791 ms CreateObjectMapping: 1.062250 ms MarkObjects: 5.326959 ms  DeleteObjects: 7.174333 ms)
+
+[Project] Loading completed in 7.536 seconds
+	Project init time: 				7.222 seconds
+		Template init time: 		0.000 seconds
+		Package Manager init time: 		0.166 seconds
+		Asset Database init time: 		0.323 seconds
+		Global illumination init time: 	0.000 seconds
+		Assemblies load time: 			2.085 seconds
+		Unity extensions init time: 	0.023 seconds
+		Asset Database refresh time: 	4.039 seconds
+	Scene opening time: 			0.222 seconds
+##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1791113536537,"processId":14369,"projectLoad":7.535727792,"projectInit":7.221871333,"templateInit":0.0,"packageManagerInit":0.165538542,"assetDatabaseInit":0.322951291,"globalIlluminationInit":0.000481958,"assembliesLoad":2.084876375,"unityExtensionsInit":0.022554833,"assetDatabaseRefresh":4.038935708,"sceneOpening":0.222362417}
+##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1791113536537,"processId":14369,"editorVersion":"6000.5.8f1 (5cb7df797b7d)","branch":"6000.5/staging","buildType":"Release","platform":"OSX"}
+Subscribe to USB device events
+Scanning for USB devices : 0.207ms
+Worker ready: AssetImportWorkerHW0 0
+
+Asset Pipeline Refresh (id=5c1f3f867b4be4289982b57ca794667e): Total: 0.510 seconds - Initiated by RefreshV2(ForceSynchronousImport)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=509 ms
+		Asset DB Callback time: managed=0 ms, native=0 ms
+		Scripting: domain reloads=0, domain reload time=0 ms, compile time=0 ms, other=0 ms
+		Project Asset Count: scripts=1961, non-scripts=12974
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 1
+	InvokePackagesCallback: 0.415ms
+	ApplyChangesToAssetFolders: 0.100ms
+	Scan: 302.129ms
+	Collect global state as custom dependencies: 0.287ms
+	CategorizeAssets: 90.568ms
+	ImportOutOfDateAssets: 109.702ms (11.782ms without children)
+		ReloadNativeAssets: 0.054ms
+		UnloadImportedAssets: 0.098ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.168ms
+		ImportSchedulerStart: 96.599ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.452ms
+	PersistCurrentRevisions: 0.306ms
+	Untracked: 4.624ms
+
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+Opening scene 'Assets/Scenes/Beginner Level 01.unity'
+LightingSettings: switching bake backend from 2 to 1.
+Unloading 60 Unused Serialized files (Serialized files now loaded: 0)
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:95)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/LevelTools/LevelPlaytest.cs line 95]
+
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:95)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/LevelTools/LevelPlaytest.cs line 95]
+
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:95)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/LevelTools/LevelPlaytest.cs line 95]
+
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:95)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/LevelTools/LevelPlaytest.cs line 95]
+
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:95)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/LevelTools/LevelPlaytest.cs line 95]
+
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:95)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/LevelTools/LevelPlaytest.cs line 95]
+
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEditor.SceneManagement.EditorSceneManager:OpenScene (string,UnityEditor.SceneManagement.OpenSceneMode)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:95)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/LevelTools/LevelPlaytest.cs line 95]
+
+Loaded scene 'Assets/Scenes/Beginner Level 01.unity'
+	Deserialize:            13.551 ms
+	Integration:            310.495 ms
+	Integration of assets:  0.165 ms
+	Thread Wait Time:       0.006 ms
+	Total Operation Time:   324.217 ms
+Unloading 6 unused Assets / (7.4 KB). Loaded Objects now: 21645.
+Memory consumption went from 335.6 MB to 335.6 MB.
+Total: 10.323500 ms (FindLiveObjects: 0.721958 ms CreateObjectMapping: 1.226750 ms MarkObjects: 8.318875 ms  DeleteObjects: 0.055750 ms)
+
+Start Indexing on Editor startup
+[Indexing] Starting Initial Indexing for Assets
+Thread 0x704e7c7000 may have been prematurely finalized
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+2026-10-04 13:32:18.132 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0dd39220 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:32:18.136 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0dd2f980 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:32:18.140 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0dd3a940 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:32:18.144 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0dd1f480 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Symbol file LoadedFromMemory is not a mono symbol file
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Native extension for LinuxStandalone target not found
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.581 seconds
+Domain Reload Profiling: 1149ms
+	BeginReloadAssembly (442ms)
+		DisableScriptedObjects (89ms)
+		CreateAndSetChildDomain (273ms)
+	RebuildCommonClasses (4ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (21ms)
+	LoadAllAssembliesAndSetupDomain (90ms)
+		LoadAssemblies (46ms)
+		AnalyzeDomain (20ms)
+			TypeCache.Refresh (5ms)
+			ResolveRequiredComponents (12ms)
+	FinalizeReload (582ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (11ms)
+			BeforeProcessingInitializeOnLoad (44ms)
+			ProcessInitializeOnLoadAttributes (193ms)
+			ProcessInitializeOnLoadMethodAttributes (54ms)
+		AwakeInstancesAfterBackupRestoration (66ms)
+No restricted APIs configured; Validation skipped.
+Checking 20 assemblies for restricted APIs found 0 usage(s) in 2 ms
+
+Asset Pipeline Refresh (id=b30101a1373584553b1a7cea8f79ae9d): Total: 2.089 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=919 ms
+		Asset DB Callback time: managed=467 ms, native=119 ms
+		Scripting: domain reloads=1, domain reload time=580 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=1961, non-scripts=12974
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 0.778ms
+	ApplyChangesToAssetFolders: 0.178ms
+	Collect global state as custom dependencies: 1.308ms
+	ProcessAssetsWithTransientArtifactChanges: 90.153ms
+	CategorizeAssets: 120.554ms
+	CompileScripts: 0.764ms
+	ImportOutOfDateAssets: 682.669ms (593.353ms without children)
+		CollectScriptTypesHashes: 1.147ms
+		ReloadNativeAssets: 0.974ms
+		UnloadImportedAssets: 0.115ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.234ms
+		ImportSchedulerStart: 86.970ms
+	PostProcessAllAssets: 578.929ms
+		PostProcessCallbackCreateDeferredMaterials 22.290ms
+		AssemblyValidation.PostprocessAllAssets 19.511ms
+		ShaderAssetModifiedCallback 10.937ms
+		RaytracingShaderImportPostprocess 6.574ms
+		ComputeShaderImportPostprocess 6.136ms
+		SpeedTreeImporter.PostprocessAllAssets 4.770ms
+		BlockShaderImporter.PostprocessAllAssets 2.708ms
+		LocalizationDatabase.AssetDatabasePostprocessCallback 2.264ms
+		XRBuildSystem.XRAssetImported 0.064ms
+		MonoPostProcessAllAssets: 467.466ms
+			SyncVS.PostprocessSyncProject 132.010ms
+			AssetPostprocessor.OnPostprocessAllAssets 106.075ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 87.790ms
+			PostProcessor.OnPostprocessAllAssets 21.881ms
+			VFXGraphPreprocessor.OnPostprocessAllAssets 16.897ms
+			MaterialPostprocessor.OnPostprocessAllAssets 16.328ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 13.869ms
+			SpriteSlicePostprocessor.OnPostprocessAllAssets 12.127ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 10.175ms
+			AssetChangedListener.OnPostprocessAllAssets 7.127ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 5.572ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 3.583ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 2.411ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 2.025ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 0.969ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 0.910ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 0.867ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.496ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.256ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.234ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.198ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.164ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.157ms
+			SamplePostprocessor.OnPostprocessAllAssets 0.156ms
+			AssetEvents.OnPostprocessAllAssets 0.131ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.128ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.127ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.127ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.104ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.099ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.065ms
+			AssetReloadNotifier.OnPostprocessAllAssets 0.051ms
+	PostAssetChangesProfiler: 8.569ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.261ms
+	UnloadStreamsBegin: 2.619ms
+	PersistCurrentRevisions: 0.293ms
+	GenerateScriptTypeHashes: 4.219ms
+	GenerateScriptTypeSerializationHashes: 6.273ms
+	Untracked: 598.890ms
+
+LightingSettings: switching bake backend from 2 to 1.
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            49.188 ms
+	Integration:            226.290 ms
+	Integration of assets:  2.278 ms
+	Thread Wait Time:       -0.004 ms
+	Total Operation Time:   277.753 ms
+Created GICache directory at /Users/philipp/Library/Caches/com.unity3d.UnityEditor/GiCache. Took: 0.010s, timestamps: [7.539 - 7.549]
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+LEVELTEST PASS Beginner Level 01: GameManager, Spawner and End are up
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:153)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 01: one lane (1)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:156)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+[remote] error: Init socket failed
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L01_a_start_view.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:167)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L01_b_oblique.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:169)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L01_c_below.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:171)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+[BalanceTelemetry] Recording to /Users/philipp/Library/Application Support/Sakros/3DTD/telemetry/Beginner_Level_01_Medium_20261004-133244.csv
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+BalanceTelemetry:CreateFile () (at Assets/Scripts/BalanceTelemetry.cs:146)
+BalanceTelemetry:HandleWaveEnded (int) (at Assets/Scripts/BalanceTelemetry.cs:103)
+Spawner:Update () (at Assets/Scripts/Spawner.cs:116)
+
+(Filename: Assets/Scripts/BalanceTelemetry.cs Line: 146)
+
+LEVELTEST PASS Beginner Level 01: wave 1 ended (round 1)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:178)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 01: undefended, the enemies reached the exit (lives 150 -> 125)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:179)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+Couldn't create a Convex Mesh from source mesh, within the maximum polygons limit (256). The partial hull will be used. Consider simplifying your mesh. Source mesh name: default
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.Object:Internal_InstantiateSingle (UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion)
+UnityEngine.Object:Instantiate (UnityEngine.Object,UnityEngine.Vector3,UnityEngine.Quaternion) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:534)
+UnityEngine.Object:Instantiate<UnityEngine.GameObject> (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/UnityEngineObject.bindings.cs:681)
+AnchorPoint:BuildHere (UnityEngine.GameObject) (at Assets/Scripts/AnchorPoint.cs:118)
+System.Reflection.RuntimeMethodInfo:Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo)
+System.Reflection.MethodBase:Invoke (object,object[])
+LevelPlaytest:Build (LevelPlaytest/Case) (at Assets/Editor/LevelTools/LevelPlaytest.cs:222)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:183)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+[Assets/Editor/LevelTools/LevelPlaytest.cs line 222]
+
+LEVELTEST PASS Beginner Level 01: built Default Tower on the (0.00, 1.00, 0.00) face of the block at (13.00, 1.00, -3.50)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:184)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+TrimDiskCacheJob: Current cache size 1mb
+LEVELTEST PASS Beginner Level 01: wave 2 ended (round 2)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:192)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 01: Default Tower dealt 23.25 damage, 9 kills
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:195)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+Thread 0x17ff63000 may have been prematurely finalized
+LightingSettings: switching bake backend from 2 to 1.
+Unloading 78 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            35.293 ms
+	Integration:            159.607 ms
+	Integration of assets:  0.008 ms
+	Thread Wait Time:       -0.000 ms
+	Total Operation Time:   194.908 ms
+Unloading 4966 unused Assets / (3.7 MB). Loaded Objects now: 21759.
+Memory consumption went from 0.59 GB to 0.59 GB.
+Total: 16.871792 ms (FindLiveObjects: 0.814667 ms CreateObjectMapping: 2.276833 ms MarkObjects: 12.941459 ms  DeleteObjects: 0.838250 ms)
+
+[UnityConnectServicesConfig] config is NOT valid, switching to default
+Opening scene 'Assets/Scenes/Beginner Level 02.unity'
+LightingSettings: switching bake backend from 2 to 1.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Scenes/Beginner Level 02.unity'
+	Deserialize:            5.030 ms
+	Integration:            175.617 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       0.004 ms
+	Total Operation Time:   180.652 ms
+Unloading 62 unused Assets / (45.6 KB). Loaded Objects now: 22838.
+Memory consumption went from 0.59 GB to 0.59 GB.
+Total: 14.746542 ms (FindLiveObjects: 0.780459 ms CreateObjectMapping: 1.607834 ms MarkObjects: 12.258083 ms  DeleteObjects: 0.100083 ms)
+
+Thread 0x16cc0f000 may have been prematurely finalized
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+2026-10-04 13:33:00.457 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0dd2f840 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:33:00.461 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0e0a4780 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:33:00.465 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0e0a6a80 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:33:00.468 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0dd1ef80 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+<CFData 0x7a054388c0 [0x1e8d4ef70]>{length = 6, capacity = 6, bytes = 0xd011e524f095}
+Symbol file LoadedFromMemory is not a mono symbol file
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Native extension for LinuxStandalone target not found
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.605 seconds
+Domain Reload Profiling: 1208ms
+	BeginReloadAssembly (479ms)
+		DisableScriptedObjects (88ms)
+		CreateAndSetChildDomain (277ms)
+	RebuildCommonClasses (5ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (21ms)
+	LoadAllAssembliesAndSetupDomain (89ms)
+		LoadAssemblies (44ms)
+		AnalyzeDomain (19ms)
+			TypeCache.Refresh (5ms)
+			ResolveRequiredComponents (12ms)
+	FinalizeReload (605ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (11ms)
+			BeforeProcessingInitializeOnLoad (42ms)
+			ProcessInitializeOnLoadAttributes (185ms)
+			ProcessInitializeOnLoadMethodAttributes (54ms)
+		AwakeInstancesAfterBackupRestoration (63ms)
+
+Asset Pipeline Refresh (id=e62f5f29188ee414097fbd0490cd2dd3): Total: 1.481 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=847 ms
+		Asset DB Callback time: managed=15 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=617 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=1961, non-scripts=12974
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 0.679ms
+	ApplyChangesToAssetFolders: 0.170ms
+	Collect global state as custom dependencies: 1.251ms
+	ProcessAssetsWithTransientArtifactChanges: 0.093ms
+	CategorizeAssets: 116.285ms
+	CompileScripts: 0.745ms
+	ImportOutOfDateAssets: 707.055ms (618.400ms without children)
+		CollectScriptTypesHashes: 0.487ms
+		ReloadNativeAssets: 1.051ms
+		UnloadImportedAssets: 0.151ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.287ms
+		ImportSchedulerStart: 86.142ms
+	PostProcessAllAssets: 15.819ms
+		MonoPostProcessAllAssets: 15.818ms
+			AssetPostprocessor.OnPostprocessAllAssets 106.075ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 87.790ms
+			PostProcessor.OnPostprocessAllAssets 21.881ms
+			VFXGraphPreprocessor.OnPostprocessAllAssets 16.897ms
+			MaterialPostprocessor.OnPostprocessAllAssets 16.328ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 13.869ms
+			SpriteSlicePostprocessor.OnPostprocessAllAssets 12.127ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 10.175ms
+			AssetChangedListener.OnPostprocessAllAssets 7.127ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 5.068ms
+			SyncVS.PostprocessSyncProject 4.135ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 3.583ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 0.969ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 0.910ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 0.858ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.798ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.496ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.313ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.234ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.198ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.164ms
+			SamplePostprocessor.OnPostprocessAllAssets 0.156ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.144ms
+			AssetEvents.OnPostprocessAllAssets 0.131ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.128ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.127ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.124ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.116ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.104ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.078ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.058ms
+			AssetReloadNotifier.OnPostprocessAllAssets 0.051ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.404ms
+	UnloadStreamsBegin: 0.212ms
+	PersistCurrentRevisions: 0.295ms
+	GenerateScriptTypeHashes: 3.264ms
+	GenerateScriptTypeSerializationHashes: 4.964ms
+	Untracked: 636.026ms
+
+LightingSettings: switching bake backend from 2 to 1.
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            34.922 ms
+	Integration:            221.865 ms
+	Integration of assets:  0.012 ms
+	Thread Wait Time:       -0.005 ms
+	Total Operation Time:   256.794 ms
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+LEVELTEST PASS Beginner Level 02: GameManager, Spawner and End are up
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:153)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 02: one lane (1)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:156)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+[remote] error: Init socket failed
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L02_a_start_view.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:167)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L02_b_oblique.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:169)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L02_c_below.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:171)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+[BalanceTelemetry] Recording to /Users/philipp/Library/Application Support/Sakros/3DTD/telemetry/Beginner_Level_02_Medium_20261004-133324.csv
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+BalanceTelemetry:CreateFile () (at Assets/Scripts/BalanceTelemetry.cs:146)
+BalanceTelemetry:HandleWaveEnded (int) (at Assets/Scripts/BalanceTelemetry.cs:103)
+Spawner:Update () (at Assets/Scripts/Spawner.cs:116)
+
+(Filename: Assets/Scripts/BalanceTelemetry.cs Line: 146)
+
+LEVELTEST PASS Beginner Level 02: wave 1 ended (round 1)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:178)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 02: undefended, the enemies reached the exit (lives 150 -> 127)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:179)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 02: built Sniper Tower on the (0.00, 1.00, 0.00) face of the block at (9.00, 2.00, 6.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:184)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 02: wave 2 ended (round 2)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:192)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 02: Sniper Tower dealt 28 damage, 14 kills
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:195)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+Thread 0x7000087000 may have been prematurely finalized
+LightingSettings: switching bake backend from 2 to 1.
+Unloading 15 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            29.174 ms
+	Integration:            160.545 ms
+	Integration of assets:  0.007 ms
+	Thread Wait Time:       0.001 ms
+	Total Operation Time:   189.727 ms
+Unloading 20 unused Assets / (0.8 MB). Loaded Objects now: 22839.
+Memory consumption went from 0.58 GB to 0.58 GB.
+Total: 14.801708 ms (FindLiveObjects: 0.570417 ms CreateObjectMapping: 1.746541 ms MarkObjects: 12.250209 ms  DeleteObjects: 0.234292 ms)
+
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Opening scene 'Assets/Scenes/Beginner Level 03.unity'
+LightingSettings: switching bake backend from 2 to 1.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Scenes/Beginner Level 03.unity'
+	Deserialize:            5.225 ms
+	Integration:            175.176 ms
+	Integration of assets:  0.001 ms
+	Thread Wait Time:       0.013 ms
+	Total Operation Time:   180.415 ms
+Unloading 2603 unused Assets / (1.2 MB). Loaded Objects now: 22937.
+Memory consumption went from 0.59 GB to 0.58 GB.
+Total: 16.775375 ms (FindLiveObjects: 0.665417 ms CreateObjectMapping: 1.997500 ms MarkObjects: 12.829750 ms  DeleteObjects: 1.282292 ms)
+
+Thread 0x7000087000 may have been prematurely finalized
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+2026-10-04 13:33:34.166 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0ebff660 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:33:34.170 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0ebfe760 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:33:34.173 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0ebfd680 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:33:34.177 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0e0a57c0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Symbol file LoadedFromMemory is not a mono symbol file
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Native extension for LinuxStandalone target not found
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.614 seconds
+Domain Reload Profiling: 1210ms
+	BeginReloadAssembly (477ms)
+		DisableScriptedObjects (87ms)
+		CreateAndSetChildDomain (278ms)
+	RebuildCommonClasses (5ms)
+	RebuildNativeTypeToScriptingClass (8ms)
+	initialDomainReloadingComplete (20ms)
+	LoadAllAssembliesAndSetupDomain (85ms)
+		LoadAssemblies (41ms)
+		AnalyzeDomain (19ms)
+			TypeCache.Refresh (5ms)
+			ResolveRequiredComponents (12ms)
+	FinalizeReload (615ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (10ms)
+			BeforeProcessingInitializeOnLoad (43ms)
+			ProcessInitializeOnLoadAttributes (192ms)
+			ProcessInitializeOnLoadMethodAttributes (53ms)
+		AwakeInstancesAfterBackupRestoration (67ms)
+
+Asset Pipeline Refresh (id=40d74131b1e8f435a8a080942b364028): Total: 1.483 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=855 ms
+		Asset DB Callback time: managed=16 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=609 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=1961, non-scripts=12974
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 0.768ms
+	ApplyChangesToAssetFolders: 0.205ms
+	Collect global state as custom dependencies: 1.438ms
+	ProcessAssetsWithTransientArtifactChanges: 0.055ms
+	CategorizeAssets: 115.271ms
+	CompileScripts: 0.681ms
+	ImportOutOfDateAssets: 717.033ms (628.106ms without children)
+		CollectScriptTypesHashes: 0.522ms
+		ReloadNativeAssets: 1.118ms
+		UnloadImportedAssets: 0.129ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.195ms
+		ImportSchedulerStart: 86.457ms
+	PostProcessAllAssets: 16.791ms
+		MonoPostProcessAllAssets: 16.789ms
+			AssetPostprocessor.OnPostprocessAllAssets 106.075ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 87.790ms
+			PostProcessor.OnPostprocessAllAssets 21.881ms
+			VFXGraphPreprocessor.OnPostprocessAllAssets 16.897ms
+			MaterialPostprocessor.OnPostprocessAllAssets 16.328ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 13.869ms
+			SpriteSlicePostprocessor.OnPostprocessAllAssets 12.127ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 10.175ms
+			AssetChangedListener.OnPostprocessAllAssets 7.127ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 5.543ms
+			SyncVS.PostprocessSyncProject 4.342ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 3.583ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 0.969ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 0.910ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.885ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 0.812ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.496ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.312ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.234ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.198ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.164ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.161ms
+			SamplePostprocessor.OnPostprocessAllAssets 0.156ms
+			AssetEvents.OnPostprocessAllAssets 0.131ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.128ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.128ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.127ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.116ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.104ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.093ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.055ms
+			AssetReloadNotifier.OnPostprocessAllAssets 0.051ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.237ms
+	UnloadStreamsBegin: 0.197ms
+	PersistCurrentRevisions: 0.310ms
+	GenerateScriptTypeHashes: 3.262ms
+	GenerateScriptTypeSerializationHashes: 4.893ms
+	Untracked: 627.769ms
+
+LightingSettings: switching bake backend from 2 to 1.
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            34.001 ms
+	Integration:            230.058 ms
+	Integration of assets:  0.014 ms
+	Thread Wait Time:       -0.007 ms
+	Total Operation Time:   264.066 ms
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+LEVELTEST PASS Beginner Level 03: GameManager, Spawner and End are up
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:153)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 03: one lane (1)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:156)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+[remote] error: Init socket failed
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L03_a_start_view.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:167)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L03_b_oblique.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:169)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L03_c_below.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:171)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+[BalanceTelemetry] Recording to /Users/philipp/Library/Application Support/Sakros/3DTD/telemetry/Beginner_Level_03_Medium_20261004-133358.csv
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+BalanceTelemetry:CreateFile () (at Assets/Scripts/BalanceTelemetry.cs:146)
+BalanceTelemetry:HandleWaveEnded (int) (at Assets/Scripts/BalanceTelemetry.cs:103)
+Spawner:Update () (at Assets/Scripts/Spawner.cs:116)
+
+(Filename: Assets/Scripts/BalanceTelemetry.cs Line: 146)
+
+LEVELTEST PASS Beginner Level 03: wave 1 ended (round 1)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:178)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 03: undefended, the enemies reached the exit (lives 150 -> 125)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:179)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 03: built Bomb Tower on the (0.00, 0.00, -1.00) face of the block at (4.00, 2.50, 2.50)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:184)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 03: wave 2 ended (round 2)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:192)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 03: Bomb Tower dealt 6 damage, 3 kills
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:195)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+Thread 0x7009993000 may have been prematurely finalized
+LightingSettings: switching bake backend from 2 to 1.
+Unloading 15 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            29.582 ms
+	Integration:            157.582 ms
+	Integration of assets:  0.008 ms
+	Thread Wait Time:       0.002 ms
+	Total Operation Time:   187.174 ms
+Unloading 70 unused Assets / (0.9 MB). Loaded Objects now: 22888.
+Memory consumption went from 0.58 GB to 0.58 GB.
+Total: 14.624292 ms (FindLiveObjects: 0.584333 ms CreateObjectMapping: 1.755542 ms MarkObjects: 11.753083 ms  DeleteObjects: 0.530792 ms)
+
+Opening scene 'Assets/Scenes/Beginner Level 04.unity'
+LightingSettings: switching bake backend from 2 to 1.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Scenes/Beginner Level 04.unity'
+	Deserialize:            5.155 ms
+	Integration:            180.895 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.026 ms
+	Total Operation Time:   186.078 ms
+Unloading 2627 unused Assets / (1.2 MB). Loaded Objects now: 23852.
+Memory consumption went from 0.59 GB to 0.59 GB.
+Total: 17.095458 ms (FindLiveObjects: 1.009875 ms CreateObjectMapping: 2.022041 ms MarkObjects: 12.541375 ms  DeleteObjects: 1.521958 ms)
+
+Thread 0x7009993000 may have been prematurely finalized
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+2026-10-04 13:34:12.606 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0f8208c0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:34:12.610 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0f822260 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:34:12.613 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0e0a5400 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:34:12.617 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0e0a68a0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Symbol file LoadedFromMemory is not a mono symbol file
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Native extension for LinuxStandalone target not found
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.620 seconds
+Domain Reload Profiling: 1228ms
+	BeginReloadAssembly (485ms)
+		DisableScriptedObjects (88ms)
+		CreateAndSetChildDomain (282ms)
+	RebuildCommonClasses (5ms)
+	RebuildNativeTypeToScriptingClass (8ms)
+	initialDomainReloadingComplete (20ms)
+	LoadAllAssembliesAndSetupDomain (88ms)
+		LoadAssemblies (42ms)
+		AnalyzeDomain (19ms)
+			TypeCache.Refresh (5ms)
+			ResolveRequiredComponents (12ms)
+	FinalizeReload (621ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (10ms)
+			BeforeProcessingInitializeOnLoad (45ms)
+			ProcessInitializeOnLoadAttributes (191ms)
+			ProcessInitializeOnLoadMethodAttributes (54ms)
+		AwakeInstancesAfterBackupRestoration (67ms)
+
+Asset Pipeline Refresh (id=ef00f73d2c9ca4138afece69a202d045): Total: 1.507 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=869 ms
+		Asset DB Callback time: managed=15 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=620 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=1961, non-scripts=12974
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 0.755ms
+	ApplyChangesToAssetFolders: 0.225ms
+	Collect global state as custom dependencies: 1.503ms
+	ProcessAssetsWithTransientArtifactChanges: 0.054ms
+	CategorizeAssets: 120.375ms
+	CompileScripts: 0.640ms
+	ImportOutOfDateAssets: 725.100ms (633.449ms without children)
+		CollectScriptTypesHashes: 0.594ms
+		ReloadNativeAssets: 1.241ms
+		UnloadImportedAssets: 0.122ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.478ms
+		ImportSchedulerStart: 88.783ms
+	PostProcessAllAssets: 15.967ms
+		MonoPostProcessAllAssets: 15.964ms
+			AssetPostprocessor.OnPostprocessAllAssets 106.075ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 87.790ms
+			PostProcessor.OnPostprocessAllAssets 21.881ms
+			VFXGraphPreprocessor.OnPostprocessAllAssets 16.897ms
+			MaterialPostprocessor.OnPostprocessAllAssets 16.328ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 13.869ms
+			SpriteSlicePostprocessor.OnPostprocessAllAssets 12.127ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 10.175ms
+			AssetChangedListener.OnPostprocessAllAssets 7.127ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 5.194ms
+			SyncVS.PostprocessSyncProject 4.166ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 3.583ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 0.969ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 0.910ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.909ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 0.770ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.496ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.292ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.234ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.198ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.186ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.164ms
+			SamplePostprocessor.OnPostprocessAllAssets 0.156ms
+			AssetEvents.OnPostprocessAllAssets 0.131ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.128ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.127ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.114ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.107ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.104ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.085ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.055ms
+			AssetReloadNotifier.OnPostprocessAllAssets 0.051ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.247ms
+	UnloadStreamsBegin: 0.407ms
+	PersistCurrentRevisions: 0.308ms
+	GenerateScriptTypeHashes: 3.465ms
+	GenerateScriptTypeSerializationHashes: 5.159ms
+	Untracked: 639.050ms
+
+LightingSettings: switching bake backend from 2 to 1.
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            33.888 ms
+	Integration:            227.215 ms
+	Integration of assets:  0.011 ms
+	Thread Wait Time:       0.002 ms
+	Total Operation Time:   261.115 ms
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+LEVELTEST PASS Beginner Level 04: GameManager, Spawner and End are up
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:153)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 04: one lane (1)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:156)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+[remote] error: Init socket failed
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L04_a_start_view.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:167)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L04_b_oblique.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:169)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L04_c_below.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:171)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+[BalanceTelemetry] Recording to /Users/philipp/Library/Application Support/Sakros/3DTD/telemetry/Beginner_Level_04_Medium_20261004-133436.csv
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+BalanceTelemetry:CreateFile () (at Assets/Scripts/BalanceTelemetry.cs:146)
+BalanceTelemetry:HandleWaveEnded (int) (at Assets/Scripts/BalanceTelemetry.cs:103)
+Spawner:Update () (at Assets/Scripts/Spawner.cs:116)
+
+(Filename: Assets/Scripts/BalanceTelemetry.cs Line: 146)
+
+LEVELTEST PASS Beginner Level 04: wave 1 ended (round 1)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:178)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 04: undefended, the enemies reached the exit (lives 150 -> 125)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:179)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 04: built Beam Tower on the (0.00, -1.00, 0.00) face of the block at (14.00, 6.00, 1.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:184)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LevelPlaytest: beam at (13.65, 5.07, 1.04) pointing (-1.00, 0.00, 0.00) (slider 90)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:AimBeam (Tower,UnityEngine.Vector3) (at Assets/Editor/LevelTools/LevelPlaytest.cs:247)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:186)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 247)
+
+LEVELTEST PASS Beginner Level 04: wave 2 ended (round 2)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:192)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 04: Beam Tower dealt 30 damage, 15 kills
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:195)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+Thread 0x7009993000 may have been prematurely finalized
+LightingSettings: switching bake backend from 2 to 1.
+Unloading 17 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            31.832 ms
+	Integration:            156.873 ms
+	Integration of assets:  0.007 ms
+	Thread Wait Time:       0.005 ms
+	Total Operation Time:   188.718 ms
+Unloading 75 unused Assets / (0.9 MB). Loaded Objects now: 23804.
+Memory consumption went from 0.59 GB to 0.59 GB.
+Total: 16.030667 ms (FindLiveObjects: 0.552541 ms CreateObjectMapping: 2.366875 ms MarkObjects: 12.805209 ms  DeleteObjects: 0.305792 ms)
+
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Opening scene 'Assets/Scenes/Beginner Level 05.unity'
+LightingSettings: switching bake backend from 2 to 1.
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Assets/Scenes/Beginner Level 05.unity'
+	Deserialize:            5.560 ms
+	Integration:            178.075 ms
+	Integration of assets:  0.002 ms
+	Thread Wait Time:       0.019 ms
+	Total Operation Time:   183.657 ms
+Unloading 3084 unused Assets / (1.4 MB). Loaded Objects now: 23098.
+Memory consumption went from 0.59 GB to 0.59 GB.
+Total: 16.827042 ms (FindLiveObjects: 0.778500 ms CreateObjectMapping: 2.610625 ms MarkObjects: 11.783542 ms  DeleteObjects: 1.654333 ms)
+
+Thread 0x7008dc7000 may have been prematurely finalized
+Reloading assemblies for play mode.
+Reloading assemblies after forced synchronous recompile.
+Begin MonoManager ReloadAssembly
+2026-10-04 13:34:43.509 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0dd14c80 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:34:43.512 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0f86bca0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:34:43.516 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0dd16da0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+2026-10-04 13:34:43.520 Unity[14369:16552267] NSEventModifierFlagFunction specified to -setKeyEquivalentModifierMask: for item <NSMenuItem: 0x7a0e0a4be0 SDF, ke='Command-F12'>, but is only supported for system-provided menu items; will not be used
+Symbol file LoadedFromMemory is not a mono symbol file
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Serialized reference type mismatch: field 'shootingPoints' expects 'ShootingPointReference' but the stored reference is a 'GameObject'. The reference is treated as null (and serialized as null in player builds). Re-assign the field in the Inspector to fix it.
+Native extension for LinuxStandalone target not found
+Native extension for iOS target not found
+Native extension for Android target not found
+Native extension for WindowsStandalone target not found
+Native extension for OSXStandalone target not found
+Native extension for WebGL target not found
+ScheduleIndexationOnStartup MainProcess:True IndexOnStartup:True
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Module] License group:
+  Id: F4-E4SU-4NGG-F7VJ-4QU2-XXXX
+  Product: Unity Personal
+  Type: ULF
+  Expiration: Unlimited
+[Licensing::Module] License group:
+  Id: 9071000562088-UnityPersXXXX
+  Product: Unity Personal
+  Type: Assigned
+  Expiration: Unlimited
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.615 seconds
+Domain Reload Profiling: 1208ms
+	BeginReloadAssembly (469ms)
+		DisableScriptedObjects (89ms)
+		CreateAndSetChildDomain (268ms)
+	RebuildCommonClasses (5ms)
+	RebuildNativeTypeToScriptingClass (9ms)
+	initialDomainReloadingComplete (22ms)
+	LoadAllAssembliesAndSetupDomain (88ms)
+		LoadAssemblies (43ms)
+		AnalyzeDomain (19ms)
+			TypeCache.Refresh (5ms)
+			ResolveRequiredComponents (12ms)
+	FinalizeReload (615ms)
+		SetupLoadedEditorAssemblies (0ms)
+			InitializePlatformSupportModulesInManaged (11ms)
+			BeforeProcessingInitializeOnLoad (44ms)
+			ProcessInitializeOnLoadAttributes (190ms)
+			ProcessInitializeOnLoadMethodAttributes (53ms)
+		AwakeInstancesAfterBackupRestoration (66ms)
+
+Asset Pipeline Refresh (id=4f68f458107c34fd1af7ad7ace87c0a3): Total: 1.488 seconds - Initiated by StopAssetImportingV2(ForceSynchronousImport | ForceDomainReload)
+	(Values over 0.05ms)
+	Summary:
+		Imports: total=0 (actual=0, local cache=0, cache server=0)
+		Asset DB Process Time: managed=0 ms, native=864 ms
+		Asset DB Callback time: managed=16 ms, native=0 ms
+		Scripting: domain reloads=1, domain reload time=607 ms, compile time=1 ms, other=0 ms
+		Project Asset Count: scripts=1961, non-scripts=12974
+		Asset File Changes: new=0, changed=0, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokePackagesCallback: 0.702ms
+	ApplyChangesToAssetFolders: 0.182ms
+	Collect global state as custom dependencies: 1.347ms
+	ProcessAssetsWithTransientArtifactChanges: 0.054ms
+	CategorizeAssets: 120.118ms
+	CompileScripts: 0.637ms
+	ImportOutOfDateAssets: 720.129ms (627.928ms without children)
+		CollectScriptTypesHashes: 0.521ms
+		ReloadNativeAssets: 1.171ms
+		UnloadImportedAssets: 0.131ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 1.204ms
+		ImportSchedulerStart: 89.663ms
+	PostProcessAllAssets: 16.465ms
+		MonoPostProcessAllAssets: 16.463ms
+			AssetPostprocessor.OnPostprocessAllAssets 106.075ms
+			ShaderGraphAssetPostProcessor.OnPostprocessAllAssets 87.790ms
+			PostProcessor.OnPostprocessAllAssets 21.881ms
+			VFXGraphPreprocessor.OnPostprocessAllAssets 16.897ms
+			MaterialPostprocessor.OnPostprocessAllAssets 16.328ms
+			TextAssetPostProcessor.OnPostprocessAllAssets 13.869ms
+			SpriteSlicePostprocessor.OnPostprocessAllAssets 12.127ms
+			StyleCatalogPostProcessor.OnPostprocessAllAssets 10.175ms
+			AssetChangedListener.OnPostprocessAllAssets 7.127ms
+			UniversalRenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 5.267ms
+			SyncVS.PostprocessSyncProject 4.361ms
+			BuilderAssetPostprocessor.OnPostprocessAllAssets 3.583ms
+			SpriteEditorTexturePostprocessor.OnPostprocessAllAssets 0.969ms
+			RetainedModeAssetPostprocessor.OnPostprocessAllAssets 0.910ms
+			SpeedTree9Postprocessor.OnPostprocessAllAssets 0.873ms
+			WindowAssetPostprocessingWatcher.OnPostprocessAllAssets 0.796ms
+			UVCSAssetPostprocessor.OnPostprocessAllAssets 0.496ms
+			RenderPipelineGlobalSettingsPostprocessor.OnPostprocessAllAssets 0.282ms
+			ArtifactBrowserPostProcessor.OnPostprocessAllAssets 0.234ms
+			SpeedTreePostProcessor.OnPostprocessAllAssets 0.198ms
+			ShaderReflectionAssetPostProcessor.OnPostprocessAllAssets 0.176ms
+			SampleDependencyImporterPostProcessor.OnPostprocessAllAssets 0.164ms
+			SamplePostprocessor.OnPostprocessAllAssets 0.156ms
+			AssetEvents.OnPostprocessAllAssets 0.131ms
+			AudioMixerPostprocessor.OnPostprocessAllAssets 0.128ms
+			TMPro_TexturePostProcessor.OnPostprocessAllAssets 0.127ms
+			EditModeScopePostprocessor.OnPostprocessAllAssets 0.120ms
+			ReferencedClipsPostProcessor.OnPostprocessAllAssets 0.110ms
+			ConfigAssetsTracker.OnPostprocessAllAssets 0.104ms
+			TerrainToolbarOverlayPostProcessor.OnPostprocessAllAssets 0.084ms
+			AssetDatabaseCallbacks.OnPostprocessAllAssets 0.054ms
+			AssetReloadNotifier.OnPostprocessAllAssets 0.051ms
+	GatherAllCurrentPrimaryImportResultRevisions: 0.230ms
+	UnloadStreamsBegin: 0.280ms
+	PersistCurrentRevisions: 0.314ms
+	GenerateScriptTypeHashes: 3.411ms
+	GenerateScriptTypeSerializationHashes: 5.093ms
+	Untracked: 625.563ms
+
+LightingSettings: switching bake backend from 2 to 1.
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            34.493 ms
+	Integration:            226.401 ms
+	Integration of assets:  0.008 ms
+	Thread Wait Time:       0.002 ms
+	Total Operation Time:   260.904 ms
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[Licensing::Client] Successfully resolved entitlement details
+[Licensing::Client] Successfully resolved entitlement details
+LEVELTEST PASS Beginner Level 05: GameManager, Spawner and End are up
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:153)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 05: one lane (1)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:156)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+[remote] error: Init socket failed
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L05_a_start_view.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:167)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L05_b_oblique.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:169)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+LevelPlaytest: wrote /Users/philipp/Projects/3DTD/tasks/perf/levelshots/L05_c_below.png
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Capture (string,UnityEngine.Quaternion,single) (at Assets/Editor/LevelTools/LevelPlaytest.cs:290)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:171)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 290)
+
+[BalanceTelemetry] Recording to /Users/philipp/Library/Application Support/Sakros/3DTD/telemetry/Beginner_Level_05_Medium_20261004-133510.csv
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+BalanceTelemetry:CreateFile () (at Assets/Scripts/BalanceTelemetry.cs:146)
+BalanceTelemetry:HandleWaveEnded (int) (at Assets/Scripts/BalanceTelemetry.cs:103)
+Spawner:Update () (at Assets/Scripts/Spawner.cs:116)
+
+(Filename: Assets/Scripts/BalanceTelemetry.cs Line: 146)
+
+LEVELTEST PASS Beginner Level 05: wave 1 ended (round 1)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:178)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 05: undefended, the enemies reached the exit (lives 150 -> 127)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:179)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 05: built Hangar Tower on the (0.00, 1.00, 0.00) face of the block at (0.00, 4.00, 0.00)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:184)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 05: wave 2 ended (round 2)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:192)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+LEVELTEST PASS Beginner Level 05: Hangar Tower dealt 12.2 damage, 4 kills
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Check (bool,string) (at Assets/Editor/LevelTools/LevelPlaytest.cs:143)
+LevelPlaytest/<LevelScenario>d__16:MoveNext () (at Assets/Editor/LevelTools/LevelPlaytest.cs:195)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:112)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 143)
+
+Thread 0x7009993000 may have been prematurely finalized
+LightingSettings: switching bake backend from 2 to 1.
+Unloading 15 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            31.151 ms
+	Integration:            156.789 ms
+	Integration of assets:  0.009 ms
+	Thread Wait Time:       0.004 ms
+	Total Operation Time:   187.954 ms
+Unloading 70 unused Assets / (0.8 MB). Loaded Objects now: 23049.
+Memory consumption went from 0.59 GB to 0.59 GB.
+Total: 15.122625 ms (FindLiveObjects: 0.673083 ms CreateObjectMapping: 1.772583 ms MarkObjects: 12.384834 ms  DeleteObjects: 0.291750 ms)
+
+LEVELTEST finished, 0 failed checks
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+LevelPlaytest:Finish () (at Assets/Editor/LevelTools/LevelPlaytest.cs:136)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:88)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: Assets/Editor/LevelTools/LevelPlaytest.cs Line: 136)
+
+MonoPathRemapper: Attempts to remap: 56131; Successful remaps: 12
+Thread 0x7046dab000 may have been prematurely finalized
+Serialized file version minimum: 23, current 23
+Clearing [Manrope-Bold SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+LevelPlaytest:Finish () (at Assets/Editor/LevelTools/LevelPlaytest.cs:138)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:88)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Clearing [Manrope-ExtraBold SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+LevelPlaytest:Finish () (at Assets/Editor/LevelTools/LevelPlaytest.cs:138)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:88)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Clearing [Manrope-Medium SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+LevelPlaytest:Finish () (at Assets/Editor/LevelTools/LevelPlaytest.cs:138)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:88)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Clearing [Manrope-SemiBold SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+LevelPlaytest:Finish () (at Assets/Editor/LevelTools/LevelPlaytest.cs:138)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:88)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Clearing [Sora-Bold SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+LevelPlaytest:Finish () (at Assets/Editor/LevelTools/LevelPlaytest.cs:138)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:88)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Clearing [Sora-ExtraBold SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+LevelPlaytest:Finish () (at Assets/Editor/LevelTools/LevelPlaytest.cs:138)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:88)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Clearing [Sora-SemiBold SDF] dynamic font asset data.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+TMPro.EditorEventCallbacks/<>c:<InitializeFontAssetResourceChangeCallBacks>b__0_0 () (at ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs:36)
+UnityEditor.EditorApplication:Internal_EditorApplicationQuit () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:128)
+LevelPlaytest:Finish () (at Assets/Editor/LevelTools/LevelPlaytest.cs:138)
+LevelPlaytest:Tick () (at Assets/Editor/LevelTools/LevelPlaytest.cs:88)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:403)
+
+(Filename: ./Library/PackageCache/com.unity.ugui@1c4864518158/Editor/TMP/TMP_EditorResourceManager.cs Line: 36)
+
+Killing ADB server in 0.051076 seconds.
+Importing 'GUID: b5f29bad05304450b9ab7277dfd32ce8 - Path: Assets/Fonts/Manrope/Manrope-Medium SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: b5f29bad05304450b9ab7277dfd32ce8' -> (Import Result ID: 'cb61bb827e031fa6239d66c2fa0f8afc') in 0.005 seconds [static dependencies only]. Details - ImportResultOutputID=ec3ec3f93bcf507604567c953f0b5957 DependenciesID=0e93cbb86ed043d6c0888f94658301af StaticDependenciesID=8ea8a00619bf04645ebfb69cfeab46c1 
+Importing 'GUID: 960a4a1fee038423aa04c0a49d711d9b - Path: Assets/Fonts/Sora/Sora-SemiBold SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 960a4a1fee038423aa04c0a49d711d9b' -> (Import Result ID: 'f0ee152553e8dc9ac62a81a89426c631') in 0.001 seconds [static dependencies only]. Details - ImportResultOutputID=c5376367d9140c4416bf39f8fde47f00 DependenciesID=5c744164e1951a442ae180395d62e8b6 StaticDependenciesID=f13d0a39dfad3eb2dbaac050dfbcbc39 
+Importing 'GUID: c72df4aa697254381b2ff24a4f97e6d3 - Path: Assets/Fonts/Manrope/Manrope-SemiBold SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: c72df4aa697254381b2ff24a4f97e6d3' -> (Import Result ID: '070301d1491a0a501e5cdab33f309727') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=2e7c58826d8c337f1c251c33b9ba64de DependenciesID=3c4bb27d96b34c1e8f718436c8471291 StaticDependenciesID=3865d2f26254e37be2f57786f222801d 
+Importing 'GUID: b81218380dce5435392e5af2bdd5146f - Path: Assets/Fonts/Sora/Sora-ExtraBold SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: b81218380dce5435392e5af2bdd5146f' -> (Import Result ID: '952eaa173b921a4527748364df4e20b5') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=2af47ebb0121feff9988dee99997374f DependenciesID=10babd8e3a758188fd534925dec15bf3 StaticDependenciesID=5b137e6e3eced2c0039820e8c6cb931b 
+Importing 'GUID: 9dbec836a26194eee9c3e94b0b2a02fe - Path: Assets/Fonts/Manrope/Manrope-ExtraBold SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 9dbec836a26194eee9c3e94b0b2a02fe' -> (Import Result ID: 'e2b437b14b599a3a5c1993c327428e8d') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=c965e93c81ab70ea8c040638d843abce DependenciesID=5803e16bd1725a33189edaa35a368a9a StaticDependenciesID=93dacaa17b23f991adbbf43d15d11526 
+Importing 'GUID: 1f393a07920384164ace0f7c2173264d - Path: Assets/Fonts/Manrope/Manrope-Bold SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 1f393a07920384164ace0f7c2173264d' -> (Import Result ID: 'ca9f0dcacc57f40995654255728eb9d7') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=3743d3df6aade6316de34d1f0cd20126 DependenciesID=02b0bfd84aa6cd32b4032df49b5f3bdc StaticDependenciesID=d41a957394ebfb9fa858d1deb4161887 
+Importing 'GUID: 7f6a6978d2a4943d9aaa8c7cba6e7253 - Path: Assets/Fonts/Sora/Sora-Bold SDF.asset' with importer (NativeFormatImporter)
+Imported 'GUID: 7f6a6978d2a4943d9aaa8c7cba6e7253' -> (Import Result ID: '6532add561161054dda27c460bc06877') in 0.000 seconds [static dependencies only]. Details - ImportResultOutputID=8e8b4bce18643da22ccdc54c9e891c81 DependenciesID=53ba04d9b6026a3964a05a452e103e99 StaticDependenciesID=5a6cf94023de4b5e983bb54f40f87bc7 
+"MSBuild-Server" wird heruntergefahren...
+"VB/C#-Compilerserver" wird heruntergefahren...
+"VB/C#-Compilerserver" wurde erfolgreich heruntergefahren.
+Asset Pipeline Refresh (id=71282de6c7db242daa2085aa061aa568): Total: 0.171 seconds - Initiated by StopAssetImportingV2(NoUpdateAssetOptions)
+Thread 0x7008fd3000 may have been prematurely finalized
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+[Licensing::IpcConnector] LicenseClient-philipp-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-philipp channel disconnected successfully.
+Thread 0x16cfe3000 may have been prematurely finalized
+Thread 0x16d0fb000 may have been prematurely finalized
+Thread 0x16d29f000 may have been prematurely finalized
+Thread 0x16d213000 may have been prematurely finalized
+Thread 0x16d187000 may have been prematurely finalized
+Thread 0x16d443000 may have been prematurely finalized
+Thread 0x16d06f000 may have been prematurely finalized
+Thread 0x16d32b000 may have been prematurely finalized
+Thread 0x16d3b7000 may have been prematurely finalized
+Lingering sessions upon destruction of worker manager
+AcceleratorClientConnectionCallback - disconnected - :0
+Thread 0x17b37f000 may have been prematurely finalized
+info: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+Cleanup mono
+CodeReloadManager destroyed
+info: Unity.ILPP.Runner.PostProcessingAssemblyLoadContext[0]
+      ALC ILPP context 1 is unloading
+"MSBuild-Server" wurde erfolgreich heruntergefahren.
+debugger-agent: Unable to listen on 44
+[usbmuxd] Stop listen thread
+[usbmuxd] Error: 
+[usbmuxd] Listen thread exiting

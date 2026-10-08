@@ -41,7 +41,7 @@ public static class UICapture
 
     public static void Run()
     {
-        string output = Path.GetFullPath(Path.Combine(Application.dataPath, "../../../tasks/ui-redesign/screenshots"));
+        string output = Path.GetFullPath(Path.Combine(Application.dataPath, "../../tasks/ui-redesign/screenshots"));
         string[] args = Environment.GetCommandLineArgs();
         for (int i = 0; i < args.Length - 1; i++)
         {

@@ -1,0 +1,80 @@
+{
+    "suite": "S3",
+    "startedAt": "2026-10-04T15:15:19",
+    "unityVersion": "6000.5.8f1",
+    "device": "Apple M4 Pro / Apple M4 Pro",
+    "runs": [
+        {
+            "id": "S3",
+            "layout": "dispensers",
+            "speed": 5.0,
+            "round": 100,
+            "towers": 150,
+            "frames": 1036,
+            "realSeconds": 27.386178970336915,
+            "gameSeconds": 135.5238037109375,
+            "gameSpeedRatio": 4.948620319366455,
+            "frameP50": 20.457794189453126,
+            "frameP95": 68.97420501708985,
+            "frameP99": 111.92321014404297,
+            "frameMax": 126.11512756347656,
+            "mainP50": 20.49654197692871,
+            "mainP99": 111.9090805053711,
+            "mainMax": 126.0930404663086,
+            "steadyGcFrameShare": 1.0,
+            "steadyGcPerFrame": 13655.2060546875,
+            "steadyGcBytes": 12644721,
+            "totalGcBytes": 19295790,
+            "damage": 227341.53125,
+            "kills": 1692,
+            "leakedLives": 16487,
+            "projectilesRequested": 446202,
+            "projectilesSpawned": 446202,
+            "pops": 42930,
+            "deathEffectsRequested": 46506,
+            "deathEffectsPlayed": 46506,
+            "effectsRequested": 663198,
+            "effectsPlayed": 663198,
+            "timedOut": false,
+            "wrongEnemyScale": 0,
+            "damageByType": [
+                "Bullet Dispenser=227342"
+            ],
+            "markers": [
+                "PlayerLoop=26.38/111.6ms",
+                "Update.ScriptRunBehaviourUpdate=9.92/53.9ms",
+                "PreLateUpdate.ScriptRunBehaviourLateUpdate=13.64/53.0ms",
+                "FixedUpdate.PhysicsFixedUpdate=0.00/0.0ms",
+                "FixedUpdate.ScriptRunBehaviourFixedUpdate=0.00/0.0ms",
+                "PreUpdate.PhysicsUpdate=0.00/0.0ms",
+                "Physics.Simulate=0.87/2.7ms",
+                "Physics.SyncTransforms=0.35/0.9ms",
+                "Physics.SendTriggerEvents=0.47/2.0ms",
+                "Physics.SendContactEvents=0.00/0.0ms",
+                "ParticleSystem.EndUpdateAll=0.08/1.0ms",
+                "GC.Collect=0.00/0.0ms",
+                "3DTD.Projectiles.Step=0.15/0.5ms",
+                "3DTD.Projectiles.Apply=0.84/4.9ms",
+                "3DTD.Effects.Update=7.11/43.2ms",
+                "3DTD.Effects.TrailEmit=0.33/2.1ms",
+                "3DTD.Effects.Flights=6.07/36.2ms",
+                "3DTD.DeathEffects=0.08/0.2ms",
+                "3DTD.Enemy.TakeDamage=0.25/2.4ms",
+                "Gfx.WaitForPresentOnGfxThread=0.00/0.0ms",
+                "Render.OpaqueGeometry=0.00/0.0ms",
+                "Render.TransparentGeometry=0.00/0.0ms",
+                "Instantiate=0.26/5.9ms"
+            ],
+            "failures": [
+                "S3: frame p99 111.9 ms > 16.7",
+                "S3: frame max 126.1 ms > 33.3",
+                "S3: GC 13655 B per steady frame > 1024"
+            ]
+        }
+    ],
+    "failures": [
+        "S3: frame p99 111.9 ms > 16.7",
+        "S3: frame max 126.1 ms > 33.3",
+        "S3: GC 13655 B per steady frame > 1024"
+    ]
+}

@@ -1,0 +1,69 @@
+{
+    "suite": "P-1x",
+    "startedAt": "2026-10-04T13:20:56",
+    "unityVersion": "6000.5.8f1",
+    "device": "Apple M4 Pro / Apple M4 Pro",
+    "runs": [
+        {
+            "id": "P-1x",
+            "layout": "parity",
+            "speed": 1.0,
+            "round": 60,
+            "towers": 8,
+            "frames": 6750,
+            "realSeconds": 45.7144660949707,
+            "gameSeconds": 45.7144660949707,
+            "gameSpeedRatio": 1.0,
+            "frameP50": 5.90549898147583,
+            "frameP95": 12.717375755310059,
+            "frameP99": 17.263002395629884,
+            "frameMax": 56.240333557128909,
+            "mainP50": 5.902083873748779,
+            "mainP99": 17.22658348083496,
+            "mainMax": 56.21845626831055,
+            "steadyGcFrameShare": 1.0,
+            "steadyGcPerFrame": 6358.42138671875,
+            "steadyGcBytes": 40840140,
+            "totalGcBytes": 61668174,
+            "damage": 18753.013671875,
+            "kills": 107,
+            "leakedLives": 3350,
+            "projectilesRequested": 1198,
+            "projectilesSpawned": 1198,
+            "pops": 3144,
+            "deathEffectsRequested": 3431,
+            "deathEffectsPlayed": 719,
+            "effectsRequested": 0,
+            "effectsPlayed": 0,
+            "timedOut": false,
+            "damageByType": [
+                "Laser Tower=72",
+                "Bullet Dispenser=240",
+                "Rocket System=16573",
+                "Beam Tower=0",
+                "Sniper Tower=366",
+                "Core Tower=12",
+                "Hangar=600",
+                "Mine Factory=890"
+            ],
+            "markers": [
+                "PlayerLoop=6.54ms",
+                "Update.ScriptRunBehaviourUpdate=0.58ms",
+                "PreLateUpdate.ScriptRunBehaviourLateUpdate=4.38ms",
+                "FixedUpdate.PhysicsFixedUpdate=0.43ms",
+                "FixedUpdate.ScriptRunBehaviourFixedUpdate=0.03ms",
+                "PreUpdate.PhysicsUpdate=0.15ms",
+                "ParticleSystem.EndUpdateAll=0.30ms",
+                "GC.Collect=0.00ms",
+                "Instantiate=0.17ms",
+                "Camera.Render=0.00ms"
+            ],
+            "failures": [
+                "P-1x: death animations skipped: 2712 of 3431"
+            ]
+        }
+    ],
+    "failures": [
+        "P-1x: death animations skipped: 2712 of 3431"
+    ]
+}

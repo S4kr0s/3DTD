@@ -58,7 +58,7 @@ public static class LevelPlaytest
 
     public static void Run()
     {
-        string output = Path.GetFullPath(Path.Combine(Application.dataPath, "../../../tasks/levels/screenshots"));
+        string output = Path.GetFullPath(Path.Combine(Application.dataPath, "../../tasks/levels/screenshots"));
         string[] args = Environment.GetCommandLineArgs();
         for (int i = 0; i < args.Length - 1; i++)
         {

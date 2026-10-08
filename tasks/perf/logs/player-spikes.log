@@ -1,0 +1,946 @@
+Mono path[0] = '/Users/philipp/Projects/3DTD/3DTD/3DTD/Builds/PerfPlayer/3DTD.app/Contents/Resources/Data/Managed'
+Mono config path = '/Users/philipp/Projects/3DTD/3DTD/3DTD/Builds/PerfPlayer/3DTD.app/Contents/MonoBleedingEdge/etc'
+CodeReloadManager initialized
+Found 5 interfaces on host : 0) 192.168.178.132 1) 192.168.178.133 2) 192.168.139.3 3) 192.168.215.0 4) 192.168.97.0
+Player connection [8171323264]  Target information:
+
+Player connection [8171323264]  * "[IP] 192.168.178.132 [Port] 55000 [Flags] 2 [Guid] 2644156118 [EditorId] 2716402755 [Version] 1048832 [Id] OSXPlayer(1,Philipps-Mac-LAN.fritz.box) [Debug] 0 [PackageName] OSXPlayer [ProjectName] 3DTD" 
+
+Player connection [8171323264]  * "[IP] 192.168.178.133 [Port] 55000 [Flags] 2 [Guid] 2644156118 [EditorId] 2716402755 [Version] 1048832 [Id] OSXPlayer(1,Philipps-Mac-LAN.fritz.box) [Debug] 0 [PackageName] OSXPlayer [ProjectName] 3DTD" 
+
+Player connection [8171323264]  * "[IP] 192.168.139.3 [Port] 55000 [Flags] 2 [Guid] 2644156118 [EditorId] 2716402755 [Version] 1048832 [Id] OSXPlayer(1,Philipps-Mac-LAN.fritz.box) [Debug] 0 [PackageName] OSXPlayer [ProjectName] 3DTD" 
+
+Player connection [8171323264]  * "[IP] 192.168.215.0 [Port] 55000 [Flags] 2 [Guid] 2644156118 [EditorId] 2716402755 [Version] 1048832 [Id] OSXPlayer(1,Philipps-Mac-LAN.fritz.box) [Debug] 0 [PackageName] OSXPlayer [ProjectName] 3DTD" 
+
+Player connection [8171323264]  * "[IP] 192.168.97.0 [Port] 55000 [Flags] 2 [Guid] 2644156118 [EditorId] 2716402755 [Version] 1048832 [Id] OSXPlayer(1,Philipps-Mac-LAN.fritz.box) [Debug] 0 [PackageName] OSXPlayer [ProjectName] 3DTD" 
+
+Player connection [8171323264] Started UDP target info broadcast (1) on [225.0.0.222:54997].
+
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+ preferred device: Apple M4 Pro (high power)
+Metal devices available: 1
+0: Apple M4 Pro (high power)
+Using device Apple M4 Pro (high power)
+Initialize engine version: 6000.5.8f1 (5cb7df797b7d)
+[Subsystems] Discovering subsystems at path /Users/philipp/Projects/3DTD/3DTD/3DTD/Builds/PerfPlayer/3DTD.app/Contents/Resources/Data/UnitySubsystems
+GfxDevice: creating device client; kGfxThreadingModeThreaded
+Initializing Metal device caps: Apple M4 Pro
+Mac GPU Family: 2
+Apple GPU Family: 9
+MSL Version: 3.0
+Has Float MSAA: 1
+Has Float Filtering: 1
+ReadWrite Texture Tier: 2
+Begin MonoManager ReloadAssembly
+Symbol file LoadedFromMemory is not a mono symbol file
+- Finished resetting the current domain, in  0.014 seconds
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Metal RecreateSurface[0x10cf96ed0]: surface size 1920x1080
+Couldn't create a Convex Mesh from source mesh, within the maximum polygons limit (256). The partial hull will be used. Consider simplifying your mesh. Source mesh name: default
+Couldn't create a Convex Mesh from source mesh, within the maximum polygons limit (256). The partial hull will be used. Consider simplifying your mesh. Source mesh name: SM_Primitive_Sphere_05
+UnloadTime: 0.513583 ms
+PERF RUN S1-1x (mixed, 1x, round 100)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario/<RunOne>d__44:MoveNext () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:297)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 9.282084 ms
+Unloading 3156 unused Assets / (1.0 MB). Loaded Objects now: 12949.
+Memory consumption went from 125.5 MB to 124.5 MB.
+Total: 3.123250 ms (FindLiveObjects: 0.269250 ms CreateObjectMapping: 0.490167 ms MarkObjects: 1.535208 ms  DeleteObjects: 0.828542 ms)
+
+PERF layout S1-1x: 154 block spots, 43 towers planned, 43 built
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario/<RunOne>d__44:MoveNext () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:339)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: LaserMuzzleBlue plays batched one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:66)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:77)
+ProjectileSystem:Spawn (ProjectileArchetype,ProjectileSystem/Shot&,int,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:224)
+ProjectileSystem:Fire (UnityEngine.GameObject,ProjectileSystem/Shot&) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:169)
+LaserTowerActionStrategy:FireVolley (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/LaserTowerActionStrategy.cs:83)
+LaserTowerActionStrategy:ExecuteAction () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/LaserTowerActionStrategy.cs:38)
+Tower:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: LaserBlue plays batched flight
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:Attach (UnityEngine.Vector3,UnityEngine.Quaternion,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:92)
+EffectPlayer:Attach (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:87)
+ProjectileSystem:Spawn (ProjectileArchetype,ProjectileSystem/Shot&,int,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:225)
+ProjectileSystem:Fire (UnityEngine.GameObject,ProjectileSystem/Shot&) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:169)
+LaserTowerActionStrategy:FireVolley (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/LaserTowerActionStrategy.cs:83)
+LaserTowerActionStrategy:ExecuteAction () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/LaserTowerActionStrategy.cs:38)
+Tower:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: RocketMuzzleGreen plays pooled one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:66)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:77)
+ProjectileSystem:Spawn (ProjectileArchetype,ProjectileSystem/Shot&,int,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:224)
+ProjectileSystem:Fire (UnityEngine.GameObject,ProjectileSystem/Shot&) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:169)
+BombTowerActionStrategy:FireVolley (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/BombTowerActionStrategy.cs:70)
+BombTowerActionStrategy:ExecuteAction () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/BombTowerActionStrategy.cs:41)
+Tower:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: RocketMissileGreen plays batched flight
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:Attach (UnityEngine.Vector3,UnityEngine.Quaternion,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:92)
+EffectPlayer:Attach (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:87)
+ProjectileSystem:Spawn (ProjectileArchetype,ProjectileSystem/Shot&,int,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:225)
+ProjectileSystem:Fire (UnityEngine.GameObject,ProjectileSystem/Shot&) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:169)
+BombTowerActionStrategy:FireVolley (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/BombTowerActionStrategy.cs:70)
+BombTowerActionStrategy:ExecuteAction () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/BombTowerActionStrategy.cs:41)
+Tower:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: GrenadeMuzzleRed plays pooled one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:66)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:77)
+MineFactoryActionStrategy:SpawnEffect (UnityEngine.GameObject,UnityEngine.Vector3,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:583)
+MineFactoryActionStrategy:LaunchMine () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:217)
+MineFactoryActionStrategy:Produce (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:190)
+MineFactoryActionStrategy:ExecuteAction () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:162)
+Tower:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 42.6 ms at frame 2, 0 enemies, GC 626451 B: PlayerLoop=42.6 Update.ScriptRunBehaviourUpdate=37.5 3DTD.Projectiles.Step=19.5 3DTD.Enemy.TakeDamage=2.7 3DTD.Enemy.PopLayer=2.6 3DTD.Effects.Create=7.0 BehaviourUpdate=37.5 Instantiate=1.8
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: LaserExplosionBlue plays batched one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:66)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:77)
+ProjectileSystem:Apply (int) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:330)
+ProjectileSystem:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:280)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: RocketExplosionGreen plays pooled one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:66)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:77)
+ProjectileSystem:Explode (ProjectileSystem/State&,ProjectileArchetype,Tower,Unity.Mathematics.float3,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:415)
+ProjectileSystem:Apply (int) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:337)
+ProjectileSystem:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:280)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 53.7 ms at frame 96, 44 enemies, GC 7952 B: PlayerLoop=53.7
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: GrenadeExplosionGreen plays pooled one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:66)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:77)
+ProjectileSystem:Apply (int) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:343)
+ProjectileSystem:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:280)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: RocketExplosionRed plays pooled one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:66)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:77)
+MineFactoryActionStrategy:SpawnEffect (UnityEngine.GameObject,UnityEngine.Vector3,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:583)
+MineFactoryActionStrategy:Blast (UnityEngine.Vector3,single,single,UnityEngine.GameObject,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:564)
+MineFactoryActionStrategy:Detonate (Mine) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:522)
+MineFactoryActionStrategy:CheckContacts (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:500)
+MineFactoryActionStrategy:ExecuteAction () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:160)
+Tower:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: MiniExploLava plays batched one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:66)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:77)
+MineFactoryActionStrategy:SpawnEffect (UnityEngine.GameObject,UnityEngine.Vector3,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:583)
+MineFactoryActionStrategy:Blast (UnityEngine.Vector3,single,single,UnityEngine.GameObject,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:564)
+MineFactoryActionStrategy:UpdatePendingBlasts (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:558)
+MineFactoryActionStrategy:ExecuteAction () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:161)
+Tower:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: GrenadeExplosionRed plays pooled one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:66)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:77)
+MineFactoryActionStrategy:SpawnEffect (UnityEngine.GameObject,UnityEngine.Vector3,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:583)
+MineFactoryActionStrategy:Blast (UnityEngine.Vector3,single,single,UnityEngine.GameObject,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:564)
+MineFactoryActionStrategy:Detonate (Mine) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:522)
+MineFactoryActionStrategy:CheckContacts (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:500)
+MineFactoryActionStrategy:ExecuteAction () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:160)
+Tower:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: BuffYellow plays pooled one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:66)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:77)
+MineFactoryActionStrategy:SpawnEffect (UnityEngine.GameObject,UnityEngine.Vector3,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:583)
+MineFactoryActionStrategy:ScrapMine () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:229)
+MineFactoryActionStrategy:Produce (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:192)
+MineFactoryActionStrategy:ExecuteAction () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/MineFactoryActionStrategy.cs:162)
+Tower:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: MiniExploFire plays pooled one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:66)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:77)
+BulletDispenserTowerActionStrategy:FireAura () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:77)
+BulletDispenserTowerActionStrategy:FireVolley (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:55)
+BulletDispenserTowerActionStrategy:ExecuteAction () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:49)
+Tower:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+[BalanceTelemetry] Recording to /Users/philipp/Library/Application Support/Sakros/3DTD/telemetry/Beginner_Level_01_Medium_20261004-152642.csv
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+BalanceTelemetry:CreateFile () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/BalanceTelemetry.cs:146)
+BalanceTelemetry:HandleWaveEnded (int) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/BalanceTelemetry.cs:103)
+Spawner:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Spawner.cs:116)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF RESULT S1-1x: towers 43, frames 11060, frame p50/p95/p99/max 5.9/8.6/10.2/53.7 ms, main p50/p99 5.9/10.2 ms, speed 1.00x, GC steady 79.9% frames (6326812 B, 595 B/frame), damage 370499, kills 2068, leaked 0, pops 59417, projectiles 5512/5512, death fx 64431/64431, fx 16137/16137, markers [PlayerLoop=5.93/10.2ms, Update.ScriptRunBehaviourUpdate=1.20/2.7ms, PreLateUpdate.ScriptRunBehaviourLateUpdate=0.03/0.1ms, FixedUpdate.PhysicsFixedUpdate=0.00/0.0ms, FixedUpdate.ScriptRunBehaviourFixedUpdate=0.01/0.0ms, PreUpdate.PhysicsUpdate=0.00/0.0ms, Physics.Simulate=0.22/0.4ms, Physics.SyncTransforms=0.21/0.5ms, Physics.SendTriggerEvents=0.01/0.0ms, Physics.SendContactEvents=0.00/0.0ms, ParticleSystem.EndUpdateAll=0.11/0.5ms, GC.Collect=0.00/0.0ms, 3DTD.Projectiles.Step=0.02/0.0ms, 3DTD.Projectiles.Apply=0.04/0.6ms, 3DTD.Effects.Update=0.06/0.1ms, 3DTD.Effects.TrailEmit=0.00/0.0ms, 3DTD.Effects.Flights=0.05/0.1ms, 3DTD.DeathEffects=0.13/0.5ms, 3DTD.Enemy.TakeDamage=0.03/0.5ms, 3DTD.Enemy.PopLayer=0.03/0.5ms, 3DTD.Enemy.ShowShape=0.02/0.3ms, 3DTD.Effects.Create=0.01/0.2ms, BehaviourUpdate=1.20/2.7ms, Gfx.WaitForPresentOnGfxThread=0.08/3.4ms, Render.OpaqueGeometry=0.00/0.0ms, Render.TransparentGeometry=0.00/0.0ms, Instantiate=0.03/0.6ms], by type [Laser Tower=4289, Bullet Dispenser=4949, Rocket System=186069, Beam Tower=937, Sniper Tower=7406, Core Tower=19, Hangar=112956, Mine Factory=53874]
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Summarize (PerfScenario/Run,PerfScenario/RunResult,System.Collections.Generic.List`1<Tower>,int) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:1027)
+PerfScenario/<RunOne>d__44:MoveNext () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:393)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF RUN S3 (dispensers, 5x, round 100)
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario/<RunOne>d__44:MoveNext () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:297)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 80.783708 ms
+Unloading 7 unused Assets / (0 B). Loaded Objects now: 12947.
+Memory consumption went from 152.1 MB to 152.1 MB.
+Total: 2.340625 ms (FindLiveObjects: 0.196125 ms CreateObjectMapping: 0.222416 ms MarkObjects: 1.907834 ms  DeleteObjects: 0.014208 ms)
+
+PERF layout S3: 154 block spots, 150 towers planned, 150 built
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario/<RunOne>d__44:MoveNext () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:339)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: LaserMuzzleBlue plays batched one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:66)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:77)
+ProjectileSystem:Spawn (ProjectileArchetype,ProjectileSystem/Shot&,int,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:224)
+ProjectileSystem:Fire (UnityEngine.GameObject,ProjectileSystem/Shot&) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:169)
+BulletDispenserTowerActionStrategy:FireBullets (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:137)
+BulletDispenserTowerActionStrategy:FireVolley (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:59)
+BulletDispenserTowerActionStrategy:ExecuteAction () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:49)
+Tower:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: LaserBlue plays batched flight
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:Attach (UnityEngine.Vector3,UnityEngine.Quaternion,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:92)
+EffectPlayer:Attach (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:87)
+ProjectileSystem:Spawn (ProjectileArchetype,ProjectileSystem/Shot&,int,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:225)
+ProjectileSystem:Fire (UnityEngine.GameObject,ProjectileSystem/Shot&) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:169)
+BulletDispenserTowerActionStrategy:FireBullets (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:137)
+BulletDispenserTowerActionStrategy:FireVolley (single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:59)
+BulletDispenserTowerActionStrategy:ExecuteAction () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Tower/ActionStrategies/BulletDispenserTowerActionStrategy.cs:49)
+Tower:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Entities/Tower.cs:89)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+EffectPlayer: LaserExplosionBlue plays batched one-shot
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+EffectPlayer:LogBackend (UnityEngine.GameObject,string) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:93)
+EffectPool:PlayOneShot (UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPool.cs:66)
+EffectPlayer:Play (UnityEngine.GameObject,UnityEngine.Vector3,UnityEngine.Quaternion,single,single,single) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Effects/EffectPlayer.cs:77)
+ProjectileSystem:Apply (int) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:320)
+ProjectileSystem:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Combat/ProjectileSystem.cs:280)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 44.6 ms at frame 390, 509 enemies, GC 26292 B: PlayerLoop=44.6 Update.ScriptRunBehaviourUpdate=37.2 Physics.Simulate=1.5 3DTD.Projectiles.Apply=2.4 3DTD.Effects.Update=8.6 3DTD.Effects.TrailEmit=2.3 3DTD.Effects.Flights=5.4 3DTD.Enemy.TakeDamage=1.1 3DTD.Enemy.PopLayer=1.0 BehaviourUpdate=37.1
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 46.6 ms at frame 391, 493 enemies, GC 17226 B: PlayerLoop=46.6 Update.ScriptRunBehaviourUpdate=39.2 Physics.Simulate=1.5 3DTD.Projectiles.Apply=2.3 3DTD.Effects.Update=8.8 3DTD.Effects.TrailEmit=1.9 3DTD.Effects.Flights=6.0 BehaviourUpdate=39.2
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 46.2 ms at frame 392, 472 enemies, GC 28598 B: PlayerLoop=46.2 Update.ScriptRunBehaviourUpdate=39.0 Physics.Simulate=1.5 3DTD.Projectiles.Apply=2.7 3DTD.Effects.Update=7.5 3DTD.Effects.Flights=5.9 3DTD.Enemy.TakeDamage=1.4 3DTD.Enemy.PopLayer=1.3 BehaviourUpdate=39.0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 45.5 ms at frame 393, 447 enemies, GC 21336 B: PlayerLoop=45.5 Update.ScriptRunBehaviourUpdate=37.7 Physics.Simulate=1.6 3DTD.Projectiles.Apply=3.0 3DTD.Effects.Update=7.6 3DTD.Effects.Flights=5.8 3DTD.Enemy.TakeDamage=1.5 3DTD.Enemy.PopLayer=1.5 BehaviourUpdate=37.7
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 40.9 ms at frame 395, 403 enemies, GC 30490 B: PlayerLoop=40.9 Update.ScriptRunBehaviourUpdate=33.8 Physics.Simulate=1.2 3DTD.Projectiles.Apply=1.9 3DTD.Effects.Update=6.2 3DTD.Effects.Flights=4.9 BehaviourUpdate=33.8
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 40.2 ms at frame 953, 555 enemies, GC 1120 B: PlayerLoop=40.2 Update.ScriptRunBehaviourUpdate=32.3 Physics.Simulate=1.7 3DTD.Projectiles.Apply=2.1 3DTD.Effects.Update=6.7 3DTD.Effects.Flights=5.3 BehaviourUpdate=32.3
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 42.5 ms at frame 955, 542 enemies, GC 8288 B: PlayerLoop=42.5 Update.ScriptRunBehaviourUpdate=34.9 Physics.Simulate=1.5 3DTD.Projectiles.Apply=2.0 3DTD.Effects.Update=6.8 3DTD.Effects.Flights=5.1 BehaviourUpdate=34.9
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 42.6 ms at frame 956, 531 enemies, GC 3110 B: PlayerLoop=42.6 Update.ScriptRunBehaviourUpdate=34.9 Physics.Simulate=1.5 3DTD.Projectiles.Apply=2.2 3DTD.Effects.Update=7.2 3DTD.Effects.TrailEmit=1.3 3DTD.Effects.Flights=5.3 BehaviourUpdate=34.9
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 43.1 ms at frame 957, 516 enemies, GC 11906 B: PlayerLoop=43.1 Update.ScriptRunBehaviourUpdate=35.3 Physics.Simulate=1.5 3DTD.Projectiles.Apply=2.2 3DTD.Effects.Update=6.9 3DTD.Effects.TrailEmit=1.1 3DTD.Effects.Flights=5.1 BehaviourUpdate=35.3
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 41.6 ms at frame 958, 493 enemies, GC 12784 B: PlayerLoop=41.6 Update.ScriptRunBehaviourUpdate=33.9 Physics.Simulate=1.5 3DTD.Projectiles.Apply=2.3 3DTD.Effects.Update=6.9 3DTD.Effects.Flights=5.2 3DTD.Enemy.TakeDamage=1.1 3DTD.Enemy.PopLayer=1.0 BehaviourUpdate=33.9
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 41.9 ms at frame 959, 465 enemies, GC 15520 B: PlayerLoop=41.9 Update.ScriptRunBehaviourUpdate=34.2 Physics.Simulate=1.4 Physics.SendTriggerEvents=1.1 3DTD.Projectiles.Apply=1.9 3DTD.Effects.Update=6.4 3DTD.Effects.Flights=5.0 BehaviourUpdate=34.2
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 40.6 ms at frame 960, 446 enemies, GC 6316 B: PlayerLoop=40.6 Update.ScriptRunBehaviourUpdate=33.2 Physics.Simulate=1.4 3DTD.Projectiles.Apply=1.7 3DTD.Effects.Update=6.0 3DTD.Effects.Flights=4.7 BehaviourUpdate=33.2
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 42.7 ms at frame 1493, 621 enemies, GC 64 B: PlayerLoop=42.7 Update.ScriptRunBehaviourUpdate=33.4 Physics.Simulate=2.1 Physics.SendTriggerEvents=1.1 3DTD.Projectiles.Apply=1.7 3DTD.Effects.Update=5.9 3DTD.Effects.Flights=4.6 BehaviourUpdate=33.4
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 40.2 ms at frame 1494, 614 enemies, GC 3252 B: PlayerLoop=40.2 Update.ScriptRunBehaviourUpdate=30.1 Physics.Simulate=2.7 Physics.SendTriggerEvents=1.4 3DTD.Projectiles.Apply=2.0 3DTD.Effects.Update=7.3 3DTD.Effects.Flights=5.6 BehaviourUpdate=30.1
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 42.9 ms at frame 1495, 608 enemies, GC 3264 B: PlayerLoop=42.9 Update.ScriptRunBehaviourUpdate=33.8 Physics.Simulate=2.2 Physics.SendTriggerEvents=1.2 3DTD.Projectiles.Apply=2.2 3DTD.Effects.Update=7.4 3DTD.Effects.Flights=5.6 BehaviourUpdate=33.8
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 43.9 ms at frame 1496, 602 enemies, GC 3200 B: PlayerLoop=43.9 Update.ScriptRunBehaviourUpdate=34.9 Physics.Simulate=2.3 Physics.SendTriggerEvents=1.2 3DTD.Projectiles.Apply=2.1 3DTD.Effects.Update=7.3 3DTD.Effects.Flights=5.8 BehaviourUpdate=34.9
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 43.7 ms at frame 1497, 597 enemies, GC 3264 B: PlayerLoop=43.7 Update.ScriptRunBehaviourUpdate=35.5 Physics.Simulate=2.0 3DTD.Projectiles.Apply=1.9 3DTD.Effects.Update=7.1 3DTD.Effects.Flights=5.6 BehaviourUpdate=35.5
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 43.3 ms at frame 1498, 595 enemies, GC 3116 B: PlayerLoop=43.3 Update.ScriptRunBehaviourUpdate=34.7 Physics.Simulate=2.1 3DTD.Projectiles.Apply=1.9 3DTD.Effects.Update=7.4 3DTD.Effects.TrailEmit=1.1 3DTD.Effects.Flights=5.6 BehaviourUpdate=34.7
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 44.3 ms at frame 1499, 592 enemies, GC 3252 B: PlayerLoop=44.3 Update.ScriptRunBehaviourUpdate=36.0 Physics.Simulate=1.9 3DTD.Projectiles.Apply=2.0 3DTD.Effects.Update=7.5 3DTD.Effects.Flights=5.6 BehaviourUpdate=36.0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 43.2 ms at frame 1500, 589 enemies, GC 3116 B: PlayerLoop=43.2 Update.ScriptRunBehaviourUpdate=34.6 Physics.Simulate=2.0 3DTD.Projectiles.Apply=1.8 3DTD.Effects.Update=7.0 3DTD.Effects.Flights=5.6 BehaviourUpdate=34.6
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 43.2 ms at frame 1501, 583 enemies, GC 3116 B: PlayerLoop=43.2 Update.ScriptRunBehaviourUpdate=35.3 Physics.Simulate=1.8 3DTD.Projectiles.Apply=2.1 3DTD.Effects.Update=7.1 3DTD.Effects.Flights=5.4 BehaviourUpdate=35.3
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 41.8 ms at frame 1502, 579 enemies, GC 3116 B: PlayerLoop=41.8 Update.ScriptRunBehaviourUpdate=33.6 Physics.Simulate=1.8 3DTD.Projectiles.Apply=2.0 3DTD.Effects.Update=7.5 3DTD.Effects.TrailEmit=1.1 3DTD.Effects.Flights=5.6 BehaviourUpdate=33.6
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 43.2 ms at frame 1503, 577 enemies, GC 3796 B: PlayerLoop=43.2 Update.ScriptRunBehaviourUpdate=35.0 Physics.Simulate=1.7 3DTD.Projectiles.Apply=1.7 3DTD.Effects.Update=7.0 3DTD.Effects.Flights=5.5 BehaviourUpdate=35.0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 47.4 ms at frame 1504, 572 enemies, GC 3404 B: PlayerLoop=47.4 Update.ScriptRunBehaviourUpdate=39.1 Physics.Simulate=1.9 3DTD.Projectiles.Apply=2.3 3DTD.Effects.Update=7.8 3DTD.Effects.Flights=6.0 BehaviourUpdate=39.1
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 49.5 ms at frame 1505, 566 enemies, GC 3404 B: PlayerLoop=49.5 Update.ScriptRunBehaviourUpdate=40.8 Physics.Simulate=1.9 Physics.SendTriggerEvents=1.1 3DTD.Projectiles.Apply=2.5 3DTD.Effects.Update=9.4 3DTD.Effects.TrailEmit=1.5 3DTD.Effects.Flights=6.8 3DTD.Enemy.TakeDamage=1.0 BehaviourUpdate=40.8
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 53.0 ms at frame 1506, 560 enemies, GC 4158 B: PlayerLoop=53.0 Update.ScriptRunBehaviourUpdate=44.6 Physics.Simulate=2.0 Physics.SendTriggerEvents=1.0 3DTD.Projectiles.Apply=2.4 3DTD.Effects.Update=11.6 3DTD.Effects.TrailEmit=3.2 3DTD.Effects.Flights=7.3 BehaviourUpdate=44.6
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 53.4 ms at frame 1507, 552 enemies, GC 4138 B: PlayerLoop=53.4 Update.ScriptRunBehaviourUpdate=44.8 Physics.Simulate=1.9 Physics.SendTriggerEvents=1.1 3DTD.Projectiles.Apply=2.4 3DTD.Effects.Update=9.7 3DTD.Effects.TrailEmit=1.1 3DTD.Effects.Flights=7.6 BehaviourUpdate=44.8
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 54.2 ms at frame 1508, 540 enemies, GC 4004 B: PlayerLoop=54.2 Update.ScriptRunBehaviourUpdate=46.2 Physics.Simulate=1.8 Physics.SendTriggerEvents=1.1 3DTD.Projectiles.Apply=2.6 3DTD.Effects.Update=8.8 3DTD.Effects.TrailEmit=1.1 3DTD.Effects.Flights=6.8 3DTD.Enemy.TakeDamage=1.1 3DTD.Enemy.PopLayer=1.1 BehaviourUpdate=46.2
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 56.4 ms at frame 1509, 526 enemies, GC 4308 B: PlayerLoop=56.4 Update.ScriptRunBehaviourUpdate=48.7 Physics.Simulate=1.7 3DTD.Projectiles.Apply=2.6 3DTD.Effects.Update=10.3 3DTD.Effects.TrailEmit=2.8 3DTD.Effects.Flights=6.6 3DTD.Enemy.TakeDamage=1.1 3DTD.Enemy.PopLayer=1.1 BehaviourUpdate=48.7
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 56.9 ms at frame 1510, 505 enemies, GC 4286 B: PlayerLoop=56.9 Update.ScriptRunBehaviourUpdate=49.0 Physics.Simulate=1.7 3DTD.Projectiles.Apply=2.8 3DTD.Effects.Update=9.7 3DTD.Effects.TrailEmit=1.9 3DTD.Effects.Flights=6.8 3DTD.Enemy.TakeDamage=1.3 3DTD.Enemy.PopLayer=1.2 BehaviourUpdate=49.0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 56.3 ms at frame 1511, 495 enemies, GC 4588 B: PlayerLoop=56.3 Update.ScriptRunBehaviourUpdate=48.5 Physics.Simulate=1.7 3DTD.Projectiles.Apply=2.6 3DTD.Effects.Update=9.3 3DTD.Effects.TrailEmit=1.2 3DTD.Effects.Flights=7.1 BehaviourUpdate=48.5
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 56.9 ms at frame 1512, 470 enemies, GC 6086 B: PlayerLoop=56.9 Update.ScriptRunBehaviourUpdate=49.2 Physics.Simulate=1.6 Physics.SendTriggerEvents=1.0 3DTD.Projectiles.Apply=2.4 3DTD.Effects.Update=8.5 3DTD.Effects.TrailEmit=1.1 3DTD.Effects.Flights=6.5 BehaviourUpdate=49.2
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 52.2 ms at frame 1513, 444 enemies, GC 6670 B: PlayerLoop=52.2 Update.ScriptRunBehaviourUpdate=44.5 Physics.Simulate=1.5 Physics.SendTriggerEvents=1.1 3DTD.Projectiles.Apply=2.4 3DTD.Effects.Update=8.2 3DTD.Effects.TrailEmit=1.1 3DTD.Effects.Flights=6.2 BehaviourUpdate=44.5
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 53.3 ms at frame 1514, 416 enemies, GC 6670 B: PlayerLoop=53.3 Update.ScriptRunBehaviourUpdate=45.0 Physics.Simulate=1.6 Physics.SendTriggerEvents=1.1 3DTD.Projectiles.Apply=2.5 3DTD.Effects.Update=7.6 3DTD.Effects.TrailEmit=1.0 3DTD.Effects.Flights=5.8 3DTD.Enemy.TakeDamage=1.1 3DTD.Enemy.PopLayer=1.1 BehaviourUpdate=45.0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 48.4 ms at frame 1515, 388 enemies, GC 8054 B: PlayerLoop=48.4 Update.ScriptRunBehaviourUpdate=40.8 Physics.Simulate=1.4 Physics.SendTriggerEvents=1.1 3DTD.Projectiles.Apply=2.3 3DTD.Effects.Update=7.6 3DTD.Effects.Flights=5.9 BehaviourUpdate=40.8
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 46.6 ms at frame 1516, 359 enemies, GC 6556 B: PlayerLoop=46.6 Update.ScriptRunBehaviourUpdate=38.9 Physics.Simulate=1.4 3DTD.Projectiles.Apply=2.1 3DTD.Effects.Update=6.4 3DTD.Effects.Flights=4.9 BehaviourUpdate=38.9
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF SPIKE 40.9 ms at frame 1517, 338 enemies, GC 5626 B: PlayerLoop=40.9 Update.ScriptRunBehaviourUpdate=33.7 Physics.Simulate=1.4 3DTD.Projectiles.Apply=1.8 3DTD.Effects.Update=6.3 3DTD.Effects.Flights=4.7 BehaviourUpdate=33.7
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Update () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:798)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF RESULT S3: towers 150, frames 1596, frame p50/p95/p99/max 12.9/28.4/45.5/56.9 ms, main p50/p99 12.9/45.5 ms, speed 5.00x, GC steady 81.6% frames (8708374 B, 6176 B/frame), damage 204334, kills 1648, leaked 18711, pops 40706, projectiles 393516/393516, death fx 44104/44104, fx 597850/597850, markers [PlayerLoop=14.58/45.5ms, Update.ScriptRunBehaviourUpdate=7.80/37.7ms, PreLateUpdate.ScriptRunBehaviourLateUpdate=0.04/0.1ms, FixedUpdate.PhysicsFixedUpdate=0.00/0.0ms, FixedUpdate.ScriptRunBehaviourFixedUpdate=0.00/0.0ms, PreUpdate.PhysicsUpdate=0.00/0.0ms, Physics.Simulate=0.90/1.9ms, Physics.SyncTransforms=0.50/1.0ms, Physics.SendTriggerEvents=0.33/1.0ms, Physics.SendContactEvents=0.00/0.0ms, ParticleSystem.EndUpdateAll=0.00/0.0ms, GC.Collect=0.00/0.0ms, 3DTD.Projectiles.Step=0.11/0.3ms, 3DTD.Projectiles.Apply=0.58/2.3ms, 3DTD.Effects.Update=2.22/7.6ms, 3DTD.Effects.TrailEmit=0.20/1.1ms, 3DTD.Effects.Flights=1.80/5.8ms, 3DTD.DeathEffects=0.07/0.2ms, 3DTD.Enemy.TakeDamage=0.13/1.0ms, 3DTD.Enemy.PopLayer=0.13/0.9ms, 3DTD.Enemy.ShowShape=0.08/0.5ms, 3DTD.Effects.Create=0.00/0.0ms, BehaviourUpdate=7.80/37.7ms, Gfx.WaitForPresentOnGfxThread=0.01/0.3ms, Render.OpaqueGeometry=0.00/0.0ms, Render.TransparentGeometry=0.00/0.0ms, Instantiate=0.11/1.7ms], by type [Bullet Dispenser=204334]
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:Summarize (PerfScenario/Run,PerfScenario/RunResult,System.Collections.Generic.List`1<Tower>,int) (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:1027)
+PerfScenario/<RunOne>d__44:MoveNext () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:393)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF FAIL S1-1x: frame max 53.7 ms > 33.3
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:WriteResults () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:1110)
+PerfScenario/<Start>d__43:MoveNext () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:290)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF FAIL S1-1x: GC 595 B per steady frame > 0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:WriteResults () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:1110)
+PerfScenario/<Start>d__43:MoveNext () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:290)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF FAIL S3: frame p99 45.5 ms > 16.7
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:WriteResults () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:1110)
+PerfScenario/<Start>d__43:MoveNext () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:290)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF FAIL S3: frame max 56.9 ms > 33.3
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:WriteResults () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:1110)
+PerfScenario/<Start>d__43:MoveNext () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:290)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF FAIL S3: GC 6176 B per steady frame > 0
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:WriteResults () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:1110)
+PerfScenario/<Start>d__43:MoveNext () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:290)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+PERF finished, 5 failed checks, results in /Users/philipp/Projects/3DTD/tasks/perf/player/perf-S1-1x_S3-20261004-152748.json
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[]) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/DebugLogHandler.cs:9)
+UnityEngine.Logger:Log (UnityEngine.LogType,object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Logging/Logger.cs:60)
+UnityEngine.Debug:Log (object) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs:123)
+PerfScenario:WriteResults () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:1121)
+PerfScenario/<Start>d__43:MoveNext () (at /Users/philipp/Projects/3DTD/3DTD/3DTD/Assets/Scripts/Diagnostics/PerfScenario.cs:290)
+UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr) (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/Coroutines.cs:17)
+
+(Filename: /Users/bokken/build/output/unity/unity/Runtime/Export/Debug/Debug.bindings.cs Line: 123)
+
+Thread 0x171527000 may have been prematurely finalized
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input Polling Thread exited.
+Input System module state changed to: Shutdown.
+Thread 0x1701b7000 may have been prematurely finalized
+Thread 0x1702cf000 may have been prematurely finalized
+Thread 0x17035b000 may have been prematurely finalized
+Thread 0x170243000 may have been prematurely finalized
+CodeReloadManager destroyed
+PlayerConnection::Cleanup##utp:{"type":"MemoryLeaks","version":2,"phase":"Immediate","time":1791120468402,"processId":2210,"allocatedMemory":4705974,"memoryLabels":[{"Default":69333},{"Permanent":1472},{"NewDelete":1791260},{"Thread":6584},{"Manager":539863},{"VertexData":8},{"Geometry":408},{"Texture":16},{"Shader":78414},{"Material":24},{"GfxDevice":38920},{"GfxThread":480},{"Animation":672},{"FreeType":8},{"FontEngine":736},{"Physics":2176},{"Physics2D":16},{"Serialization":12504},{"Input":43216},{"JobScheduler":448},{"TextLib":280},{"Mono":56},{"ScriptingNativeRuntime":128},{"BaseObject":2455680},{"Resource":520},{"Renderer":3600},{"Transform":6485},{"File":850},{"WebCam":32},{"Culling":32},{"Terrain":11298},{"Wind":24},{"String":3069},{"Utility":315392},{"PoolAlloc":1632},{"AI":40},{"TypeTree":5512},{"CodeReload":440},{"RuntimeInitializeOnLoadManager":64},{"Sprites":78},{"SpriteAtlas":120},{"GI":7200},{"Director":8248},{"CloudService":144},{"WebRequest":520},{"VR":46866},{"SceneManager":408},{"Video":2080},{"LazyScriptCache":32},{"Camera":9},{"Secure":241},{"SerializationCache":1576},{"APIUpdating":10320},{"Subsystems":336},{"VirtualTexturing":57496},{"Baselib":16},{"Analytics":80},{"Hierarchy":1568},{"UIElements":72},{"CoreStats":13768},{"Identifiers":6768},{"Gui":40},{"CoreBusinessMetrics":128},{"AssetReference":32}]}
