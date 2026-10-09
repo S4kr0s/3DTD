@@ -92,7 +92,8 @@ public class Spawner : MonoBehaviour
             instance = this;
         }
 
-        currentGameState = GameState.IDLE;
+        // currentGameState defaults to IDLE (every Spawner prefab serializes 0). Don't reset it here: the main menu's
+        // GameManager starts the backdrop wave in Awake, before this Start, and the reset made that wave never end.
         SetPrewarmTargetForNextWave();
         DeathEffectRenderer.Prewarm();
     }
