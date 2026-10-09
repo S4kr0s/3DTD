@@ -149,11 +149,13 @@ public class DifficultyPopup : MonoBehaviour
         }
     }
 
+    private static readonly Vector3[] CornerBuffer = new Vector3[4];
+
     // Below the card, centred on it but inside the content plate; the notch points up at the card's centre
     private void Place(RectTransform card)
     {
         RectTransform space = (RectTransform)plate.parent;
-        Vector3[] corners = new Vector3[4];
+        Vector3[] corners = CornerBuffer;
         card.GetWorldCorners(corners);
         Vector2 min = space.InverseTransformPoint(corners[0]);
         Vector2 max = space.InverseTransformPoint(corners[2]);
