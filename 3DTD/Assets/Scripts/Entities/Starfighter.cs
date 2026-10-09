@@ -88,7 +88,8 @@ public class Starfighter : MonoBehaviour
     // Flight runs in fixed steps of game time, so a squadron flies the same paths and fires the same shots at
     // any frame rate or game speed; the model is drawn between the last two simulated poses
     private const float SimulationStep = 1f / 60f;
-    private const int MaxStepsPerFrame = 30;
+    // Covers the longest frame: Time.maximumDeltaTime (0.1 s) at the top game speed (10x) is 1 s of game time
+    private const int MaxStepsPerFrame = 60;
     private float accumulator;
     private Vector3 simulatedPosition;
     private Quaternion simulatedRotation;
@@ -140,6 +141,8 @@ public class Starfighter : MonoBehaviour
             if (this == null || strategy == null)
                 return;
         }
+        // A frame longer than the step cap drops its backlog instead of dragging it into every later frame
+        accumulator = Mathf.Min(accumulator, SimulationStep);
         simulatedPosition = transform.position;
         simulatedRotation = transform.rotation;
 
