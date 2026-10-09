@@ -79,7 +79,13 @@ public class PlacementPreview : MonoBehaviour
         Tower tower = prefab.GetComponent<Tower>();
         float radius = 0f;
         if (tower != null && tower.StatsManager.Config != null)
-            radius = tower.GetGroundRangeRadius(tower.StatsManager.Config.Range);
+        {
+            // Built towers get the meta range bonus as a modifier (Tower.Start); the ring shows the same range
+            float range = tower.StatsManager.Config.Range;
+            if (GameManager.Instance != null && !GameManager.Instance.IsMainMenu)
+                range *= 1f + MetaUpgrades.ToModifier(Stat.StatType.RANGE, MetaUpgrades.PercentFor(Stat.StatType.RANGE)) / 100f;
+            radius = tower.GetGroundRangeRadius(range);
+        }
 
         ring.SetVisible(true);
         ring.Place(pad.position, normal, radius, hexRadius);

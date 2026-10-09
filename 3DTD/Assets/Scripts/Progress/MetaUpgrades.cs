@@ -78,6 +78,13 @@ public static class MetaUpgrades
         }
     }
 
+    // The owned meta bonus for one tower stat, in percent (0 without one)
+    public static float PercentFor(Stat.StatType type)
+    {
+        Refresh();
+        return statPercent.TryGetValue(type, out float percent) ? percent : 0f;
+    }
+
     public static float ToModifier(Stat.StatType type, float percent)
     {
         if (type == Stat.StatType.FIRERATE)
