@@ -23,6 +23,7 @@ public class GameStatDisplay : MonoBehaviour
     [SerializeField] private TMP_Text autoWaveState;
 
     private Spawner spawner;
+    private bool autoWavePending;
     // Scrap changes every frame in late waves; the counter is rebuilt without allocating
     private readonly System.Text.StringBuilder moneyText = new System.Text.StringBuilder(64);
     private int shownMoney = int.MinValue;
@@ -90,11 +91,28 @@ public class GameStatDisplay : MonoBehaviour
         RefreshNextWave();
     }
 
+    // Starting the next wave from inside OnWaveEnded would run before the other wave-end handlers (payouts,
+    // autosave) and inside the Spawner's own event; Update starts it once the event is over
     private void HandleWaveEnded(int value)
     {
-        if (autoWaveSwitch != null && autoWaveSwitch.IsOn && !GameManager.Instance.IsGameOver)
-            ButtonStartNewWave();
+        if (autoWaveSwitch != null && autoWaveSwitch.IsOn)
+            autoWavePending = true;
         RefreshNextWave();
+    }
+
+    private void Update()
+    {
+        if (!autoWavePending)
+            return;
+        if (GameManager.Instance.IsGameOver || autoWaveSwitch == null || !autoWaveSwitch.IsOn)
+        {
+            autoWavePending = false;
+            return;
+        }
+        autoWavePending = false;
+        // Already started by hand in the meantime
+        if (spawner != null && !spawner.IsWaveActive)
+            ButtonStartNewWave();
     }
 
     private void HandleMoneyUpdated(int value)
