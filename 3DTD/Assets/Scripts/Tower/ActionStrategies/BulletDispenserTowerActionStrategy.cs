@@ -18,6 +18,7 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
     [SerializeField] private GameObject pulseFirePoint;
 
     private FireCycle fireCycle;
+    public override FireCycle Cycle => fireCycle;
     private Tower tower;
     private Enemy target;
     private VisualRef projectileVisual;

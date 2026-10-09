@@ -12,6 +12,7 @@ public class BombTowerActionStrategy : ActionStrategy
     [SerializeField] public bool doClustering = false;
 
     private FireCycle fireCycle;
+    public override FireCycle Cycle => fireCycle;
     private Tower tower;
     private Enemy target;
     private VisualRef projectileVisual;

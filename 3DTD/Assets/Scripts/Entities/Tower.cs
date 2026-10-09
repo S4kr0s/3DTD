@@ -204,9 +204,13 @@ public class Tower : Building
 
     public void SetActionStrategy(ActionStrategy actionStrategy)
     {
+        FireCycle previousCycle = this.actionStrategy != null ? this.actionStrategy.Cycle : null;
         Destroy(this.actionStrategy);
         this.actionStrategy = actionStrategy;
         this.actionStrategy.SetupActionStrategy(this);
+        // The new strategy continues the old one's timing instead of firing at once
+        if (previousCycle != null && this.actionStrategy.Cycle != null)
+            this.actionStrategy.Cycle.CopyStateFrom(previousCycle);
     }
 
     public void SetRotationPoint(GameObject target)

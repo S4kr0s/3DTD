@@ -35,6 +35,7 @@ public class BeamTowerActionStrategy : ActionStrategy
     [SerializeField] public float slowDuration = 0.5f;
 
     private FireCycle fireCycle;
+    public override FireCycle Cycle => fireCycle;
     private Tower tower;
     private VisualRef tickVisual;
     private VisualRef hitVisual;

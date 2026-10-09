@@ -111,6 +111,7 @@ public class MineFactoryActionStrategy : ActionStrategy
     private VisualRef clusterBlastVisual;
     private VisualRef launchVisual;
     private FireCycle fireCycle;
+    public override FireCycle Cycle => fireCycle;
     private readonly List<Mine> mines = new List<Mine>();
     private readonly Stack<Mine> minePool = new Stack<Mine>();
     private readonly List<PendingBlast> pendingBlasts = new List<PendingBlast>();

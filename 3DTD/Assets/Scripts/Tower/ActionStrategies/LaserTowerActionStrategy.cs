@@ -10,6 +10,7 @@ public class LaserTowerActionStrategy : ActionStrategy
     [SerializeField] private bool aimWithLead = true;
 
     private FireCycle fireCycle;
+    public override FireCycle Cycle => fireCycle;
     private Tower tower;
     private Enemy target;
     private VisualRef projectileVisual;

@@ -27,6 +27,7 @@ public class SniperTowerActionStrategy : ActionStrategy
     [SerializeField] private float impactScale = 1f;
 
     private FireCycle fireCycle;
+    public override FireCycle Cycle => fireCycle;
     private Tower tower;
     private Enemy target;
 

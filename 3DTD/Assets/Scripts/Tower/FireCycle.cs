@@ -29,6 +29,8 @@ public class FireCycle
     private float magazine;
     private bool reloading;
     private float reloadTimer;
+    // AMMO at the last Refill: the magazine size CopyStateFrom clamps to
+    private float capacity;
 
     public FireCycle(float ammo)
     {
@@ -37,9 +39,23 @@ public class FireCycle
 
     public void Refill(float ammo)
     {
+        capacity = ammo;
         magazine = ammo;
         reloading = false;
         reloadTimer = 0f;
+    }
+
+    // Takes over another cycle's cooldown, reload and magazine (clamped to this cycle's capacity), so swapping a
+    // tower's strategy doesn't hand it a free volley or skip a reload
+    public void CopyStateFrom(FireCycle other)
+    {
+        if (other == null || other == this)
+            return;
+
+        cooldown = other.cooldown;
+        reloading = other.reloading;
+        reloadTimer = other.reloadTimer;
+        magazine = capacity > 0f ? Mathf.Min(other.magazine, capacity) : other.magazine;
     }
 
     // Advances the timer and returns how many volleys to fire this frame
