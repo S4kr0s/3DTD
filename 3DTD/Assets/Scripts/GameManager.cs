@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     // Income from popped layers changes money hundreds of times per frame in late waves; the UI hears about
     // it once per frame (LateUpdate). Purchases and sells set Money directly and notify at once.
     private bool moneyChangePending;
+    // Round to autosave in LateUpdate (-1: none), once every OnWaveEnded handler (e.g. War Bonds) has paid out
+    private int pendingSaveRound = -1;
     private int startingLives;
 
     public event Action<int> OnMoneyChanged;
@@ -237,6 +239,11 @@ public class GameManager : MonoBehaviour
             moneyChangePending = false;
             OnMoneyChanged?.Invoke(money);
         }
+        if (pendingSaveRound >= 0)
+        {
+            SaveGame.Capture(pendingSaveRound);
+            pendingSaveRound = -1;
+        }
     }
 
     // Gives back up to `amount` lives without going above the starting lives; returns how many were restored
@@ -295,9 +302,10 @@ public class GameManager : MonoBehaviour
         if (bonus > 0)
             Money += bonus;
 
-        // Between waves nothing is in flight, so this is the moment to autosave for "Continue"
+        // Between waves nothing is in flight, so this is the moment to autosave for "Continue". Other wave-end
+        // handlers may still pay out after this one, so the save waits for LateUpdate.
         if (!isMainMenu)
-            SaveGame.Capture(round);
+            pendingSaveRound = round;
     }
 
     private void HandleLivesChanged(int value)
