@@ -39,11 +39,13 @@ public sealed class BatchedEffect : IDisposable
         public float Scale;
     }
 
+    // Requests and streams carry their play's pose, so nothing has to keep a list of plays that only grows
+    // while any request is pending
     private struct Request
     {
         public float Time;      // game time the particles are due
-        public int Play;
         public int Count;
+        public PlayRecord Pose;
     }
 
     private struct Stream
@@ -51,7 +53,7 @@ public sealed class BatchedEffect : IDisposable
         public float Start;
         public float End;
         public float Carry;
-        public int Play;
+        public PlayRecord Pose;
     }
 
     private sealed class Emitter
@@ -78,12 +80,11 @@ public sealed class BatchedEffect : IDisposable
     private readonly GameObject shared;
     private readonly Emitter[] emitters;
     private readonly AudioSource[] sounds;
-    private NativeList<PlayRecord> plays = new NativeList<PlayRecord>(256, Allocator.Persistent);
     private NativeList<DueEntry> dueEntries = new NativeList<DueEntry>(256, Allocator.Persistent);
 
     private struct DueEntry
     {
-        public int Play;
+        public PlayRecord Pose;
         public int Start;
         public int Count;
         public float Age;
@@ -121,13 +122,7 @@ public sealed class BatchedEffect : IDisposable
 
     private static bool IsBatchable(ParticleSystem system)
     {
-        if (system.subEmitters.enabled && system.subEmitters.subEmittersCount > 0)
-            return false;
-        ParticleSystem.VelocityOverLifetimeModule velocity = system.velocityOverLifetime;
-        if (velocity.enabled && velocity.space == ParticleSystemSimulationSpace.Local)
-            return false;
-        ParticleSystem.ForceOverLifetimeModule force = system.forceOverLifetime;
-        if (force.enabled && force.space == ParticleSystemSimulationSpace.Local)
+        if (!ParticleBatching.CanBatch(system))
             return false;
         // A one-shot effect that keeps emitting forever has no defined end
         if (system.main.loop && (EffectPool.MaxOf(system.emission.rateOverTime) > 0f || system.emission.burstCount > 0) && system.emission.enabled)
@@ -189,43 +184,14 @@ public sealed class BatchedEffect : IDisposable
             emitter.Bursts = Array.Empty<ParticleSystem.Burst>();
         }
 
-        ParticleSystemRenderer renderer = system.GetComponent<ParticleSystemRenderer>();
-        bool mesh = renderer != null && renderer.renderMode == ParticleSystemRenderMode.Mesh;
-        bool localAligned = renderer != null && renderer.alignment == ParticleSystemRenderSpace.Local;
-        // Velocity-aligned particles follow their (rotated) velocity on their own
-        emitter.Rotate3D = (mesh || localAligned) && (renderer == null || renderer.alignment != ParticleSystemRenderSpace.Velocity);
-
-        main.simulationSpace = ParticleSystemSimulationSpace.World;
-        main.scalingMode = ParticleSystemScalingMode.Local;
-        main.playOnAwake = false;
-        main.loop = true;
-        main.prewarm = false;
-        main.startDelay = 0f;
-        main.stopAction = ParticleSystemStopAction.None;
-        main.maxParticles = Mathf.Max(main.maxParticles, 1000);
-        if (emitter.Rotate3D && !main.startRotation3D)
-        {
-            ParticleSystem.MinMaxCurve roll = main.startRotation;
-            main.startRotation3D = true;
-            main.startRotationZ = roll;
-        }
-        emission.enabled = false;
-        // Every play emits from a standing copy; the shared transform only moves while emitting
-        ParticleSystem.InheritVelocityModule inherit = system.inheritVelocity;
-        inherit.enabled = false;
-
-        ParticleSystem.LightsModule lights = system.lights;
-        if (lights.enabled)
-            lights.maxLights = Mathf.Min(lights.maxLights * 4, MaxLightsPerSystem);
-
-        if (renderer != null)
-            renderer.shadowCastingMode = ShadowCastingMode.Off;
+        emitter.Rotate3D = ParticleBatching.NeedsRotate3D(system);
+        // Every play emits from a standing copy (inherit velocity off); the shared transform only moves while emitting
+        ParticleBatching.ConfigureShared(system, emitter.Rotate3D, 1000);
         return emitter;
     }
 
     public void Dispose()
     {
-        plays.Dispose();
         dueEntries.Dispose();
         foreach (Emitter emitter in emitters)
         {
@@ -237,8 +203,7 @@ public sealed class BatchedEffect : IDisposable
     // Queues one play of the effect; age = how long ago (game time) it started
     public void Play(Vector3 position, Quaternion rotation, float scale, float age)
     {
-        int play = plays.Length;
-        plays.Add(new PlayRecord { Position = position, Rotation = rotation, Scale = scale * rootScale });
+        PlayRecord pose = new PlayRecord { Position = position, Rotation = rotation, Scale = scale * rootScale };
         float start = Time.time - age;
 
         foreach (Emitter emitter in emitters)
@@ -256,11 +221,11 @@ public sealed class BatchedEffect : IDisposable
                         continue;
                     int count = BurstCount(burst.count);
                     if (count > 0)
-                        emitter.Pending.Add(new Request { Time = begin + time, Play = play, Count = count });
+                        emitter.Pending.Add(new Request { Time = begin + time, Count = count, Pose = pose });
                 }
             }
             if (emitter.Rate > 0f)
-                emitter.Streams.Add(new Stream { Start = begin, End = begin + emitter.Duration, Play = play });
+                emitter.Streams.Add(new Stream { Start = begin, End = begin + emitter.Duration, Pose = pose });
         }
 
         for (int i = 0; i < sounds.Length; i++)
@@ -279,7 +244,7 @@ public sealed class BatchedEffect : IDisposable
         for (int r = 0; r < emitter.Due.Count; r++)
         {
             Request request = emitter.Due[r];
-            PlayRecord play = plays[request.Play];
+            PlayRecord play = request.Pose;
             int before = system.particleCount;
             if (before + request.Count > main.maxParticles)
                 main.maxParticles = Mathf.NextPowerOfTwo(before + request.Count);
@@ -294,7 +259,7 @@ public sealed class BatchedEffect : IDisposable
             // Size and speed follow the play's scale; positions stay where the trails began
             if (emitted <= 0 || Mathf.Approximately(play.Scale, 1f))
                 continue;
-            EnsureBuffer(emitter, emitted);
+            ParticleBatching.EnsureBuffer(ref emitter.Buffer, emitted);
             EffectMarkers.Particles.Begin();
             int read = system.GetParticles(emitter.Buffer, emitted, before);
             EffectMarkers.Particles.End();
@@ -310,15 +275,6 @@ public sealed class BatchedEffect : IDisposable
             EffectMarkers.Particles.End();
         }
         transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-    }
-
-    private static void EnsureBuffer(Emitter emitter, int size)
-    {
-        if (emitter.Buffer.IsCreated && emitter.Buffer.Length >= size)
-            return;
-        if (emitter.Buffer.IsCreated)
-            emitter.Buffer.Dispose();
-        emitter.Buffer = new NativeArray<ParticleSystem.Particle>(Mathf.NextPowerOfTwo(size), Allocator.Persistent);
     }
 
     private static int BurstCount(ParticleSystem.MinMaxCurve count)
@@ -338,7 +294,6 @@ public sealed class BatchedEffect : IDisposable
     public void Emit(float now, float deltaTime)
     {
         using var scope = EffectMarkers.Batched.Auto();
-        bool anyPending = false;
         foreach (Emitter emitter in emitters)
         {
             emitter.Due.Clear();
@@ -346,10 +301,7 @@ public sealed class BatchedEffect : IDisposable
             {
                 Request request = emitter.Pending[i];
                 if (request.Time > now)
-                {
-                    anyPending = true;
                     continue;
-                }
                 emitter.Due.Add(request);
                 emitter.Pending[i] = emitter.Pending[emitter.Pending.Count - 1];
                 emitter.Pending.RemoveAt(emitter.Pending.Count - 1);
@@ -366,7 +318,7 @@ public sealed class BatchedEffect : IDisposable
                     int count = Mathf.FloorToInt(stream.Carry);
                     stream.Carry -= count;
                     if (count > 0)
-                        emitter.Due.Add(new Request { Time = to, Play = stream.Play, Count = count });
+                        emitter.Due.Add(new Request { Time = to, Count = count, Pose = stream.Pose });
                 }
                 if (stream.End <= now)
                 {
@@ -376,17 +328,10 @@ public sealed class BatchedEffect : IDisposable
                 else
                 {
                     emitter.Streams[i] = stream;
-                    anyPending = true;
                 }
             }
 
             EmitDue(emitter, now);
-        }
-
-        // Plays are only referenced by pending requests and streams; recycle the list once all are done
-        if (!anyPending)
-        {
-            plays.Clear();
         }
     }
 
@@ -423,12 +368,7 @@ public sealed class BatchedEffect : IDisposable
         if (emitted <= 0)
             return;
 
-        if (!emitter.Buffer.IsCreated || emitter.Buffer.Length < emitted)
-        {
-            if (emitter.Buffer.IsCreated)
-                emitter.Buffer.Dispose();
-            emitter.Buffer = new NativeArray<ParticleSystem.Particle>(Mathf.NextPowerOfTwo(emitted), Allocator.Persistent);
-        }
+        ParticleBatching.EnsureBuffer(ref emitter.Buffer, emitted);
 
         NativeArray<ParticleSystem.Particle> buffer = emitter.Buffer;
         EffectMarkers.Particles.Begin();
@@ -439,12 +379,11 @@ public sealed class BatchedEffect : IDisposable
         for (int r = 0; r < emitter.Due.Count; r++)
         {
             Request request = emitter.Due[r];
-            dueEntries.Add(new DueEntry { Play = request.Play, Start = start, Count = request.Count, Age = Mathf.Max(0f, now - request.Time) });
+            dueEntries.Add(new DueEntry { Pose = request.Pose, Start = start, Count = request.Count, Age = Mathf.Max(0f, now - request.Time) });
             start += request.Count;
         }
         new PlaceJob
         {
-            Plays = plays.AsArray(),
             Entries = dueEntries.AsArray(),
             Particles = buffer,
             Read = read,
@@ -460,7 +399,6 @@ public sealed class BatchedEffect : IDisposable
     [BurstCompile]
     private struct PlaceJob : IJobParallelFor
     {
-        [ReadOnly] public NativeArray<PlayRecord> Plays;
         [ReadOnly] public NativeArray<DueEntry> Entries;
         [NativeDisableParallelForRestriction] public NativeArray<ParticleSystem.Particle> Particles;
         public int Read;
@@ -469,7 +407,7 @@ public sealed class BatchedEffect : IDisposable
         public void Execute(int e)
         {
             DueEntry entry = Entries[e];
-            PlayRecord play = Plays[entry.Play];
+            PlayRecord play = entry.Pose;
             quaternion rotation = play.Rotation;
             for (int k = 0; k < entry.Count; k++)
             {
