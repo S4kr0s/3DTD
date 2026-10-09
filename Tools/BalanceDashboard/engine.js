@@ -37,7 +37,7 @@
   const PULSE_RADIUS = 2.5;            // ProjectilePulse: SphereCollider r=0.5 scaled up to 5 on x/z
   const CYCLE_WINDOW = 120;            // seconds of simulated firing used to measure cycle rates
   // MineFactoryActionStrategy / Mine
-  const MINE = { maxMines: 40, contactRadius: 0.45, rearmTime: 0.4, flightTime: 0.5, candidates: 8 };
+  const MINE = { maxMines: 40, contactRadius: 0.45, rearmTime: 0.4, minFlightTime: 0.35, minLaunchSpeed: 0.5, candidates: 8 };
 
   // ------------------------------------------------------------------------------------- small utils
 
@@ -747,6 +747,18 @@
         out.rayLength = sum(out.rays, r => r.length);
       }
       return out;
+    });
+  };
+
+  // MineFactoryActionStrategy.RefreshPathSpans: the parts of every lane's path inside the placement sphere
+  // (radius RANGE - 0.1 around the Targetter, a full sphere whatever the targetter's shape)
+  E.minePlacementSpans = function (model, level, anchorIndex) {
+    const r = model.mines ? model.mines.placementRadius : 0;
+    const key = ['mspan', geoKey(model), r, level.name, anchorIndex].join('|');
+    return cached(key, () => {
+      const center = E.detectionVolume(model, level.anchors[anchorIndex]).center;
+      if (r <= 0) return level.lanes.map(() => []);
+      return level.lanes.map(lane => toIntervals(E.laneSamples(lane), s => v3.dist(s.p, center) <= r));
     });
   };
 
@@ -1598,6 +1610,10 @@
       const cov = E.coverage(tw.model, level, tw.anchorIndex);
       tw.intervals = cov.intervals;
       tw.vol = cov.vol || E.detectionVolume(tw.model, tw.anchor);
+      if (tw.model.kind === 'mines') {
+        tw.mineSpans = E.minePlacementSpans(tw.model, level, tw.anchorIndex);
+        tw.launchPoint = E.anchorToWorld(tw.anchor, tw.model.strategy.launchPoint || [0, 0, 0]);
+      }
       tw.beam = cov.beam || null;
       tw.rays = cov.rays || null;
       tw.muzzle = tw.vol.muzzle;
@@ -1979,32 +1995,41 @@
       }
     }
     function placeMine(tw) {
-      const M = tw.model.mines;
+      const m = tw.model, M = m.mines, st = m.stats;
       const spans = [];
       let total = 0, lo = Infinity, hi = -Infinity;
-      (tw.intervals || []).forEach((list, lane) => (list || []).forEach(([a, b]) => {
-        if (b > a) { spans.push({ lane, a, b }); total += b - a; lo = Math.min(lo, a); hi = Math.max(hi, b); }
+      (tw.mineSpans || []).forEach((list, lane) => (list || []).forEach(([a, b]) => {
+        if (b - a > 0.01) { spans.push({ lane, a, b }); total += b - a; lo = Math.min(lo, a); hi = Math.max(hi, b); }
       }));
       if (total <= 0) {
         // no path in range: the mine hovers above the factory and never meets an enemy
-        tw.mines.push({ lane: -1, d: 0, armAt: Infinity, charges: M.charges });
+        tw.mines.push({ lane: -1, d: 0, p: null, armAt: Infinity, charges: M.charges });
         return;
       }
-      const spacing = Math.max(0.5, 2 * tw.model.stats.RADIUS);
-      const how = tw.model.tower.targetBehaviour;
+      // PickMineSpot: of a few length-weighted candidates the one furthest from the other mines wins,
+      // nudged by the targeting (TargetingBias)
+      const spacing = Math.max(0.5, 2 * st.RADIUS);
+      const range = Math.max(0.5, M.placementRadius);
+      const how = m.tower.targetBehaviour;
       let best = null, bestScore = -Infinity;
       for (let c = 0; c < MINE.candidates; c++) {
         let pick = rng() * total, sp = spans[spans.length - 1];
         for (const x of spans) { if (pick <= x.b - x.a) { sp = x; break; } pick -= x.b - x.a; }
         const d = sp.a + clamp(pick, 0, sp.b - sp.a);
+        const p = E.lanePos(lanes[sp.lane], d).p;
         let near = Infinity;
-        for (const other of tw.mines) if (other.lane === sp.lane) near = Math.min(near, Math.abs(other.d - d));
-        const progress = hi > lo ? (d - lo) / (hi - lo) : 0.5;
-        const bias = how === 'FIRST' ? progress : how === 'LAST' ? 1 - progress : 0;
+        for (const other of tw.mines) if (other.p) near = Math.min(near, v3.dist(other.p, p));
+        const progress = hi - lo > 0.01 ? (d - lo) / (hi - lo) : 0.5;
+        const closeness = 1 - clamp(v3.dist(p, tw.vol.center) / range, 0, 1);
+        const bias = how === 'FIRST' ? progress : how === 'LAST' ? 1 - progress :
+          how === 'NEAREST' ? closeness : how === 'FARTHEST' ? 1 - closeness : 0;
         const score = clamp(near / spacing, 0, 1) + 0.5 * bias;
-        if (score > bestScore) { bestScore = score; best = { lane: sp.lane, d }; }
+        if (score > bestScore) { bestScore = score; best = { lane: sp.lane, d, p }; }
       }
-      tw.mines.push({ lane: best.lane, d: best.d, armAt: sim.t + MINE.flightTime, charges: M.charges });
+      // Mine.Launch: flight time = max(minFlightTime, distance / max(0.5, SPEED))
+      const minFlight = m.strategy.minFlightTime != null ? m.strategy.minFlightTime : MINE.minFlightTime;
+      const flight = Math.max(minFlight, v3.dist(tw.launchPoint || tw.vol.center, best.p) / Math.max(MINE.minLaunchSpeed, st.SPEED));
+      tw.mines.push({ lane: best.lane, d: best.d, p: best.p, armAt: sim.t + flight, charges: M.charges });
     }
     function detonateMine(tw, mine, index) {
       const st = tw.model.stats, M = tw.model.mines, lane = lanes[mine.lane];

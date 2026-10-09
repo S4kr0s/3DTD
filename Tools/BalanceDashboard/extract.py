@@ -341,6 +341,11 @@ def extract_tower(pr, path, palette_guids):
         return None
     if strategy['type'] not in STATS_READ:
         warn('warning', 'Towers', '%s uses %s, which the dashboard has no model for.' % (key, strategy['type']), rel)
+    # Mine Factory: mines fly from the launch point, so their flight time depends on where it sits
+    launch = int((g.doc(strategy_id)['data'].get('launchPoint') or {}).get('fileID', 0))
+    if launch and g.doc(launch):
+        m = relative_matrix(g, root_tr, launch)
+        strategy['launchPoint'] = r3([m[0][3], m[1][3], m[2][3]])
 
     sp_by_ref = {sp['ref']: i for i, sp in enumerate(shooting_points)}
 

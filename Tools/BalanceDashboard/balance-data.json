@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-10-09T10:46:32",
+  "generatedAt": "2026-10-09T10:47:45",
   "unityVersion": "6000.5.8f1",
   "project": "/Users/philipp/Projects/3DTD/3DTD/3DTD",
   "generator": "Tools/BalanceDashboard/extract.py",
@@ -3385,7 +3385,12 @@
     "missilesPerRun": 0.0,
     "carpetBombing": 0.0,
     "flightSpeedMultiplier": 1.0,
-    "turnRateMultiplier": 1.0
+    "turnRateMultiplier": 1.0,
+    "launchPoint": [
+     0.0,
+     -0.1372,
+     -0.3971
+    ]
    },
    "shootingPoints": [],
    "targetter": {
@@ -3684,7 +3689,12 @@
     "scrapValue": 0.0,
     "scrapsPerLife": 0.0,
     "maxLivesPerWave": 0.0,
-    "waveEndPayoutPerMine": 0.0
+    "waveEndPayoutPerMine": 0.0,
+    "launchPoint": [
+     0.02,
+     0.12,
+     0.1465
+    ]
    },
    "shootingPoints": [],
    "targetter": {
