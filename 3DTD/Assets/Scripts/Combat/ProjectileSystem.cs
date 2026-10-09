@@ -45,8 +45,6 @@ public class ProjectileSystem : MonoBehaviour
     // Effects play at most as long as the Destroy delays PolygonProjectileScript used
     private const float MuzzleLifetime = 1.5f;
     private const float ImpactLifetime = 5f;
-    // The enemy prefab's sphere collider (radius 0.75 at scale 0.5)
-    private const float DefaultEnemyRadius = 0.375f;
     // Explosions play at their prefab's size for this blast radius (the Rocket System's base RADIUS) and grow
     // or shrink with the real one, within these bounds
     public const float ReferenceBlastRadius = 0.8f;

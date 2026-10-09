@@ -52,13 +52,6 @@ public sealed class ProjectileArchetype
         return archetype;
     }
 
-    // Whether the system can simulate this prefab; other projectiles (pulses, legacy towers) stay GameObjects
-    public static bool IsSimulated(GameObject prefab)
-    {
-        return prefab != null && (prefab.GetComponent<ProjectileRound>() != null || prefab.GetComponent<ProjectileBasic>() != null
-            || prefab.GetComponent<ProjectileBomb>() != null || prefab.GetComponent<Clusterbomb>() != null);
-    }
-
     private ProjectileArchetype(GameObject prefab)
     {
         Prefab = prefab;
