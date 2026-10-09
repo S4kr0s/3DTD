@@ -75,7 +75,8 @@ public class ProjectileSystem : MonoBehaviour
         public GameObject FlightEffect;
         public GameObject ImpactEffect;
         // Ricochet (Bullet Dispenser): the projectile rebounds off the inside of a dome up to Bounces times,
-        // gaining BounceDamage each time; BounceSeek turns it towards an enemy instead of reflecting it
+        // gaining BounceDamage each time; BounceSeek turns it towards an enemy instead of reflecting it. Every
+        // rebound gives it at least its Lifetime again, so it can reach the next wall.
         public Dome Dome;
         public int Bounces;
         public float BounceDamage;
@@ -122,6 +123,7 @@ public class ProjectileSystem : MonoBehaviour
         public Dome Dome;
         public int Bounces;
         public float BounceDamage;
+        public float Lifetime;
         public byte BounceSeek;
         public FixedList64Bytes<int> HitSerials;
     }
@@ -282,6 +284,7 @@ public class ProjectileSystem : MonoBehaviour
             Dome = shot.Dome,
             Bounces = shot.Dome.Radius > 0f ? Mathf.Max(0, shot.Bounces) : 0,
             BounceDamage = shot.BounceDamage,
+            Lifetime = shot.Lifetime,
             BounceSeek = (byte)(shot.BounceSeek ? 1 : 0),
         };
         states.Add(state);
@@ -500,6 +503,7 @@ public class ProjectileSystem : MonoBehaviour
         PerfCounters.ProjectileBounces++;
         state.Bounces--;
         state.Damage += state.BounceDamage;
+        state.Remaining = math.max(state.Remaining, state.Lifetime);
         // A rebound may come back for an enemy it hit before
         state.HitSerials.Clear();
         state.Lead = step.Leftover;

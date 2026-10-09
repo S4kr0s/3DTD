@@ -44,7 +44,11 @@
   // Fitted to the simulator (see E.dispenserGravityHits and the dispenser block of buildModel)
   const DISPENSER_PULL_GAIN = 0.4;
   const DISPENSER_SINGULARITY_GAIN = 0.6;
-  const DISPENSER_SEEK_SHARE = 0.75;
+  const DISPENSER_SEEK_SHARE = 1;
+  // Share of a seeking rebound's damage that counts: aimed needles pile onto the same target and overkill it
+  const DISPENSER_SEEK_REALIZED = 0.4;
+  // Reflected legs meet the path less often than the lone-enemy tube measure says (they cross it at steep angles)
+  const DISPENSER_LEG_SHARE = 0.5;
   // BulletDispenserTowerActionStrategy.RicochetDomeScale: needles rebound a quarter beyond the range
   const RICOCHET_DOME_SCALE = 1.25;
   const CYCLE_WINDOW = 120;            // seconds of simulated firing used to measure cycle rates
@@ -851,12 +855,14 @@
       if (!exit) return ray;
       let left = P.reach - exit.travel;
       if (rc.seek) {
-        // aimed rebounds: a leg of about the dome's radius towards the target each
-        ray.seekLegs = clamp(left / Math.max(0.5, 0.8 * vol.radius), 0, rc.bounces);
+        // aimed rebounds: every rebound refreshes the lifetime, so each gets its leg towards the target
+        ray.seekLegs = rc.bounces;
         return ray;
       }
       let point = v3.add(origin, v3.mul(dir, exit.travel)), d = dir, n = exit.normal;
       for (let b = 0; b < rc.bounces && left > 1e-3; b++) {
+        // ProjectileSystem.Bounce: a rebound gives the needle at least its lifetime again
+        left = Math.max(left, P.reach);
         d = E.reflect(d, n);
         point = v3.sub(point, v3.mul(n, 0.001));
         const next = E.domeExit(point, d, left, vol);
@@ -1214,14 +1220,14 @@
           first += q0; hits += q0; weighted += q0;
           let crowd = r.length;
           (r.legs || []).forEach((L, j) => {
-            const q = Math.min(1, L / best.length);
+            const q = DISPENSER_LEG_SHARE * Math.min(1, L / best.length);
             hits += alive * q; weighted += alive * q * (1 + (j + 1) * bonus);
             alive *= 1 - q;
             crowd += L;
           });
           for (let j = 1; j <= Math.ceil(r.seekLegs || 0); j++) {
             const q = pSeek * Math.min(1, r.seekLegs - (j - 1));
-            hits += alive * q; weighted += alive * q * (1 + j * bonus);
+            hits += alive * q * DISPENSER_SEEK_REALIZED; weighted += alive * q * (1 + j * bonus) * DISPENSER_SEEK_REALIZED;
             alive *= 1 - q;
             crowd += q * spacing;
           }
@@ -1399,7 +1405,7 @@
       const speedMix = mix.meanLayerSpeed || 2;
       // seconds a single enemy spends inside the best anchor's coverage, and damage it takes per pass
       // the gravity well's slow keeps enemies in range longer
-      m.coverage.timeInRange = lc.bestLength / speedMix / (1 - (cfg.gravity && cfg.gravity.pull > 0 ? cfg.gravity.slow : 0));
+      m.coverage.timeInRange = lc.bestLength / speedMix / (1 - (cfg.gravity ? cfg.gravity.slow : 0));
       m.coverage.passDamage = m.dps.expected * m.coverage.timeInRange;
       m.coverage.passDamageRed = m.dps.red * (lc.bestLength / 1.25);
       m.coverage.passDamagePink = m.dps.pink * (lc.bestLength / 4.0);
@@ -1510,7 +1516,7 @@
    */
   E.dispenserGravityHits = function (m, cfg) {
     const g = cfg.gravity;
-    if (!g || g.pull <= 0) return;
+    if (!g || (g.pull <= 0 && !(g.interval > 0))) return;
     let factor = 1 + DISPENSER_PULL_GAIN * g.pull;
     if (g.interval > 0 && g.duration > 0) factor *= 1 + DISPENSER_SINGULARITY_GAIN * g.duration / (g.interval + g.duration);
     const p = Math.min(1, (m.hit.level || 0) * factor);
@@ -2040,7 +2046,7 @@
           if (aim) next = v3.norm(v3.sub(E.leadPoint(point, aim.p, v3.mul(aim.dir, enemySpeed(aim)), P.speed), point));
           target = aim;
         }
-        fireNeedle(tw, target, v3.sub(point, v3.mul(exit.normal, 0.001)), next, life - legT, bounces - 1, dmg + R.damage, left, false);
+        fireNeedle(tw, target, v3.sub(point, v3.mul(exit.normal, 0.001)), next, Math.max(life - legT, P.lifetime), bounces - 1, dmg + R.damage, left, false);
       });
     }
     // BulletDispenserTowerActionStrategy.UpdateGravityWell: drag every enemy in range towards the barrel ball,
@@ -2059,8 +2065,9 @@
       const reach = collapsing ? 2 * tw.model.range.radius : g.pull;
       const hold = collapsing ? SINGULARITY_HOLD_RADIUS : WELL_HOLD_RADIUS;
       const speed = collapsing ? SINGULARITY_PULL_SPEED : g.speed;
+      const pulls = g.pull > 0 || collapsing;
       for (const en of inRange) {
-        pull(en, tw.well, hold, reach, speed);
+        if (pulls) pull(en, tw.well, hold, reach, speed);
         if (g.slow > 0) applySlow(en, g.slow, WELL_SLOW_DURATION);
       }
     }
@@ -2118,7 +2125,7 @@
       const inRange = (kind === 'beam') ? null : enemiesIn(tw);
       let target = inRange ? pickTarget(inRange, m.tower.targetBehaviour) : null;
       if (kind === 'hangar') { hangarTick(tw, inRange, target); return; }
-      if (m.cfg.gravity && m.cfg.gravity.pull > 0) gravityTick(tw, inRange);
+      if (m.cfg.gravity && (m.cfg.gravity.pull > 0 || m.cfg.gravity.slow > 0)) gravityTick(tw, inRange);
       if (kind === 'mines') { minesTick(tw); return; }
       const usesMag = kind === 'magazine' || kind === 'sniper';
       const volleys = E.tickFireCycle(tw.fc, dt, kind === 'beam' ? true : !!target, st.FIRERATE,

@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-10-09T13:17:45",
+  "generatedAt": "2026-10-09T14:12:56",
   "unityVersion": "6000.5.8f1",
   "project": "/Users/philipp/Projects/3DTD/3DTD",
   "generator": "Tools/BalanceDashboard/extract.py",
@@ -1985,7 +1985,7 @@
      "AMMO": 0.0,
      "FIRERATE": 0.8,
      "RELOAD_SPEED": 0.0,
-     "RANGE": 3.0,
+     "RANGE": 4.0,
      "RADIUS": 0.0,
      "ACCURACY": 1.0,
      "PIERCING": 1.0,
@@ -2016,6 +2016,7 @@
      }
     },
     "ringSpinSpeed": 90.0,
+    "domeFadeSpeed": 4.0,
     "ricochetBounces": 0.0,
     "ricochetDamage": 0.0,
     "ricochetSeek": 0.0,
@@ -2027,19 +2028,19 @@
     "wellPoint": [
      0.0,
      -0.0,
-     0.2
+     -0.04
     ]
    },
    "shootingPoints": [
     {
      "name": "ShootingPoint",
-     "ref": 8561881072402142323,
+     "ref": 4748302425799640311,
      "refName": "ShootingPoint",
      "active": true,
      "pos": [
       0.0,
-      -0.335,
-      0.2
+      -0.352,
+      -0.04
      ],
      "fwd": [
       0.0,
@@ -2049,13 +2050,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 2600433124516502811,
+     "ref": 3175156873407145517,
      "refName": "ShootingPoint",
      "active": true,
      "pos": [
-      0.2901,
-      0.1675,
-      0.2
+      0.3048,
+      0.176,
+      -0.04
      ],
      "fwd": [
       0.866,
@@ -2065,13 +2066,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 7751839671633348518,
+     "ref": 2686454915546304604,
      "refName": "ShootingPoint",
      "active": true,
      "pos": [
-      -0.2901,
-      0.1675,
-      0.2
+      -0.3048,
+      0.176,
+      -0.04
      ],
      "fwd": [
       -0.866,
@@ -2081,13 +2082,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 4785192921611040297,
+     "ref": 6318134349546941311,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      0.2901,
-      -0.1675,
-      0.2
+      0.3048,
+      -0.176,
+      -0.04
      ],
      "fwd": [
       0.866,
@@ -2097,13 +2098,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 1697009588081353645,
+     "ref": 4263686662971284723,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
       -0.0,
-      0.335,
-      0.2
+      0.352,
+      -0.04
      ],
      "fwd": [
       -0.0,
@@ -2113,13 +2114,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 3605625790825423066,
+     "ref": 6849668678891824390,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      -0.2901,
-      -0.1675,
-      0.2
+      -0.3048,
+      -0.176,
+      -0.04
      ],
      "fwd": [
       -0.866,
@@ -2129,13 +2130,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 148199073844081119,
+     "ref": 3157775529010525357,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      0.1451,
-      -0.2512,
-      0.3675
+      0.1524,
+      -0.264,
+      0.136
      ],
      "fwd": [
       0.433,
@@ -2145,13 +2146,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 2115083631893449102,
+     "ref": 3574418373101364433,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      0.1451,
-      0.2512,
-      0.3675
+      0.1524,
+      0.264,
+      0.136
      ],
      "fwd": [
       0.433,
@@ -2161,13 +2162,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 8599385142096894104,
+     "ref": 609853959870177991,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      -0.2901,
+      -0.3048,
       -0.0,
-      0.3675
+      0.136
      ],
      "fwd": [
       -0.866,
@@ -2177,13 +2178,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 7966117553358591436,
+     "ref": 8188602442729156667,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      0.3148,
+      0.3308,
       -0.0,
-      0.0854
+      -0.1604
      ],
      "fwd": [
       0.9397,
@@ -2193,13 +2194,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 8285301636674374351,
+     "ref": 8810900673721894689,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      -0.1574,
-      0.2726,
-      0.0854
+      -0.1654,
+      0.2865,
+      -0.1604
      ],
      "fwd": [
       -0.4698,
@@ -2209,13 +2210,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 4584653276310310493,
+     "ref": 5929855663008106594,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      -0.1574,
-      -0.2726,
-      0.0854
+      -0.1654,
+      -0.2865,
+      -0.1604
      ],
      "fwd": [
       -0.4698,
@@ -2225,13 +2226,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 5133116716088534217,
+     "ref": 6673625300701056392,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      0.2901,
+      0.3048,
       -0.0,
-      0.3675
+      0.136
      ],
      "fwd": [
       0.866,
@@ -2241,13 +2242,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 8914561258241094742,
+     "ref": 385132939406031758,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      -0.1451,
-      0.2512,
-      0.3675
+      -0.1524,
+      0.264,
+      0.136
      ],
      "fwd": [
       -0.433,
@@ -2257,13 +2258,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 7580907366971415954,
+     "ref": 6308611905412884851,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      -0.1451,
-      -0.2512,
-      0.3675
+      -0.1524,
+      -0.264,
+      0.136
      ],
      "fwd": [
       -0.433,
@@ -2273,13 +2274,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 6471599652964329368,
+     "ref": 7328156052143690323,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      0.1574,
-      -0.2726,
-      0.0854
+      0.1654,
+      -0.2865,
+      -0.1604
      ],
      "fwd": [
       0.4698,
@@ -2289,13 +2290,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 6283117010236876462,
+     "ref": 6352887154564623510,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      0.1574,
-      0.2726,
-      0.0854
+      0.1654,
+      0.2865,
+      -0.1604
      ],
      "fwd": [
       0.4698,
@@ -2305,13 +2306,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 4621381440011284383,
+     "ref": 8957760958155520202,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      -0.3148,
+      -0.3308,
       -0.0,
-      0.0854
+      -0.1604
      ],
      "fwd": [
       -0.9397,
@@ -2321,13 +2322,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 2522810126893441955,
+     "ref": 1746725657246846814,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
       0.0,
-      -0.1675,
-      0.4901
+      -0.176,
+      0.2648
      ],
      "fwd": [
       0.0,
@@ -2337,13 +2338,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 3269654633045423260,
+     "ref": 7493869479716575341,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      0.1451,
-      -0.0838,
-      0.4901
+      0.1524,
+      -0.088,
+      0.2648
      ],
      "fwd": [
       0.433,
@@ -2353,13 +2354,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 2889796081768710359,
+     "ref": 3455255742104489593,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      0.1451,
-      0.0838,
-      0.4901
+      0.1524,
+      0.088,
+      0.2648
      ],
      "fwd": [
       0.433,
@@ -2369,13 +2370,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 4733303757003515003,
+     "ref": 3602583450649728030,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
       -0.0,
-      0.1675,
-      0.4901
+      0.176,
+      0.2648
      ],
      "fwd": [
       -0.0,
@@ -2385,13 +2386,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 2779545297824206008,
+     "ref": 538994947377386744,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      -0.1451,
-      0.0837,
-      0.4901
+      -0.1524,
+      0.088,
+      0.2648
      ],
      "fwd": [
       -0.433,
@@ -2401,13 +2402,13 @@
     },
     {
      "name": "ShootingPoint",
-     "ref": 7407775070744100656,
+     "ref": 8173886427752063135,
      "refName": "ShootingPoint",
      "active": false,
      "pos": [
-      -0.1451,
-      -0.0837,
-      0.4901
+      -0.1524,
+      -0.088,
+      0.2648
      ],
      "fwd": [
       -0.433,
@@ -2449,22 +2450,22 @@
       ],
       "activates": [
        {
-        "go": 3795692893270061801,
+        "go": 8462960024521119805,
         "name": "Barrels (Barrel Ring)",
         "shootingPoint": null
        },
        {
-        "go": 4785192921611040297,
+        "go": 6318134349546941311,
         "name": "ShootingPoint",
         "shootingPoint": 3
        },
        {
-        "go": 1697009588081353645,
+        "go": 4263686662971284723,
         "name": "ShootingPoint",
         "shootingPoint": 4
        },
        {
-        "go": 3605625790825423066,
+        "go": 6849668678891824390,
         "name": "ShootingPoint",
         "shootingPoint": 5
        }
@@ -2489,37 +2490,37 @@
       ],
       "activates": [
        {
-        "go": 7251451906219383146,
+        "go": 8114405747529806153,
         "name": "Barrels (Barrel Crown)",
         "shootingPoint": null
        },
        {
-        "go": 148199073844081119,
+        "go": 3157775529010525357,
         "name": "ShootingPoint",
         "shootingPoint": 6
        },
        {
-        "go": 2115083631893449102,
+        "go": 3574418373101364433,
         "name": "ShootingPoint",
         "shootingPoint": 7
        },
        {
-        "go": 8599385142096894104,
+        "go": 609853959870177991,
         "name": "ShootingPoint",
         "shootingPoint": 8
        },
        {
-        "go": 7966117553358591436,
+        "go": 8188602442729156667,
         "name": "ShootingPoint",
         "shootingPoint": 9
        },
        {
-        "go": 8285301636674374351,
+        "go": 8810900673721894689,
         "name": "ShootingPoint",
         "shootingPoint": 10
        },
        {
-        "go": 4584653276310310493,
+        "go": 5929855663008106594,
         "name": "ShootingPoint",
         "shootingPoint": 11
        }
@@ -2532,7 +2533,7 @@
       "tier": 2,
       "name": "Needle Sphere",
       "description": "Barrels all over the ball: needles fly everywhere but down.\n+12 Barrels\n+0.5 Range\n+1 Pierce",
-      "price": 850.0,
+      "price": 1000.0,
       "statUpgrades": [
        {
         "stat": "RANGE",
@@ -2555,67 +2556,67 @@
       ],
       "activates": [
        {
-        "go": 7493373666703498682,
+        "go": 807502322234312826,
         "name": "Barrels (Needle Sphere)",
         "shootingPoint": null
        },
        {
-        "go": 5133116716088534217,
+        "go": 6673625300701056392,
         "name": "ShootingPoint",
         "shootingPoint": 12
        },
        {
-        "go": 8914561258241094742,
+        "go": 385132939406031758,
         "name": "ShootingPoint",
         "shootingPoint": 13
        },
        {
-        "go": 7580907366971415954,
+        "go": 6308611905412884851,
         "name": "ShootingPoint",
         "shootingPoint": 14
        },
        {
-        "go": 6471599652964329368,
+        "go": 7328156052143690323,
         "name": "ShootingPoint",
         "shootingPoint": 15
        },
        {
-        "go": 6283117010236876462,
+        "go": 6352887154564623510,
         "name": "ShootingPoint",
         "shootingPoint": 16
        },
        {
-        "go": 4621381440011284383,
+        "go": 8957760958155520202,
         "name": "ShootingPoint",
         "shootingPoint": 17
        },
        {
-        "go": 2522810126893441955,
+        "go": 1746725657246846814,
         "name": "ShootingPoint",
         "shootingPoint": 18
        },
        {
-        "go": 3269654633045423260,
+        "go": 7493869479716575341,
         "name": "ShootingPoint",
         "shootingPoint": 19
        },
        {
-        "go": 2889796081768710359,
+        "go": 3455255742104489593,
         "name": "ShootingPoint",
         "shootingPoint": 20
        },
        {
-        "go": 4733303757003515003,
+        "go": 3602583450649728030,
         "name": "ShootingPoint",
         "shootingPoint": 21
        },
        {
-        "go": 2779545297824206008,
+        "go": 538994947377386744,
         "name": "ShootingPoint",
         "shootingPoint": 22
        },
        {
-        "go": 7407775070744100656,
+        "go": 8173886427752063135,
         "name": "ShootingPoint",
         "shootingPoint": 23
        }
@@ -2629,7 +2630,7 @@
       "path": 1,
       "tier": 0,
       "name": "Rebound Rounds",
-      "description": "Needles ricochet off an invisible dome around the tower and off the ground.\n2 Ricochets\n+0.6 s Needle Lifetime",
+      "description": "Needles ricochet off a dome around the tower and off the ground. Every bounce sends them off with a fresh lifetime.\n2 Ricochets\n+0.6 s Needle Lifetime",
       "price": 90.0,
       "statUpgrades": [
        {
@@ -2649,7 +2650,7 @@
       ],
       "activates": [
        {
-        "go": 6960026259099269102,
+        "go": 3536220200754421136,
         "name": "Ricochet Band",
         "shootingPoint": null
        }
@@ -2661,27 +2662,21 @@
       "path": 1,
       "tier": 1,
       "name": "Kinetic Rebound",
-      "description": "Up to four ricochets, and every bounce makes a needle hit harder.\n4 Ricochets\n+1 Damage per Bounce\n+0.4 s Needle Lifetime",
-      "price": 380.0,
-      "statUpgrades": [
-       {
-        "stat": "LIFETIME",
-        "value": 0.4,
-        "isModifier": false
-       }
-      ],
+      "description": "Up to four ricochets, and every bounce makes a needle hit harder.\n4 Ricochets\n+0.5 Damage per Bounce",
+      "price": 450.0,
+      "statUpgrades": [],
       "behaviours": [
        {
         "type": "DispenserRicochetUpgrade",
         "comment": "ricochet 4",
         "bounces": 4,
-        "damagePerBounce": 1.0,
+        "damagePerBounce": 0.5,
         "seek": false
        }
       ],
       "activates": [
        {
-        "go": 1508446216560851460,
+        "go": 3455617478253728830,
         "name": "Ricochet Projector",
         "shootingPoint": null
        }
@@ -2693,27 +2688,21 @@
       "path": 1,
       "tier": 2,
       "name": "Trick Shot Matrix",
-      "description": "Six ricochets, and every bounce aims the needle at an enemy.\n6 Seeking Ricochets\n+0.8 s Needle Lifetime",
+      "description": "Six ricochets, and every bounce aims the needle at an enemy.\n6 Seeking Ricochets",
       "price": 1300.0,
-      "statUpgrades": [
-       {
-        "stat": "LIFETIME",
-        "value": 0.8,
-        "isModifier": false
-       }
-      ],
+      "statUpgrades": [],
       "behaviours": [
        {
         "type": "DispenserRicochetUpgrade",
         "comment": "ricochet 6",
         "bounces": 6,
-        "damagePerBounce": 1.0,
+        "damagePerBounce": 0.5,
         "seek": true
        }
       ],
       "activates": [
        {
-        "go": 4702593759469245058,
+        "go": 1536845646240226327,
         "name": "Ricochet Dish",
         "shootingPoint": null
        }
@@ -2726,24 +2715,24 @@
      {
       "path": 2,
       "tier": 0,
-      "name": "Graviton Core",
-      "description": "Drags enemies in range off their path towards the tower. Bosses are too heavy.\nPull 0.5\n15% Slow",
-      "price": 120.0,
+      "name": "Graviton Field",
+      "description": "A heavy field around the tower: time runs slower for enemies in range.\n20% Slow",
+      "price": 220.0,
       "statUpgrades": [],
       "behaviours": [
        {
         "type": "DispenserGravityUpgrade",
-        "comment": "gravity 0.5",
-        "pull": 0.5,
-        "pullSpeed": 1.5,
-        "slow": 0.15,
+        "comment": "gravity 0",
+        "pull": 0.0,
+        "pullSpeed": 0.0,
+        "slow": 0.2,
         "singularityInterval": 0.0,
         "singularityDuration": 0.0
        }
       ],
       "activates": [
        {
-        "go": 1206255009072081791,
+        "go": 209723345341097879,
         "name": "Gravity Ring 1",
         "shootingPoint": null
        }
@@ -2755,8 +2744,8 @@
       "path": 2,
       "tier": 1,
       "name": "Event Horizon",
-      "description": "A deeper well that holds enemies right in front of the barrels.\nPull 1.2\n30% Slow\n+0.5 Range",
-      "price": 300.0,
+      "description": "The field becomes a well: it drags enemies off their path, right in front of the barrels. Bosses are too heavy.\nPull 1.2\n30% Slow\n+0.5 Range",
+      "price": 600.0,
       "statUpgrades": [
        {
         "stat": "RANGE",
@@ -2777,7 +2766,7 @@
       ],
       "activates": [
        {
-        "go": 7415115626993672684,
+        "go": 5446257189624560665,
         "name": "Gravity Ring 2",
         "shootingPoint": null
        }
@@ -2790,7 +2779,7 @@
       "tier": 2,
       "name": "Singularity",
       "description": "Every 5 s the well collapses and holds every enemy in range around the barrel ball for 1.5 s.\nSingularity",
-      "price": 1000.0,
+      "price": 1700.0,
       "statUpgrades": [],
       "behaviours": [
        {
@@ -2805,7 +2794,7 @@
       ],
       "activates": [
        {
-        "go": 4622415614339691118,
+        "go": 2116019275506764902,
         "name": "Gravity Ring 3",
         "shootingPoint": null
        }

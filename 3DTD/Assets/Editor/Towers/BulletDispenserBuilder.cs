@@ -28,10 +28,11 @@ public static class BulletDispenserBuilder
     private const float PlateWidth = 0.64f;
     private const float PlateHeight = 0.1f;
     private const float ColumnWidth = 0.38f;
-    private const float ColumnTop = 0.52f;
-    private const float HeadHeight = 0.7f;
-    private const float CoreRadius = 0.15f;
-    private const float BarrelLength = 0.22f;
+    // The ball sits about as high as enemies pass blocks beside the track (0.25-0.5 above the face)
+    private const float ColumnTop = 0.3f;
+    private const float HeadHeight = 0.46f;
+    private const float CoreRadius = 0.16f;
+    private const float BarrelLength = 0.23f;
     private const float RingRadius = 0.42f;
 
     // The barrel ball: (tier that adds the barrel, elevation, yaw) in degrees. Rings at -20, 0, 30 and 60 degrees,
@@ -54,6 +55,7 @@ public static class BulletDispenserBuilder
     private static Material softNeonMaterial;
     private static Material coreMaterial;
     private static Material darkMaterial;
+    private static Material domeMaterial;
     private static Mesh torusMesh;
 
     [MenuItem("3DTD/Towers/Rebuild Bullet Dispenser")]
@@ -103,6 +105,28 @@ public static class BulletDispenserBuilder
         coreMaterial = LitMaterial("DispenserCore", new Color(0.05f, 0.12f, 0.07f), 0.8f, 0.6f, new Color(0.02f, 0.14f, 0.04f));
         darkMaterial = LitMaterial("DispenserGunmetal", new Color(0.16f, 0.18f, 0.2f), 0.8f, 0.45f, Color.black);
         torusMesh = Torus("DispenserRing", 0.06f, 48, 8);
+        domeMaterial = DomeMaterial();
+    }
+
+    private static Material DomeMaterial()
+    {
+        Shader shader = Shader.Find("3DTD/Ricochet Dome");
+        if (shader == null)
+        {
+            Fail("shader 3DTD/Ricochet Dome not found");
+            return null;
+        }
+        string path = Folder + "/DispenserDome.mat";
+        Material material = AssetDatabase.LoadAssetAtPath<Material>(path);
+        if (material == null)
+        {
+            material = new Material(shader);
+            AssetDatabase.CreateAsset(material, path);
+        }
+        material.shader = shader;
+        material.SetColor("_Color", new Color(0.3f, 1f, 0.4f) * 1.2f);
+        EditorUtility.SetDirty(material);
+        return material;
     }
 
     // A slim ring of radius 1 in the x/y plane (axis z), tube radius thickness: the neon rings of the tower
@@ -257,6 +281,7 @@ public static class BulletDispenserBuilder
         public readonly List<GameObject>[] TierPoints = { new List<GameObject>(), new List<GameObject>(), new List<GameObject>(), new List<GameObject>() };
         public readonly GameObject[] Rings = new GameObject[3];
         public readonly GameObject[] Ricochet = new GameObject[3];
+        public MeshRenderer Dome;
     }
 
     // Everything but the targetter goes: the old turret, the flamethrower flames, the strategies and upgrades the
@@ -264,6 +289,12 @@ public static class BulletDispenserBuilder
     private static void RemoveOldParts(GameObject root, BulletDispenserTowerActionStrategy keep, Tower tower)
     {
         Transform targetter = tower.Targetter != null ? tower.Targetter.transform : null;
+        if (targetter != null)
+        {
+            Transform oldDome = targetter.Find("Ricochet Dome");
+            if (oldDome != null)
+                Object.DestroyImmediate(oldDome.gameObject);
+        }
         for (int i = root.transform.childCount - 1; i >= 0; i--)
         {
             Transform child = root.transform.GetChild(i);
@@ -363,6 +394,21 @@ public static class BulletDispenserBuilder
         dish.transform.localRotation = Quaternion.Euler(0f, 120f, 0f);
         dish.SetActive(false);
         parts.Ricochet[2] = dish;
+
+        // The ricochet dome's shimmer: the targetter's own half sphere (so it scales with RANGE), shown by the strategy
+        Transform targetter = root.GetComponent<Tower>().Targetter.transform;
+        MeshCollider rangeShape = targetter.GetComponent<MeshCollider>();
+        GameObject dome = new GameObject("Ricochet Dome");
+        dome.transform.SetParent(targetter, false);
+        dome.AddComponent<MeshFilter>().sharedMesh = rangeShape != null ? rangeShape.sharedMesh : null;
+        MeshRenderer domeRenderer = dome.AddComponent<MeshRenderer>();
+        domeRenderer.sharedMaterial = domeMaterial;
+        domeRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        domeRenderer.receiveShadows = false;
+        domeRenderer.enabled = false;
+        if (rangeShape == null)
+            Fail("the targetter has no MeshCollider for the dome");
+        parts.Dome = domeRenderer;
 
         // Hover outline over the whole body, with the old turret's settings
         Outlinable outline = body.AddComponent<Outlinable>();
@@ -473,6 +519,7 @@ public static class BulletDispenserBuilder
         SerializedObject data = new SerializedObject(strategy);
         // The head's pivot is the centre of the ball (the ball mesh itself is offset to centre it there)
         data.FindProperty("core").objectReferenceValue = parts.Head;
+        data.FindProperty("ricochetDome").objectReferenceValue = parts.Dome;
         SerializedProperty rings = data.FindProperty("gravityRings");
         rings.arraySize = parts.Rings.Length;
         for (int i = 0; i < parts.Rings.Length; i++)
@@ -526,7 +573,7 @@ public static class BulletDispenserBuilder
                 },
                 new Module
                 {
-                    Name = "Needle Sphere", Price = 850,
+                    Name = "Needle Sphere", Price = 1000,
                     Description = "Barrels all over the ball: needles fly everywhere but down.\n+12 Barrels\n+0.5 Range\n+1 Pierce",
                     Upgrades = new Upgrade[] { Firepoints(root, parts, 3) },
                     Stats = new[] { new StatChange(Stat.StatType.RANGE, 0.5f), new StatChange(Stat.StatType.PIERCING, 1f) },
@@ -537,25 +584,23 @@ public static class BulletDispenserBuilder
                 new Module
                 {
                     Name = "Rebound Rounds", Price = 90,
-                    Description = "Needles ricochet off an invisible dome around the tower and off the ground.\n2 Ricochets\n+0.6 s Needle Lifetime",
+                    Description = "Needles ricochet off a dome around the tower and off the ground. Every bounce sends them off with a fresh lifetime.\n2 Ricochets\n+0.6 s Needle Lifetime",
                     Upgrades = new Upgrade[] { Ricochet(root, 2, 0f, false) },
                     Stats = new[] { new StatChange(Stat.StatType.LIFETIME, 0.6f) },
                     Show = new[] { parts.Ricochet[0] },
                 },
                 new Module
                 {
-                    Name = "Kinetic Rebound", Price = 380,
-                    Description = "Up to four ricochets, and every bounce makes a needle hit harder.\n4 Ricochets\n+1 Damage per Bounce\n+0.4 s Needle Lifetime",
-                    Upgrades = new Upgrade[] { Ricochet(root, 4, 1f, false) },
-                    Stats = new[] { new StatChange(Stat.StatType.LIFETIME, 0.4f) },
+                    Name = "Kinetic Rebound", Price = 450,
+                    Description = "Up to four ricochets, and every bounce makes a needle hit harder.\n4 Ricochets\n+0.5 Damage per Bounce",
+                    Upgrades = new Upgrade[] { Ricochet(root, 4, 0.5f, false) },
                     Show = new[] { parts.Ricochet[1] },
                 },
                 new Module
                 {
                     Name = "Trick Shot Matrix", Price = 1300,
-                    Description = "Six ricochets, and every bounce aims the needle at an enemy.\n6 Seeking Ricochets\n+0.8 s Needle Lifetime",
-                    Upgrades = new Upgrade[] { Ricochet(root, 6, 1f, true) },
-                    Stats = new[] { new StatChange(Stat.StatType.LIFETIME, 0.8f) },
+                    Description = "Six ricochets, and every bounce aims the needle at an enemy.\n6 Seeking Ricochets",
+                    Upgrades = new Upgrade[] { Ricochet(root, 6, 0.5f, true) },
                     Show = new[] { parts.Ricochet[2] },
                 },
             },
@@ -563,22 +608,22 @@ public static class BulletDispenserBuilder
             {
                 new Module
                 {
-                    Name = "Graviton Core", Price = 120,
-                    Description = "Drags enemies in range off their path towards the tower. Bosses are too heavy.\nPull 0.5\n15% Slow",
-                    Upgrades = new Upgrade[] { Gravity(root, 0.5f, 1.5f, 0.15f, 0f, 0f) },
+                    Name = "Graviton Field", Price = 220,
+                    Description = "A heavy field around the tower: time runs slower for enemies in range.\n20% Slow",
+                    Upgrades = new Upgrade[] { Gravity(root, 0f, 0f, 0.2f, 0f, 0f) },
                     Show = new[] { parts.Rings[0] },
                 },
                 new Module
                 {
-                    Name = "Event Horizon", Price = 300,
-                    Description = "A deeper well that holds enemies right in front of the barrels.\nPull 1.2\n30% Slow\n+0.5 Range",
+                    Name = "Event Horizon", Price = 600,
+                    Description = "The field becomes a well: it drags enemies off their path, right in front of the barrels. Bosses are too heavy.\nPull 1.2\n30% Slow\n+0.5 Range",
                     Upgrades = new Upgrade[] { Gravity(root, 1.2f, 2.5f, 0.3f, 0f, 0f) },
                     Stats = new[] { new StatChange(Stat.StatType.RANGE, 0.5f) },
                     Show = new[] { parts.Rings[1] },
                 },
                 new Module
                 {
-                    Name = "Singularity", Price = 1000,
+                    Name = "Singularity", Price = 1700,
                     Description = "Every 5 s the well collapses and holds every enemy in range around the barrel ball for 1.5 s.\nSingularity",
                     Upgrades = new Upgrade[] { Gravity(root, 1.2f, 2.5f, 0.3f, 5f, 1.5f) },
                     Show = new[] { parts.Rings[2] },

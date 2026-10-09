@@ -52,9 +52,19 @@ Started 2026-10-09, stacked on `fix/review-s4`. The user asked for:
 
   The Bullet Dispenser alone loses everywhere (R5–R20) and shows up in winning combinations on every level (3–11).
 
+## Round 2 (user feedback, same day)
+- **Ball lower:** the head sits 0.46 above the face (was 0.7), on a shorter column, so the base and ring barrels fire at the height of enemies passing blocks beside the track (levels: typically 0.25–0.5 above such faces). Base RANGE 3 → 4.
+- **Rebounds chain:** every rebound gives the needle at least its LIFETIME again (`ProjectileSystem.Bounce`). Before, most needles expired before their second bounce. In play: 1.5 bounces per needle at Rebound Rounds (max 2), 3.1 at Kinetic Rebound (max 4). Kinetic Rebound and Trick Shot lost their lifetime bonus; the bounce damage is +0.5 (was +1: Needle Sphere + Kinetic dealt 14–65 × the base tower's damage in the simulator).
+- **Turning needles:** `FlightBatch`'s follower job now turns a flight's local-space particles with it (positions, velocities, 3D rotations), so mesh needles point along their new direction after a rebound (seeking ones flew sideways).
+- **Gravity path:** Graviton Field (220) only slows 20 %; the pull starts at Event Horizon (600, pull 1.2, 30 %), Singularity 1700.
+- **Ricochet dome shimmer:** while a tower with the ricochet path is selected, an additive neon dome (rim, grid, a band sweeping up; `RicochetDome.shader`) fades in at the rebound radius.
+- **Prices:** barrels 130 / 220 / 1000, ricochet 90 / 450 / 1300, gravity 220 / 600 / 1700. `engine.js` counts reflected legs at half and seeking rebounds' damage at 40 % (fitted to the simulator).
+- **Results:** EditMode 66/66. Play smoke test 0 exceptions (Graviton Field max pull 0, Event Horizon 1.2). Acceptance stays at the baseline (B01 1/8, 8/28, 21/56; B03 2/8, 11/28, 28/56; B04 2/8, 10/28, 22/56, roster W W W; B05 0/8, 5/28, 18/56; I01 1/8, 8/28, 21/56; I02 1/8, 5/28, 7/56). Build efficiency 6/33 in band: barrels × Kinetic/Trick Shot are still above budget (simulator ~1–2.5 ×), gravity far below (support value not modelled).
+
 ## Needs user verification
 - The look in a real scene with bloom: neon outline strength, ring brightness, the dark core ball, how the barrel ball reads at game zoom.
 - How the ricochet and the gravity well feel; whether the pull or the singularity is confusing to watch.
+- The dome shimmer's brightness with bloom, and the turned needles after rebounds (not visible in headless renders).
 - Decisions:
   - Price the gravity path for its support value (today by judgement next to the Beam's slow).
   - Accept or nerf the barrels × Kinetic Rebound / Trick Shot synergy.

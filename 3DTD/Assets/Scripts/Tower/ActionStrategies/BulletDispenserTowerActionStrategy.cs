@@ -6,8 +6,8 @@ using UnityEngine;
 // - Ricochet (DispenserRicochetUpgrade): needles rebound off the inside of a dome a quarter beyond the range and
 //   off the ground plane,
 //   gain damage per rebound and can turn towards an enemy on every rebound.
-// - Gravity well (DispenserGravityUpgrade): enemies in range are dragged off their path towards the barrel ball
-//   and slowed; the singularity periodically collapses them all into a tight orbit around it.
+// - Gravity well (DispenserGravityUpgrade): enemies in range are slowed, then also dragged off their path towards
+//   the barrel ball; the singularity periodically collapses them all into a tight orbit around it.
 public class BulletDispenserTowerActionStrategy : ActionStrategy
 {
     private const float SingularityEffectLifetime = 3f;
@@ -23,6 +23,9 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
     [Tooltip("Gravity rings around the barrel ball, spun on their own axes (shown by the gravity path's modules)")]
     [SerializeField] private Transform[] gravityRings = new Transform[0];
     [SerializeField] private float ringSpinSpeed = 90f;
+    [Tooltip("Shimmer of the ricochet dome, shown while the tower is selected and its needles rebound")]
+    [SerializeField] private Renderer ricochetDome;
+    [SerializeField] private float domeFadeSpeed = 4f;
 
     [Header("Ricochet (set by DispenserRicochetUpgrade)")]
     public int ricochetBounces;
@@ -62,6 +65,10 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
     private VisualRef singularityVisual;
     private float singularityTimer;
     private float collapseLeft;
+    private bool selected;
+    private float domeIntensity = -1f;
+    private MaterialPropertyBlock domeProperties;
+    private static readonly int IntensityId = Shader.PropertyToID("_Intensity");
 
     // Seconds until the next collapse and the one in progress (tests, telemetry)
     public float SingularityTimer => singularityTimer;
@@ -71,6 +78,27 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
     {
         this.tower = tower;
         fireCycle = new FireCycle(0f);
+        if (ricochetDome != null)
+        {
+            // Scaled with the targetter (RANGE); the rebounds happen a quarter beyond it
+            ricochetDome.transform.localScale = Vector3.one * RicochetDomeScale;
+            ricochetDome.enabled = false;
+        }
+    }
+
+    private void OnEnable()
+    {
+        SelectionManager.OnSelectionChange += HandleSelectionChange;
+    }
+
+    private void OnDisable()
+    {
+        SelectionManager.OnSelectionChange -= HandleSelectionChange;
+    }
+
+    private void HandleSelectionChange(Selectable previous, Selectable current)
+    {
+        selected = current != null && tower != null && current.gameObject == tower.gameObject;
     }
 
     public override void ExecuteAction()
@@ -83,6 +111,23 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
 
         UpdateGravityWell(Time.deltaTime);
         SpinRings(Time.deltaTime);
+        UpdateDome(Time.unscaledDeltaTime);
+    }
+
+    // Fades the dome shimmer in while the tower is selected and has rebounds, out otherwise (also while paused)
+    private void UpdateDome(float deltaTime)
+    {
+        if (ricochetDome == null)
+            return;
+        float goal = selected && ricochetBounces > 0 ? 1f : 0f;
+        if (domeIntensity == goal)
+            return;
+        domeIntensity = Mathf.MoveTowards(Mathf.Max(0f, domeIntensity), goal, domeFadeSpeed * deltaTime);
+        if (domeProperties == null)
+            domeProperties = new MaterialPropertyBlock();
+        domeProperties.SetFloat(IntensityId, domeIntensity);
+        ricochetDome.SetPropertyBlock(domeProperties);
+        ricochetDome.enabled = domeIntensity > 0f;
     }
 
     private void FireBullets(float age)
@@ -143,7 +188,7 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
     // then holds all of them close for a moment
     private void UpdateGravityWell(float deltaTime)
     {
-        if (gravityPull <= 0f)
+        if (gravityPull <= 0f && gravitySlow <= 0f)
             return;
 
         List<Enemy> enemies = tower.Targetter.GetAllEnemiesInRadius();
@@ -172,10 +217,12 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
         float reach = collapsing ? 2f * tower.GetWorldRangeRadius(tower.StatsManager.GetStatValue(Stat.StatType.RANGE)) : gravityPull;
         float hold = collapsing ? SingularityHoldRadius : WellHoldRadius;
         float speed = collapsing ? SingularityPullSpeed : gravityPullSpeed;
+        bool pulls = gravityPull > 0f || collapsing;
         for (int i = 0; i < enemies.Count; i++)
         {
             Enemy enemy = enemies[i];
-            enemy.Pull(well, hold, reach, speed);
+            if (pulls)
+                enemy.Pull(well, hold, reach, speed);
             if (gravitySlow > 0f)
                 enemy.ApplySlowness(-gravitySlow, WellSlowDuration);
         }

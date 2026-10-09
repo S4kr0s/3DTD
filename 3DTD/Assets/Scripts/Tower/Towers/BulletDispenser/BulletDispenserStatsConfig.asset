@@ -21,7 +21,7 @@ MonoBehaviour:
   Damage: 1
   Amount: 1
   FireRate: 0.8
-  Range: 3
+  Range: 4
   Radius: 0
   Accuracy: 1
   Piercing: 1

@@ -75,6 +75,7 @@ public sealed class FlightBatch : IDisposable
         public float3 Position;
         public float3 Previous;
         public quaternion Rotation;
+        public quaternion LastRotation;
         public float Scale;
         public float LastScale;
         public float3 Velocity;
@@ -114,6 +115,8 @@ public sealed class FlightBatch : IDisposable
     private NativeArray<float3> delta;
     private NativeArray<float3> center;
     private NativeArray<float> scaleRatio;
+    // How the flight turned since the last frame (ricochets): followers turn with it
+    private NativeArray<quaternion> turn;
     private NativeArray<int> generation;
     private NativeArray<byte> alive;
     private JobHandle followJobs;
@@ -185,6 +188,7 @@ public sealed class FlightBatch : IDisposable
         delta = new NativeArray<float3>(capacity, Allocator.Persistent);
         center = new NativeArray<float3>(capacity, Allocator.Persistent);
         scaleRatio = new NativeArray<float>(capacity, Allocator.Persistent);
+        turn = new NativeArray<quaternion>(capacity, Allocator.Persistent);
         generation = new NativeArray<int>(capacity, Allocator.Persistent);
         alive = new NativeArray<byte>(capacity, Allocator.Persistent);
 
@@ -277,6 +281,7 @@ public sealed class FlightBatch : IDisposable
         delta.Dispose();
         center.Dispose();
         scaleRatio.Dispose();
+        turn.Dispose();
         generation.Dispose();
         alive.Dispose();
     }
@@ -296,6 +301,7 @@ public sealed class FlightBatch : IDisposable
             Position = position,
             Previous = position,
             Rotation = rotation,
+            LastRotation = rotation,
             Scale = scale,
             LastScale = scale,
             Clock = -1e-6f,
@@ -352,6 +358,7 @@ public sealed class FlightBatch : IDisposable
         Grow(ref delta, capacity);
         Grow(ref center, capacity);
         Grow(ref scaleRatio, capacity);
+        Grow(ref turn, capacity);
         Grow(ref generation, capacity);
         Grow(ref alive, capacity);
     }
@@ -382,6 +389,7 @@ public sealed class FlightBatch : IDisposable
             {
                 delta[id] = float3.zero;
                 scaleRatio[id] = 1f;
+                turn[id] = quaternion.identity;
             }
             if (trail != null)
                 trail.Draw(TrailTop(), Time.time, Camera.main);
@@ -406,6 +414,7 @@ public sealed class FlightBatch : IDisposable
             Delta = delta,
             Center = center,
             ScaleRatio = scaleRatio,
+            Turn = turn,
             Generation = generation,
             Alive = alive,
         }.Run();
@@ -550,6 +559,7 @@ public sealed class FlightBatch : IDisposable
         public NativeArray<float3> Delta;
         public NativeArray<float3> Center;
         public NativeArray<float> ScaleRatio;
+        public NativeArray<quaternion> Turn;
         public NativeArray<int> Generation;
         public NativeArray<byte> Alive;
 
@@ -572,6 +582,7 @@ public sealed class FlightBatch : IDisposable
                 Delta[id] = flight.Position - flight.Previous;
                 Center[id] = flight.Previous;
                 ScaleRatio[id] = flight.Fresh || flight.LastScale <= 0f ? 1f : flight.Scale / flight.LastScale;
+                Turn[id] = flight.Fresh ? quaternion.identity : math.normalizesafe(math.mul(flight.Rotation, math.inverse(flight.LastRotation)), quaternion.identity);
                 Generation[id] = FlightGeneration[id];
                 Alive[id] = (byte)(flight.Live ? 1 : 0);
                 if (!flight.Live)
@@ -643,6 +654,7 @@ public sealed class FlightBatch : IDisposable
                 if (!flight.Live)
                     continue;
                 flight.Previous = flight.Position;
+                flight.LastRotation = flight.Rotation;
                 flight.LastScale = flight.Scale;
                 flight.Clock += DeltaTime;
                 flight.Fresh = false;
@@ -754,6 +766,8 @@ public sealed class FlightBatch : IDisposable
             Delta = delta,
             Center = center,
             ScaleRatio = scaleRatio,
+            Turn = turn,
+            Rotate3D = system.main.startRotation3D,
             Generation = generation,
             Alive = alive,
         }.ScheduleBatch(system, 512);
@@ -766,6 +780,8 @@ public sealed class FlightBatch : IDisposable
         [ReadOnly] public NativeArray<float3> Delta;
         [ReadOnly] public NativeArray<float3> Center;
         [ReadOnly] public NativeArray<float> ScaleRatio;
+        [ReadOnly] public NativeArray<quaternion> Turn;
+        public bool Rotate3D;
         [ReadOnly] public NativeArray<int> Generation;
         [ReadOnly] public NativeArray<byte> Alive;
 
@@ -775,6 +791,8 @@ public sealed class FlightBatch : IDisposable
             NativeArray<float> lifetime = particles.aliveTimePercent;
             ParticleSystemNativeArray3 positions = particles.positions;
             ParticleSystemNativeArray3 sizes = particles.sizes;
+            ParticleSystemNativeArray3 velocities = particles.velocities;
+            ParticleSystemNativeArray3 rotations = particles.rotations;
             int end = startIndex + count;
             for (int i = startIndex; i < end; i++)
             {
@@ -794,6 +812,15 @@ public sealed class FlightBatch : IDisposable
                 {
                     position = Center[id] + (position - Center[id]) * ratio;
                     sizes[i] = (float3)sizes[i] * ratio;
+                }
+                // A ricochet turns the flight: its particles turn around it, mesh needles keep pointing ahead
+                quaternion turned = Turn[id];
+                if (math.abs(turned.value.w) < 0.99999f)
+                {
+                    position = Center[id] + math.mul(turned, position - Center[id]);
+                    velocities[i] = math.mul(turned, (float3)velocities[i]);
+                    if (Rotate3D)
+                        rotations[i] = EffectMath.ToEulerZXY(math.mul(turned, quaternion.EulerZXY((float3)rotations[i])));
                 }
                 positions[i] = position + Delta[id];
             }

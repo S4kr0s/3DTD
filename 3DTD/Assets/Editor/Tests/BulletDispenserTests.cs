@@ -153,7 +153,9 @@ public class BulletDispenserTests
             pulls[tier] = gravity.Pull;
         }
         CollectionAssert.AreEqual(bounces, lastBounces);
-        Assert.Greater(pulls[1], pulls[0]);
+        // The first tier only slows; the well starts pulling at tier 2
+        Assert.AreEqual(0f, pulls[0]);
+        Assert.Greater(pulls[1], 0f);
         Assert.IsTrue(Find<DispenserRicochetUpgrade>(prefab, 1, 2).Seek);
         Assert.Greater(Find<DispenserGravityUpgrade>(prefab, 2, 2).SingularityInterval, 0f);
     }
