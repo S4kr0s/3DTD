@@ -106,13 +106,17 @@ public class BevelGraphic : MaskableGraphic
             body = inner;
         }
 
+        // The rim and hover-rim quads pair outer and inner points; shapes whose inset changes the point count
+        // (corners collapsing on small rects) have no ring to draw
+        bool hasRing = def.rimWidth > 0f && inner.Count == outer.Count;
+
         if (hasRim)
         {
             if (def.rimUnderBody)
             {
                 UIGeometry.AddPolygon(vh, outer, def.rim, rect, tint);
             }
-            else
+            else if (hasRing)
             {
                 int count = outer.Count;
                 for (int i = 0; i < count; i++)
@@ -148,7 +152,7 @@ public class BevelGraphic : MaskableGraphic
             Color wash = tint;
             wash.a *= highlight;
             UIGeometry.AddPolygon(vh, body, HoverWash, bodyRect, wash);
-            if (def.rimWidth > 0f)
+            if (hasRing)
             {
                 Color32 rimColor = HoverRim * tint * new Color(1f, 1f, 1f, highlight);
                 int count = outer.Count;
