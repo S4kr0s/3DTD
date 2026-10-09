@@ -40,6 +40,8 @@ public class LevelSelectScreen : MonoBehaviour
         gameMode.SetItemInteractable(1, false);
     }
 
+    private static bool categoryChosen;
+
     private void OnEnable()
     {
         PlayerProgress.Changed += Refresh;
@@ -81,9 +83,12 @@ public class LevelSelectScreen : MonoBehaviour
         impossibleTotal.text = UIFormat.Tabular(impossible);
         medalTotal.text = UIFormat.Tabular(other);
 
+        // The first time this session the screen opens on the furthest unlocked level's category; afterwards it
+        // keeps the player's tab
         int category = categoryTabs.Value;
-        if (category < 0 || category >= catalog.categories.Count)
+        if (!categoryChosen || category < 0 || category >= catalog.categories.Count)
             category = CategoryOfFirstOpenLevel();
+        categoryChosen = true;
         ShowCategory(category);
     }
 
