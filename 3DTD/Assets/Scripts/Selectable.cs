@@ -20,13 +20,16 @@ public class Selectable : MonoBehaviour
 
     private void Update()
     {
-        if (isSelected)
-        {
-            if (Input.GetKeyDown(KeyCode.Delete))
-            {
-                SellThisTower();
-            }
-        }
+        if (!isSelected)
+            return;
+        // No selling while paused, behind the pause menu or after the game ended
+        if (Time.timeScale <= 0f || (PauseMenu.Instance != null && PauseMenu.Instance.IsOpen)
+            || (GameManager.Instance != null && GameManager.Instance.IsGameOver))
+            return;
+
+        // Unity reports the Mac keyboard's Delete key as Backspace
+        if (Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace))
+            SellThisTower();
     }
 
     public void SelectThis()
