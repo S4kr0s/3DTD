@@ -33,7 +33,7 @@ public class LaserTowerActionStrategy : ActionStrategy
         target = tower.Targetter.GetEnemy(tower.TargetBehaviour);
 
         if (target != null)
-            tower.RotationPoint.transform.LookAt(AimPoint(tower.RotationPoint.transform.position), Vector3.up);
+            tower.RotationPoint.transform.LookAt(AimPoint(tower.RotationPoint.transform.position, 0f), Vector3.up);
 
         StatsManager stats = tower.StatsManager;
         int volleys = fireCycle.Tick(Time.deltaTime, target != null, stats.GetFireInterval(), stats.GetStatValue(Stat.StatType.AMMO), stats.GetReloadTime());
@@ -42,12 +42,15 @@ public class LaserTowerActionStrategy : ActionStrategy
             FireVolley(fireCycle.VolleyAge(i));
     }
 
-    private Vector3 AimPoint(Vector3 from)
+    // Where to aim a bolt fired age seconds ago (its volley was due earlier in the frame). The bolt starts that far
+    // along its flight, so it has to lead from where the enemy was back then, not from where it is now.
+    private Vector3 AimPoint(Vector3 from, float age)
     {
         if (!aimWithLead)
             return target.transform.position;
 
-        return AimUtility.PredictIntercept(from, target.transform.position, target.Velocity, tower.StatsManager.GetStatValue(Stat.StatType.SPEED));
+        Vector3 velocity = target.Velocity;
+        return AimUtility.PredictIntercept(from, target.transform.position - velocity * age, velocity, tower.StatsManager.GetStatValue(Stat.StatType.SPEED));
     }
 
     private void FireVolley(float age)
@@ -79,7 +82,7 @@ public class LaserTowerActionStrategy : ActionStrategy
             if (aimWithLead)
             {
                 // The bolt flies straight along its rotation when it has no target
-                Vector3 aim = AimPoint(barrel.position) - barrel.position;
+                Vector3 aim = AimPoint(barrel.position, age) - barrel.position;
                 shot.Rotation = aim.sqrMagnitude > 0.0001f ? Quaternion.LookRotation(aim) : barrel.rotation;
                 shot.Target = null;
             }
