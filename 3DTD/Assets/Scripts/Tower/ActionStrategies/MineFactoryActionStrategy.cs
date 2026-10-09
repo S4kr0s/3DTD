@@ -161,7 +161,7 @@ public class MineFactoryActionStrategy : ActionStrategy
 
         RefreshPathSpans();
         UpdateMines(deltaTime);
-        CheckContacts(deltaTime);
+        CheckContacts();
         UpdatePendingBlasts(deltaTime);
         Produce(deltaTime);
     }
@@ -465,21 +465,41 @@ public class MineFactoryActionStrategy : ActionStrategy
         }
     }
 
-    // Enemies move several centimetres per frame at high game speed, so the contact test uses the segment
-    // the enemy covered this frame instead of its current position only
-    private void CheckContacts(float deltaTime)
+    // Enemies move far per frame at high game speed, so the contact test uses the path the enemy walked this
+    // frame (tick start, the waypoint corner it passed, its position now) instead of its current position only.
+    // Candidates come from the Spawner, not the Targetter: the range trigger only learns about an enemy in the
+    // physics step after it entered, which is too late for one that crossed the range within a frame.
+    private void CheckContacts()
     {
-        if (mines.Count == 0)
-            return;
-
-        enemyBuffer.Clear();
-        enemyBuffer.AddRange(tower.Targetter.GetAllEnemiesInRadius());
-        if (enemyBuffer.Count == 0)
+        if (mines.Count == 0 || Spawner.Instance == null)
             return;
 
         float size = Mathf.Max(0.1f, tower.StatsManager.GetStatValue(Stat.StatType.SIZE));
         float contact = contactRadius * size;
         float contactSqr = contact * contact;
+
+        // Bounding sphere of the armed mines around the factory, for a cheap rejection of far enemies
+        float reach = -1f;
+        for (int i = 0; i < mines.Count; i++)
+        {
+            if (mines[i].IsArmed)
+                reach = Mathf.Max(reach, Vector3.Distance(mines[i].transform.position, cachedCenter));
+        }
+        if (reach < 0f)
+            return;
+        reach += contact;
+        float reachSqr = reach * reach;
+
+        enemyBuffer.Clear();
+        List<Enemy> alive = Spawner.Instance.AliveEnemies;
+        for (int e = 0; e < alive.Count; e++)
+        {
+            Enemy enemy = alive[e];
+            if (SqrDistanceToTickPath(cachedCenter, enemy) <= reachSqr)
+                enemyBuffer.Add(enemy);
+        }
+        if (enemyBuffer.Count == 0)
+            return;
 
         for (int i = mines.Count - 1; i >= 0; i--)
         {
@@ -497,15 +517,25 @@ public class MineFactoryActionStrategy : ActionStrategy
                 if (enemy == null || !enemy.IsAlive)
                     continue;
 
-                Vector3 now = enemy.transform.position;
-                Vector3 before = now - enemy.Velocity * deltaTime;
-                if (SqrDistanceToSegment(minePosition, before, now) <= contactSqr)
+                if (SqrDistanceToTickPath(minePosition, enemy) <= contactSqr)
                 {
                     Detonate(mine);
                     break;
                 }
             }
         }
+    }
+
+    // Squared distance from a point to the path the enemy walked during its last tick
+    private static float SqrDistanceToTickPath(Vector3 point, Enemy enemy)
+    {
+        Vector3 now = enemy.transform.position;
+        Vector3 start = enemy.TickStartPosition;
+        if (!enemy.HasTickCorner)
+            return SqrDistanceToSegment(point, start, now);
+
+        Vector3 corner = enemy.TickCorner;
+        return Mathf.Min(SqrDistanceToSegment(point, start, corner), SqrDistanceToSegment(point, corner, now));
     }
 
     private static float SqrDistanceToSegment(Vector3 point, Vector3 a, Vector3 b)

@@ -33,6 +33,8 @@ public class Spawner : MonoBehaviour
     private static Spawner instance;
     public static Spawner Instance { get { return instance; } }
     public List<GameObject> EnemiesAlive { get { return enemiesAlive; } }
+    // The same enemies as Enemy components (index order matches EnemiesAlive)
+    public List<Enemy> AliveEnemies => aliveEnemies;
     public int WaveCount => waves != null ? waves.Count : 0;
     public bool IsWaveActive => currentGameState == GameState.PROGRESSING;
     public bool IsWon => isWon;
