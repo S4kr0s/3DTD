@@ -381,7 +381,44 @@ public class OptionsAndSaveTests
     public void SummaryUsesTheCatalogName()
     {
         SaveGame save = new SaveGame { sceneName = "Beginner Level 01", difficulty = (int)Difficulty.Hard, round = 12 };
-        Assert.AreEqual("Level 01 · Hard · Wave 12", save.Summary());
+        Assert.AreEqual("Beginner · Level 01 · Hard · Wave 12", save.Summary());
+    }
+
+    [Test]
+    public void AimAngleRoundTripsAndDefaultsForOldSaves()
+    {
+        SaveGame save = new SaveGame { sceneName = "Beginner Level 01" };
+        save.buildings.Add(new SaveGame.SavedBuilding { hasAim = true, aimAngle = 135f });
+        SaveGame loaded = JsonUtility.FromJson<SaveGame>(JsonUtility.ToJson(save));
+        Assert.AreEqual(135f, loaded.buildings[0].aimAngle);
+
+        // A save written before aimAngle existed
+        string old = "{\"sceneName\":\"Beginner Level 01\",\"buildings\":[{\"palette\":1,\"hasAim\":true}]}";
+        SaveGame legacy = JsonUtility.FromJson<SaveGame>(old);
+        Assert.AreEqual(-1f, legacy.buildings[0].aimAngle, "old saves fall back to the stored rotation");
+    }
+
+    // Defaults keep -1 ("the project's level") instead of the current level, so Reset undoes a changed quality
+    [Test]
+    public void DefaultsKeepTheProjectQuality()
+    {
+        GameOptions.Values defaults = GameOptions.Defaults();
+        Assert.AreEqual(-1, defaults.quality);
+        Assert.GreaterOrEqual(GameOptions.EffectiveQuality(defaults.quality), 0);
+        Assert.AreEqual(1, GameOptions.EffectiveQuality(1));
+
+        GameOptions.Values explicitLevel = defaults.Clone();
+        explicitLevel.quality = GameOptions.EffectiveQuality(-1);
+        Assert.AreEqual(0, defaults.CountDifferences(explicitLevel), "the project's level stated explicitly is no change");
+    }
+
+    [Test]
+    public void InterfaceScalesMatchTheirLabels()
+    {
+        string[] labels = { "90%", "100%", "110%" };
+        Assert.AreEqual(labels.Length, GameOptions.InterfaceScales.Length);
+        for (int i = 0; i < labels.Length; i++)
+            Assert.AreEqual(labels[i], Mathf.RoundToInt(GameOptions.InterfaceScales[i] * 100f) + "%");
     }
 }
 
