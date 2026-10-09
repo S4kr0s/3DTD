@@ -63,7 +63,7 @@ The game code lives in `Assets/Scripts/`. A few project scripts sit loose in `As
   - Money from popped layers goes through `GameManager.AddIncome` (fractional income is banked; `OnMoneyChanged` is raised at most once per frame, in `LateUpdate`); prices through `GameManager.Price` / `PriceOf`.
   - An enemy that reaches `End` costs `enemy.Id + 1` lives. `RestoreLives` gives lives back, never above `StartingLives`.
   - `Spawner` declares the game won when the win round is cleared (at wave end, with lives left); `GameManager.GameWon` records the medal in `PlayerProgress`. `GameOver` deletes the autosave.
-  - Meta upgrades (outside the main menu) add start money, lives (not on Impossible), income, wave bonus, a price discount and refund points, and `Tower.Start` adds their stat bonuses as modifiers. The balance tools (`engine.js`, `acceptance.py`) don't model them.
+  - Meta upgrades (outside the main menu) add start money, lives (not on Impossible), income, wave bonus, a price discount and refund points, and `Tower.Start` adds their stat bonuses as modifiers. The balance tools model them only in veteran mode (every meta upgrade owned: `engine.js` setting `meta: full`, `acceptance.py --meta full`, the dashboard's Meta selector); the default is a fresh profile. Mirror changes to `MetaUpgrades` or the GameManager economy hooks in `engine.js`.
 
 ### Building and placement (the 3D part)
 - **Build palette.** `GameManager.buildingPrefabs`, set per scene on GAME_SETUP, defines what the player can build. `BuildingManager` (the build rail) creates one `BuildTile` per prefab (hotkeys 1-9, 0). Nothing is selected by default; selecting a tile starts placement and `GetSelectedBuilding()` returns its prefab (null otherwise).
