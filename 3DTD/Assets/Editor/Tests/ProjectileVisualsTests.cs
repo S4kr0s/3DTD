@@ -12,11 +12,10 @@ public class ProjectileVisualsTests
     private const string LitSmokeMaterialPath = "Assets/Polygon Arsenal/Materials/Main/PolyLitSurface.mat";
 
     // Modules that keep the tower's look on purpose: the Hangar's squadron path (more fighters is its look),
-    // the Mine Factory's salvage path (economy only), the cluster rockets and the pulse (their own base look)
+    // the Mine Factory's salvage path (economy only) and the cluster rockets (their own base look)
     private static readonly Dictionary<string, string[]> WithoutVisual = new Dictionary<string, string[]>
     {
         { "Bomb Tower", new[] { "p2t3" } },
-        { "Bullet Dispenser Tower", new[] { "p2t3", "p3t3" } },
         { "Hangar Tower", new[] { "p1t1", "p1t2", "p1t3" } },
         { "Mine Factory", new[] { "p3t1", "p3t2", "p3t3" } },
     };

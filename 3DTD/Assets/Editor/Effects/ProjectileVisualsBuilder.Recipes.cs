@@ -10,8 +10,8 @@ using Object = UnityEngine.Object;
 //   Core              the Laser's bolt in a paler, lighter blue
 //   Rocket System     green rockets with ember wisps instead of smoke; delivery -> exhaust (micro rockets),
 //                     area -> explosion (cluster), salvo -> launch (barrage warheads)
-//   Bullet Dispenser  small dark green needles; barrels -> muzzle (needle storm), magazine -> streak
-//                     (toxic flamethrower), ammo -> tips and impacts (dark green pulse)
+//   Bullet Dispenser  small dark green needles with a neon green outline; barrels -> muzzle (needle storm),
+//                     ricochet -> neon trails and rebound sparks, gravity -> imploding impacts (singularity)
 //   Hangar            small red bolts and mini missiles; cannons -> plasma and proton bolts, ordnance -> bombs
 //   Beam              yellow beam; length -> end flare, tick -> pulse and crackle, damage -> width and core
 //   Sniper            red tracer, muzzle and impact; power -> flash and tracer, multi-shot -> tracer colours,
@@ -186,88 +186,103 @@ public static partial class ProjectileVisualsBuilder
         const string bullet = "Missiles/Sci-Fi/Bullet/BulletGreen";
         // Dark green: the alpha blended cores turn dark, the additive glows dim
         Edit dark = Tint(135f, 1f, 0.45f, 0.85f);
+        // A bright neon green outline around the dark core needle: a wider copy of the needle drawn behind it
+        Edit neon = Outline(new Color(0.35f, 1f, 0.4f), 1.8f, 1.12f);
 
         // The dispenser fires by far the most shots (150 maxed ones are a benchmark): its effects stay within the
         // particle counts of the laser set it used before (about 13 per muzzle, 12 per impact)
         GameObject muzzle = Fx("Dispenser/NeedleMuzzle", "Muzzleflash/Sci-Fi/Bullet/BulletMuzzleGreen", dark, Scale(0.45f), Count(null, 0.5f));
-        GameObject needle = Fx("Dispenser/Needle", bullet, dark, Stretch("<root>", 0.55f, 2.2f), Scale(0.6f));
+        GameObject needle = Fx("Dispenser/Needle", bullet, dark, Stretch("<root>", 0.55f, 2.2f), neon, Scale(0.6f));
         GameObject impact = Fx("Dispenser/NeedleImpact", "Explosions/Sci-Fi/Bullet/BulletExplosionGreen", dark, Scale(0.45f), Remove("Smoke"),
             Count("Sparks", 0.5f), Lifetime("Sparks", 0.6f));
         GameObject projectile = Projectile("Dispenser/Needle", "ProjectileParentRound", muzzle, needle, impact);
 
-        // Pulse mode: a dark green energy nova
-        GameObject nova = Fx("Dispenser/PulseNova", "Assets/EnergyNovaBlue 1.prefab", Tint(135f, 1f, 0.6f, 0.6f));
-        GameObject pulse = Projectile("Dispenser/Pulse", "ProjectileParentPulse", nova, null, null);
-
-        // Barrels: compact puffs, then a ring of sparks, then needles that leave short trails (a needle storm)
+        // Barrel Sphere: compact puffs, then a ring of sparks, then needles that leave short trails (a needle storm)
         GameObject compact = Fx("Dispenser/CompactMuzzle", "Muzzleflash/Sci-Fi/Bullet/BulletMuzzleGreen", dark, Scale(0.32f), Count(null, 0.35f));
         GameObject ring = Fx("Dispenser/RingMuzzle", "Muzzleflash/Sci-Fi/Bullet/BulletMuzzleGreen", dark, Scale(0.4f), Remove("MuzzleSparks"),
             Count("<root>", 0.4f), Size("StartRing", 1.6f), Tint(115f, 1f, 0.7f, 0.85f, "StartRing"));
-        GameObject storm = Fx("Dispenser/StormNeedle", bullet, dark, Stretch("<root>", 0.55f, 2.2f), Scale(0.6f), TrailTime(3f, 0.7f));
+        GameObject storm = Fx("Dispenser/StormNeedle", bullet, dark, Stretch("<root>", 0.55f, 2.2f), neon, Scale(0.6f), TrailTime(3f, 0.7f));
 
-        // Magazine: longer streaks, hot tips, and a toxic green flamethrower
-        GameObject longNeedle = Fx("Dispenser/LongNeedle", bullet, dark, Stretch("<root>", 0.5f, 3f), Scale(0.6f), Count("SparkTrail", 2f));
-        GameObject hotNeedle = Fx("Dispenser/HotNeedle", bullet, dark, Stretch("<root>", 0.5f, 3f), Scale(0.6f), Count("SparkTrail", 4f),
-            Tint(75f, 1f, 1.4f, 0.5f, "SparkTrail"));
-        GameObject toxicFire = Fx("Dispenser/ToxicFire", "Assets/Prefabs/MiniExploFire.prefab", Tint(110f, 1f, 0.9f, 0.3f));
+        // Ricochet: neon sparks where needles rebound, and longer neon trails that draw the zigzags; the trick shots
+        // leave bright lime trails behind their aimed rebounds
+        GameObject bounce = Fx("Dispenser/RicochetSpark", "Explosions/Sci-Fi/Spike/SpikeExplosionGreen", Tint(125f, 1f, 1.4f, 0.5f), Scale(0.22f),
+            Count(null, 0.4f), Lifetime(null, 0.6f));
+        GameObject bounceHeavy = Fx("Dispenser/RicochetFlare", "Explosions/Sci-Fi/Spike/SpikeExplosionGreen", Tint(125f, 1f, 1.7f, 0.4f), Scale(0.3f),
+            Count(null, 0.5f), Lifetime(null, 0.6f));
+        GameObject rebound = Fx("Dispenser/ReboundNeedle", bullet, dark, Stretch("<root>", 0.55f, 2.2f), neon, Scale(0.6f), TrailTime(2.5f, 0.8f), Tint(125f, 1f, 1.5f, 0.5f, "Trail"));
+        GameObject kinetic = Fx("Dispenser/KineticNeedle", bullet, dark, Stretch("<root>", 0.55f, 2.6f), neon, Scale(0.6f), TrailTime(3.5f, 0.9f), Tint(125f, 1f, 1.7f, 0.5f, "Trail"));
+        GameObject trickShot = Fx("Dispenser/TrickShotNeedle", bullet, dark, Stretch("<root>", 0.55f, 2.6f), neon, Scale(0.6f), TrailTime(4f, 1f), Tint(85f, 1f, 1.8f, 0.4f, "Trail"));
 
-        // Ammo: diamond tips shatter in white-green shards, aerodynamic needles leave a vapour trail
-        GameObject shards = Fx("Dispenser/DiamondImpact", "Explosions/Sci-Fi/Bullet/BulletExplosionGreen", Tint(140f, 0.35f, 1.2f), Scale(0.45f), Remove("Smoke"),
-            Count("Sparks", 0.6f), Lifetime("Sparks", 0.6f));
-        GameObject vapour = Fx("Dispenser/VapourNeedle", bullet, dark, Stretch("<root>", 0.5f, 2.6f), Scale(0.6f), TrailTime(2f, 1.1f), Tint(140f, 0.35f, 1f, 0f, "Glow"));
+        // Gravity well: impacts that implode instead of burst, and a green black hole when the singularity collapses
+        GameObject gravityImpact = Fx("Dispenser/GravityImpact", "Muzzleflash/Sci-Fi/BlackHole/BlackHoleMuzzleGreen", Tint(130f, 1f, 1.1f, 0.3f), Scale(0.25f), Count(null, 0.4f), Lifetime(null, 0.6f));
+        GameObject horizonImpact = Fx("Dispenser/HorizonImpact", "Muzzleflash/Sci-Fi/BlackHole/BlackHoleMuzzleGreen", Tint(130f, 1f, 1.3f, 0.3f), Scale(0.32f), Count(null, 0.45f), Lifetime(null, 0.6f));
+        GameObject singularity = Fx("Dispenser/Singularity", "Explosions/Sci-Fi/BlackHole/BlackHoleExplosionGreen", Tint(130f, 1f, 1.2f, 0.3f), Scale(0.55f));
 
         towerWiring.Add(() => EditTower("Bullet Dispenser Tower", tower =>
         {
             foreach (BulletDispenserTowerActionStrategy strategy in tower.Root.GetComponents<BulletDispenserTowerActionStrategy>())
             {
-                if (GetBool(strategy, "PulseMode"))
-                    SetField(strategy, "projectile", pulse);
-                else if (GetBool(strategy, "AuraMode"))
-                    SetField(strategy, "hitParticle", toxicFire);
-                else
-                    SetField(strategy, "projectile", projectile);
-            }
-            // The flamethrower's own flames (a nested FlamethrowerAura) burn toxic green too; recoloured from
-            // its source each run, so the tint doesn't stack
-            foreach (Transform child in tower.Root.GetComponentsInChildren<Transform>(true))
-            {
-                if (child.name == "FlamethrowerAura")
-                    ToxicFlames(child.gameObject);
+                SetField(strategy, "projectile", projectile);
+                SetField(strategy, "bounceEffect", bounce);
+                SetField(strategy, "singularityEffect", singularity);
             }
 
             Visual<VisualUpgrade>(tower, 1, 1, Parts(compact, null, null));
             Visual<VisualUpgrade>(tower, 1, 2, Parts(ring, null, null));
             Visual<VisualUpgrade>(tower, 1, 3, Parts(ring, storm, null));
-            Visual<VisualUpgrade>(tower, 2, 1, Parts(null, longNeedle, null));
-            Visual<VisualUpgrade>(tower, 2, 2, Parts(null, hotNeedle, null));
-            Visual<VisualUpgrade>(tower, 3, 1, Parts(null, null, shards));
-            Visual<VisualUpgrade>(tower, 3, 2, Parts(null, vapour, shards));
+            Visual<VisualUpgrade>(tower, 2, 1, With(Parts(null, rebound, null), (VisualSlot.Bounce, bounce)));
+            Visual<VisualUpgrade>(tower, 2, 2, With(Parts(null, kinetic, null), (VisualSlot.Bounce, bounceHeavy)));
+            Visual<VisualUpgrade>(tower, 2, 3, With(Parts(null, trickShot, null), (VisualSlot.Bounce, bounceHeavy)));
+            Visual<VisualUpgrade>(tower, 3, 1, Parts(null, null, gravityImpact));
+            Visual<VisualUpgrade>(tower, 3, 2, Parts(null, null, horizonImpact));
+            Visual<VisualUpgrade>(tower, 3, 3, With(Parts(null, null, horizonImpact), (VisualSlot.Singularity, singularity)));
         }));
     }
 
-    private static void ToxicFlames(GameObject aura)
+    private static (VisualSlot, GameObject)[] With((VisualSlot, GameObject)[] parts, params (VisualSlot, GameObject)[] more)
     {
-        GameObject source = UnityEditor.PrefabUtility.GetCorrespondingObjectFromSource(aura);
-        ParticleSystem[] sourceSystems = source != null ? source.GetComponentsInChildren<ParticleSystem>(true) : null;
-        ParticleSystem[] systems = aura.GetComponentsInChildren<ParticleSystem>(true);
-        if (sourceSystems == null || sourceSystems.Length != systems.Length)
-        {
-            Fail("FlamethrowerAura: no matching source prefab to recolour from");
-            return;
-        }
-        for (int i = 0; i < systems.Length; i++)
-        {
-            ParticleSystem.MainModule main = systems[i].main;
-            main.startColor = Map(sourceSystems[i].main.startColor, ToxicColor);
-            ParticleSystem.ColorOverLifetimeModule overLifetime = systems[i].colorOverLifetime;
-            if (sourceSystems[i].colorOverLifetime.enabled)
-                overLifetime.color = Map(sourceSystems[i].colorOverLifetime.color, ToxicColor);
-        }
+        List<(VisualSlot, GameObject)> all = new List<(VisualSlot, GameObject)>(parts);
+        all.AddRange(more);
+        return all.ToArray();
     }
 
-    private static Color ToxicColor(Color c)
+    // A neon shell around a needle: a copy of the root's particle system, wider and a little longer, in a bright
+    // colour, sorted behind the core so the core covers its middle and only the rim shows
+    private static Edit Outline(Color color, float width, float length)
     {
-        return Shift(c, 110f / 360f, 1f, 0.9f, 0.3f);
+        return root =>
+        {
+            ParticleSystem core = root.GetComponent<ParticleSystem>();
+            ParticleSystemRenderer coreRenderer = root.GetComponent<ParticleSystemRenderer>();
+            if (core == null || coreRenderer == null)
+            {
+                Fail(root.name + ": no root particle system to outline");
+                return;
+            }
+            GameObject shell = new GameObject("Outline");
+            shell.transform.SetParent(root.transform, false);
+            ParticleSystem system = shell.AddComponent<ParticleSystem>();
+            UnityEditor.EditorUtility.CopySerialized(core, system);
+            ParticleSystemRenderer renderer = shell.GetComponent<ParticleSystemRenderer>();
+            UnityEditor.EditorUtility.CopySerialized(coreRenderer, renderer);
+
+            ParticleSystem.MainModule main = system.main;
+            if (!main.startSize3D)
+            {
+                ParticleSystem.MinMaxCurve size = main.startSize;
+                main.startSize3D = true;
+                main.startSizeX = size;
+                main.startSizeY = size;
+                main.startSizeZ = size;
+            }
+            main.startSizeXMultiplier *= width;
+            main.startSizeYMultiplier *= width;
+            main.startSizeZMultiplier *= length;
+            main.startColor = color;
+            ParticleSystem.ColorOverLifetimeModule overLifetime = system.colorOverLifetime;
+            overLifetime.enabled = false;
+            renderer.sortingFudge = coreRenderer.sortingFudge + 10f;
+        };
     }
 
     // ---- Hangar Tower ----------------------------------------------------------------------------------

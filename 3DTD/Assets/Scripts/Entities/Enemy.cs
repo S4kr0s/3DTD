@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
     public const float RegenInterval = 2.5f;
     // An armored enemy always takes at least this share of a hit
     public const float MinArmorDamageShare = 0.4f;
+    // How fast an enemy a gravity well let go of drifts back onto its path (units per second)
+    public const float PullRelaxSpeed = 2f;
 
     [SerializeField] public EnemyData data;
     [SerializeField] private float currentHealth;
@@ -26,6 +28,15 @@ public class Enemy : MonoBehaviour
     public Vector3 TickCorner { get; private set; }
     public bool HasTickCorner { get; private set; }
     private bool reachedPathEnd;
+
+    // Gravity wells (Bullet Dispenser) drag the enemy off its path: it walks the path at pathPosition while its
+    // body sits pullOffset away from it. The strongest pull of the frame wins; without one it drifts back.
+    private Vector3 pathPosition;
+    private Vector3 pullOffset;
+    private Vector3 pullGoal;
+    private float pullSpeed;
+    private bool pulled;
+    public Vector3 PullOffset => pullOffset;
 
     [SerializeField] private float speedRandomRotation = 2f;
     [SerializeField] private Shape currentShape;
@@ -80,7 +91,7 @@ public class Enemy : MonoBehaviour
             if (waypoints == null || waypoints.WaypointsArray.Count == 0)
                 return Vector3.zero;
 
-            Vector3 toWaypoint = waypoints.WaypointsArray[waypointIndex].position - transform.position;
+            Vector3 toWaypoint = waypoints.WaypointsArray[waypointIndex].position - pathPosition;
             return toWaypoint.sqrMagnitude > 0.0001f ? toWaypoint.normalized : Vector3.zero;
         }
     }
@@ -143,6 +154,9 @@ public class Enemy : MonoBehaviour
         reachedPathEnd = false;
         HasTickCorner = false;
         TickStartPosition = transform.position;
+        pathPosition = transform.position;
+        pullOffset = Vector3.zero;
+        pulled = false;
         lastTowerDamagedFrom = null;
         slowStrength = 0f;
         slowTimer = 0f;
@@ -199,7 +213,8 @@ public class Enemy : MonoBehaviour
     // enemy covers the same path in the same game time at any frame rate or game speed.
     public void Move(float deltaTime)
     {
-        transform.position = Advance(transform.position, deltaTime);
+        pathPosition = Advance(pathPosition, deltaTime);
+        transform.position = pathPosition + pullOffset;
         LeakIfPathEnded();
     }
 
@@ -225,7 +240,7 @@ public class Enemy : MonoBehaviour
             position = waypoint;
             distanceTraveled += distance;
             remaining -= distance;
-            TickCorner = waypoint;
+            TickCorner = waypoint + pullOffset;
             HasTickCorner = true;
             if (waypointIndex >= path.Count - 1)
             {
@@ -263,7 +278,9 @@ public class Enemy : MonoBehaviour
         if (Mathf.Abs(Quaternion.Dot(rotation, randomRotation)) >= 0.990f)
             randomRotation = Random.rotation;
         rotation = Quaternion.Slerp(rotation, randomRotation, speedRandomRotation * deltaTime);
-        transform.SetPositionAndRotation(Advance(position, deltaTime), rotation);
+        pathPosition = Advance(pathPosition, deltaTime);
+        UpdatePull(deltaTime);
+        transform.SetPositionAndRotation(pathPosition + pullOffset, rotation);
         LeakIfPathEnded();
         if (!isAlive)
             return;
@@ -529,6 +546,40 @@ public class Enemy : MonoBehaviour
             Spawner.Instance.ReleaseEnemy(this);
         else
             Destroy(this.gameObject);
+    }
+
+    #endregion
+
+    #region Pull
+
+    // A gravity well at wellPoint drags the enemy towards it at speed (units per second), until it is holdRadius
+    // from the well or maxOffset off its path. Bosses are too heavy to move.
+    public void Pull(Vector3 wellPoint, float holdRadius, float maxOffset, float speed)
+    {
+        if (!isAlive || specialEnemy || maxOffset <= 0f || speed <= 0f)
+            return;
+
+        Vector3 toWell = wellPoint - pathPosition;
+        float distance = toWell.magnitude;
+        float reach = Mathf.Min(maxOffset, Mathf.Max(0f, distance - holdRadius));
+        Vector3 goal = distance > 0.0001f ? toWell * (reach / distance) : Vector3.zero;
+        if (!pulled || goal.sqrMagnitude > pullGoal.sqrMagnitude)
+        {
+            pullGoal = goal;
+            pullSpeed = speed;
+        }
+        pulled = true;
+    }
+
+    // The pulls since the last tick move the body towards their goal; without one it drifts back to the path
+    private void UpdatePull(float deltaTime)
+    {
+        if (!pulled && pullOffset == Vector3.zero)
+            return;
+        Vector3 goal = pulled ? pullGoal : Vector3.zero;
+        float speed = pulled ? pullSpeed : PullRelaxSpeed;
+        pullOffset = Vector3.MoveTowards(pullOffset, goal, speed * deltaTime);
+        pulled = false;
     }
 
     #endregion

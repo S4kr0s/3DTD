@@ -12,6 +12,8 @@ public static class PerfCounters
     public static long EffectsPlayed;
     // Particles emitted through batched effects (BatchedEffect, FlightBatch)
     public static long BatchedParticles;
+    // Ricochets of Bullet Dispenser needles off their range dome
+    public static long ProjectileBounces;
 
     public static void Reset()
     {
@@ -23,5 +25,6 @@ public static class PerfCounters
         EffectsRequested = 0;
         EffectsPlayed = 0;
         BatchedParticles = 0;
+        ProjectileBounces = 0;
     }
 }

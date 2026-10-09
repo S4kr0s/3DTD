@@ -74,6 +74,22 @@ public class ProjectileSystem : MonoBehaviour
         public GameObject MuzzleEffect;
         public GameObject FlightEffect;
         public GameObject ImpactEffect;
+        // Ricochet (Bullet Dispenser): the projectile rebounds off the inside of a dome up to Bounces times,
+        // gaining BounceDamage each time; BounceSeek turns it towards an enemy instead of reflecting it
+        public Dome Dome;
+        public int Bounces;
+        public float BounceDamage;
+        public bool BounceSeek;
+        public GameObject BounceEffect;
+    }
+
+    // Half of a sphere: the points within Radius of Center on the Up side of the plane through Center
+    // (a tower's range dome: the targetter's centre and the face normal)
+    public struct Dome
+    {
+        public float3 Center;
+        public float3 Up;
+        public float Radius;
     }
 
     private struct State
@@ -103,6 +119,10 @@ public class ProjectileSystem : MonoBehaviour
         // this frame's step (bomblets) moves the next frame's time plus Lead
         public int BornFrame;
         public float Lead;
+        public Dome Dome;
+        public int Bounces;
+        public float BounceDamage;
+        public byte BounceSeek;
         public FixedList64Bytes<int> HitSerials;
     }
 
@@ -114,6 +134,10 @@ public class ProjectileSystem : MonoBehaviour
         public float Time;
         public byte Expired;
         public int HitCount;
+        // Reached the dome's wall at Position (outward Normal) with Leftover seconds of this frame to go
+        public byte Bounced;
+        public float3 Normal;
+        public float Leftover;
     }
 
     private struct Hit
@@ -140,6 +164,7 @@ public class ProjectileSystem : MonoBehaviour
     private NativeParallelMultiHashMap<int, int> grid;
     private readonly List<ProjectileArchetype> archetypes = new List<ProjectileArchetype>();
     private readonly List<GameObject> impactEffects = new List<GameObject>();
+    private readonly List<GameObject> bounceEffects = new List<GameObject>();
     private readonly List<Tower> towers = new List<Tower>();
     private readonly List<FlightHandle> flights = new List<FlightHandle>();
     private readonly List<Enemy> overlap = new List<Enemy>();
@@ -254,10 +279,15 @@ public class ProjectileSystem : MonoBehaviour
             TargetSerial = shot.Target != null ? shot.Target.SpawnSerial : 0,
             BornFrame = bornFrame,
             Lead = Mathf.Max(0f, lead),
+            Dome = shot.Dome,
+            Bounces = shot.Dome.Radius > 0f ? Mathf.Max(0, shot.Bounces) : 0,
+            BounceDamage = shot.BounceDamage,
+            BounceSeek = (byte)(shot.BounceSeek ? 1 : 0),
         };
         states.Add(state);
         archetypes.Add(archetype);
         impactEffects.Add(shot.ImpactEffect != null ? shot.ImpactEffect : archetype.ImpactEffect);
+        bounceEffects.Add(shot.BounceEffect);
         towers.Add(shot.Tower);
 
         FlightHandle flight = default;
@@ -425,6 +455,8 @@ public class ProjectileSystem : MonoBehaviour
             state.Rotation = step.Rotation;
             state.Lead = 0f;
             state.BornFrame = 0;
+            if (!dead && step.Bounced != 0)
+                Bounce(ref state, step, bounceEffects[i]);
             if (dead)
             {
                 state.Dying = 1;
@@ -459,6 +491,90 @@ public class ProjectileSystem : MonoBehaviour
         if (state.HitSerials.Length >= state.HitSerials.Capacity)
             state.HitSerials.RemoveAt(0);
         state.HitSerials.Add(serial);
+    }
+
+    // A ricochet off the dome's wall: reflect (or turn towards an enemy), gain damage, carry on with the rest of the
+    // frame on top of the next one
+    private void Bounce(ref State state, in Step step, GameObject effect)
+    {
+        PerfCounters.ProjectileBounces++;
+        state.Bounces--;
+        state.Damage += state.BounceDamage;
+        // A rebound may come back for an enemy it hit before
+        state.HitSerials.Clear();
+        state.Lead = step.Leftover;
+        float3 direction = Reflect(state.Direction, step.Normal);
+        if (state.BounceSeek != 0 && SeekTarget(ref state, out float3 aim))
+            direction = math.normalizesafe(aim - state.Position, direction);
+        state.Direction = direction;
+        state.Rotation = quaternion.LookRotationSafe(direction, new float3(1f, 0f, 0f));
+        // Just inside the wall, so the next step doesn't meet it again at once
+        state.Position -= step.Normal * 0.001f;
+        EffectPlayer.Play(effect, step.Position, Quaternion.LookRotation(-(Vector3)step.Normal), state.ImpactScale, ImpactLifetime);
+    }
+
+    // Where a seeking ricochet heads: the shot's target (led), else the enemy in the dome nearest to the projectile
+    private bool SeekTarget(ref State state, out float3 aim)
+    {
+        Enemy enemy = Enemies.IsSame(state.TargetSlot, state.TargetSerial) ? Enemies.EnemyAt(state.TargetSlot) : null;
+        if (enemy == null || !enemy.IsAlive)
+        {
+            enemy = null;
+            Enemies.Overlap(state.Dome.Center, state.Dome.Radius, overlap);
+            float best = float.MaxValue;
+            for (int k = 0; k < overlap.Count; k++)
+            {
+                Enemy candidate = overlap[k];
+                if (math.dot((float3)candidate.transform.position - state.Dome.Center, state.Dome.Up) < 0f)
+                    continue;
+                float distance = math.distancesq(candidate.transform.position, state.Position);
+                if (distance < best)
+                {
+                    best = distance;
+                    enemy = candidate;
+                }
+            }
+            if (enemy == null)
+            {
+                aim = default;
+                return false;
+            }
+            state.TargetSlot = enemy.RegistrySlot;
+            state.TargetSerial = enemy.SpawnSerial;
+        }
+        aim = AimUtility.PredictIntercept(state.Position, enemy.transform.position, enemy.Velocity, state.Speed);
+        return true;
+    }
+
+    public static float3 Reflect(float3 direction, float3 normal)
+    {
+        return direction - 2f * math.dot(direction, normal) * normal;
+    }
+
+    // How far a straight move from position along the unit direction gets before it leaves the dome (through the
+    // sphere or the flat side), if that is within distance; the outward normal of the wall it meets. False when
+    // the move stays inside, or when it starts outside the dome (no ricochet from the outside).
+    public static bool DomeExit(float3 position, float3 direction, float distance, in Dome dome, out float travel, out float3 normal)
+    {
+        travel = 0f;
+        normal = default;
+        float3 relative = position - dome.Center;
+        float height = math.dot(relative, dome.Up);
+        float c = math.dot(relative, relative) - dome.Radius * dome.Radius;
+        if (dome.Radius <= 0f || height < -1e-3f || c > dome.Radius * 2e-3f)
+            return false;
+
+        // Far root of |relative + t direction| = radius (the near one is behind or right here)
+        float b = math.dot(relative, direction);
+        float sphere = -b + math.sqrt(math.max(0f, b * b - c));
+        float rising = math.dot(direction, dome.Up);
+        float plane = rising < -1e-6f ? math.max(0f, height) / -rising : float.MaxValue;
+
+        travel = math.min(sphere, plane);
+        if (travel > distance || travel <= 1e-5f)
+            return false;
+        normal = plane < sphere ? -dome.Up : math.normalizesafe(relative + direction * travel, -dome.Up);
+        return true;
     }
 
     // ProjectileBomb.ExplosionTrigger: blast, impact effect, and the bomblets of a cluster rocket (once)
@@ -509,6 +625,8 @@ public class ProjectileSystem : MonoBehaviour
         archetypes.RemoveAt(last);
         impactEffects[index] = impactEffects[last];
         impactEffects.RemoveAt(last);
+        bounceEffects[index] = bounceEffects[last];
+        bounceEffects.RemoveAt(last);
         towers[index] = towers[last];
         towers.RemoveAt(last);
         flights[index] = flights[last];
@@ -634,6 +752,18 @@ public class ProjectileSystem : MonoBehaviour
             else
             {
                 end = start + direction * s.Speed * moveTime;
+                // Ricochet: stop at the dome's wall, the main thread turns it and the rest of the frame carries over
+                if (s.Bounces > 0 && s.Speed > 0f && DomeExit(start, direction, s.Speed * moveTime, s.Dome, out float travel, out float3 normal))
+                {
+                    end = start + direction * travel;
+                    float used = travel / s.Speed;
+                    step.Leftover = time - used;
+                    step.Time = used;
+                    step.Bounced = 1;
+                    step.Normal = normal;
+                    step.Expired = 0;
+                    moveTime = used;
+                }
             }
 
             step.Position = end;
@@ -641,7 +771,7 @@ public class ProjectileSystem : MonoBehaviour
             step.Rotation = rotation;
             step.HitCount = moveTime > 0f || time == 0f ? FindHits(i, ref s, start, end, windowStart) : 0;
             Steps[i] = step;
-            if (step.HitCount > 0 || step.Expired != 0)
+            if (step.HitCount > 0 || step.Expired != 0 || step.Bounced != 0)
             {
                 // Seconds before the end of the frame at which the first hit (or the expiry) happens
                 float firstEvent = step.HitCount > 0 ? time - Hits[i * MaxHitsPerStep].T * moveTime : time - moveTime;

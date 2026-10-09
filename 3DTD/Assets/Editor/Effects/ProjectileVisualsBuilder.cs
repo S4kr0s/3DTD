@@ -29,6 +29,8 @@ public static partial class ProjectileVisualsBuilder
     private const string VisualKeyPrefix = "fx ";
 
     private static int errors;
+    // Errors of the last BuildAll (other builders that run this one)
+    public static int Errors => errors;
 
     [MenuItem("3DTD/Effects/Rebuild Projectile Visuals")]
     public static void BuildAll()

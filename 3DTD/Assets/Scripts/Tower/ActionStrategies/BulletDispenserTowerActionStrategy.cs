@@ -1,49 +1,76 @@
-using PolygonArsenal;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// The Bullet Dispenser never aims: every enabled barrel of its barrel ball fires a needle along its own direction
+// whenever an enemy is in range. Its upgrades work with the space around it:
+// - Ricochet (DispenserRicochetUpgrade): needles rebound off the inside of a dome a quarter beyond the range and
+//   off the ground plane,
+//   gain damage per rebound and can turn towards an enemy on every rebound.
+// - Gravity well (DispenserGravityUpgrade): enemies in range are dragged off their path towards the barrel ball
+//   and slowed; the singularity periodically collapses them all into a tight orbit around it.
 public class BulletDispenserTowerActionStrategy : ActionStrategy
 {
-    // Hit sparks of the flamethrower play as long as the prefab's own particles (it destroyed itself before)
-    private const float AuraHitEffectLifetime = 5f;
-    private const float PulseMuzzleLifetime = 1.5f;
-
-    private ProjectilePoolManager projectilePoolManager;
+    private const float SingularityEffectLifetime = 3f;
 
     [SerializeField] private GameObject projectile;
-    [SerializeField] public bool AuraMode = false;
-    [SerializeField] private GameObject hitParticle;
-    [SerializeField] public bool PulseMode = false;
-    [SerializeField] private GameObject pulseFirePoint;
+    [Tooltip("Spark where a needle rebounds (fallback of VisualSlot.Bounce)")]
+    [SerializeField] private GameObject bounceEffect;
+    [Tooltip("Implosion when the singularity collapses (fallback of VisualSlot.Singularity)")]
+    [SerializeField] private GameObject singularityEffect;
+
+    [Tooltip("Centre of the barrel ball: the gravity well pulls towards it")]
+    [SerializeField] private Transform core;
+    [Tooltip("Gravity rings around the barrel ball, spun on their own axes (shown by the gravity path's modules)")]
+    [SerializeField] private Transform[] gravityRings = new Transform[0];
+    [SerializeField] private float ringSpinSpeed = 90f;
+
+    [Header("Ricochet (set by DispenserRicochetUpgrade)")]
+    public int ricochetBounces;
+    public float ricochetDamage;
+    public bool ricochetSeek;
+
+    [Header("Gravity well (set by DispenserGravityUpgrade)")]
+    [Tooltip("How far enemies in range are dragged off their path (0 = no well)")]
+    public float gravityPull;
+    [Tooltip("Units per second the well drags enemies")]
+    public float gravityPullSpeed;
+    [Tooltip("Slow of the enemies in the well (0.3 = 30% slower)")]
+    public float gravitySlow;
+    [Tooltip("Seconds between collapses of the singularity (0 = none)")]
+    public float singularityInterval;
+    [Tooltip("Seconds a collapse holds the enemies")]
+    public float singularityDuration;
+
+    // Needles rebound a bit beyond the range, so they still reach enemies just outside it before they turn back
+    public const float RicochetDomeScale = 1.25f;
+    // Enemies stop this far from the barrel ball's centre (just outside the barrels)
+    public const float WellHoldRadius = 0.55f;
+    public const float SingularityHoldRadius = 0.45f;
+    public const float SingularityPullSpeed = 8f;
+    // A slow is refreshed every frame while the enemy is in the well and lasts this long after it left
+    private const float WellSlowDuration = 0.25f;
 
     private FireCycle fireCycle;
     public override FireCycle Cycle => fireCycle;
     private Tower tower;
     private Enemy target;
     private VisualRef projectileVisual;
-    private VisualRef auraHitVisual;
     private VisualRef muzzleVisual;
     private VisualRef flightVisual;
     private VisualRef impactVisual;
-    private readonly List<Enemy> auraTargets = new List<Enemy>();
+    private VisualRef bounceVisual;
+    private VisualRef singularityVisual;
+    private float singularityTimer;
+    private float collapseLeft;
+
+    // Seconds until the next collapse and the one in progress (tests, telemetry)
+    public float SingularityTimer => singularityTimer;
+    public bool Collapsing => collapseLeft > 0f;
 
     public override void SetupActionStrategy(Tower tower)
     {
         this.tower = tower;
         fireCycle = new FireCycle(0f);
-
-        if (AuraMode || !PulseMode)
-        {
-            // The flamethrower doesn't shoot and bullets are simulated by ProjectileSystem: drop the pool of the
-            // previous strategy
-            foreach (ProjectilePoolManager pool in tower.GetComponents<ProjectilePoolManager>())
-                Destroy(pool);
-            return;
-        }
-
-        int inFlight = Mathf.CeilToInt((tower.StatsManager.GetStatValue(Stat.StatType.LIFETIME) + 0.6f) / tower.StatsManager.GetFireInterval());
-        projectilePoolManager = ProjectilePoolManager.GetOrCreate(tower.gameObject, tower.Visuals.Resolve(VisualSlot.PulseProjectile, projectile), inFlight + 2);
     }
 
     public override void ExecuteAction()
@@ -52,69 +79,10 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
 
         int volleys = fireCycle.Tick(Time.deltaTime, target != null, tower.StatsManager.GetFireInterval(), 0f, 0f);
         for (int i = 0; i < volleys; i++)
-            FireVolley(fireCycle.VolleyAge(i));
-    }
+            FireBullets(fireCycle.VolleyAge(i));
 
-    private void FireVolley(float age)
-    {
-        if (AuraMode)
-            FireAura();
-        else if (PulseMode)
-            FirePulse();
-        else
-            FireBullets(age);
-    }
-
-    private void FireAura()
-    {
-        float damage = tower.StatsManager.GetStatValue(Stat.StatType.DAMAGE);
-        GameObject hitEffect = auraHitVisual.Get(tower, VisualSlot.AuraHit, hitParticle);
-
-        // Copy: kills remove enemies from the Targetter while we iterate
-        auraTargets.Clear();
-        auraTargets.AddRange(tower.Targetter.GetAllEnemiesInRadius());
-
-        foreach (Enemy enemy in auraTargets)
-        {
-            if (enemy == null || !enemy.IsAlive)
-                continue;
-
-            // Every enemy gets its sparks, at any game speed; their sound is limited by EffectAudio
-            Transform enemyTransform = enemy.transform;
-            EffectPlayer.Play(hitEffect, enemyTransform.position, enemyTransform.rotation, 1f, AuraHitEffectLifetime);
-            enemy.TakeDamage(damage, DamageType.MAGIC, this.tower);
-        }
-    }
-
-    private void FirePulse()
-    {
-        if (pulseFirePoint == null || projectilePoolManager == null)
-            return;
-
-        GameObject _projectile = projectilePoolManager.GetPooledProjectile();
-
-        if (_projectile == null)
-            return;
-
-        Transform firePoint = pulseFirePoint.transform;
-        _projectile.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
-        _projectile.transform.localScale = Vector3.one;
-
-        Projectile projectileComponent = _projectile.GetComponent<Projectile>();
-        StatsManager stats = tower.StatsManager;
-        projectileComponent.Target = target != null ? target.gameObject : null;
-        projectileComponent.lifetime = stats.GetStatValue(Stat.StatType.LIFETIME);
-        projectileComponent.damage = stats.GetStatValue(Stat.StatType.DAMAGE);
-        projectileComponent.penetration = (int)stats.GetStatValue(Stat.StatType.PIERCING);
-        projectileComponent.maxSpeed = stats.GetStatValue(Stat.StatType.SPEED);
-        projectileComponent.accuracy = stats.GetStatValue(Stat.StatType.ACCURACY);
-        projectileComponent.tower = tower;
-        if (projectileComponent.Collider != null)
-            projectileComponent.Collider.enabled = true;
-        _projectile.SetActive(true);
-
-        if (_projectile.TryGetComponent(out PolygonProjectileScript visuals))
-            EffectPlayer.Play(visuals.muzzleParticle, firePoint.position, firePoint.rotation, 1f, PulseMuzzleLifetime);
+        UpdateGravityWell(Time.deltaTime);
+        SpinRings(Time.deltaTime);
     }
 
     private void FireBullets(float age)
@@ -136,6 +104,15 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
             FlightEffect = flightVisual.Get(tower, VisualSlot.Flight, null),
             ImpactEffect = impactVisual.Get(tower, VisualSlot.Impact, null),
         };
+        if (ricochetBounces > 0)
+        {
+            shot.Dome = RangeDome();
+            shot.Dome.Radius *= RicochetDomeScale;
+            shot.Bounces = ricochetBounces;
+            shot.BounceDamage = ricochetDamage;
+            shot.BounceSeek = ricochetSeek;
+            shot.BounceEffect = bounceVisual.Get(tower, VisualSlot.Bounce, bounceEffect);
+        }
 
         foreach (ShootingPointReference shootingPoint in tower.ShootingPoints)
         {
@@ -146,6 +123,74 @@ public class BulletDispenserTowerActionStrategy : ActionStrategy
             shot.Position = barrel.position;
             shot.Rotation = barrel.rotation;
             ProjectileSystem.Fire(prefab, shot);
+        }
+    }
+
+    // The targetting half sphere: its centre, the face normal and the range radius
+    public ProjectileSystem.Dome RangeDome()
+    {
+        return new ProjectileSystem.Dome
+        {
+            Center = tower.Targetter.transform.position,
+            Up = tower.transform.forward,
+            Radius = tower.GetWorldRangeRadius(tower.StatsManager.GetStatValue(Stat.StatType.RANGE)),
+        };
+    }
+
+    public Vector3 WellPoint => core != null ? core.position : tower.transform.position;
+
+    // Drags every enemy in range towards the barrel ball; the singularity charges while enemies are in range and
+    // then holds all of them close for a moment
+    private void UpdateGravityWell(float deltaTime)
+    {
+        if (gravityPull <= 0f)
+            return;
+
+        List<Enemy> enemies = tower.Targetter.GetAllEnemiesInRadius();
+        if (singularityInterval > 0f)
+        {
+            if (collapseLeft > 0f)
+            {
+                collapseLeft -= deltaTime;
+            }
+            else if (enemies.Count > 0)
+            {
+                singularityTimer += deltaTime;
+                if (singularityTimer >= singularityInterval)
+                {
+                    singularityTimer -= singularityInterval;
+                    collapseLeft = singularityDuration;
+                    GameObject effect = singularityVisual.Get(tower, VisualSlot.Singularity, singularityEffect);
+                    EffectPlayer.Play(effect, WellPoint, tower.transform.rotation, 1f, SingularityEffectLifetime);
+                }
+            }
+        }
+
+        bool collapsing = collapseLeft > 0f;
+        Vector3 well = WellPoint;
+        // A collapse reaches every enemy in range, wherever it is on its path
+        float reach = collapsing ? 2f * tower.GetWorldRangeRadius(tower.StatsManager.GetStatValue(Stat.StatType.RANGE)) : gravityPull;
+        float hold = collapsing ? SingularityHoldRadius : WellHoldRadius;
+        float speed = collapsing ? SingularityPullSpeed : gravityPullSpeed;
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            Enemy enemy = enemies[i];
+            enemy.Pull(well, hold, reach, speed);
+            if (gravitySlow > 0f)
+                enemy.ApplySlowness(-gravitySlow, WellSlowDuration);
+        }
+    }
+
+    private void SpinRings(float deltaTime)
+    {
+        if (gravityRings == null || gravityRings.Length == 0)
+            return;
+        float speed = ringSpinSpeed * (collapseLeft > 0f ? 4f : 1f) * deltaTime;
+        for (int i = 0; i < gravityRings.Length; i++)
+        {
+            Transform ring = gravityRings[i];
+            if (ring != null && ring.gameObject.activeInHierarchy)
+                ring.Rotate(Vector3.forward, speed * (i % 2 == 0 ? 1f : -1.3f), Space.Self);
         }
     }
 

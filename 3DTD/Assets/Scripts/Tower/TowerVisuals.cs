@@ -12,8 +12,8 @@ public enum VisualSlot
     ClusterProjectile,  // the Rocket System's projectile while it fires cluster rockets
     Cannon,             // Hangar: starfighter cannon bolts
     Ordnance,           // Hangar: starfighter missiles and bombs
-    PulseProjectile,    // Bullet Dispenser: pulse mode
-    AuraHit,            // Bullet Dispenser: flamethrower sparks on every enemy hit
+    PulseProjectile,    // retired (the Bullet Dispenser's pulse mode)
+    AuraHit,            // retired (the Bullet Dispenser's flamethrower)
     MineBlast,          // Mine Factory: blast of a mine
     MineHeavyBlast,     // Mine Factory: blast with heavy explosions
     MineClusterBlast,   // Mine Factory: bomblet blast
@@ -21,6 +21,8 @@ public enum VisualSlot
     Muzzle,             // muzzle flash of the Projectile (on top of whole-prefab swaps); Sniper flash; Beam tick pulse
     Impact,             // impact of the Projectile; Sniper and Beam hits
     Flight,             // flight effect of the Projectile
+    Bounce,             // Bullet Dispenser: spark where a needle rebounds off the range dome
+    Singularity,        // Bullet Dispenser: implosion of the gravity well's singularity
 }
 
 // The visual upgrades a tower owns, lowest priority first. A slot resolves to the prefab of the highest
