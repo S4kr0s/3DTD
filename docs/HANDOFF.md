@@ -60,6 +60,49 @@ Results:
 - `-perfSuite core` in the dev player ran while the machine was busy with other work (load average 18–23), so its numbers can't be compared with the baselines: S1-1x 8.3/13.1/16.6/361.8 ms, S1-5x 9.1/13.7/16.4/21.7, S2 11.5/13.5/14.6/29.7, S3 12.2/13.8/14.5/16.8 (p50/p95/p99/max). That is 2–3 ms slower at p50 than the projectile visuals baseline. Game speed held (0.99x/5.00x/1.00x/5.00x), and every projectile and effect played.
 - Not run (machine tests stopped because of other load): the `V` and `fx` screenshot suites, `-perfProfile` + `ProfileReport`, and a core rerun on an idle machine.
 
+## Sprint 4: balance tools (`fix/review-s4`)
+Done (in `Tools/BalanceDashboard/`):
+- **`write_waves.py`:** `assign_to_nested` parses `m_Modifications` as blocks, including Unity-wrapped continuation lines, and checks the block structure before and after writing (it fails loudly on a cut wrap, an orphan line, a missing `value:` or a wrong guid). Tested on a scratch copy of BeginnerLevel02.prefab with 965 wrapped lines, where the old regex left 50 orphan lines. On the real assets the output is byte-identical.
+- **Hangar period:** `(A−2)·I + max(2I, R)` for A ≥ 2 (`max(I, R)` for A = 1), checked against a frame-by-frame replay of `Starfighter.cs`. The Methodology text is updated.
+- **Pools:** ProjectileSystem kinds are uncapped; the Pulse pool uses `ProjectilePoolManager.MaxPoolSize` (4096).
+- **Mine Factory:** placement inside the RANGE − 0.1 sphere (as in `RefreshPathSpans`, with 3D spacing and the full targeting bias), flight time `max(0.35, distance / max(0.5, SPEED))` from the launch point.
+- **Pulse:** a shrinking sphere that hits each enemy once while it lasts. It shrinks 2.5 → 0.5, not → 0: the collider keeps scale.y = 1, so its radius never goes below 0.5. Not modelled: a pooled pulse keeps the `origLifetime` it was first created with.
+- **Small fixes:** `--seeds N` = seeds 1..N (0 rejected), `quick` option removed, `leadEfficiency` keeps 0, cluster fire points counted by `fileID`, missing enemy entries keep placeholders (with a warning), README level count.
+- **Veteran mode:** `extract.py` reads `Resources/Progress/MetaUpgradeTree.asset`; `engine.js` setting `meta: none|full`, `acceptance.py --meta none|full` and a dashboard Meta selector. It mirrors `MetaUpgrades.ApplyTo`/`ToModifier`, the GameManager economy hooks, the lives bonus (skipped on Impossible) and the `Price()` round-to-5 rule. The default stays `none`. CLAUDE.md is updated.
+
+Rebaseline (`acceptance.py`, Medium; singles / pairs / triples won; full roster over three seeds). Before = sprint 1 engine (FireCycle change only), after = sprint 4:
+
+| Level | Before | After (`--meta none`) | Veteran (`--meta full`) |
+|---|---|---|---|
+| Beginner 01 | 1/8, 8/28, 22/56; L L W | 1/8, 8/28, 21/56; L L W | 7/8, 24/28, 54/56; W W W |
+| Beginner 02 | 1/8, 7/28, 21/56; W W W | unchanged | 2/8, 13/28, 36/56; W W W |
+| Beginner 03 | 3/8, 14/28, 43/56; L W W | 2/8, 12/28, 30/56; W W W | 5/8, 22/28, 46/56; W W W |
+| Beginner 04 | 1/8, 9/28, 21/56; W W W | 2/8, 10/28, 22/56; W W W | 5/8, 24/28, 54/56; W W W |
+| Beginner 05 | 2/8, 11/28, 37/56; W W W | **0/8, 5/28, 20/56; L L L (R45)** | 5/8, 21/28, 46/56; W W W |
+| Intermediate 01 | 1/8, 8/28, 21/56; W W W | 1/8, 8/28, 20/56; W W W | 5/8, 22/28, 53/56; W W W |
+| Intermediate 02 | 1/8, 6/28, 13/56; L L L | 1/8, 5/28, 10/56; L L L | 4/8, 21/28, 52/56; W W W |
+
+- Beginner 03 (Mine Factory, Rockets, Hangar) and Beginner 05 (Hangar) shift the most. Both models changed: the Mine Factory's placement sphere and flight time, and the Hangar's cannon period (the banked shot after a reload). Beginner 05's full roster now loses at round 45.
+- Veteran mode wins every level with all 220 lives, and single towers win on 2–7 of 8. That's far above the "single towers lose" target, so the meta tree is strong enough to trivialise the current waves.
+
+## Needs user verification
+- Placement clicks with enemies in front of an anchor.
+- Backspace selling on a Mac.
+- Camera panning and focus while paused.
+- Trails and glows while paused, and new bolts' glows (centred from their first frame).
+- How 10x play feels after the timing fixes.
+- Decisions:
+  - Beginner 05 (and Beginner 03) after the corrected Hangar and Mine Factory models: retune the waves, or accept?
+  - How strong veteran mode should be; today it wins everything.
+
+## Not run yet (stopped because of other load on the machine)
+- `LevelPlaytest.Run` (sprint 1).
+- `-perfSuite parity` reseed of the Bullet Dispenser at 10x (`T-BulletDispenser-1x,T-BulletDispenser-10x -perfSeed 2`).
+- `-perfSuite V` and `fx` screenshots (glows centred on bolts, full-length trails), and `-perfProfile` + `ProfileReport` for GC in the effect paths.
+- `-perfSuite core` in the dev player on an idle machine, compared with the projectile visuals baseline.
+
+---
+
 # Handoff: performance overhaul (branch `perf/overhaul`)
 
 Started 2026-10-04. The plan is in `~/.claude/plans/analyze-the-codebase-and-dazzling-waterfall.md`.
