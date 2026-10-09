@@ -25,6 +25,13 @@ public class End : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy") && other.TryGetComponent(out Enemy enemy))
-            OnEnemyReachedExit?.Invoke(enemy);
+            ReportExit(enemy);
+    }
+
+    // Also called by enemies that reached the last waypoint without touching the trigger (a long frame can carry
+    // them past it); the leak handler ignores enemies that already left
+    public void ReportExit(Enemy enemy)
+    {
+        OnEnemyReachedExit?.Invoke(enemy);
     }
 }

@@ -203,8 +203,8 @@ public class Spawner : MonoBehaviour
     }
 
     // The points an enemy of this lane walks through: its spawn point, then every waypoint until it touches
-    // the End trigger. Some Waypoints lists hold their points twice (serialized and appended in Awake), so the
-    // raw list loops back after the exit; enemies never walk that part.
+    // the End trigger. Waypoints past the exit are left out: enemies leak at the trigger (or, as a backstop, at the
+    // last waypoint) and never walk them.
     public void GetLanePath(int lane, List<Vector3> points)
     {
         points.Clear();

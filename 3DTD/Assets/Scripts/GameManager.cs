@@ -278,6 +278,10 @@ public class GameManager : MonoBehaviour
 
     private void HandleEnemyReachedExit(Enemy enemy)
     {
+        // The trigger and the last-waypoint backstop can both report the same enemy
+        if (!enemy.IsAlive)
+            return;
+
         int livesLost = enemy.Id + 1;
         enemy.DestroyWholeEnemy();
         Lives -= livesLost;

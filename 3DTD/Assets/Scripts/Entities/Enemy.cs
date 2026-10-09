@@ -20,6 +20,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float distanceTraveled = 0f;
     public float DistanceTraveled => distanceTraveled;
 
+    // Where this frame's Tick started and the last waypoint corner passed during it (HasTickCorner), so contact
+    // tests can rebuild the exact path walked this frame instead of a straight line
+    public Vector3 TickStartPosition { get; private set; }
+    public Vector3 TickCorner { get; private set; }
+    public bool HasTickCorner { get; private set; }
+    private bool reachedPathEnd;
+
     [SerializeField] private float speedRandomRotation = 2f;
     [SerializeField] private Shape currentShape;
     [SerializeField] private EnemyColor currentColor;
@@ -133,6 +140,9 @@ public class Enemy : MonoBehaviour
         traits = enemyTraits;
         waypointIndex = 0;
         distanceTraveled = 0f;
+        reachedPathEnd = false;
+        HasTickCorner = false;
+        TickStartPosition = transform.position;
         lastTowerDamagedFrom = null;
         slowStrength = 0f;
         slowTimer = 0f;
@@ -190,6 +200,7 @@ public class Enemy : MonoBehaviour
     public void Move(float deltaTime)
     {
         transform.position = Advance(transform.position, deltaTime);
+        LeakIfPathEnded();
     }
 
     private Vector3 Advance(Vector3 position, float deltaTime)
@@ -214,11 +225,24 @@ public class Enemy : MonoBehaviour
             position = waypoint;
             distanceTraveled += distance;
             remaining -= distance;
+            TickCorner = waypoint;
+            HasTickCorner = true;
             if (waypointIndex >= path.Count - 1)
+            {
+                reachedPathEnd = true;
                 break;
+            }
             waypointIndex++;
         }
         return position;
+    }
+
+    // Backstop for the End trigger: an enemy that walked the whole path leaks even if a long frame carried it past
+    // the trigger without an overlap. End's handler ignores enemies the trigger already took.
+    private void LeakIfPathEnded()
+    {
+        if (reachedPathEnd && isAlive && End.Instance != null)
+            End.Instance.ReportExit(this);
     }
 
     public bool HasTrait(EnemyTrait trait)
@@ -234,10 +258,15 @@ public class Enemy : MonoBehaviour
             return;
 
         transform.GetPositionAndRotation(out Vector3 position, out Quaternion rotation);
+        TickStartPosition = position;
+        HasTickCorner = false;
         if (Mathf.Abs(Quaternion.Dot(rotation, randomRotation)) >= 0.990f)
             randomRotation = Random.rotation;
         rotation = Quaternion.Slerp(rotation, randomRotation, speedRandomRotation * deltaTime);
         transform.SetPositionAndRotation(Advance(position, deltaTime), rotation);
+        LeakIfPathEnded();
+        if (!isAlive)
+            return;
 
         if (slowTimer > 0f)
         {
