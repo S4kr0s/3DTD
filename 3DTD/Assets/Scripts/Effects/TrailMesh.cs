@@ -51,7 +51,6 @@ public sealed class TrailMesh : System.IDisposable
     private NativeArray<int> pointCount;
     private NativeArray<int> pointHead;
     private NativeArray<byte> active;
-    private NativeArray<int> vertexCount;
     private readonly Mesh mesh;
     private int capacity;
 
@@ -90,9 +89,7 @@ public sealed class TrailMesh : System.IDisposable
         pointCount.Dispose();
         pointHead.Dispose();
         active.Dispose();
-        if (vertexCount.IsCreated)
-            vertexCount.Dispose();
-        Object.Destroy(mesh);
+        UnityEngine.Object.Destroy(mesh);
     }
 
     private void Allocate(int size)
@@ -158,6 +155,9 @@ public sealed class TrailMesh : System.IDisposable
             PointCount = pointCount,
             PointHead = pointHead,
             MinVertexDistanceSq = minVertexDistance * minVertexDistance,
+            // The head moves with the projectile and the other points are fixed: with at least this much time
+            // between fixed points the ring always reaches back the whole trail time
+            MinPointInterval = TrailTime / (PointsPerTrail - 2),
         };
     }
 
@@ -167,24 +167,27 @@ public sealed class TrailMesh : System.IDisposable
         public NativeArray<int> PointCount;
         public NativeArray<int> PointHead;
         public float MinVertexDistanceSq;
+        public float MinPointInterval;
 
-        // The flight moved: a new point when it got far enough from the last one (TrailRenderer.minVertexDistance)
+        // The flight moved. The head follows the projectile; it becomes a fixed point (and a new head starts)
+        // once the projectile is far enough (TrailRenderer.minVertexDistance) and long enough away from the last
+        // fixed point. Comparing with the moving head instead let fast frame rates never fix a point.
         public void Add(int id, float3 position, float now)
         {
             int count = PointCount[id];
-            int head = PointHead[id];
-            int baseIndex = id * PointsPerTrail;
-            float4 last = Points[baseIndex + head];
-            if (count > 0 && math.distancesq(last.xyz, position) < MinVertexDistanceSq)
+            if (count < 2)
             {
-                // Keep the head on the projectile without adding a point
-                if (count > 1)
-                    Points[baseIndex + head] = new float4(position, now);
-                else
-                    AddPoint(id, position, now);
+                AddPoint(id, position, now);
                 return;
             }
-            AddPoint(id, position, now);
+
+            int head = PointHead[id];
+            int baseIndex = id * PointsPerTrail;
+            float4 lastFixed = Points[baseIndex + (head - 1 + PointsPerTrail) % PointsPerTrail];
+            if (math.distancesq(lastFixed.xyz, position) >= MinVertexDistanceSq && now - lastFixed.w >= MinPointInterval)
+                AddPoint(id, position, now);
+            else
+                Points[baseIndex + head] = new float4(position, now);
         }
 
         private void AddPoint(int id, float3 position, float now)
@@ -196,7 +199,7 @@ public sealed class TrailMesh : System.IDisposable
         }
     }
 
-    // Builds and draws all trails; flights up to highestId
+    // Builds and draws all trails of the flights below highestId (FlightBatch passes the highest live or fading one)
     public void Draw(int highestId, float now, Camera camera)
     {
         if (highestId == 0 || camera == null || material == null)
@@ -209,13 +212,6 @@ public sealed class TrailMesh : System.IDisposable
         data.SetVertexBufferParams(maxVertices, Layout);
         data.SetIndexBufferParams(maxIndices, IndexFormat.UInt32);
 
-        if (!vertexCount.IsCreated || vertexCount.Length < highestId)
-        {
-            if (vertexCount.IsCreated)
-                vertexCount.Dispose();
-            vertexCount = new NativeArray<int>(math.max(highestId, capacity), Allocator.Persistent);
-        }
-
         new BuildJob
         {
             Points = points,
@@ -225,7 +221,6 @@ public sealed class TrailMesh : System.IDisposable
             ColorCurve = colorCurve,
             Vertices = data.GetVertexData<Vertex>(),
             Indices = data.GetIndexData<uint>(),
-            VertexCount = vertexCount,
             Camera = camera.transform.position,
             Now = now,
             Time = TrailTime,
@@ -258,7 +253,6 @@ public sealed class TrailMesh : System.IDisposable
         [NativeDisableParallelForRestriction] public NativeArray<Vertex> Vertices;
         // Vertex and index data of one MeshData share a safety handle; they don't overlap
         [NativeDisableParallelForRestriction, NativeDisableContainerSafetyRestriction] public NativeArray<uint> Indices;
-        [NativeDisableParallelForRestriction] public NativeArray<int> VertexCount;
         public float3 Camera;
         public float Now;
         public float Time;
@@ -334,7 +328,6 @@ public sealed class TrailMesh : System.IDisposable
                     Indices[i + 5] = a;
                 }
             }
-            VertexCount[id] = used;
         }
 
         private float3 Direction(int id, int newerIndex, int olderIndex)
