@@ -73,11 +73,11 @@ public class SaveGame
         Deleted?.Invoke();
     }
 
-    // "Level 01 · Hard · Wave 12"
+    // "Beginner · Level 01 · Hard · Wave 12"
     public string Summary()
     {
         LevelCatalog catalog = LevelCatalog.Instance;
-        string level = catalog != null ? catalog.DisplayName(sceneName) : sceneName;
+        string level = catalog != null ? catalog.FullName(sceneName) : sceneName;
         return level + " · " + (Difficulty)difficulty + " · Wave " + round;
     }
 

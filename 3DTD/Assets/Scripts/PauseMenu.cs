@@ -135,7 +135,7 @@ public class PauseMenu : MonoBehaviour
             menuPlate.SetActive(true);
 
         GameManager game = GameManager.Instance;
-        string level = LevelCatalog.Instance != null ? LevelCatalog.Instance.DisplayName(SceneManager.GetActiveScene().name) : SceneManager.GetActiveScene().name;
+        string level = LevelCatalog.Instance != null ? LevelCatalog.Instance.FullName(SceneManager.GetActiveScene().name) : SceneManager.GetActiveScene().name;
         subtitleText.text = level + " · " + game.Difficulty + " · Wave " + game.Round;
 
         switch (mode)
