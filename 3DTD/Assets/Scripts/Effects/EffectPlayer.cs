@@ -24,9 +24,8 @@ public class EffectPlayer : MonoBehaviour
 
     private readonly Dictionary<GameObject, EffectPool> pools = new Dictionary<GameObject, EffectPool>();
     private readonly List<EffectPool> poolList = new List<EffectPool>();
-    // Lit effects in the order they took their light; an entry is stale once its ticket no longer matches
-    private readonly Queue<(EffectInstance effect, int ticket)> lightHolders = new Queue<(EffectInstance, int)>();
-    private int lightsInUse;
+    // The lit effects, one per slot of the budget (null: free)
+    private readonly EffectInstance[] lightSlots = new EffectInstance[LightBudget];
     private int nextLightTicket;
     private Transform container;
 
@@ -132,28 +131,40 @@ public class EffectPlayer : MonoBehaviour
         if (!effect.HasLights)
             return;
 
-        // Give the light of the oldest still lit effect to the new one
-        while (lightsInUse >= LightBudget && lightHolders.Count > 0)
+        if (effect.LightSlot >= 0)
+            ReturnLight(effect);
+
+        // A free slot, or else the one of the oldest lit effect, which gives its light to the new one
+        int slot = -1;
+        for (int i = 0; i < lightSlots.Length; i++)
         {
-            (EffectInstance oldest, int ticket) = lightHolders.Dequeue();
-            if (oldest.LightsOn && oldest.LightTicket == ticket)
+            if (lightSlots[i] == null)
             {
-                oldest.SetLights(false);
-                lightsInUse--;
+                slot = i;
+                break;
             }
+            if (slot < 0 || lightSlots[i].LightTicket < lightSlots[slot].LightTicket)
+                slot = i;
         }
+        EffectInstance previous = lightSlots[slot];
+        if (previous != null)
+        {
+            previous.SetLights(false);
+            previous.LightSlot = -1;
+        }
+
         effect.LightTicket = ++nextLightTicket;
+        effect.LightSlot = slot;
         effect.SetLights(true);
-        lightsInUse++;
-        lightHolders.Enqueue((effect, effect.LightTicket));
+        lightSlots[slot] = effect;
     }
 
     internal void ReturnLight(EffectInstance effect)
     {
+        if (effect.LightSlot >= 0 && lightSlots[effect.LightSlot] == effect)
+            lightSlots[effect.LightSlot] = null;
+        effect.LightSlot = -1;
         if (effect.LightsOn)
-        {
             effect.SetLights(false);
-            lightsInUse--;
-        }
     }
 }

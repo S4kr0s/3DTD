@@ -192,7 +192,7 @@ public class EffectPool
     {
         using var scope = CreateMarker.Auto();
         // Built under an inactive parent so nothing plays on awake before it is configured
-        GameObject instance = Object.Instantiate(prefab, staging);
+        GameObject instance = UnityEngine.Object.Instantiate(prefab, staging);
         EffectInstance effect = new EffectInstance(this, instance, prefabScale);
         instance.transform.SetParent(container, false);
         return effect;
@@ -294,7 +294,9 @@ public class EffectInstance
     public readonly Transform Transform;
     public float EndTime;
     public bool Attached;
+    // When it took its light (older effects give theirs up first) and its slot in EffectPlayer's budget (-1: none)
     public int LightTicket;
+    public int LightSlot = -1;
     public bool LightsOn { get; private set; }
     public bool HasLights => lightSystems.Length > 0;
 
