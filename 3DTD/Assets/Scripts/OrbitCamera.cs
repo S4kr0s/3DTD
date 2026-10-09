@@ -68,6 +68,8 @@ public class OrbitCamera : MonoBehaviour
 		originFocusEulerAng = focus.transform.localRotation.eulerAngles;
 
         regularCamera = GetComponent<Camera>();
+        // Enemies fly in front of the anchors; the camera's PhysicsRaycaster must not let them swallow clicks
+        regularCamera.eventMask = ~GameLayers.EnemyMask;
 		focusPoint = focus.position;
 		transform.localRotation = Quaternion.Euler(orbitAngles);
 	}
