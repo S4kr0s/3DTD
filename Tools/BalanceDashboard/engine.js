@@ -35,6 +35,7 @@
   const REGEN_DELAY = 3, REGEN_INTERVAL = 2.5;      // Enemy.RegenDelay / RegenInterval
   const TRAIT = { Armored: 1, Shielded: 2, Regenerating: 4 };
   const PULSE_RADIUS = 2.5;            // ProjectilePulse: SphereCollider r=0.5 scaled up to 5 on x/z
+  const PULSE_MIN_RADIUS = 0.5;        // y stays at scale 1, and a sphere collider takes the largest axis
   const CYCLE_WINDOW = 120;            // seconds of simulated firing used to measure cycle rates
   // MineFactoryActionStrategy / Mine
   const MINE = { maxMines: 40, contactRadius: 0.45, rearmTime: 0.4, minFlightTime: 0.35, minLaunchSpeed: 0.5, candidates: 8 };
@@ -531,6 +532,13 @@
     }
     return { times, reloads };
   }
+
+  // ProjectilePulse.Grow: x/z scale shrinks from 5 to 0 over LIFETIME while y stays 1, so the sphere collider's
+  // radius (0.5 x the largest axis) goes from 2.5 down to 0.5
+  E.pulseRadius = (age, lifetime) => Math.max(PULSE_MIN_RADIUS, PULSE_RADIUS * (lifetime > 0 ? 1 - clamp(age / lifetime, 0, 1) : 0));
+  // Path stretch a pulse reaches in a stream moving at v: everything inside at the start (both sides), plus the
+  // enemies that walk into the shrinking sphere before it dies (the best moment for them is the end at radius 0.5)
+  E.pulseStretch = (v, lifetime, rE) => PULSE_RADIUS + rE + Math.max(PULSE_RADIUS, v * Math.max(0, lifetime) + PULSE_MIN_RADIUS) + rE;
 
   // ----------------------------------------------------------------------------------- hit chance
 
@@ -1116,7 +1124,7 @@
         perHitTargets = n(2 * m.range.detect * 0.75);
         break;
       case 'pulse':
-        perHitTargets = n(2 * (PULSE_RADIUS + rE));
+        perHitTargets = n(E.pulseStretch(mix.meanLayerSpeed, st.LIFETIME, rE));
         break;
       case 'hangar':
         break;
@@ -1836,9 +1844,21 @@
     }
 
     // ---- tower update (one frame)
+    function pulseHits(tw, pulse) {
+      const r = E.pulseRadius(sim.t - pulse.t0, pulse.life) + rE;
+      for (const en of sim.enemies) {
+        if (!en.alive || pulse.hit.has(en) || v3.dist(en.p, pulse.c) > r) continue;
+        pulse.hit.add(en);
+        damage(en, pulse.dmg, tw, 'EXPLOSIVE');
+      }
+    }
     function towerTick(tw) {
       const m = tw.model, st = m.stats;
       const kind = m.kind;
+      if (tw.pulses && tw.pulses.length) {
+        tw.pulses = tw.pulses.filter(p => sim.t - p.t0 < p.life);
+        for (const p of tw.pulses) pulseHits(tw, p);
+      }
       const inRange = (kind === 'beam') ? null : enemiesIn(tw);
       let target = inRange ? pickTarget(inRange, m.tower.targetBehaviour) : null;
       if (kind === 'hangar') { hangarTick(tw, inRange, target); return; }
@@ -1865,8 +1885,10 @@
           enemiesIn(tw).forEach(en => damage(en, st.DAMAGE, tw, 'MAGIC'));
         } else if (kind === 'pulse') {
           sim.totals.shots++;
-          const c = tw.vol.center;
-          for (const en of sim.enemies) if (en.alive && v3.dist(en.p, c) <= PULSE_RADIUS + rE) damage(en, st.DAMAGE, tw, 'EXPLOSIVE');
+          // OnCollisionEnter: every enemy that touches the shrinking sphere while it lasts is hit once
+          const pulse = { c: tw.vol.center, t0: sim.t, life: Math.max(dt, st.LIFETIME), dmg: st.DAMAGE, hit: new Set() };
+          (tw.pulses = tw.pulses || []).push(pulse);
+          pulseHits(tw, pulse);
         } else if (kind === 'beam') {
           let pierce = st.PIERCING;
           const b = tw.beam;
