@@ -22,6 +22,8 @@ using Random = UnityEngine.Random;
 //   S1  every tower type in each of its heaviest legal upgrade combinations, on blocks along the lane
 //   S2  Bullet Dispensers (path 1 tier 3 + path 2 tier 2) on every block spot along the lane
 //   P   a weak mixed defense whose leaks make tower effectiveness visible, for 1x/3x/5x parity
+//   T   (suite "parity") each tower type alone at 1x/3x/5x/10x, and L: the level undefended at 1x and 10x, whose
+//       leaked lives must match (enemies must not skip the exit or walk a second lap at high speed)
 //   FX  (suite "fx") effect gallery: per tower type, a copy with each single upgrade path at tier 1-3 and an
 //       unupgraded one along the lane, close-ups of each during a dense wave (fx-<tower>-<path><tier>-<n>.png)
 // Each run reloads its scene, builds the layout, jumps to the round and measures the wave(s).
@@ -46,7 +48,7 @@ public class PerfScenario : MonoBehaviour
     public class Run
     {
         public string id;
-        public string layout;            // "mixed", "dispensers", "parity", "single", "gallery"
+        public string layout;            // "mixed", "dispensers", "parity", "single", "gallery", "empty"
         public string tower;             // prefab name for the "single" layout
         public string scene = "Beginner Level 01";
         public float speed = 1f;
@@ -57,6 +59,7 @@ public class PerfScenario : MonoBehaviour
         public string parityGroup;       // runs with the same group are compared against their 1x run
         public bool informational;       // parity deviations are logged but don't fail
         public bool visual;              // fixed 1/60 s frames, a series of close-ups, then stop
+        [NonSerialized] public RunResult result;   // set by RunOne; visual runs have one but aren't in the suite
     }
 
     [Serializable]
@@ -249,12 +252,12 @@ public class PerfScenario : MonoBehaviour
             new Run { id = "V", layout = "dispensers", speed = 1f, round = 60, maxTowers = 12, waves = 1, visual = true },
         };
 
-        // Tower parity: one maxed tower of each type alone against an overwhelming wave, at 1x/3x/5x.
+        // Tower parity: one maxed tower of each type alone against an overwhelming wave, at 1x/3x/5x/10x.
         // Its damage measures its effectiveness without the noise of a whole defense.
         List<Run> parity = new List<Run>();
         foreach (string tower in ParityTowers)
         {
-            foreach (float speed in new[] { 1f, 3f, 5f })
+            foreach (float speed in new[] { 1f, 3f, 5f, 10f })
             {
                 parity.Add(new Run
                 {
@@ -266,6 +269,10 @@ public class PerfScenario : MonoBehaviour
                 });
             }
         }
+
+        // Leak parity: no towers at all, so every enemy leaks; 10x must lose exactly the lives 1x loses
+        parity.Add(new Run { id = "L-1x", layout = "empty", speed = 1f, round = 30, waves = 1, parityGroup = "Leak" });
+        parity.Add(new Run { id = "L-10x", layout = "empty", speed = 10f, round = 30, waves = 1, parityGroup = "Leak" });
 
         // Effect gallery: every visual upgrade of one tower type at once, in fixed frames
         List<Run> gallery = new List<Run>();
@@ -354,6 +361,7 @@ public class PerfScenario : MonoBehaviour
         GameManager game = GameManager.Instance;
         Spawner spawner = Spawner.Instance;
         RunResult result = new RunResult { id = run.id, layout = run.layout, speed = run.speed, round = run.round };
+        run.result = result;
         if (!run.visual)
             suite.runs.Add(result);
         if (game == null || spawner == null)
@@ -504,6 +512,9 @@ public class PerfScenario : MonoBehaviour
         }
 
         List<TowerPlan> plans = new List<TowerPlan>();
+        if (run.layout == "empty")
+            return plans;
+
         if (run.layout == "dispensers")
         {
             GameObject dispenser = towerPrefabs.Find(p => p.name == "Bullet Dispenser Tower");
@@ -1281,21 +1292,21 @@ public class PerfScenario : MonoBehaviour
         return sorted[index];
     }
 
-    // Damage, kills and leaks of every run in a parity group against the group's 1x run
+    // Damage, kills and leaks of every run in a parity group against the group's 1x run. Results are paired with
+    // their run directly: visual runs are left out of suite.runs, so the two lists don't line up by index.
     private void EvaluateParity()
     {
         Dictionary<string, RunResult> baseline = new Dictionary<string, RunResult>();
-        for (int i = 0; i < runs.Count && i < suite.runs.Count; i++)
+        foreach (Run run in runs)
         {
-            if (runs[i].parityGroup != null && Mathf.Approximately(runs[i].speed, 1f))
-                baseline[runs[i].parityGroup] = suite.runs[i];
+            if (run.parityGroup != null && run.result != null && !run.visual && Mathf.Approximately(run.speed, 1f))
+                baseline[run.parityGroup] = run.result;
         }
 
-        for (int i = 0; i < runs.Count && i < suite.runs.Count; i++)
+        foreach (Run run in runs)
         {
-            Run run = runs[i];
-            RunResult result = suite.runs[i];
-            if (run.parityGroup == null || Mathf.Approximately(run.speed, 1f) || !baseline.TryGetValue(run.parityGroup, out RunResult reference))
+            RunResult result = run.result;
+            if (result == null || run.visual || run.parityGroup == null || Mathf.Approximately(run.speed, 1f) || !baseline.TryGetValue(run.parityGroup, out RunResult reference))
                 continue;
 
             bool info = run.informational;
