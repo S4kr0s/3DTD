@@ -1,3 +1,29 @@
+# Handoff: fixes from the 2026-10-08 code review (branches `fix/review-s1` … `fix/review-s4`)
+
+Started 2026-10-09. The plan is in `~/.claude/plans/please-develop-a-plan-glittery-ripple.md`. Four sprints, each on its own branch stacked on the previous one (`fix/review-s1` starts from `fx/projectile-visuals`), one commit per task.
+
+## Sprint 1: gameplay at high game speed (`fix/review-s1`)
+Done:
+- **Exit skip and second lap:** `Waypoints.Awake` skips transforms the serialized list already holds (and is safe to call twice). An enemy that reaches the last waypoint reports itself through `End.ReportExit`; the leak handler ignores enemies that are no longer alive.
+- **Laser and Core lead:** a bolt fired `age` seconds ago leads from where the enemy was back then.
+- **Mines:** candidates come from `Spawner.AliveEnemies` (new accessor), rejected with the armed mines' bounding sphere. `Enemy.Tick` records `TickStartPosition` and the waypoint corner it passed (`TickCorner`/`HasTickCorner`); the contact test checks start→corner→now.
+- **FireCycle:** a frame that hit `MaxVolleysPerFrame` carries up to another capped frame of debt; after a reload starts the one-interval clamp stays. Mirrored in `engine.js` `tickFireCycle`.
+- **Strategy swap:** `ActionStrategy.Cycle` + `FireCycle.CopyStateFrom` (cooldown, reload, magazine clamped to the new capacity), called by `Tower.SetActionStrategy`.
+- **Starfighter:** `MaxStepsPerFrame` 60 (0.1 s × 10x); a capped frame drops its backlog.
+- **Hit order:** projectile events are sorted by the time of their first hit (packed `long` key, allocation-free `NativeList.Sort`).
+- **Duplicate hits:** past the 31-slot tested list, `FindHits` checks the hits found so far.
+- **Perf tooling:** results are paired with their run (visual runs used to shift the pairing). The `parity` suite adds 10x per tower and `L-1x`/`L-10x` (Beginner 01 undefended, leaked lives must match).
+- **Tests:** `Editor/Tests/GameplayTimingTests.cs` (FireCycle debt, reload clamp, volley ages, `CopyStateFrom`, age-compensated lead, `Waypoints.Awake`).
+
+Results:
+- EditMode 55/55.
+- `-perfSuite parity` (Editor): leak parity exact (1082 vs 1082 lives at 1x and 10x). Damage at 3x/5x/10x vs 1x: Laser −0.2 %, Core 0, Rocket ≤ +0.4 %, Sniper 0, Mine Factory ≤ +1.3 %, Bullet Dispenser +0.8 % (3x/5x) and **+3.0 % at 10x (143 vs 139, just over the 3 % limit)**, Hangar +7…+29 % (informational, as before), Beam 0 (benchmark aim, known).
+- `acceptance.py` passes after the `tickFireCycle` change.
+- Not run: `LevelPlaytest.Run` (machine tests were stopped because of other load on the machine).
+
+Open:
+- **Bullet Dispenser at 10x:** +3.0 % on one seed. A rerun with `-perfSeed 2` was planned but skipped. A likely cause: ProjectileSystem sweeps against a straight line between an enemy's previous and current position, but at 10x an enemy can turn a waypoint corner inside one frame (0.16 s of game time). `Enemy.TickCorner` now records that corner, so the sweep could use it too.
+
 # Handoff: performance overhaul (branch `perf/overhaul`)
 
 Started 2026-10-04. The plan is in `~/.claude/plans/analyze-the-codebase-and-dazzling-waterfall.md`.
