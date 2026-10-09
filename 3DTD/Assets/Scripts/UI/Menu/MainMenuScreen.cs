@@ -32,8 +32,21 @@ public class MainMenuScreen : MonoBehaviour
         continueButton.gameObject.SetActive(save != null);
         if (save != null)
             continueSummary.text = save.Summary();
+        SaveGame.Deleted += HandleSaveDeleted;
 
         Show(0);
+    }
+
+    private void OnDestroy()
+    {
+        SaveGame.Deleted -= HandleSaveDeleted;
+    }
+
+    // "Reset progress" in the Options screen deletes the autosave while the menu is open
+    private void HandleSaveDeleted()
+    {
+        save = null;
+        continueButton.gameObject.SetActive(false);
     }
 
     public void Show(int index)

@@ -61,10 +61,14 @@ public class SaveGame
         }
     }
 
+    // Raised after the autosave was deleted (game over, "Reset progress"), so a shown Continue button can hide
+    public static event Action Deleted;
+
     public static void Delete()
     {
         if (Exists())
             File.Delete(FilePath);
+        Deleted?.Invoke();
     }
 
     // "Level 01 · Hard · Wave 12"
