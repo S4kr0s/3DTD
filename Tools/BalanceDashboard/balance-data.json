@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-10-09T10:47:45",
+  "generatedAt": "2026-10-09T10:55:47",
   "unityVersion": "6000.5.8f1",
   "project": "/Users/philipp/Projects/3DTD/3DTD/3DTD",
   "generator": "Tools/BalanceDashboard/extract.py",
@@ -15100,6 +15100,543 @@
    "winRound": 100.0,
    "freeplayScaling": 0.15
   }
+ },
+ "metaUpgrades": {
+  "asset": "Assets/Resources/Progress/MetaUpgradeTree.asset",
+  "trees": [
+   {
+    "id": "towers",
+    "displayName": "Towers",
+    "nodes": [
+     {
+      "id": "t-hardened",
+      "displayName": "Hardened rounds",
+      "tier": 1,
+      "cost": 1.0,
+      "capstone": false,
+      "requires": [],
+      "effects": [
+       {
+        "type": "TowerStatPercent",
+        "stat": "DAMAGE",
+        "value": 5.0,
+        "scope": "all turrets"
+       }
+      ]
+     },
+     {
+      "id": "t-barrels",
+      "displayName": "Extended barrels",
+      "tier": 2,
+      "cost": 2.0,
+      "capstone": false,
+      "requires": [
+       "t-hardened"
+      ],
+      "effects": [
+       {
+        "type": "TowerStatPercent",
+        "stat": "RANGE",
+        "value": 5.0,
+        "scope": "all turrets"
+       }
+      ]
+     },
+     {
+      "id": "t-loaders",
+      "displayName": "Rapid loaders",
+      "tier": 2,
+      "cost": 2.0,
+      "capstone": false,
+      "requires": [
+       "t-hardened"
+      ],
+      "effects": [
+       {
+        "type": "TowerStatPercent",
+        "stat": "FIRERATE",
+        "value": 5.0,
+        "scope": "all turrets"
+       }
+      ]
+     },
+     {
+      "id": "t-payloads",
+      "displayName": "Heavy payloads",
+      "tier": 2,
+      "cost": 2.0,
+      "capstone": false,
+      "requires": [
+       "t-hardened"
+      ],
+      "effects": [
+       {
+        "type": "TowerStatPercent",
+        "stat": "RADIUS",
+        "value": 10.0,
+        "scope": "all turrets"
+       }
+      ]
+     },
+     {
+      "id": "t-optics",
+      "displayName": "Long-range optics",
+      "tier": 3,
+      "cost": 3.0,
+      "capstone": false,
+      "requires": [
+       "t-barrels"
+      ],
+      "effects": [
+       {
+        "type": "TowerStatPercent",
+        "stat": "RANGE",
+        "value": 5.0,
+        "scope": "all turrets"
+       }
+      ]
+     },
+     {
+      "id": "t-feeds",
+      "displayName": "Overclocked feeds",
+      "tier": 3,
+      "cost": 3.0,
+      "capstone": false,
+      "requires": [
+       "t-loaders"
+      ],
+      "effects": [
+       {
+        "type": "TowerStatPercent",
+        "stat": "FIRERATE",
+        "value": 5.0,
+        "scope": "all turrets"
+       }
+      ]
+     },
+     {
+      "id": "t-warheads",
+      "displayName": "Dense warheads",
+      "tier": 3,
+      "cost": 3.0,
+      "capstone": false,
+      "requires": [
+       "t-payloads"
+      ],
+      "effects": [
+       {
+        "type": "TowerStatPercent",
+        "stat": "DAMAGE",
+        "value": 5.0,
+        "scope": "all turrets"
+       }
+      ]
+     },
+     {
+      "id": "t-armory",
+      "displayName": "Master armory",
+      "tier": 4,
+      "cost": 5.0,
+      "capstone": true,
+      "requires": [
+       "t-optics",
+       "t-feeds",
+       "t-warheads"
+      ],
+      "effects": [
+       {
+        "type": "TowerStatPercent",
+        "stat": "DAMAGE",
+        "value": 5.0,
+        "scope": "all turrets"
+       },
+       {
+        "type": "TowerStatPercent",
+        "stat": "FIRERATE",
+        "value": 5.0,
+        "scope": "all turrets"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "economy",
+    "displayName": "Economy",
+    "nodes": [
+     {
+      "id": "e-salvage",
+      "displayName": "Salvage crews",
+      "tier": 1,
+      "cost": 1.0,
+      "capstone": false,
+      "requires": [],
+      "effects": [
+       {
+        "type": "StartMoney",
+        "stat": "WORTH",
+        "value": 50.0,
+        "scope": "every game"
+       }
+      ]
+     },
+     {
+      "id": "e-refinery",
+      "displayName": "Efficient refinery",
+      "tier": 2,
+      "cost": 2.0,
+      "capstone": false,
+      "requires": [
+       "e-salvage"
+      ],
+      "effects": [
+       {
+        "type": "IncomePercent",
+        "stat": "WORTH",
+        "value": 5.0,
+        "scope": "every pop"
+       }
+      ]
+     },
+     {
+      "id": "e-contracts",
+      "displayName": "Wave contracts",
+      "tier": 2,
+      "cost": 2.0,
+      "capstone": false,
+      "requires": [
+       "e-salvage"
+      ],
+      "effects": [
+       {
+        "type": "WaveBonus",
+        "stat": "WORTH",
+        "value": 10.0,
+        "scope": "per wave"
+       }
+      ]
+     },
+     {
+      "id": "e-resale",
+      "displayName": "Resale network",
+      "tier": 2,
+      "cost": 2.0,
+      "capstone": false,
+      "requires": [
+       "e-salvage"
+      ],
+      "effects": [
+       {
+        "type": "RefundPercent",
+        "stat": "WORTH",
+        "value": 5.0,
+        "scope": "when selling"
+       }
+      ]
+     },
+     {
+      "id": "e-bulk",
+      "displayName": "Bulk orders",
+      "tier": 3,
+      "cost": 3.0,
+      "capstone": false,
+      "requires": [
+       "e-refinery"
+      ],
+      "effects": [
+       {
+        "type": "PricePercent",
+        "stat": "WORTH",
+        "value": 3.0,
+        "scope": "towers & upgrades"
+       }
+      ]
+     },
+     {
+      "id": "e-chest",
+      "displayName": "War chest",
+      "tier": 3,
+      "cost": 3.0,
+      "capstone": false,
+      "requires": [
+       "e-contracts"
+      ],
+      "effects": [
+       {
+        "type": "StartMoney",
+        "stat": "WORTH",
+        "value": 75.0,
+        "scope": "every game"
+       }
+      ]
+     },
+     {
+      "id": "e-brokers",
+      "displayName": "Scrap brokers",
+      "tier": 3,
+      "cost": 3.0,
+      "capstone": false,
+      "requires": [
+       "e-resale"
+      ],
+      "effects": [
+       {
+        "type": "RefundPercent",
+        "stat": "WORTH",
+        "value": 5.0,
+        "scope": "when selling"
+       }
+      ]
+     },
+     {
+      "id": "e-empire",
+      "displayName": "Trade empire",
+      "tier": 4,
+      "cost": 5.0,
+      "capstone": true,
+      "requires": [
+       "e-bulk",
+       "e-chest",
+       "e-brokers"
+      ],
+      "effects": [
+       {
+        "type": "IncomePercent",
+        "stat": "WORTH",
+        "value": 5.0,
+        "scope": "every pop"
+       },
+       {
+        "type": "PricePercent",
+        "stat": "WORTH",
+        "value": 2.0,
+        "scope": "towers & upgrades"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "hull",
+    "displayName": "Hull",
+    "nodes": [
+     {
+      "id": "h-plating",
+      "displayName": "Reinforced plating",
+      "tier": 1,
+      "cost": 1.0,
+      "capstone": false,
+      "requires": [],
+      "effects": [
+       {
+        "type": "StartLives",
+        "stat": "WORTH",
+        "value": 10.0,
+        "scope": "not on Impossible"
+       }
+      ]
+     },
+     {
+      "id": "h-bulkheads",
+      "displayName": "Bulkheads",
+      "tier": 2,
+      "cost": 2.0,
+      "capstone": false,
+      "requires": [
+       "h-plating"
+      ],
+      "effects": [
+       {
+        "type": "StartLives",
+        "stat": "WORTH",
+        "value": 10.0,
+        "scope": "not on Impossible"
+       }
+      ]
+     },
+     {
+      "id": "h-funds",
+      "displayName": "Emergency funds",
+      "tier": 2,
+      "cost": 2.0,
+      "capstone": false,
+      "requires": [
+       "h-plating"
+      ],
+      "effects": [
+       {
+        "type": "StartMoney",
+        "stat": "WORTH",
+        "value": 25.0,
+        "scope": "every game"
+       }
+      ]
+     },
+     {
+      "id": "h-core",
+      "displayName": "Armored core",
+      "tier": 3,
+      "cost": 3.0,
+      "capstone": false,
+      "requires": [
+       "h-bulkheads",
+       "h-funds"
+      ],
+      "effects": [
+       {
+        "type": "StartLives",
+        "stat": "WORTH",
+        "value": 15.0,
+        "scope": "not on Impossible"
+       }
+      ]
+     },
+     {
+      "id": "h-fortress",
+      "displayName": "Fortress",
+      "tier": 4,
+      "cost": 5.0,
+      "capstone": true,
+      "requires": [
+       "h-core"
+      ],
+      "effects": [
+       {
+        "type": "StartLives",
+        "stat": "WORTH",
+        "value": 25.0,
+        "scope": "not on Impossible"
+       },
+       {
+        "type": "WaveBonus",
+        "stat": "WORTH",
+        "value": 5.0,
+        "scope": "per wave"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "global",
+    "displayName": "Global",
+    "nodes": [
+     {
+      "id": "g-manual",
+      "displayName": "Field manual",
+      "tier": 1,
+      "cost": 1.0,
+      "capstone": false,
+      "requires": [],
+      "effects": [
+       {
+        "type": "TowerStatPercent",
+        "stat": "RANGE",
+        "value": 3.0,
+        "scope": "all turrets"
+       },
+       {
+        "type": "StartMoney",
+        "stat": "WORTH",
+        "value": 25.0,
+        "scope": "every game"
+       }
+      ]
+     },
+     {
+      "id": "g-supply",
+      "displayName": "Supply lines",
+      "tier": 2,
+      "cost": 2.0,
+      "capstone": false,
+      "requires": [
+       "g-manual"
+      ],
+      "effects": [
+       {
+        "type": "WaveBonus",
+        "stat": "WORTH",
+        "value": 5.0,
+        "scope": "per wave"
+       }
+      ]
+     },
+     {
+      "id": "g-deploy",
+      "displayName": "Quick deploy",
+      "tier": 2,
+      "cost": 2.0,
+      "capstone": false,
+      "requires": [
+       "g-manual"
+      ],
+      "effects": [
+       {
+        "type": "PricePercent",
+        "stat": "WORTH",
+        "value": 2.0,
+        "scope": "towers & upgrades"
+       }
+      ]
+     },
+     {
+      "id": "g-combined",
+      "displayName": "Combined arms",
+      "tier": 3,
+      "cost": 3.0,
+      "capstone": false,
+      "requires": [
+       "g-supply",
+       "g-deploy"
+      ],
+      "effects": [
+       {
+        "type": "TowerStatPercent",
+        "stat": "DAMAGE",
+        "value": 3.0,
+        "scope": "all turrets"
+       },
+       {
+        "type": "TowerStatPercent",
+        "stat": "FIRERATE",
+        "value": 3.0,
+        "scope": "all turrets"
+       }
+      ]
+     },
+     {
+      "id": "g-strategy",
+      "displayName": "Grand strategy",
+      "tier": 4,
+      "cost": 5.0,
+      "capstone": true,
+      "requires": [
+       "g-combined"
+      ],
+      "effects": [
+       {
+        "type": "TowerStatPercent",
+        "stat": "DAMAGE",
+        "value": 5.0,
+        "scope": "all turrets"
+       },
+       {
+        "type": "StartLives",
+        "stat": "WORTH",
+        "value": 10.0,
+        "scope": "not on Impossible"
+       },
+       {
+        "type": "StartMoney",
+        "stat": "WORTH",
+        "value": 50.0,
+        "scope": "every game"
+       }
+      ]
+     }
+    ]
+   }
+  ]
  },
  "levels": [
   {

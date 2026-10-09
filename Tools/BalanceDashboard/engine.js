@@ -26,6 +26,7 @@
     mineWaveSeconds: 30,        // game seconds a wave runs, for Mine Factory salvage income per wave
     mineFieldFullShare: 0.5,    // share of a wave a Mine Factory's field is full (salvage only pays then)
     mineEcoWaves: 8,            // waves of salvage income counted in a Mine Factory build's value
+    meta: 'none',               // meta upgrades owned: 'none' = a fresh profile, 'full' = every node of every tree (veteran mode)
   };
 
   const ENEMY_RADIUS_FALLBACK = 0.375;
@@ -129,39 +130,80 @@
     if (level && level.economy && level.economy.hasProfiles === false) return null;
     return profiles[E.difficultyOf(level)] || null;
   };
+  // MetaUpgrades: totals of the owned meta-upgrade nodes (MetaUpgradeTree.asset), applied to every game except
+  // the main-menu backdrop. 'none' = a fresh profile, 'full' = veteran mode, every node of every tree.
+  const NO_META = { owned: 0, statPercent: {}, startMoney: 0, startLives: 0, waveBonus: 0, incomeMultiplier: 1, priceMultiplier: 1, refundBonus: 0 };
+  E.metaTotals = function (level) {
+    level = level || E.level();
+    return level && level.isMainMenu ? NO_META : E.metaTotalsOf(E.settings.meta);
+  };
+  E.metaTotalsOf = function (mode) {
+    if (!mode || mode === 'none') return NO_META;
+    if (mode !== 'full') throw new Error('Unknown meta mode ' + mode + ' (none or full)');
+    return cached('meta|' + mode, () => {
+      const t = { statPercent: {}, startMoney: 0, incomePercent: 0, waveBonus: 0, startLives: 0, pricePercent: 0, refundPercent: 0 };
+      let owned = 0;
+      ((E.data.metaUpgrades || {}).trees || []).forEach(tree => tree.nodes.forEach(node => {
+        owned++;
+        node.effects.forEach(e => {
+          switch (e.type) {
+            case 'TowerStatPercent': t.statPercent[e.stat] = (t.statPercent[e.stat] || 0) + e.value; break;
+            case 'StartMoney': t.startMoney += e.value; break;
+            case 'IncomePercent': t.incomePercent += e.value; break;
+            case 'WaveBonus': t.waveBonus += e.value; break;
+            case 'StartLives': t.startLives += e.value; break;
+            case 'PricePercent': t.pricePercent += e.value; break;
+            case 'RefundPercent': t.refundPercent += e.value; break;
+          }
+        });
+      }));
+      return { owned, statPercent: t.statPercent, startMoney: roundHalfEven(t.startMoney), startLives: roundHalfEven(t.startLives),
+               waveBonus: roundHalfEven(t.waveBonus), incomeMultiplier: 1 + t.incomePercent / 100,
+               priceMultiplier: Math.max(0.1, 1 - t.pricePercent / 100), refundBonus: t.refundPercent / 100 };
+    });
+  };
+  // MetaUpgrades.ToModifier: FIRERATE is seconds between shots, so "+X% fire rate" becomes -X/(100+X)*100
+  E.metaModifier = (stat, percent) => stat === 'FIRERATE' ? -percent / (100 + percent) * 100 : percent;
+
   E.economyOf = function (level) {
     level = level || E.level();
     const diff = E.difficultyOf(level);
     const p = E.profile(level);
+    const M = E.metaTotals(level);
+    // GameManager.Awake: meta start money always, meta lives except on Impossible (a one-life game)
+    const metaLives = diff === 'Impossible' ? 0 : M.startLives;
     if (p) {
-      return { difficulty: diff, money: p.startMoney + (level.economy.extraStartingMoney || 0), lives: p.lives, endOfWaveMoney: level.economy.endOfWaveMoney, profile: p,
-               priceMultiplier: p.priceMultiplier, refundRate: p.refundRate, winRound: p.winRound };
+      return { difficulty: diff, money: p.startMoney + (level.economy.extraStartingMoney || 0) + M.startMoney, lives: p.lives + metaLives,
+               endOfWaveMoney: level.economy.endOfWaveMoney, profile: p, meta: M,
+               priceMultiplier: p.priceMultiplier * M.priceMultiplier, refundRate: clamp(p.refundRate + M.refundBonus, 0, 1), winRound: p.winRound };
     }
     // GameManager.Awake without profiles (legacy fields)
     const base = level.economy.baseStartingMoney, lives = level.economy.baseLives;
     const legacy = { Easy: [roundHalfEven(base * 1.5), lives * 2], Medium: [base, lives], Hard: [base, Math.max(1, roundHalfEven(lives * 0.5))], Impossible: [base, 1] }[diff] || [base, lives];
-    return { difficulty: diff, money: legacy[0], lives: legacy[1], endOfWaveMoney: level.economy.endOfWaveMoney, profile: null,
-             priceMultiplier: 1, refundRate: 1, winRound: Infinity };
+    return { difficulty: diff, money: legacy[0] + M.startMoney, lives: legacy[1] + metaLives, endOfWaveMoney: level.economy.endOfWaveMoney, profile: null, meta: M,
+             priceMultiplier: M.priceMultiplier, refundRate: clamp(1 + M.refundBonus, 0, 1), winRound: Infinity };
   };
-  // GameManager.Price: difficulty multiplier, rounded to 5 from 20 up
+  // GameManager.Price: difficulty multiplier × meta discount, rounded to 5 from 20 up (unchanged when it is 1)
   E.price = function (base, level) {
     const p = E.profile(level);
-    if (!p || Math.abs(p.priceMultiplier - 1) < 1e-9 || base <= 0) return base;
-    const scaled = base * p.priceMultiplier;
+    const mult = (p ? p.priceMultiplier : 1) * E.metaTotals(level).priceMultiplier;
+    if (Math.abs(mult - 1) < 1e-6 || base <= 0) return base;
+    const scaled = base * mult;
     return scaled >= 20 ? roundHalfEven(scaled / 5) * 5 : roundHalfEven(scaled);
   };
-  // DifficultyProfile.IncomeMultiplier: bracket with the highest fromRound <= round (1-based)
+  // DifficultyProfile.IncomeMultiplier: bracket with the highest fromRound <= round (1-based), × the meta income bonus
   E.incomeMultiplier = function (round, level) {
     const p = E.profile(level);
-    if (!p || !p.incomeBrackets || !p.incomeBrackets.length) return 1;
+    const meta = E.metaTotals(level).incomeMultiplier;
+    if (!p || !p.incomeBrackets || !p.incomeBrackets.length) return meta;
     let m = 1, best = -Infinity;
     p.incomeBrackets.forEach(b => { if (b.fromRound <= round && b.fromRound >= best) { best = b.fromRound; m = b.multiplier; } });
-    return m;
+    return m * meta;
   };
   E.endOfWaveBonus = function (round, level) {
     const p = E.profile(level);
     const legacy = (level || E.level()).economy.endOfWaveMoney || 0;
-    return legacy + (p ? Math.max(0, roundHalfEven(p.endOfWaveBonusBase + p.endOfWaveBonusPerRound * round)) : 0);
+    return legacy + (p ? Math.max(0, roundHalfEven(p.endOfWaveBonusBase + p.endOfWaveBonusPerRound * round)) : 0) + E.metaTotals(level).waveBonus;
   };
   // Rounds the player has to clear to win (GameManager.GetWinRound)
   E.winRound = function (level) {
@@ -393,6 +435,11 @@
     const baseStats = tower.statsConfig.stats;
     const bonuses = {}, modifiers = {};
     E.data.constants.statTypes.forEach(s => { bonuses[s] = []; modifiers[s] = []; });
+    // Tower.Start -> MetaUpgrades.ApplyTo: owned meta bonuses become modifiers on the stats the tower has
+    const metaStats = E.metaTotals().statPercent;
+    Object.keys(metaStats).forEach(s => {
+      if (modifiers[s] && s in baseStats && Math.abs(metaStats[s]) > 1e-6) modifiers[s].push(E.metaModifier(s, metaStats[s]));
+    });
     const statsNow = () => {
       const o = {};
       E.data.constants.statTypes.forEach(s => { o[s] = statValue(baseStats[s] || 0, bonuses[s], modifiers[s]); });

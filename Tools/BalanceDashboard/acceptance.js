@@ -2,15 +2,26 @@
  * Balance acceptance checks, headless. Run through acceptance.py (JavaScriptCore or node).
  * Uses the levels' real wave assets and difficulty profiles from balance-data.js.
  *
- * ACCEPTANCE_OPTS: { levels, difficulties, sizes, seeds, skipStatic }
+ * ACCEPTANCE_OPTS: { levels, difficulties, sizes, seeds, skipStatic, meta }
+ *   meta: 'none' (fresh profile, default) or 'full' (veteran mode: every meta upgrade owned)
  */
 (function (root) {
   'use strict';
   const D = root.BALANCE_DATA;
-  const E = root.TDEngine.init(D, {});
   const O = root.ACCEPTANCE_OPTS || {};
+  const meta = O.meta || 'none';
+  if (meta !== 'none' && meta !== 'full') throw new Error('meta must be none or full, got ' + O.meta);
+  const E = root.TDEngine.init(D, { meta });
   const out = [];
   const say = (s) => { out.push(s); print(s); };
+  const fmtNum = (v) => String(Math.round(v * 1000) / 1000);
+  if (meta === 'full') {
+    const M = E.metaTotals(E.playableLevels[0]);
+    say(`# Veteran mode: all ${M.owned} meta upgrades owned (+${M.startMoney} start money, +${M.startLives} lives except Impossible, ` +
+        `income ×${fmtNum(M.incomeMultiplier)}, +${M.waveBonus} per wave, prices ×${fmtNum(M.priceMultiplier)}, refund +${Math.round(M.refundBonus * 100)} pts, ` +
+        Object.keys(M.statPercent).map(s => `${s} +${M.statPercent[s]}%`).join(', ') + ')');
+    say('');
+  }
   const fmt = E.fmt;
   const seeds = O.seeds == null ? 3 : O.seeds;
   if (!(seeds >= 1) || seeds !== Math.floor(seeds)) throw new Error('seeds must be a whole number >= 1, got ' + O.seeds);

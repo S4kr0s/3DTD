@@ -35,6 +35,8 @@ open Tools/BalanceDashboard/index.html      # works from disk, no server needed
 
 The **Methodology** tab documents every formula and assumption. Exact replays of the C# code are separated from approximations: hit chance geometry, crowd density, starfighter flight, how much of a wave a Mine Factory's field sits full (salvage income) and the meta agent. Assumptions can be edited in the top bar under "Assumptions…"; the difficulty selector switches every number to that DifficultyProfile.
 
+The **Meta** selector in the top bar switches between a fresh profile (no meta upgrades, the default) and veteran mode, which owns every node of `Resources/Progress/MetaUpgradeTree.asset`. Veteran mode applies them like `MetaUpgrades` and `GameManager` do: tower stat bonuses as modifiers, start money, lives (not on Impossible), income, wave bonus, the price discount (with the round-to-5 rule) and refund points.
+
 ## Balancing workflow
 
 1. **Tower numbers** live in the StatsConfig assets (`Scripts/Tower/Towers/*`) and the tower prefabs (`Building.cost`, upgrade modules). FIRERATE is seconds between shots, so "+X% fire rate" is a modifier of −X/(100+X)·100. Module descriptions list the effects in that convention, and the Upgrades tab flags claims that don't match the model.
@@ -50,7 +52,9 @@ The **Methodology** tab documents every formula and assumption. Exact replays of
    ```sh
    python3 Tools/BalanceDashboard/acceptance.py                                   # Medium, singles/pairs/triples, all levels
    python3 Tools/BalanceDashboard/acceptance.py --difficulty Easy --difficulty Hard --sizes 1 2
+   python3 Tools/BalanceDashboard/acceptance.py --meta full                       # veteran mode: every meta upgrade owned
    ```
+   Other options: `--level <name>` (repeatable), `--seeds N` (full-roster runs with seeds 1..N, default 3), `--skip-static` and `--out <file>`.
    Targets on Medium:
    - Every single tower loses on at least 5 of the 7 playable levels.
    - Many pairs and triples win.
@@ -71,7 +75,7 @@ The **Methodology** tab documents every formula and assumption. Exact replays of
   $JSC /tmp/shim.js balance-data.js engine.js /tmp/q.js
   ```
 
-  The meta agent can be called with `E.runAgent({ level, seed, rounds, palette, waves })`, where `palette` is a list of tower keys and `waves` optionally overrides the level's waves with `generateWaves(E, opts)` output.
+  Pass `meta: "full"` in the settings for veteran mode. The meta agent can be called with `E.runAgent({ level, seed, rounds, palette, waves })`, where `palette` is a list of tower keys and `waves` optionally overrides the level's waves with `generateWaves(E, opts)` output.
 
 ## Adding a tower type
 

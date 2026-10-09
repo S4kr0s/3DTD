@@ -118,6 +118,34 @@ def dist(a, c):
 
 # --------------------------------------------------------------------------- enemies & waves
 
+META_EFFECT_TYPES = ['TowerStatPercent', 'StartMoney', 'IncomePercent', 'WaveBonus', 'StartLives', 'PricePercent', 'RefundPercent']
+
+
+def extract_meta_upgrades(pr):
+    """Resources/Progress/MetaUpgradeTree.asset: the meta-upgrade trees (veteran mode applies every node)."""
+    path = os.path.join(pr.assets, 'Resources', 'Progress', 'MetaUpgradeTree.asset')
+    if not os.path.exists(path):
+        warn('warning', 'Meta', 'No MetaUpgradeTree asset; veteran mode has no effect.', pr.rel(path))
+        return {'asset': None, 'trees': []}
+    trees = []
+    for tree in parse_asset(path).get('trees') or []:
+        nodes = []
+        for node in tree.get('nodes') or []:
+            effects = []
+            for eff in node.get('effects') or []:
+                t, st = int(num(eff.get('type'))), int(num(eff.get('stat')))
+                if t >= len(META_EFFECT_TYPES):
+                    warn('warning', 'Meta', 'Meta node %s has unknown effect type %d.' % (node.get('id'), t), pr.rel(path))
+                    continue
+                effects.append({'type': META_EFFECT_TYPES[t], 'stat': STAT_TYPES[st] if st < len(STAT_TYPES) else str(st),
+                                'value': num(eff.get('value')), 'scope': eff.get('scope') or ''})
+            nodes.append({'id': node.get('id'), 'displayName': node.get('displayName'), 'tier': int(num(node.get('tier'))),
+                          'cost': num(node.get('cost')), 'capstone': b(node.get('capstone')),
+                          'requires': [r for r in node.get('requires') or [] if r], 'effects': effects})
+        trees.append({'id': tree.get('id'), 'displayName': tree.get('displayName'), 'nodes': nodes})
+    return {'asset': pr.rel(path), 'trees': trees}
+
+
 def extract_enemies(pr):
     enemy_prefab = os.path.join(pr.assets, 'Prefabs', 'Enemies', 'Default Enemy.prefab')
     g = Graph(pr, pr.resolve(enemy_prefab))
@@ -791,6 +819,7 @@ def main():
         'blocks': blocks,
         'waves': wave_cache,
         'profiles': {p['difficulty']: p for p in profile_cache.values()},
+        'metaUpgrades': extract_meta_upgrades(pr),
         'levels': levels,
         'warnings': warnings,
     }

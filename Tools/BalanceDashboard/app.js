@@ -96,6 +96,15 @@
     renderMain();
   }
 
+  // Veteran mode totals in words, for the Methodology tab
+  function metaSummary() {
+    const M = E.metaTotalsOf('full');
+    if (!M.owned) return 'no meta-upgrade tree in the data';
+    return M.owned + ' nodes: +' + M.startMoney + ' start money, +' + M.startLives + ' lives, income ×' + fmt(M.incomeMultiplier, 2) + ', +' + M.waveBonus +
+      ' per wave, prices ×' + fmt(M.priceMultiplier, 2) + ', refund +' + Math.round(M.refundBonus * 100) + ' points, ' +
+      Object.keys(M.statPercent).map(s => s + ' +' + M.statPercent[s] + '%').join(', ');
+  }
+
   function selectEl(value, options, onchange, attrs) {
     const sel = h('select', attrs || null, options.map(([v, l]) => h('option', { value: v, text: l })));
     sel.value = value == null ? '' : String(value);
@@ -114,6 +123,8 @@
     topbar.appendChild(h('div', { class: 'settings' },
       h('label', null, 'Level', selectEl(st.level, levels, v => setSetting({ level: v }))),
       h('label', null, 'Difficulty', selectEl(st.difficulty || '', [['', 'Level default (' + (E.level() ? E.level().economy.difficulty : '') + ')'], ['Easy', 'Easy'], ['Medium', 'Medium'], ['Hard', 'Hard'], ['Impossible', 'Impossible']], v => setSetting({ difficulty: v || null }))),
+      h('label', { title: 'Meta upgrades owned. Fresh: none (default). Veteran: every node of the meta-upgrade tree, applied like MetaUpgrades (tower stat bonuses, start money and lives, income, wave bonus, price discount, refund).' }, 'Meta',
+        selectEl(st.meta || 'none', [['none', 'Fresh profile'], ['full', 'Veteran (all upgrades)']], v => setSetting({ meta: v }))),
       h('label', null, 'FPS', selectEl(st.fps, [30, 60, 90, 120, 144, 240].map(f => [f, f + ' fps']), v => setSetting({ fps: +v }))),
       h('label', null, 'Game speed', selectEl(st.gameSpeed, [0.5, 1, 2, 3, 4].map(g => [g, g + '×']), v => setSetting({ gameSpeed: +v }))),
       h('label', { title: 'How overflow damage carries to the next layer. "Current code" is Enemy.cs today; "pre-fix bug" replays the old shape-boundary bug for comparison.' }, 'Layer overflow',
@@ -1194,7 +1205,7 @@
         h('pre', { text: 'python3 Tools/BalanceDashboard/extract.py      # refresh data after changing prefabs/assets\nopen Tools/BalanceDashboard/index.html' })),
       sec('Stats (exact)',
         P(['Stat.GetValue: base + Σ bonuses, then every % modifier compounds: v += v × m / 100 (cached until an upgrade changes the stat). Modules apply in purchase order (tier by tier, path by path; tier 3 last). FIRERATE is seconds between shots; "+X% fire rate" is written as a modifier of −X/(100+X)·100 (+25% → −20, +100% → −50). StatsManager.GetFireInterval clamps FIRERATE to ' + (D.constants.minFireInterval || 0.05) + ' s.']),
-        P(['Reachable builds follow UpgradeManager.CheckPathBlocking and the upgrade panel: tiers in order, at most two paths with tier ≥ 1, one path at tier 3. That gives 34 builds per 3×3 tower. Prices go through GameManager.Price: × the difficulty\'s price multiplier, rounded to 5 from 20 up.'])),
+        P(['Reachable builds follow UpgradeManager.CheckPathBlocking and the upgrade panel: tiers in order, at most two paths with tier ≥ 1, one path at tier 3. That gives 34 builds per 3×3 tower. Prices go through GameManager.Price: × the difficulty\'s price multiplier (and the meta discount in veteran mode), rounded to 5 from 20 up whenever that multiplier is not 1.'])),
       sec('Fire rate (exact)',
         P(['FireCycle.cs carries leftover time from volley to volley (several volleys per frame are possible), so the rate does not depend on FPS or game speed:']),
         h('ul', null,
@@ -1228,6 +1239,7 @@
       sec('Waves, economy and difficulty (exact)',
         P(['Spawner.SpawningWave spawns the first enemy at once and then waits each entry\'s delay, on game time (several spawns per frame are possible); every lane gets the full wave. After the last authored wave the last one repeats with counts += RoundToInt(count × factor × k) and delays −= delay × factor × k (min 0.01), factor = the profile\'s freeplay scaling. The game counts as won after the profile\'s win round (or the level\'s last wave).']),
         P(['Income: 1 per popped layer × the profile\'s income multiplier for the round (fractions are banked), plus the end-of-wave bonus (base + per-round × round). Lives −= Id + 1 per leak. Selling refunds the profile\'s refund rate × everything invested (purchase and upgrades at the prices paid). Start money = profile start money + the level\'s extraStartingMoney.']),
+        P(['Meta upgrades (top bar "Meta"): a fresh profile owns none. Veteran mode owns every node of Resources/Progress/MetaUpgradeTree (' + metaSummary() + '). As in MetaUpgrades and GameManager they add start money, lives (not on Impossible), income (× the profile\'s multiplier), the wave bonus, a price discount (prices are then rounded to 5 from 20 up even on Medium) and refund points (refund rate capped at 100%); tower stat bonuses become % modifiers when a tower is built ("+X% fire rate" as −X/(100+X)·100). The main-menu backdrop never gets them.']),
         P(['Stream DPS = max over entries with ≥ 3 enemies of (total HP ÷ spawn delay) × lanes. Avg DPS = total HP ÷ time until the last undamaged enemy reaches the End.'])),
       sec('Simulator and meta agent',
         P(['Discrete frames (dt = game speed ÷ FPS). Enemies move along the cut path; towers run FireCycle and pick targets with their TargetBehaviour (FIRST = furthest along). Straight shots are resolved at fire time against every enemy\'s extrapolated motion; rockets explode at the first contact or at the end of their lifetime; damage lands after the flight time. Traits, slows, regeneration, income multipliers and end-of-wave bonuses are applied as in the game. Not modelled: line of sight through map geometry and enemy-enemy pushing.']),
@@ -1297,7 +1309,7 @@
       lines.push('');
     };
     lines.push('# 3DTD balance summary', '');
-    lines.push(`Generated from ${D.meta.generatedAt} data. Level: ${level.name} (${level.lanes.length} lane(s), path ${level.lanes.map(l => fmt(l.length, 1)).join('/')} units, ${level.spawner.waves.length} waves). Difficulty ${eco.difficulty}: ${eco.money} money, ${eco.lives} lives. Settings: ${st.fps} fps, ${st.gameSpeed}x speed, overflow model "${st.overflow}".`, '');
+    lines.push(`Generated from ${D.meta.generatedAt} data. Level: ${level.name} (${level.lanes.length} lane(s), path ${level.lanes.map(l => fmt(l.length, 1)).join('/')} units, ${level.spawner.waves.length} waves). Difficulty ${eco.difficulty}: ${eco.money} money, ${eco.lives} lives. Settings: ${st.fps} fps, ${st.gameSpeed}x speed, overflow model "${st.overflow}", meta upgrades "${st.meta || 'none'}".`, '');
     lines.push(eco.profile
       ? `Income is 1 per popped layer × the difficulty's round multiplier (${eco.profile.incomeBrackets.map(b => 'R' + b.fromRound + ' ×' + b.multiplier).join(', ')}) plus an end-of-wave bonus of ${eco.profile.endOfWaveBonusBase} + ${eco.profile.endOfWaveBonusPerRound} × round. Prices ×${eco.profile.priceMultiplier}; selling refunds ${Math.round(eco.profile.refundRate * 100)}% of everything invested. A leaked enemy costs its Id + 1 lives. Enemy traits: armored, shielded, regenerating (see Methodology).`
       : 'Income is 1 per popped layer. A leaked enemy costs its Id + 1 lives.', '');

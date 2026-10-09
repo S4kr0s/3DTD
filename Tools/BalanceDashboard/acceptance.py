@@ -4,6 +4,7 @@
     python3 Tools/BalanceDashboard/acceptance.py                         # all levels, Medium, singles/pairs/triples
     python3 Tools/BalanceDashboard/acceptance.py --difficulty Easy --difficulty Hard --sizes 1 2
     python3 Tools/BalanceDashboard/acceptance.py --level "Beginner Level 01" --out report.md
+    python3 Tools/BalanceDashboard/acceptance.py --meta full                   # veteran mode: every meta upgrade owned
 
 Needs balance-data.js (run extract.py first) and JavaScriptCore (macOS) or node.
 A full run plays a few hundred simulated games and takes several minutes.
@@ -26,12 +27,15 @@ def main():
     ap.add_argument('--sizes', type=int, nargs='+', default=[1, 2, 3], help='palette sizes to sweep')
     ap.add_argument('--seeds', type=int, default=3, help='full-roster runs per level (seeds 1..N)')
     ap.add_argument('--skip-static', action='store_true', help='skip the upgrade-curve checks')
+    ap.add_argument('--meta', choices=['none', 'full'], default='none',
+                    help='meta upgrades owned: none (fresh profile, default) or full (veteran mode, every node of the meta tree)')
     ap.add_argument('--out', help='also write the report to this file')
     args = ap.parse_args()
     if args.seeds < 1:
         ap.error('--seeds must be at least 1')
 
-    opts = {'levels': args.level, 'difficulties': args.difficulty, 'sizes': args.sizes, 'seeds': args.seeds, 'skipStatic': args.skip_static}
+    opts = {'levels': args.level, 'difficulties': args.difficulty, 'sizes': args.sizes, 'seeds': args.seeds, 'skipStatic': args.skip_static,
+            'meta': args.meta}
     with tempfile.TemporaryDirectory() as tmp:
         shim = os.path.join(tmp, 'shim.js')
         with open(shim, 'w') as fh:
