@@ -52,7 +52,7 @@ The **Methodology** tab documents every formula and assumption. Exact replays of
    python3 Tools/BalanceDashboard/acceptance.py --difficulty Easy --difficulty Hard --sizes 1 2
    ```
    Targets on Medium:
-   - Single towers lose on at least 3 of 4 levels.
+   - Every single tower loses on at least 5 of the 7 playable levels.
    - Many pairs and triples win.
    - Every tower appears in winning combinations on some level.
    - Easy is clearly easier and Hard clearly harder.

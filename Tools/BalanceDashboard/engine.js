@@ -603,7 +603,8 @@
     if (closing <= 0) return 0;
     const t = d / closing;
     if (t > lifetime) return 0;
-    return (+E.settings.leadEfficiency || 1) * E.hitChanceStraight(speed * t, 0, 0, speed, lifetime, rHit, spreadDeg, 9);
+    const le = +E.settings.leadEfficiency;
+    return (Number.isFinite(le) ? le : 1) * E.hitChanceStraight(speed * t, 0, 0, speed, lifetime, rHit, spreadDeg, 9);
   };
 
   // ===================================================================================== geometry

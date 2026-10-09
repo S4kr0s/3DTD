@@ -24,10 +24,12 @@ def main():
     ap.add_argument('--level', action='append', help='level name (default: all playable levels)')
     ap.add_argument('--difficulty', action='append', help='Easy, Medium, Hard or Impossible (default: Medium)')
     ap.add_argument('--sizes', type=int, nargs='+', default=[1, 2, 3], help='palette sizes to sweep')
-    ap.add_argument('--seeds', type=int, default=3, help='full-roster runs per level')
+    ap.add_argument('--seeds', type=int, default=3, help='full-roster runs per level (seeds 1..N)')
     ap.add_argument('--skip-static', action='store_true', help='skip the upgrade-curve checks')
     ap.add_argument('--out', help='also write the report to this file')
     args = ap.parse_args()
+    if args.seeds < 1:
+        ap.error('--seeds must be at least 1')
 
     opts = {'levels': args.level, 'difficulties': args.difficulty, 'sizes': args.sizes, 'seeds': args.seeds, 'skipStatic': args.skip_static}
     with tempfile.TemporaryDirectory() as tmp:

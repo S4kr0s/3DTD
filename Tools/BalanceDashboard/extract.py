@@ -128,7 +128,14 @@ def extract_enemies(pr):
         guid = (ref or {}).get('guid')
         data = pr.asset(guid) if guid else None
         if not data:
-            warn('error', 'Enemies', 'Default Enemy.allPossibleEnemyData[%d] is empty or missing.' % idx, pr.rel(enemy_prefab))
+            # keep a placeholder so the list stays indexed by Enemy.Id
+            msg = 'Default Enemy.allPossibleEnemyData[%d] is empty or missing; using a 1 HP placeholder.' % idx
+            warn('error', 'Enemies', msg, pr.rel(enemy_prefab))
+            print('! ' + msg)
+            enemies.append({'id': idx, 'asset': None, 'guid': guid, 'assetId': idx, 'missing': True,
+                            'shape': SHAPES[idx // 10] if idx // 10 < len(SHAPES) else str(idx // 10), 'shapeIndex': idx // 10,
+                            'color': COLORS[idx % 10] if idx % 10 < len(COLORS) else str(idx % 10), 'colorIndex': idx % 10,
+                            'health': 1.0, 'speed': 1.0, 'damageType': DAMAGE_TYPES[0], 'special': idx // 10 == 5})
             continue
         shape, color = int(num(data.get('_startShape'))), int(num(data.get('_startColor')))
         e = {
@@ -217,7 +224,7 @@ def projectile_info(pr, guid):
                     cb = cg.scripts('Clusterbomb')
                     info['cluster'] = {
                         'prefab': pr.rel(pr.path(cluster)),
-                        'count': len([x for x in data.get('clusterProjectileFirePoints') or [] if x]),
+                        'count': len([x for x in data.get('clusterProjectileFirePoints') or [] if int((x or {}).get('fileID', 0)) != 0]),
                         'damageShare': num(data.get('clusterDamageShare'), 0.5),
                         'radiusShare': num(data.get('clusterRadiusShare'), 0.6),
                         **({k: num(v) for k, v in clean(cb[0][2]).items() if k in ('lifetime', 'speed', 'damage', 'radius')} if cb else {}),

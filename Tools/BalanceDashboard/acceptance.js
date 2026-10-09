@@ -2,7 +2,7 @@
  * Balance acceptance checks, headless. Run through acceptance.py (JavaScriptCore or node).
  * Uses the levels' real wave assets and difficulty profiles from balance-data.js.
  *
- * ACCEPTANCE_OPTS: { levels, difficulties, sizes, seeds, quick }
+ * ACCEPTANCE_OPTS: { levels, difficulties, sizes, seeds, skipStatic }
  */
 (function (root) {
   'use strict';
@@ -12,6 +12,8 @@
   const out = [];
   const say = (s) => { out.push(s); print(s); };
   const fmt = E.fmt;
+  const seeds = O.seeds == null ? 3 : O.seeds;
+  if (!(seeds >= 1) || seeds !== Math.floor(seeds)) throw new Error('seeds must be a whole number >= 1, got ' + O.seeds);
   const levels = (O.levels || E.playableLevels.map(l => l.name)).filter(n => E.levelByName[n]);
   const short = (k) => E.towerByKey[k].displayName.replace(' Tower', '').replace('Rocket System', 'Rocket').replace('Bullet Dispenser', 'BD');
 
@@ -67,7 +69,7 @@
           else monoLost.push(short(c[0]) + ' R' + (r.gameOverRound + 1));
         }
       });
-      const full = [1, 2, 3].slice(0, O.seeds || 3).map(seed => E.runAgent({ level, seed, rounds: win }));
+      const full = Array.from({ length: seeds }, (_, i) => i + 1).map(seed => E.runAgent({ level, seed, rounds: win }));
       say(`## ${name} — ${diff} (win at round ${win})`);
       say('  ' + Object.keys(bySize).map(n => `${n === '1' ? 'single towers' : n === '2' ? 'pairs' : n === '3' ? 'triples' : n + ' towers'} ${bySize[n].won}/${bySize[n].total}`).join(', ') +
           ` | full roster: ${full.map(r => r.survived ? 'won (' + r.lives + ' lives)' : 'lost R' + (r.gameOverRound + 1)).join(', ')}`);
