@@ -24,6 +24,26 @@ Results:
 Open:
 - **Bullet Dispenser at 10x:** +3.0 % on one seed. A rerun with `-perfSeed 2` was planned but skipped. A likely cause: ProjectileSystem sweeps against a straight line between an enemy's previous and current position, but at 10x an enemy can turn a waypoint corner inside one frame (0.16 s of game time). `Enemy.TickCorner` now records that corner, so the sweep could use it too.
 
+## Sprint 2: game state, saves, input and UI (`fix/review-s2`)
+Done:
+- **Placement clicks:** the main camera's `eventMask` leaves out the Enemy layer (`OrbitCamera.Awake`).
+- **Auto-wave:** `GameStatDisplay.HandleWaveEnded` sets a flag; `Update` starts the wave when the Spawner is idle and the game isn't over.
+- **Autosave:** `GameManager` captures the save in `LateUpdate`, after every `OnWaveEnded` handler (War Bonds included).
+- **Continue after "Reset progress":** `SaveGame.Deleted` event; `MainMenuScreen` hides Continue.
+- **Aim slider:** `Tower.AimAngle` (−1 until aimed); the panel starts the slider from it; `SavedBuilding.aimAngle` (−1 in old saves, which keep the quaternion restore).
+- **Pause menu:** closing it in Victory mode returns it to Paused.
+- **Sell hotkey:** Delete or Backspace, not while paused, behind the pause menu or after game over (CLAUDE.md updated).
+- **Placement ring:** includes the meta RANGE bonus (`MetaUpgrades.PercentFor`).
+- **Options:** quality −1 means the project's level, captured once before options are applied, so Reset restores it; `GameOptions.EffectiveQuality` for the Options row and the change count. HUD scales are 0.9/1/1.1 (the 110 % label was 1.15).
+- **Camera:** the focus follows with unscaled time.
+- **Level select** opens on the furthest unlocked level's category once per session. **Continue and pause subtitles** use `LevelCatalog.FullName` ("Beginner · Level 01 · …"). **DifficultyPopup** reuses a corner buffer. **BevelGraphic** skips the rim quads when inner and outer shapes differ in point count.
+- **Spawner.Start** no longer resets the game state. Every Spawner prefab serializes IDLE; the main-menu backdrop wave now runs as PROGRESSING. It spawns 10,000 enemies one second apart (`WaveData/MainMenuLevel`), so `OnWaveEnded` only fires after about 10,000 s of game time. A 280 s run at 10x confirmed the state and the stream, but not the end.
+- **Tests:** aimAngle round trip and old-save default, `Defaults()` quality, scale labels, the new Summary text.
+
+Results:
+- EditMode 58/58, UIPlaytest 34/34.
+- UICapture screenshots are clean (no magenta, all TMP text visible; full-name subtitles show). Its log has the known NullReferenceException from the legacy "Minigun Tower" shooting points (see the Unity 6 upgrade notes).
+
 # Handoff: performance overhaul (branch `perf/overhaul`)
 
 Started 2026-10-04. The plan is in `~/.claude/plans/analyze-the-codebase-and-dazzling-waterfall.md`.
