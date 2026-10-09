@@ -381,6 +381,11 @@ def extract_tower(pr, path, palette_guids):
     if launch and g.doc(launch):
         m = relative_matrix(g, root_tr, launch)
         strategy['launchPoint'] = r3([m[0][3], m[1][3], m[2][3]])
+    # Bullet Dispenser: the gravity well pulls towards the centre of the barrel ball
+    core = int((g.doc(strategy_id)['data'].get('core') or {}).get('fileID', 0))
+    if core and g.doc(core):
+        m = relative_matrix(g, root_tr, core)
+        strategy['wellPoint'] = r3([m[0][3], m[1][3], m[2][3]])
 
     sp_by_ref = {sp['ref']: i for i, sp in enumerate(shooting_points)}
 
@@ -442,6 +447,16 @@ def extract_tower(pr, path, palette_guids):
                         beh['blastSlowDuration'] = num(udata.get('blastSlowDuration'), 1.5)
                         beh['seekRadius'] = num(udata.get('seekRadius'))
                         beh['heavyExplosions'] = b(udata.get('heavyExplosions'))
+                    elif uname == 'DispenserRicochetUpgrade':
+                        beh['bounces'] = int(num(udata.get('bounces'), 1))
+                        beh['damagePerBounce'] = num(udata.get('damagePerBounce'))
+                        beh['seek'] = b(udata.get('seek'))
+                    elif uname == 'DispenserGravityUpgrade':
+                        beh['pull'] = num(udata.get('pull'), 0.5)
+                        beh['pullSpeed'] = num(udata.get('pullSpeed'), 1.5)
+                        beh['slow'] = num(udata.get('slow'))
+                        beh['singularityInterval'] = num(udata.get('singularityInterval'))
+                        beh['singularityDuration'] = num(udata.get('singularityDuration'))
                     elif uname == 'MineSalvageUpgrade':
                         beh['additionalScrapValue'] = num(udata.get('additionalScrapValue'))
                         beh['scrapsPerLife'] = int(num(udata.get('scrapsPerLife')))

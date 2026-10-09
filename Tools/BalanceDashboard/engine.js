@@ -35,8 +35,18 @@
   const MIN_ARMOR_SHARE = 0.4;         // Enemy.MinArmorDamageShare
   const REGEN_DELAY = 3, REGEN_INTERVAL = 2.5;      // Enemy.RegenDelay / RegenInterval
   const TRAIT = { Armored: 1, Shielded: 2, Regenerating: 4 };
-  const PULSE_RADIUS = 2.5;            // ProjectilePulse: SphereCollider r=0.5 scaled up to 5 on x/z
-  const PULSE_MIN_RADIUS = 0.5;        // y stays at scale 1, and a sphere collider takes the largest axis
+  // Bullet Dispenser gravity well (BulletDispenserTowerActionStrategy, Enemy.PullRelaxSpeed)
+  const WELL_HOLD_RADIUS = 0.55;
+  const SINGULARITY_HOLD_RADIUS = 0.45;
+  const SINGULARITY_PULL_SPEED = 8;
+  const WELL_SLOW_DURATION = 0.25;
+  const PULL_RELAX_SPEED = 2;
+  // Fitted to the simulator (see E.dispenserGravityHits and the dispenser block of buildModel)
+  const DISPENSER_PULL_GAIN = 0.4;
+  const DISPENSER_SINGULARITY_GAIN = 0.6;
+  const DISPENSER_SEEK_SHARE = 0.75;
+  // BulletDispenserTowerActionStrategy.RicochetDomeScale: needles rebound a quarter beyond the range
+  const RICOCHET_DOME_SCALE = 1.25;
   const CYCLE_WINDOW = 120;            // seconds of simulated firing used to measure cycle rates
   // MineFactoryActionStrategy / Mine
   const MINE = { maxMines: 40, contactRadius: 0.45, rearmTime: 0.4, minFlightTime: 0.35, minLaunchSpeed: 0.5, candidates: 8 };
@@ -83,7 +93,6 @@
     data: null,
     settings: Object.assign({}, DEFAULT_SETTINGS),
     DEFAULT_SETTINGS,
-    PULSE_RADIUS,
     util: { sum, clamp, v3, roundHalfEven, mulberry32, median },
     _cache: new Map(),
   };
@@ -250,8 +259,8 @@
   E.baseShieldHits = (shapeIndex) => shapeIndex === 5 ? 8 : 2 + shapeIndex;
   E.damageTypeOf = function (model) {
     if (!model) return 'PROJECTILE';
-    if (model.kind === 'beam' || model.kind === 'aura') return 'MAGIC';
-    if (model.kind === 'pulse' || model.kind === 'mines') return 'EXPLOSIVE';
+    if (model.kind === 'beam') return 'MAGIC';
+    if (model.kind === 'mines') return 'EXPLOSIVE';
     if (model.strategy && model.strategy.type === 'BombTowerActionStrategy') return 'EXPLOSIVE';
     return 'PROJECTILE';
   };
@@ -425,7 +434,7 @@
       case 'BeamTowerActionStrategy': return 'beam';
       case 'HangarTowerActionStrategy': return 'hangar';
       case 'MineFactoryActionStrategy': return 'mines';
-      case 'BulletDispenserTowerActionStrategy': return st.AuraMode ? 'aura' : st.PulseMode ? 'pulse' : 'interval';
+      case 'BulletDispenserTowerActionStrategy': return 'interval';
       default: return 'unknown';
     }
   }
@@ -462,6 +471,11 @@
                     waveEndPayout: num(strategy.waveEndPayoutPerMine, 0) };
     let aimAll = !!strategy.aimAtTarget;
     let slow = null;
+    // Bullet Dispenser: DispenserRicochetUpgrade / DispenserGravityUpgrade set these on the strategy
+    const ricochet = { bounces: num(strategy.ricochetBounces, 0), damage: num(strategy.ricochetDamage, 0), seek: !!strategy.ricochetSeek };
+    const gravity = { pull: num(strategy.gravityPull, 0), speed: num(strategy.gravityPullSpeed, 0), slow: num(strategy.gravitySlow, 0),
+                      interval: num(strategy.singularityInterval, 0), duration: num(strategy.singularityDuration, 0),
+                      well: strategy.wellPoint || null };
     const mods = modulesFor(tower, levels);
     // prices after the difficulty multiplier (GameManager.Price)
     let cost = E.price(tower.cost);
@@ -488,6 +502,15 @@
           mines.bomblets += bh.additionalClusterBomblets || 0;
           if ((bh.blastSlow || 0) > mines.blastSlow) { mines.blastSlow = bh.blastSlow; mines.blastSlowDuration = bh.blastSlowDuration; }
           mines.seekRadius = Math.max(mines.seekRadius, bh.seekRadius || 0);
+        } else if (bh.type === 'DispenserRicochetUpgrade') {
+          ricochet.bounces = Math.max(ricochet.bounces, bh.bounces || 0);
+          ricochet.damage = Math.max(ricochet.damage, bh.damagePerBounce || 0);
+          ricochet.seek = ricochet.seek || !!bh.seek;
+        } else if (bh.type === 'DispenserGravityUpgrade') {
+          gravity.pull = Math.max(gravity.pull, bh.pull || 0);
+          gravity.speed = Math.max(gravity.speed, bh.pullSpeed || 0);
+          gravity.slow = Math.max(gravity.slow, bh.slow || 0);
+          if ((bh.singularityInterval || 0) > 0) { gravity.interval = bh.singularityInterval; gravity.duration = bh.singularityDuration || 0; }
         } else if (bh.type === 'MineSalvageUpgrade') {
           mines.scrapValue += bh.additionalScrapValue || 0;
           if (bh.scrapsPerLife > 0) mines.scrapsPerLife = mines.scrapsPerLife > 0 ? Math.min(mines.scrapsPerLife, bh.scrapsPerLife) : bh.scrapsPerLife;
@@ -501,7 +524,7 @@
     if (slow && strategy.type === 'BeamTowerActionStrategy') Object.assign(strategy, slow);
     const enabled = tower.shootingPoints.filter(sp => !sp.broken && goActive[sp.ref]);
     return { tower, levels, mods, cost, stats, strategy, kind: strategyKind(strategy), enabledPoints: enabled,
-             totalPoints, poolSetupFR, hangar, mines, issues };
+             totalPoints, poolSetupFR, hangar, mines, ricochet, gravity, issues };
   };
 
   // ----------------------------------------------------------------------------------- fire cycle
@@ -580,12 +603,6 @@
     return { times, reloads };
   }
 
-  // ProjectilePulse.Grow: x/z scale shrinks from 5 to 0 over LIFETIME while y stays 1, so the sphere collider's
-  // radius (0.5 x the largest axis) goes from 2.5 down to 0.5
-  E.pulseRadius = (age, lifetime) => Math.max(PULSE_MIN_RADIUS, PULSE_RADIUS * (lifetime > 0 ? 1 - clamp(age / lifetime, 0, 1) : 0));
-  // Path stretch a pulse reaches in a stream moving at v: everything inside at the start (both sides), plus the
-  // enemies that walk into the shrinking sphere before it dies (the best moment for them is the end at radius 0.5)
-  E.pulseStretch = (v, lifetime, rE) => PULSE_RADIUS + rE + Math.max(PULSE_RADIUS, v * Math.max(0, lifetime) + PULSE_MIN_RADIUS) + rE;
 
   // ----------------------------------------------------------------------------------- hit chance
 
@@ -711,6 +728,45 @@
     return { center, axis, radius: model.range.radius, detect: model.range.radius + E.enemyRadius, hemisphere: tg.shape === 'hemisphere',
              muzzle: v3.add(center, v3.mul(axis, 0.3)) };
   };
+  // ProjectileSystem.DomeExit: how far a straight move from p along unit dir gets before it leaves the dome
+  // (hemisphere vol), if within dist; null when it stays inside or starts outside
+  E.domeExit = function (p, dir, dist, vol) {
+    const rel = v3.sub(p, vol.center);
+    const height = v3.dot(rel, vol.axis);
+    const c = v3.dot(rel, rel) - vol.radius * vol.radius;
+    if (vol.radius <= 0 || height < -1e-3 || c > vol.radius * 2e-3) return null;
+    const b = v3.dot(rel, dir);
+    const sphere = -b + Math.sqrt(Math.max(0, b * b - c));
+    const rising = v3.dot(dir, vol.axis);
+    const plane = rising < -1e-6 ? Math.max(0, height) / -rising : Infinity;
+    const travel = Math.min(sphere, plane);
+    if (travel > dist || travel <= 1e-5) return null;
+    const normal = plane < sphere ? v3.mul(vol.axis, -1) : v3.norm(v3.add(rel, v3.mul(dir, travel)));
+    return { travel, normal };
+  };
+  E.ricochetDome = (model, anchor) => {
+    const vol = Object.assign({}, E.detectionVolume(model, anchor));
+    vol.radius *= RICOCHET_DOME_SCALE;
+    vol.detect = vol.radius + E.enemyRadius;
+    return vol;
+  };
+  E.reflect = (dir, n) => v3.sub(dir, v3.mul(n, 2 * v3.dot(dir, n)));
+  // AimUtility.PredictIntercept
+  E.leadPoint = function (shooter, target, vel, speed) {
+    if (speed <= 0.001 || v3.dot(vel, vel) < 1e-4) return target;
+    const rel = v3.sub(target, shooter);
+    const a = v3.dot(vel, vel) - speed * speed, b = 2 * v3.dot(rel, vel), c = v3.dot(rel, rel);
+    let t;
+    if (Math.abs(a) < 1e-4) t = Math.abs(b) > 1e-4 ? -c / b : -1;
+    else {
+      const disc = b * b - 4 * a * c;
+      if (disc < 0) return target;
+      const r1 = (-b - Math.sqrt(disc)) / (2 * a), r2 = (-b + Math.sqrt(disc)) / (2 * a);
+      t = Math.min(r1, r2);
+      if (t < 0) t = Math.max(r1, r2);
+    }
+    return t > 0 ? v3.add(target, v3.mul(vel, t)) : target;
+  };
   function insideVolume(vol, p) {
     const rel = v3.sub(p, vol.center);
     if (v3.len(rel) > vol.detect) return false;
@@ -758,30 +814,60 @@
     return out;
   }
 
-  // Bullet Dispenser (not in aura/pulse mode): barrels fire along fixed directions, it never aims
+  // Bullet Dispenser: barrels fire along fixed directions, it never aims
   E.isDispenser = (model) => model.kind === 'interval' && model.strategy && model.strategy.type === 'BulletDispenserTowerActionStrategy';
 
   function geoKey(model) {
     const first = model.cfg && model.cfg.enabledPoints[0];
     const sp = model.kind === 'beam' && first ? first.pos : null;
+    const rc = model.cfg && model.cfg.ricochet;
     const disp = E.isDispenser(model) && model.projectile
-      ? [model.cfg.enabledPoints.map(p => p.ref).join(','), model.projectile.reach, model.projectile.rHit].join(';') : '';
+      ? [model.cfg.enabledPoints.map(p => p.ref).join(','), model.projectile.reach, model.projectile.rHit, rc ? rc.bounces + (rc.seek ? 's' : '') : 0].join(';') : '';
     return [model.tower.key, model.kind === 'beam' ? 'beam' : 'vol', model.range.radius, sp ? sp.join(',') : '', disp].join('/');
   }
 
-  // Path length inside each barrel's bullet tube (radius rHit, length = projectile reach) on an anchor
+  // Path length inside each barrel's bullet tube (radius rHit, length = projectile reach) on an anchor. With
+  // ricochets the needle's later legs follow: reflected off the range dome (DomeExit) until the reach is used up,
+  // each with the path length inside its own tube (seeking rebounds aim at an enemy instead: `seekLegs` of them).
   E.dispenserRays = function (model, anchor, level) {
     const P = model.projectile;
-    return model.cfg.enabledPoints.map(sp => {
-      const origin = E.anchorToWorld(anchor, sp.pos || [0, 0, 0]);
-      const dir = E.anchorDir(anchor, sp.fwd || [0, 1, 0]);
+    const rc = model.cfg.ricochet || { bounces: 0 };
+    const vol = rc.bounces > 0 ? E.ricochetDome(model, anchor) : null;
+    const tubeLength = (origin, dir, length) => {
       const intervals = level.lanes.map(lane => toIntervals(E.laneSamples(lane), s => {
         const rel = v3.sub(s.p, origin);
         const t = v3.dot(rel, dir);
-        if (t < 0 || t > P.reach) return false;
+        if (t < 0 || t > length) return false;
         return v3.len(v3.sub(rel, v3.mul(dir, t))) <= P.rHit;
       }));
-      return { origin, dir, intervals, length: sum(intervals, iv => sum(iv, x => x[1] - x[0])) };
+      return { intervals, length: sum(intervals, iv => sum(iv, x => x[1] - x[0])) };
+    };
+    return model.cfg.enabledPoints.map(sp => {
+      const origin = E.anchorToWorld(anchor, sp.pos || [0, 0, 0]);
+      const dir = E.anchorDir(anchor, sp.fwd || [0, 1, 0]);
+      const exit = vol ? E.domeExit(origin, dir, P.reach, vol) : null;
+      const first = tubeLength(origin, dir, exit ? exit.travel : P.reach);
+      const ray = { origin, dir, intervals: first.intervals, length: first.length, legs: [], seekLegs: 0 };
+      if (!exit) return ray;
+      let left = P.reach - exit.travel;
+      if (rc.seek) {
+        // aimed rebounds: a leg of about the dome's radius towards the target each
+        ray.seekLegs = clamp(left / Math.max(0.5, 0.8 * vol.radius), 0, rc.bounces);
+        return ray;
+      }
+      let point = v3.add(origin, v3.mul(dir, exit.travel)), d = dir, n = exit.normal;
+      for (let b = 0; b < rc.bounces && left > 1e-3; b++) {
+        d = E.reflect(d, n);
+        point = v3.sub(point, v3.mul(n, 0.001));
+        const next = E.domeExit(point, d, left, vol);
+        const legLength = next ? next.travel : left;
+        ray.legs.push(tubeLength(point, d, legLength).length);
+        left -= legLength;
+        if (!next) break;
+        point = v3.add(point, v3.mul(d, next.travel));
+        n = next.normal;
+      }
+      return ray;
     });
   };
 
@@ -800,7 +886,8 @@
       const out = { anchor: anchorIndex, intervals, length: sum(intervals, iv => sum(iv, x => x[1] - x[0])), vol };
       if (E.isDispenser(model) && model.projectile) {
         out.rays = E.dispenserRays(model, anchor, level);
-        out.rayLength = sum(out.rays, r => r.length);
+        // ricochet legs count like the first one (anchors are ranked by the path the needles sweep)
+        out.rayLength = sum(out.rays, r => r.length + sum(r.legs || [], L => L));
       }
       return out;
     });
@@ -1051,7 +1138,6 @@
     const tg = tower.targetter || { radiusPerRange: 1, shape: 'sphere' };
     const radius = kind === 'beam' ? st.RANGE + 0.5 : st.RANGE * tg.radiusPerRange;
     m.range = { radius, detect: radius + rE, shape: kind === 'beam' ? 'ray' : tg.shape };
-    if (kind === 'pulse') m.range.effective = Math.min(radius + rE, PULSE_RADIUS + rE);
 
     // ---- projectile
     let projInfo = strat.projectile || null;
@@ -1086,18 +1172,15 @@
     if (cyc.never) flag('bad', 'This configuration never fires (magazine of ' + fmt(st.AMMO) + ').');
     if ((kind === 'magazine') && st.AMMO > 0 && st.AMMO !== Math.floor(st.AMMO)) flag('info', 'AMMO is fractional; the magazine fires ceil(AMMO) volleys.');
 
-    // ---- projectile pool: only Pulse projectiles are pooled GameObjects (ProjectilePoolManager grows on demand up
-    // to MaxPoolSize); Laser, Core, rockets and dispenser rounds are data in ProjectileSystem, which has no cap
-    if (kind === 'pulse') {
-      m.pool = { size: E.data.constants.maxPoolSize || 4096, grows: true };
-    }
+    // ---- projectile pool: none of the modelled towers pools projectiles (Laser, Core, rockets and dispenser
+    // needles are data in ProjectileSystem, which has no cap)
 
     // ---- per volley and hit chance
     const P = m.projectile;
     const dRef = Math.max(0.3, s.refDistance * m.range.detect);
     const speeds = { red: 1.25, pink: 4.0, mix: mix.meanLayerSpeed };
     const hc = (v) => {
-      if (kind === 'sniper' || kind === 'aura' || kind === 'pulse' || kind === 'beam') return 1;
+      if (kind === 'sniper' || kind === 'beam') return 1;
       if (!P) return 1;
       if (P.homing) return E.hitChanceHoming(kind === 'hangar' ? 2 : dRef, v, P.speed, P.lifetime);
       // aimed at the intercept point: like a stationary target at the intercept distance
@@ -1118,13 +1201,40 @@
       const best = lc && lc.best;
       const nP = Math.max(1, cfg.enabledPoints.length);
       if (best && best.rays && best.length > 0) {
-        const perVolley = sum(best.rays, r => Math.min(1, r.length / best.length));
-        m.dispenser = { rayLengths: best.rays.map(r => r.length), rayLength: best.rayLength, perVolleySingle: perVolley, coverage: best.length };
-        m.hit.level = m.hit.mix = m.hit.red = m.hit.pink = perVolley / nP;
+        // Ricochets: a needle that missed on one leg gets the next one; legs after j rebounds deal the rebound bonus
+        // j times (Kinetic Rebound). Seeking rebounds hit like a led shot at about the dome's radius.
+        const rc = cfg.ricochet || { bounces: 0, damage: 0 };
+        const bonus = st.DAMAGE > 0 ? rc.damage / st.DAMAGE : 0;
+        const pSeek = rc.seek ? DISPENSER_SEEK_SHARE * E.hitChanceLead(0.8 * m.range.radius, mix.meanLayerSpeed || 2, P.speed, P.lifetime, P.rHit, P.spreadDeg) : 0;
+        let first = 0, hits = 0, weighted = 0;
+        const crowdLengths = [];
+        best.rays.forEach(r => {
+          const q0 = Math.min(1, r.length / best.length);
+          let alive = 1 - q0;
+          first += q0; hits += q0; weighted += q0;
+          let crowd = r.length;
+          (r.legs || []).forEach((L, j) => {
+            const q = Math.min(1, L / best.length);
+            hits += alive * q; weighted += alive * q * (1 + (j + 1) * bonus);
+            alive *= 1 - q;
+            crowd += L;
+          });
+          for (let j = 1; j <= Math.ceil(r.seekLegs || 0); j++) {
+            const q = pSeek * Math.min(1, r.seekLegs - (j - 1));
+            hits += alive * q; weighted += alive * q * (1 + j * bonus);
+            alive *= 1 - q;
+            crowd += q * spacing;
+          }
+          crowdLengths.push(crowd);
+        });
+        m.dispenser = { rayLengths: crowdLengths, rayLength: best.rayLength, perVolleySingle: hits, coverage: best.length,
+                        baseHit: first / nP, damageFactor: hits > 0 ? weighted / hits : 1 };
+        m.hit.level = m.hit.mix = m.hit.red = m.hit.pink = hits / nP;
       } else {
-        m.dispenser = { rayLengths: [], rayLength: 0, perVolleySingle: 0, coverage: 0 };
+        m.dispenser = { rayLengths: [], rayLength: 0, perVolleySingle: 0, coverage: 0, baseHit: 0, damageFactor: 1 };
         m.hit.level = m.hit.mix = m.hit.red = m.hit.pink = 0;
       }
+      E.dispenserGravityHits(m, cfg);
     } else if (P && !P.homing && kind !== 'hangar' && level && level.anchors && level.anchors.length) {
       const lh = spTot ? sum(Object.keys(spHP), k => spHP[k] * (E.levelHitChance(m, level, +k) || 0)) / spTot : null;
       m.hit.level = lh;
@@ -1168,12 +1278,6 @@
         m.beamTargets = Math.max(0, pierceInt);
         break;
       }
-      case 'aura':
-        perHitTargets = n(2 * m.range.detect * 0.75);
-        break;
-      case 'pulse':
-        perHitTargets = n(E.pulseStretch(mix.meanLayerSpeed, st.LIFETIME, rE));
-        break;
       case 'hangar':
         break;
       case 'mines': {
@@ -1251,7 +1355,9 @@
         const bombs = h.fighters * h.bombsPerRun * ordDmgOf(m) / h.runTime;
         return { cannon, missiles, bombs, total: cannon + missiles + bombs };
       }
-      return { total: rate * projectiles * dmg * hitP };
+      // ricochets make later hits stronger (Kinetic Rebound)
+      const factor = m.dispenser && m.dispenser.damageFactor ? m.dispenser.damageFactor : 1;
+      return { total: rate * projectiles * dmg * hitP * factor };
     };
     function ordDmgOf(mm) { return mm.hangar.ordnanceDamage; }
     m.dps = {
@@ -1266,8 +1372,10 @@
       m.dps.crowd = parts.cannon * Math.min(Math.max(1, pierceInt), n(2 * P.rHit)) + (parts.missiles + parts.bombs) * h.ordnanceTargets;
     } else if (m.dispenser) {
       // every barrel hits up to PIERCING of the enemies inside its tube
+      // ricochet legs cross the stream again and the well packs it in front of the barrels (rayLengths), still at most
+      // PIERCING enemies per needle
       const perVolley = sum(m.dispenser.rayLengths, L => Math.min(Math.max(1, pierceInt), L / spacing));
-      m.dps.crowd = Math.max(m.dps.expected, rate * dmg * perVolley);
+      m.dps.crowd = Math.max(m.dps.expected, rate * dmg * perVolley * (m.dispenser.damageFactor || 1));
     } else {
       m.dps.crowd = m.dps.expected * perHitTargets + rate * projectiles * extra * (m.hit.level != null ? m.hit.level : m.hit.mix);
     }
@@ -1290,7 +1398,8 @@
                      bestAnchor: lc.best ? lc.best.anchor : null };
       const speedMix = mix.meanLayerSpeed || 2;
       // seconds a single enemy spends inside the best anchor's coverage, and damage it takes per pass
-      m.coverage.timeInRange = lc.bestLength / speedMix;
+      // the gravity well's slow keeps enemies in range longer
+      m.coverage.timeInRange = lc.bestLength / speedMix / (1 - (cfg.gravity && cfg.gravity.pull > 0 ? cfg.gravity.slow : 0));
       m.coverage.passDamage = m.dps.expected * m.coverage.timeInRange;
       m.coverage.passDamageRed = m.dps.red * (lc.bestLength / 1.25);
       m.coverage.passDamagePink = m.dps.pink * (lc.bestLength / 4.0);
@@ -1347,7 +1456,7 @@
       if (!read.has(su.stat)) flag('warn', `"${mod.name}" changes ${su.stat}, which ${strat.type.replace('ActionStrategy', '')} never reads.`);
     }));
     if (tower.shootingPoints.some(sp => sp.broken)) flag('bad', 'Prefab is stale: shootingPoints reference GameObjects, the tower throws at runtime.');
-    if (kind !== 'hangar' && kind !== 'mines' && kind !== 'aura' && kind !== 'pulse' && kind !== 'sniper' && kind !== 'beam' && cfg.enabledPoints.length === 0)
+    if (kind !== 'hangar' && kind !== 'mines' && kind !== 'sniper' && kind !== 'beam' && cfg.enabledPoints.length === 0)
       flag('bad', 'No shooting point is enabled: the tower never spawns projectiles.');
     return m;
   }
@@ -1393,6 +1502,22 @@
    * build, weighted per role; the upgrade prices were fitted so that every legal build costs about
    * value / tier target (tier targets: T1 1.1, T2 1.0, T3 0.85 × the base tower's value per $).
    */
+  /*
+   * Bullet Dispenser gravity well on top of the barrels' hit chance: enemies dragged up to `pull` towards the ball
+   * sit in denser barrel tubes, and the singularity holds every enemy at the ball for duration / (interval +
+   * duration) of the time. Both are factors fitted to the simulator, which replays the pull (DISPENSER_PULL_GAIN
+   * per unit of pull, DISPENSER_SINGULARITY_GAIN at a full-time collapse); the slow shows in the time in range.
+   */
+  E.dispenserGravityHits = function (m, cfg) {
+    const g = cfg.gravity;
+    if (!g || g.pull <= 0) return;
+    let factor = 1 + DISPENSER_PULL_GAIN * g.pull;
+    if (g.interval > 0 && g.duration > 0) factor *= 1 + DISPENSER_SINGULARITY_GAIN * g.duration / (g.interval + g.duration);
+    const p = Math.min(1, (m.hit.level || 0) * factor);
+    m.hit.level = m.hit.mix = m.hit.red = m.hit.pink = p;
+    if (m.dispenser) m.dispenser.rayLengths = m.dispenser.rayLengths.map(L => L * factor);
+  };
+
   E.ROLE_WEIGHTS = {
     'Laser Tower': { st: .4, crowd: .25, armor: .15, pass: .2 }, 'Bullet Dispenser': { crowd: .7, st: .1, shield: .2 },
     'Rocket System': { crowd: .55, st: .25, armor: .1, pass: .1 }, 'Beam Tower': { crowd: .5, st: .3, pass: .2 },
@@ -1672,6 +1797,8 @@
       }
       tw.beam = cov.beam || null;
       tw.rays = cov.rays || null;
+      tw.well = null;
+      tw.dome = null;
       tw.muzzle = tw.vol.muzzle;
     }
     function setupPool(tw) {
@@ -1705,15 +1832,40 @@
     function activate(sp) {
       const st = E.newEnemyState(sp.id, sp.traits);
       const en = { state: st, lane: sp.lane, d: 0, alive: true, uid: sim.nextUid = (sim.nextUid || 0) + 1, startId: sp.id,
-                   slow: 0, slowT: 0, sinceHit: 0, regenT: 0 };
+                   slow: 0, slowT: 0, sinceHit: 0, regenT: 0, off: null, pulled: false, pullGoal: null, pullSpeed: 0 };
       updateEnemyPos(en);
       sim.enemies.push(en);
       sim.lanesSorted = false;
     }
     function updateEnemyPos(en) {
       const lp = E.lanePos(lanes[en.lane], en.d);
-      en.p = lp.p;
+      // Enemy.Tick: the body sits pullOffset away from its path position
+      en.pp = lp.p;
+      en.p = en.off ? v3.add(lp.p, en.off) : lp.p;
       en.dir = lp.dir;
+    }
+    // Enemy.UpdatePull: the pulls since the last tick move the offset towards their goal, else it drifts back
+    function updatePull(en) {
+      if (!en.pulled && !en.off) return;
+      const goal = en.pulled ? en.pullGoal : [0, 0, 0];
+      const speed = en.pulled ? en.pullSpeed : PULL_RELAX_SPEED;
+      const off = en.off || [0, 0, 0];
+      const to = v3.sub(goal, off);
+      const L = v3.len(to);
+      const step = speed * dt;
+      en.off = L <= step ? goal : v3.add(off, v3.mul(to, step / L));
+      if (!en.pulled && v3.len(en.off) < 1e-6) en.off = null;
+      en.pulled = false;
+    }
+    // Enemy.Pull: towards the well until holdRadius from it or maxOffset off the path; bosses don't move
+    function pull(en, well, hold, maxOffset, speed) {
+      if (!en.alive || en.state.special || maxOffset <= 0 || speed <= 0) return;
+      const to = v3.sub(well, en.pp || en.p);
+      const dist = v3.len(to);
+      const reach = Math.min(maxOffset, Math.max(0, dist - hold));
+      const goal = dist > 1e-4 ? v3.mul(to, reach / dist) : [0, 0, 0];
+      if (!en.pulled || v3.len(goal) > v3.len(en.pullGoal)) { en.pullGoal = goal; en.pullSpeed = speed; }
+      en.pulled = true;
     }
     function enemySpeed(en) { return E.enemySpeed(en.state.data) * (1 - (en.slow || 0)); }
 
@@ -1814,21 +1966,7 @@
           });
         }
       } else {
-        // all enemies whose extrapolated path passes within rHit of the projectile line
-        const hits = [];
-        for (const en of sim.enemies) {
-          if (!en.alive) continue;
-          const rel = v3.sub(en.p, origin);
-          if (v3.len(rel) > P.reach + 3) continue;
-          const v = v3.mul(en.dir, enemySpeed(en));
-          const w = v3.sub(v, v3.mul(dir, P.speed));
-          const ww = v3.dot(w, w);
-          let t = ww > 1e-9 ? -v3.dot(rel, w) / ww : 0;
-          t = clamp(t, 0, P.lifetime);
-          const dmin = v3.len(v3.add(rel, v3.mul(w, t)));
-          if (dmin <= P.rHit) hits.push({ en, t: Math.max(0, t - Math.sqrt(Math.max(0, P.rHit * P.rHit - dmin * dmin)) / Math.max(1e-6, Math.sqrt(ww))) });
-        }
-        hits.sort((a, b) => a.t - b.t);
+        const hits = straightHits(origin, dir, P.speed, P.lifetime, P.rHit, P.reach);
         if (!hits.length) {
           sim.totals.misses++;
           if (m.aoe) scheduleExplosion(tw, sim.t + P.lifetime, v3.add(origin, v3.mul(dir, P.reach)), null, m);
@@ -1843,6 +1981,88 @@
         }
       }
       if (tw.pool && slot >= 0) tw.pool[slot] = sim.t + deathT + E.data.constants.poolReturnDelay;
+    }
+    // All enemies whose extrapolated path passes within rHit of a straight projectile line over `life` seconds,
+    // in the order they are met
+    function straightHits(origin, dir, speed, life, rHit, reach) {
+      const hits = [];
+      for (const en of sim.enemies) {
+        if (!en.alive) continue;
+        const rel = v3.sub(en.p, origin);
+        if (v3.len(rel) > reach + 3) continue;
+        const v = v3.mul(en.dir, enemySpeed(en));
+        const w = v3.sub(v, v3.mul(dir, speed));
+        const ww = v3.dot(w, w);
+        let t = ww > 1e-9 ? -v3.dot(rel, w) / ww : 0;
+        t = clamp(t, 0, life);
+        const dmin = v3.len(v3.add(rel, v3.mul(w, t)));
+        if (dmin <= rHit) hits.push({ en, t: Math.max(0, t - Math.sqrt(Math.max(0, rHit * rHit - dmin * dmin)) / Math.max(1e-6, Math.sqrt(ww))) });
+      }
+      hits.sort((a, b) => a.t - b.t);
+      return hits;
+    }
+    // A Bullet Dispenser needle that ricochets (ProjectileSystem.DomeExit / Bounce): a straight leg up to the
+    // range dome's wall, then a rebound with the rest of its lifetime, reflected or (Trick Shot) aimed at the
+    // shot's target or else the enemy in the dome nearest to it. Every rebound adds the bonus damage and forgets
+    // which enemies the needle hit.
+    function fireNeedle(tw, target, origin, dir, life, bounces, dmg, pierce, first) {
+      const m = tw.model, P = m.projectile, R = m.cfg.ricochet;
+      if (first) {
+        sim.totals.shots++; tw.shots++;
+        dir = spreadDir(dir, P.spreadDeg);
+      }
+      if (life <= 0 || pierce <= 0) return;
+      if (!tw.dome) tw.dome = E.ricochetDome(m, tw.anchor);
+      const exit = bounces > 0 ? E.domeExit(origin, dir, P.speed * life, tw.dome) : null;
+      const legT = exit ? exit.travel / P.speed : life;
+      const hits = straightHits(origin, dir, P.speed, legT, P.rHit, P.speed * legT);
+      let left = pierce;
+      for (const h of hits) {
+        if (left <= 0) break;
+        schedule(sim.t + h.t, () => damage(h.en, dmg, tw));
+        left--;
+      }
+      if (!hits.length && first) sim.totals.misses++;
+      if (left <= 0 || !exit) return;
+      const point = v3.add(origin, v3.mul(dir, exit.travel));
+      schedule(sim.t + legT, () => {
+        let next = E.reflect(dir, exit.normal);
+        if (R.seek) {
+          let aim = target && target.alive ? target : null;
+          if (!aim) {
+            let best = Infinity;
+            for (const en of sim.enemies) {
+              if (!en.alive || !insideVolume(tw.dome, en.p)) continue;
+              const d = v3.dist(en.p, point);
+              if (d < best) { best = d; aim = en; }
+            }
+          }
+          if (aim) next = v3.norm(v3.sub(E.leadPoint(point, aim.p, v3.mul(aim.dir, enemySpeed(aim)), P.speed), point));
+          target = aim;
+        }
+        fireNeedle(tw, target, v3.sub(point, v3.mul(exit.normal, 0.001)), next, life - legT, bounces - 1, dmg + R.damage, left, false);
+      });
+    }
+    // BulletDispenserTowerActionStrategy.UpdateGravityWell: drag every enemy in range towards the barrel ball,
+    // slow it, and every `interval` seconds with enemies in range collapse them all close to the ball
+    function gravityTick(tw, inRange) {
+      const g = tw.model.cfg.gravity;
+      if (!tw.well) tw.well = E.anchorToWorld(tw.anchor, g.well || [0, 0, 0]);
+      if (g.interval > 0) {
+        if ((tw.collapse || 0) > 0) tw.collapse -= dt;
+        else if (inRange.length) {
+          tw.singularityT = (tw.singularityT || 0) + dt;
+          if (tw.singularityT >= g.interval) { tw.singularityT -= g.interval; tw.collapse = g.duration; sim.totals.collapses = (sim.totals.collapses || 0) + 1; }
+        }
+      }
+      const collapsing = (tw.collapse || 0) > 0;
+      const reach = collapsing ? 2 * tw.model.range.radius : g.pull;
+      const hold = collapsing ? SINGULARITY_HOLD_RADIUS : WELL_HOLD_RADIUS;
+      const speed = collapsing ? SINGULARITY_PULL_SPEED : g.speed;
+      for (const en of inRange) {
+        pull(en, tw.well, hold, reach, speed);
+        if (g.slow > 0) applySlow(en, g.slow, WELL_SLOW_DURATION);
+      }
     }
     function scheduleExplosion(tw, at, pos, target, m) {
       schedule(at, () => {
@@ -1892,24 +2112,13 @@
     }
 
     // ---- tower update (one frame)
-    function pulseHits(tw, pulse) {
-      const r = E.pulseRadius(sim.t - pulse.t0, pulse.life) + rE;
-      for (const en of sim.enemies) {
-        if (!en.alive || pulse.hit.has(en) || v3.dist(en.p, pulse.c) > r) continue;
-        pulse.hit.add(en);
-        damage(en, pulse.dmg, tw, 'EXPLOSIVE');
-      }
-    }
     function towerTick(tw) {
       const m = tw.model, st = m.stats;
       const kind = m.kind;
-      if (tw.pulses && tw.pulses.length) {
-        tw.pulses = tw.pulses.filter(p => sim.t - p.t0 < p.life);
-        for (const p of tw.pulses) pulseHits(tw, p);
-      }
       const inRange = (kind === 'beam') ? null : enemiesIn(tw);
       let target = inRange ? pickTarget(inRange, m.tower.targetBehaviour) : null;
       if (kind === 'hangar') { hangarTick(tw, inRange, target); return; }
+      if (m.cfg.gravity && m.cfg.gravity.pull > 0) gravityTick(tw, inRange);
       if (kind === 'mines') { minesTick(tw); return; }
       const usesMag = kind === 'magazine' || kind === 'sniper';
       const volleys = E.tickFireCycle(tw.fc, dt, kind === 'beam' ? true : !!target, st.FIRERATE,
@@ -1926,17 +2135,10 @@
         } else if (kind === 'magazine' || kind === 'interval') {
           if (!target || !target.alive) target = pickTarget(enemiesIn(tw), m.tower.targetBehaviour);
           if (!target) break;
-          if (tw.rays) tw.rays.forEach(r => fireStraight(tw, null, r.origin, r.dir));
+          if (tw.rays && m.cfg.ricochet && m.cfg.ricochet.bounces > 0)
+            tw.rays.forEach(r => fireNeedle(tw, target, r.origin, r.dir, m.projectile.lifetime, m.cfg.ricochet.bounces, st.DAMAGE, Math.max(0, m.projectile.pierce), true));
+          else if (tw.rays) tw.rays.forEach(r => fireStraight(tw, null, r.origin, r.dir));
           else for (let k = 0; k < m.enabledPoints; k++) fireStraight(tw, target, tw.muzzle);
-        } else if (kind === 'aura') {
-          sim.totals.shots++;
-          enemiesIn(tw).forEach(en => damage(en, st.DAMAGE, tw, 'MAGIC'));
-        } else if (kind === 'pulse') {
-          sim.totals.shots++;
-          // OnCollisionEnter: every enemy that touches the shrinking sphere while it lasts is hit once
-          const pulse = { c: tw.vol.center, t0: sim.t, life: Math.max(dt, st.LIFETIME), dmg: st.DAMAGE, hit: new Set() };
-          (tw.pulses = tw.pulses || []).push(pulse);
-          pulseHits(tw, pulse);
         } else if (kind === 'beam') {
           let pierce = st.PIERCING;
           const b = tw.beam;
@@ -2191,6 +2393,7 @@
             sim.totals.leakedHP += en.state.corrupt ? 0 : Math.max(0, en.state.hp) + (id > 0 ? E.enemyTotalHP(id - 1) : 0);
             continue;
           }
+          updatePull(en);
           updateEnemyPos(en);
         }
         // towers

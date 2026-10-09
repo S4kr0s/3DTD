@@ -1,3 +1,70 @@
+# Handoff: Bullet Dispenser rework (branch `feature/bullet-dispenser-rework`)
+
+Started 2026-10-09, stacked on `fix/review-s4`. The user asked for:
+- needles with a bright neon green outline around the dark green core;
+- two new paths about 3D space instead of the flamethrower and pulse paths;
+- a barrel path that grows a ball of barrels (not pointing down at the base);
+- a thicker, tower-like body in one unit cell. Third-party assets may be used, but only as copies.
+
+## Done
+- **Body:** `Editor/Towers/BulletDispenserBuilder.cs` generates the prefab (menu 3DTD > Towers > Rebuild Bullet Dispenser, batch `-executeMethod BulletDispenserBuilder.Run`).
+  - Parts: a Synty turret plate, the Synty pipe pillar as the column, a gunmetal seat, a faceted core (PolygonPrototype soccer ball) with Synty gatling barrels and neon muzzle rings.
+  - The builder references meshes only. The materials and a generated torus ring mesh live in `Prefabs/Tower/BulletDispenser/`; no third-party asset was edited.
+  - The builder rebuilds the barrels and upgrade paths, then runs `ProjectileVisualsBuilder`.
+- **Path 1, Barrel Sphere** (130 / 220 / 850): Barrel Ring 6 barrels in the face plane, Barrel Crown 12 (+30°/−20°), Needle Sphere 24 (+60°, +0.5 range, +1 pierce).
+- **Path 2, Ricochet** (90 / 380 / 1300, `DispenserRicochetUpgrade`):
+  - Needles rebound off a dome of 1.25 × the range and off the face plane: 2 / 4 / 6 times.
+  - Kinetic Rebound adds +1 damage per bounce. Trick Shot Matrix aims every rebound at the shot's target (else the nearest enemy).
+  - `ProjectileSystem`: `Shot.Dome`, `DomeExit` in the Burst step, `Bounce` on the main thread. The rest of the frame carries over as `Lead`, and a rebound may hit the same enemy again.
+- **Path 3, Gravity Well** (120 / 300 / 1000, `DispenserGravityUpgrade`):
+  - `Enemy.Pull` drags enemies in range up to 0.5 / 1.2 units off their path towards the barrel ball; they are slowed 15 / 30 %.
+  - Singularity: every 5 s with enemies in range, it holds all of them 0.45 from the ball for 1.5 s.
+  - Bosses don't move. Gyroscope rings show the tier and spin faster during a collapse.
+- **Looks:** the needle's neon outline is a wider copy of the needle sorted behind the dark core (`Outline` edit). The ricochet path gets neon rebound sparks and trails, the gravity path imploding impacts and a green black hole for the singularity. The flamethrower and pulse effects and their projectile copy are deleted; `VisualSlot.PulseProjectile`/`AuraHit` are retired, and `Bounce`/`Singularity` are appended.
+- **Balance tools:**
+  - `extract.py` reads the new upgrades and the well point. `engine.js` traces every barrel's ricochet legs through the dome for the tables and replays bounces and pulls in the simulator (`fireNeedle`, `gravityTick`).
+  - The gravity factors are fitted to the simulator. The dead aura and pulse models are removed, and the Methodology tab and README are updated.
+- **Tests:** `Editor/Tests/BulletDispenserTests.cs` (dome maths, a 6-bounce walk, 3/6/12/24 barrels, no barrel below −25°, the tower inside its unit cell, the paths). `ProjectileVisualsTests` now expects a look on every dispenser module.
+
+## Results
+- EditMode: 66/66.
+- Play-mode smoke test, batch, Beginner 01; a scratch script, since deleted. Each build was aimed with the slider like a player would and played one wave. 0 errors.
+  - Ricochet: 763 rebounds in one wave at tier 3.
+  - Gravity tier 1: holds enemies exactly 0.5 off the path.
+  - Singularity: collapsed 3 times and dragged enemies up to 3.1 units.
+- Simulator vs base tower, damage per second over 40 rounds, three levels:
+  - Ricochet T1/T2/T3: ×0.8–2.1, ×1.9–6.1, ×5.8–9.7.
+  - Gravity T1/T2/T3: ×1.1–1.2, ×1.2–1.5, ×1.4–1.5.
+- Build efficiency (Beginner 01): 7/33 builds within the band (before: 17/33).
+  - Barrels × Kinetic/Trick Shot are above budget (up to 1.9).
+  - Gravity is far below (0.08–0.57), because its slow helps other towers, which the value metric doesn't count. The meta agent therefore rarely buys it.
+- `acceptance.py` (Medium; singles / pairs / triples won; full roster over three seeds) against the sprint 4 baseline:
+
+| Level | Sprint 4 | After the rework |
+|---|---|---|
+| Beginner 01 | 1/8, 8/28, 21/56; L L W | 1/8, 8/28, 20/56; W L W |
+| Beginner 02 | 1/8, 7/28, 21/56; W W W | unchanged |
+| Beginner 03 | 2/8, 12/28, 30/56; W W W | 2/8, 12/28, 28/56; W W W |
+| Beginner 04 | 2/8, 10/28, 22/56; W W W | 2/8, 10/28, 22/56; W W L (R48) |
+| Beginner 05 | 0/8, 5/28, 20/56; L L L | unchanged |
+| Intermediate 01 | 1/8, 8/28, 20/56; W W W | 1/8, 9/28, 22/56; W W W |
+| Intermediate 02 | 1/8, 5/28, 10/56; L L L | 1/8, 5/28, 7/56; L L L |
+
+  The Bullet Dispenser alone loses everywhere (R5–R20) and shows up in winning combinations on every level (3–11).
+
+## Needs user verification
+- The look in a real scene with bloom: neon outline strength, ring brightness, the dark core ball, how the barrel ball reads at game zoom.
+- How the ricochet and the gravity well feel; whether the pull or the singularity is confusing to watch.
+- Decisions:
+  - Price the gravity path for its support value (today by judgement next to the Beam's slow).
+  - Accept or nerf the barrels × Kinetic Rebound / Trick Shot synergy.
+
+## Not run (machine busy; the user asked to skip on-screen runs)
+- `-perfSuite core`/`S2`/`S3`: the 150-dispenser benchmark (path 1 tier 3 + path 2 tier 2) now fires 24 barrels with 4 rebounds each, and needles live 1.9 s instead of 0.9 s. Expect more projectiles and rebound sparks than the old baseline.
+- `-perfSuite fx`/`V` screenshots of the new looks, and a dispenser 10x parity run (rebounds carry their leftover time as `Lead`).
+
+---
+
 # Handoff: fixes from the 2026-10-08 code review (branches `fix/review-s1` … `fix/review-s4`)
 
 Started 2026-10-09. The plan is in `~/.claude/plans/please-develop-a-plan-glittery-ripple.md`. Four sprints, each on its own branch stacked on the previous one (`fix/review-s1` starts from `fx/projectile-visuals`), one commit per task.

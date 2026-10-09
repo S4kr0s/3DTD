@@ -520,13 +520,13 @@ public static class BulletDispenserBuilder
                 },
                 new Module
                 {
-                    Name = "Barrel Crown", Price = 200,
+                    Name = "Barrel Crown", Price = 220,
                     Description = "Six more barrels: three tilted up, three tilted down.\n+6 Barrels",
                     Upgrades = new Upgrade[] { Firepoints(root, parts, 2) },
                 },
                 new Module
                 {
-                    Name = "Needle Sphere", Price = 790,
+                    Name = "Needle Sphere", Price = 850,
                     Description = "Barrels all over the ball: needles fly everywhere but down.\n+12 Barrels\n+0.5 Range\n+1 Pierce",
                     Upgrades = new Upgrade[] { Firepoints(root, parts, 3) },
                     Stats = new[] { new StatChange(Stat.StatType.RANGE, 0.5f), new StatChange(Stat.StatType.PIERCING, 1f) },
@@ -536,7 +536,7 @@ public static class BulletDispenserBuilder
             {
                 new Module
                 {
-                    Name = "Rebound Rounds", Price = 120,
+                    Name = "Rebound Rounds", Price = 90,
                     Description = "Needles ricochet off an invisible dome around the tower and off the ground.\n2 Ricochets\n+0.6 s Needle Lifetime",
                     Upgrades = new Upgrade[] { Ricochet(root, 2, 0f, false) },
                     Stats = new[] { new StatChange(Stat.StatType.LIFETIME, 0.6f) },
@@ -544,7 +544,7 @@ public static class BulletDispenserBuilder
                 },
                 new Module
                 {
-                    Name = "Kinetic Rebound", Price = 320,
+                    Name = "Kinetic Rebound", Price = 380,
                     Description = "Up to four ricochets, and every bounce makes a needle hit harder.\n4 Ricochets\n+1 Damage per Bounce\n+0.4 s Needle Lifetime",
                     Upgrades = new Upgrade[] { Ricochet(root, 4, 1f, false) },
                     Stats = new[] { new StatChange(Stat.StatType.LIFETIME, 0.4f) },
@@ -552,7 +552,7 @@ public static class BulletDispenserBuilder
                 },
                 new Module
                 {
-                    Name = "Trick Shot Matrix", Price = 1100,
+                    Name = "Trick Shot Matrix", Price = 1300,
                     Description = "Six ricochets, and every bounce aims the needle at an enemy.\n6 Seeking Ricochets\n+0.8 s Needle Lifetime",
                     Upgrades = new Upgrade[] { Ricochet(root, 6, 1f, true) },
                     Stats = new[] { new StatChange(Stat.StatType.LIFETIME, 0.8f) },

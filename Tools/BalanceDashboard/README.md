@@ -79,7 +79,7 @@ The **Meta** selector in the top bar switches between a fresh profile (no meta u
 
 ## Adding a tower type
 
-The extractor picks up any prefab in `Prefabs/Tower/` and any prefab in a level's building palette. The engine models these action strategies: Laser, Drone, Bomb, Sniper, Beam, Bullet Dispenser (normal, aura and pulse modes), Hangar and Mine Factory. A new `ActionStrategy` also needs:
+The extractor picks up any prefab in `Prefabs/Tower/` and any prefab in a level's building palette. The engine models these action strategies: Laser, Drone, Bomb, Sniper, Beam, Bullet Dispenser (fixed barrels, ricochets and the gravity well), Hangar and Mine Factory. A new `ActionStrategy` also needs:
 
 - an entry in `STATS_READ` in `extract.py`;
 - a case in `strategyKind` / `buildModel` / the simulator's `towerTick` in `engine.js`, and its damage type in `E.damageTypeOf`;
