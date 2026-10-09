@@ -11,8 +11,8 @@ using UnityEngine;
 //
 // Every frame (after the towers fired and the enemies moved) one Burst job puts the enemies into a grid and a
 // parallel job moves each projectile and sweeps its hit capsule along everything it covered this frame,
-// against the enemies' own movement. Hits are applied on the main thread in time order and checked again
-// against the live enemy, so the result doesn't depend on the frame rate or the game speed: a projectile can't
+// against the enemies' own movement. Hits are applied on the main thread in time order (projectiles sorted by
+// their first hit of the frame, each one's hits by time) and checked again against the live enemy, so the result doesn't depend on the frame rate or the game speed: a projectile can't
 // pass through an enemy between two frames, and one fired late in a frame starts only as far as it flew since.
 //
 // The projectile prefabs remain the authoring source (see ProjectileArchetype); effects are played by
@@ -137,7 +137,8 @@ public class ProjectileSystem : MonoBehaviour
     private NativeList<Step> steps;
     private NativeList<Hit> hits;
     // Projectiles whose step needs the main thread (hits, end of lifetime), in index order
-    private NativeList<int> events;
+    // Projectiles with hits or an expiry this frame, keyed by EventKey so a plain sort puts them in time order
+    private NativeList<long> events;
     private NativeParallelMultiHashMap<int, int> grid;
     private readonly List<ProjectileArchetype> archetypes = new List<ProjectileArchetype>();
     private readonly List<GameObject> impactEffects = new List<GameObject>();
@@ -174,7 +175,7 @@ public class ProjectileSystem : MonoBehaviour
         states = new NativeList<State>(1024, Allocator.Persistent);
         steps = new NativeList<Step>(1024, Allocator.Persistent);
         hits = new NativeList<Hit>(1024 * MaxHitsPerStep, Allocator.Persistent);
-        events = new NativeList<int>(1024, Allocator.Persistent);
+        events = new NativeList<long>(1024, Allocator.Persistent);
         grid = new NativeParallelMultiHashMap<int, int>(4096, Allocator.Persistent);
     }
 
@@ -338,14 +339,15 @@ public class ProjectileSystem : MonoBehaviour
             Apply();
     }
 
-    // Main thread: hits, blasts, effects and fading, in the order the projectiles were fired
-    // The steps StepJob left to the main thread: hits and ends of lifetime, in projectile order
+    // Main thread: the steps StepJob left over (hits and ends of lifetime) with their blasts, effects and fading,
+    // in the order their first event happened during the frame (ties in projectile order). An enemy killed by an
+    // earlier event is no longer there for a later one.
     private void Apply()
     {
         events.Sort();
         for (int e = 0; e < events.Length; e++)
         {
-            int i = events[e];
+            int i = (int)(events[e] & 0xFFFFFFFFL);
             State state = states[i];
             Step step = steps[i];
             ProjectileArchetype archetype = archetypes[i];
@@ -571,7 +573,7 @@ public class ProjectileSystem : MonoBehaviour
 
         public NativeArray<Step> Steps;
         [NativeDisableParallelForRestriction] public NativeArray<Hit> Hits;
-        public NativeList<int>.ParallelWriter Events;
+        public NativeList<long>.ParallelWriter Events;
 
         public void Execute(int i)
         {
@@ -643,7 +645,9 @@ public class ProjectileSystem : MonoBehaviour
             Steps[i] = step;
             if (step.HitCount > 0 || step.Expired != 0)
             {
-                Events.AddNoResize(i);
+                // Seconds before the end of the frame at which the first hit (or the expiry) happens
+                float firstEvent = step.HitCount > 0 ? time - Hits[i * MaxHitsPerStep].T * moveTime : time - moveTime;
+                Events.AddNoResize(EventKey(firstEvent, i));
                 return;
             }
 
@@ -654,6 +658,14 @@ public class ProjectileSystem : MonoBehaviour
             s.Lead = 0f;
             s.BornFrame = 0;
             States[i] = s;
+        }
+
+        // Sort key: earlier events (more seconds before the frame end) first, then the projectile index. The bits of a
+        // non-negative float grow with its value, so the key sorts as a long without a comparer.
+        private static long EventKey(float secondsBeforeEnd, int index)
+        {
+            int bits = math.asint(math.max(0f, secondsBeforeEnd));
+            return ((long)(int.MaxValue - bits) << 32) | (uint)index;
         }
 
         // Sweeps the projectile's capsule from start to end against every enemy near the path, relative to the
