@@ -76,6 +76,7 @@ public class FireCycle
         }
 
         int volleys = 0;
+        bool reloadStarted = false;
         while (cooldown <= 0f && volleys < MaxVolleysPerFrame)
         {
             // The volley was due -cooldown seconds before the end of this frame
@@ -91,16 +92,24 @@ public class FireCycle
                     reloading = reloadTime > 0f;
                     reloadTimer = reloadTime;
                     if (!reloading)
+                    {
                         magazine = ammo;
+                    }
                     else
+                    {
+                        reloadStarted = true;
                         break;
+                    }
                 }
             }
         }
 
-        // Never carry more than one volley of debt into the next frame
-        if (cooldown < -interval)
-            cooldown = -interval;
+        // A frame that hit the volley cap carries its remaining debt (up to one more capped frame) into the next
+        // frames, so long frames don't drop volleys. After a reload starts, at most one volley of debt is kept, so
+        // the shots due during the reload don't burst out when it ends.
+        float maxDebt = volleys >= MaxVolleysPerFrame && !reloadStarted ? MaxVolleysPerFrame * interval : interval;
+        if (cooldown < -maxDebt)
+            cooldown = -maxDebt;
 
         return volleys;
     }

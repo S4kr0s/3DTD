@@ -1389,7 +1389,7 @@
     } else if (usesMag && fc.mag <= 0) fc.mag = ammo;
     fc.cooldown -= dt;
     if (!hasTarget) { if (fc.cooldown < 0) fc.cooldown = 0; return 0; }
-    let volleys = 0;
+    let volleys = 0, reloadStarted = false;
     while (fc.cooldown <= 0 && volleys < MAX_VOLLEYS_PER_FRAME) {
       volleys++;
       fc.cooldown += interval;
@@ -1398,11 +1398,13 @@
         if (fc.mag <= 0) {
           fc.reloading = reload > 0;
           fc.reloadTimer = reload;
-          if (!fc.reloading) fc.mag = ammo; else break;
+          if (!fc.reloading) fc.mag = ammo; else { reloadStarted = true; break; }
         }
       }
     }
-    if (fc.cooldown < -interval) fc.cooldown = -interval;
+    // A capped frame carries its debt (up to one more capped frame); after a reload starts, at most one volley
+    const maxDebt = volleys >= MAX_VOLLEYS_PER_FRAME && !reloadStarted ? MAX_VOLLEYS_PER_FRAME * interval : interval;
+    if (fc.cooldown < -maxDebt) fc.cooldown = -maxDebt;
     return volleys;
   };
 
