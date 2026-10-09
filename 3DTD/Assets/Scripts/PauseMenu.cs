@@ -102,6 +102,8 @@ public class PauseMenu : MonoBehaviour
         bool open = !menuObjectMain.activeSelf;
         if (open)
             Refresh();
+        else if (mode == Mode.Victory)
+            mode = Mode.Paused;   // closed with Esc or the pause button: later pauses are plain pauses
         menuObjectMain.SetActive(open);
         PauseGame(open);
     }
