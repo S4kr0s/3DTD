@@ -767,7 +767,7 @@ def main():
             'enemy': enemy_info,
             'difficulties': DIFFICULTIES,
             'poolReturnDelay': 0.5,
-            'maxPoolSize': 256,
+            'maxPoolSize': 4096,       # ProjectilePoolManager.MaxPoolSize (Pulse only; ProjectileSystem kinds have no pool)
             'minFireInterval': 0.05,
             'projectileFadeTime': 0.1,
             'maxSpreadDegrees': 25,

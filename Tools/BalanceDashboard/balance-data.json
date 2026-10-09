@@ -1,6 +1,6 @@
 {
  "meta": {
-  "generatedAt": "2026-10-05T18:57:10",
+  "generatedAt": "2026-10-09T10:46:32",
   "unityVersion": "6000.5.8f1",
   "project": "/Users/philipp/Projects/3DTD/3DTD/3DTD",
   "generator": "Tools/BalanceDashboard/extract.py",
@@ -151,7 +151,7 @@
    "Impossible"
   ],
   "poolReturnDelay": 0.5,
-  "maxPoolSize": 256,
+  "maxPoolSize": 4096,
   "minFireInterval": 0.05,
   "projectileFadeTime": 0.1,
   "maxSpreadDegrees": 25,

@@ -1018,9 +1018,10 @@
     if (cyc.never) flag('bad', 'This configuration never fires (magazine of ' + fmt(st.AMMO) + ').');
     if ((kind === 'magazine') && st.AMMO > 0 && st.AMMO !== Math.floor(st.AMMO)) flag('info', 'AMMO is fractional; the magazine fires ceil(AMMO) volleys.');
 
-    // ---- projectile pool: ProjectilePoolManager grows on demand up to MaxPoolSize
-    if (kind === 'magazine' || kind === 'interval' || kind === 'pulse') {
-      m.pool = { size: E.data.constants.maxPoolSize || 256, grows: true };
+    // ---- projectile pool: only Pulse projectiles are pooled GameObjects (ProjectilePoolManager grows on demand up
+    // to MaxPoolSize); Laser, Core, rockets and dispenser rounds are data in ProjectileSystem, which has no cap
+    if (kind === 'pulse') {
+      m.pool = { size: E.data.constants.maxPoolSize || 4096, grows: true };
     }
 
     // ---- per volley and hit chance

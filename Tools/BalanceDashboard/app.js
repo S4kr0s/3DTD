@@ -400,7 +400,7 @@
       m.coverage ? metric('Solo kills up to', soloName(m.coverage.maxSoloKill), 'one copy, one pass') : null,
       metric('Payback', secs(m.paybackSec), 'saturated pop income'),
       metric('FPS dependence', '×' + fmt(m.fpsSwing, 2), m.fpsSensitivity.map(x => x.fps + 'fps ' + fmt(x.rate, 2)).join(' · ')),
-      m.pool ? metric('Projectile pool', m.pool.error ? 'broken' : String(m.pool.size), m.pool.capVolleysPerSec ? 'caps at ' + fmt(m.pool.capVolleysPerSec, 2) + ' volleys/s' : '') : null,
+      m.pool ? metric('Pulse pool', m.pool.error ? 'broken' : String(m.pool.size), m.pool.capVolleysPerSec ? 'caps at ' + fmt(m.pool.capVolleysPerSec, 2) + ' volleys/s' : '') : null,
       m.hangar ? metric('Starfighters', String(m.hangar.fighters), (m.hangar.twin ? 'twin cannons · ' : '') + m.hangar.missilesPerRun + ' missiles/run' + (m.hangar.carpet ? ' · carpet bombs' : '')) : null,
       m.overkill ? metric('Overkill waste', pct(m.overkill.wasteIntended), 'bug: ' + pct(m.overkill.extraHitsCoded, true) + ' hits, ' + pct(m.overkill.moneyDeltaCoded, true) + ' money') : null);
     el.appendChild(h('div', { class: 'section' }, card('This build', E.settings.fps + ' fps · ' + E.settings.gameSpeed + '× speed · ' + E.settings.level, mg)));
@@ -855,7 +855,7 @@
       tile('Towers', String(r.towers.length), r.builds.join(', ')),
       tile('Hit rate', hitRate == null ? '–' : pct(hitRate), r.totals.shots + ' shots'),
       r.totals.exceptions ? tile('Engine exceptions', String(r.totals.exceptions), 'overflow bug hits') : null,
-      r.totals.poolStarved ? tile('Pool starved', String(r.totals.poolStarved), 'shots skipped (empty pool)') : null));
+      r.totals.poolStarved ? tile('Pool starved', String(r.totals.poolStarved), 'pulses skipped (pool at its cap)') : null));
     const g = h('div', { class: 'grid cols-2 section' });
     g.appendChild(chartCard('Lives and money', 'at the end of each round', (c) => {
       UI.lineChart(c, { series: [{ name: 'Lives', color: 'var(--s8)', values: r.waves.map(w => ({ x: w.round + 1, y: Math.max(0, w.endLives) })) }], xLabel: 'Round', yLabel: 'Lives', height: 180, xFmt: v => String(Math.round(v)), xTipLabel: 'Round ', yMin: 0 });
@@ -1201,7 +1201,7 @@
           h('li', null, 'Magazine towers (Laser, Core, Rocket, Sniper with Magazines): AMMO volleys FIRERATE apart, then RELOAD_SPEED; the first volley after a reload follows FIRERATE later. Period = AMMO × FIRERATE + RELOAD_SPEED.'),
           h('li', null, 'Continuous (Bullet Dispenser, Beam, AMMO ≤ 0): one volley per FIRERATE. Idle towers don\'t bank shots.'),
           h('li', null, 'Starfighter cannons: the cooldown keeps running during the reload and banks at most one shot, so a reload of at least 2 × FIRERATE ends with two shots at once: period = (AMMO − 2) × FIRERATE + max(2 × FIRERATE, RELOAD_SPEED) for AMMO ≥ 2 (max(FIRERATE, RELOAD_SPEED) for AMMO = 1).'),
-          h('li', null, 'Projectile pools grow on demand up to ' + (D.constants.maxPoolSize || 256) + ' projectiles, so they no longer cap the fire rate.'))),
+          h('li', null, 'Laser, Core, rocket and Bullet Dispenser projectiles are data in ProjectileSystem, which has no cap. Pulses are pooled GameObjects; the pool grows on demand up to ' + (D.constants.maxPoolSize || 4096) + ' pulses, so neither caps the fire rate in practice.'))),
       sec('Hit chance (model)',
         P(['Laser and Core towers lead their shots (AimUtility.PredictIntercept): a shot hits if it can reach the intercept point before LIFETIME ends; spread is judged against a target at the intercept distance, and ' + Math.round((st.leadEfficiency || 0.9) * 100) + '% of reachable shots are assumed to hit because paths turn after the shot (setting "leadEfficiency"). Un-guided rockets and starfighter cannons aim at the current position (no lead), get a random pitch/yaw of ±(1 − ACCURACY) × 25°, then fly straight; a hit happens when the closest approach is ≤ enemy radius (' + fmt(E.enemyRadius, 3) + ') + projectile radius.']),
         P(['The Bullet Dispenser never aims: every barrel fires along its fixed direction in the face plane. For each anchor the engine measures how much path lies inside each barrel\'s bullet tube (radius = hit radius, length = SPEED × LIFETIME). A lone enemy is hit by a volley with the share of its in-range path that a tube covers; in crowds every barrel hits up to PIERCING of the enemies inside its tube. Placement next to the path, with the ring plane along it, is everything for this tower.']),
