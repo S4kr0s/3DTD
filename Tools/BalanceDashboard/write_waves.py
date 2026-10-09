@@ -141,6 +141,93 @@ def assign_to_prefab(prefab, guids):
     return comp
 
 
+MOD_ITEM = '    - target:'
+MOD_FIELDS = ('target', 'propertyPath', 'value', 'objectReference')
+
+
+def split_modifications(block):
+    """Splits a PrefabInstance block at its m_Modifications list.
+
+    Returns (head, items, tail): head ends with the '    m_Modifications:' line, items is one string per
+    '    - target:' entry including Unity's wrapped continuation lines (indented deeper than the entry's
+    fields), tail starts at the next field of m_Modification ('    m_RemovedComponents:' ...)."""
+    lines = block.splitlines(True)
+    try:
+        k = next(i for i, l in enumerate(lines) if l.rstrip('\n') in ('    m_Modifications:', '    m_Modifications: []'))
+    except StopIteration:
+        raise SystemExit('PrefabInstance block has no m_Modifications list')
+    head = ''.join(lines[:k]) + '    m_Modifications:\n'
+    items = []
+    i = k + 1
+    if lines[k].rstrip('\n') == '    m_Modifications:':
+        while i < len(lines) and lines[i].startswith('    - '):
+            if not lines[i].startswith(MOD_ITEM):
+                raise SystemExit('Unexpected m_Modifications entry: %r' % lines[i])
+            j = i + 1
+            while j < len(lines) and lines[j].startswith('      '):
+                j += 1
+            items.append(''.join(lines[i:j]))
+            i = j
+    return head, items, ''.join(lines[i:])
+
+
+def parse_modification(item):
+    """Parses one m_Modifications entry into {field: value}, joining wrapped continuation lines.
+    Raises SystemExit when the entry doesn't have exactly the four fields Unity writes."""
+    fields = {}
+    key = None
+    for n, line in enumerate(item.splitlines()):
+        if n == 0:
+            line = '      ' + line[len('    - '):]
+        m = re.match(r'      (\w+):(?: (.*))?$', line)
+        if m:
+            key = m.group(1)
+            if key in fields:
+                raise SystemExit('Duplicate %s in m_Modifications entry:\n%s' % (key, item))
+            fields[key] = m.group(2) or ''
+        elif key and line.startswith('        '):
+            fields[key] += ' ' + line.strip()
+        else:
+            raise SystemExit('Malformed m_Modifications entry:\n%s' % item)
+    if tuple(fields) != MOD_FIELDS:
+        raise SystemExit('m_Modifications entry has fields %s, expected %s:\n%s' % (list(fields), list(MOD_FIELDS), item))
+    for f in ('target', 'objectReference'):
+        if not re.match(r'^\{[^{}]*\}$', fields[f]):
+            raise SystemExit('m_Modifications entry has a malformed %s:\n%s' % (f, item))
+    return fields
+
+
+def is_waves_override(fields, comp, sp_guid):
+    t = re.match(r'\{fileID: (-?\d+), guid: (\w+), type: 3\}$', fields['target'])
+    return bool(t) and t.group(1) == comp and t.group(2) == sp_guid and fields['propertyPath'].strip("'").startswith('waves.Array.')
+
+
+def find_prefab_instance(text, source_guid):
+    """(start, end) of the PrefabInstance block whose m_SourcePrefab is source_guid (m_SourcePrefab may be wrapped)."""
+    m = re.search(r'--- !u!1001 &-?\d+\nPrefabInstance:\n(?:  .*\n)*?  m_SourcePrefab: \{fileID: 100100000, guid: %s,\s+type: 3\}\n' % source_guid, text)
+    return (m.start(), m.end()) if m else None
+
+
+def check_nested_waves(text, comp, sp_guid, guids, other_count):
+    """Re-parses the written block and fails loudly unless every entry is well formed, the other overrides are
+    untouched and the waves overrides are exactly the new list."""
+    span = find_prefab_instance(text, sp_guid)
+    if not span:
+        raise SystemExit('Spawner instance vanished after writing')
+    _, items, tail = split_modifications(text[span[0]:span[1]])
+    if not tail.startswith('    m_RemovedComponents:'):
+        raise SystemExit('m_Modifications is not followed by m_RemovedComponents:\n%s' % tail[:200])
+    parsed = [parse_modification(it) for it in items]
+    waves = [f for f in parsed if is_waves_override(f, comp, sp_guid)]
+    if len(parsed) - len(waves) != other_count:
+        raise SystemExit('Other overrides changed: %d before, %d after' % (other_count, len(parsed) - len(waves)))
+    expected = [('waves.Array.size', str(len(guids)), '{fileID: 0}')] + [
+        ('waves.Array.data[%d]' % i, '', '{fileID: 11400000, guid: %s, type: 2}' % g) for i, g in enumerate(guids)]
+    got = [(f['propertyPath'].strip("'"), f['value'], f['objectReference']) for f in waves]
+    if got != expected:
+        raise SystemExit('waves overrides were not written as expected')
+
+
 def assign_to_nested(container, spawner_prefab, guids):
     """List overrides on the Spawner prefab instance nested in a container prefab."""
     sp_text, _ = read_text(spawner_prefab)
@@ -148,23 +235,22 @@ def assign_to_nested(container, spawner_prefab, guids):
     sp_guid = meta_guid(spawner_prefab)
     text, crlf = read_text(container)
     text = text.replace('\r\n', '\n')
-    # the PrefabInstance block whose m_SourcePrefab is the spawner prefab
-    for m in re.finditer(r'--- !u!1001 &-?\d+\nPrefabInstance:\n((?:  .*\n)*?)  m_SourcePrefab: \{fileID: 100100000, guid: %s, type: 3\}\n' % sp_guid, text):
-        block_start, block_end = m.start(), m.end()
-        block = text[block_start:block_end]
-        # drop old waves overrides
-        block = re.sub(r'    - target: \{fileID: %s, guid: %s,?\s*\n?\s*type: 3\}\n      propertyPath: \'?waves\.Array[^\n]*\n      value:[^\n]*\n      objectReference:[^\n]*\n' % (comp, sp_guid), '', block)
-        target = '    - target: {fileID: %s, guid: %s, type: 3}\n' % (comp, sp_guid)
-        mods = target + '      propertyPath: waves.Array.size\n      value: %d\n      objectReference: {fileID: 0}\n' % len(guids)
-        for i, g in enumerate(guids):
-            mods += target + "      propertyPath: 'waves.Array.data[%d]'\n      value: \n      objectReference: {fileID: 11400000, guid: %s, type: 2}\n" % (i, g)
-        anchor = '    m_RemovedComponents:'
-        k = block.index(anchor)
-        block = block[:k] + mods + block[k:]
-        text = text[:block_start] + block + text[block_end:]
-        write_text(container, text, crlf)
-        return comp
-    raise SystemExit('%s has no instance of %s' % (container, spawner_prefab))
+    span = find_prefab_instance(text, sp_guid)
+    if not span:
+        raise SystemExit('%s has no instance of %s' % (container, spawner_prefab))
+    head, items, tail = split_modifications(text[span[0]:span[1]])
+    # drop old waves overrides, keep everything else as written (wrapped lines included)
+    keep = [it for it in items if not is_waves_override(parse_modification(it), comp, sp_guid)]
+    target = '    - target: {fileID: %s, guid: %s, type: 3}\n' % (comp, sp_guid)
+    mods = target + '      propertyPath: waves.Array.size\n      value: %d\n      objectReference: {fileID: 0}\n' % len(guids)
+    for i, g in enumerate(guids):
+        mods += target + "      propertyPath: 'waves.Array.data[%d]'\n      value: \n      objectReference: {fileID: 11400000, guid: %s, type: 2}\n" % (i, g)
+    text = text[:span[0]] + head + ''.join(keep) + mods + tail + text[span[1]:]
+    check_nested_waves(text, comp, sp_guid, guids, len(keep))
+    write_text(container, text, crlf)
+    written, _ = read_text(container)
+    check_nested_waves(written.replace('\r\n', '\n'), comp, sp_guid, guids, len(keep))
+    return comp
 
 
 def update_scene_size_overrides(prefab_guid, comp, size):
