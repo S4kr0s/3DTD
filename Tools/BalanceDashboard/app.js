@@ -1200,7 +1200,7 @@
         h('ul', null,
           h('li', null, 'Magazine towers (Laser, Core, Rocket, Sniper with Magazines): AMMO volleys FIRERATE apart, then RELOAD_SPEED; the first volley after a reload follows FIRERATE later. Period = AMMO × FIRERATE + RELOAD_SPEED.'),
           h('li', null, 'Continuous (Bullet Dispenser, Beam, AMMO ≤ 0): one volley per FIRERATE. Idle towers don\'t bank shots.'),
-          h('li', null, 'Starfighter cannons: the cooldown keeps running during the reload and banks at most one shot: period = (AMMO − 1) × FIRERATE + max(FIRERATE, RELOAD_SPEED).'),
+          h('li', null, 'Starfighter cannons: the cooldown keeps running during the reload and banks at most one shot, so a reload of at least 2 × FIRERATE ends with two shots at once: period = (AMMO − 2) × FIRERATE + max(2 × FIRERATE, RELOAD_SPEED) for AMMO ≥ 2 (max(FIRERATE, RELOAD_SPEED) for AMMO = 1).'),
           h('li', null, 'Projectile pools grow on demand up to ' + (D.constants.maxPoolSize || 256) + ' projectiles, so they no longer cap the fire rate.'))),
       sec('Hit chance (model)',
         P(['Laser and Core towers lead their shots (AimUtility.PredictIntercept): a shot hits if it can reach the intercept point before LIFETIME ends; spread is judged against a target at the intercept distance, and ' + Math.round((st.leadEfficiency || 0.9) * 100) + '% of reachable shots are assumed to hit because paths turn after the shot (setting "leadEfficiency"). Un-guided rockets and starfighter cannons aim at the current position (no lead), get a random pitch/yaw of ±(1 − ACCURACY) × 25°, then fly straight; a hit happens when the closest approach is ≤ enemy radius (' + fmt(E.enemyRadius, 3) + ') + projectile radius.']),

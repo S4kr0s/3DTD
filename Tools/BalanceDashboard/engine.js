@@ -464,7 +464,9 @@
    *   magazine/sniper (AMMO > 0): AMMO volleys FIRERATE apart, then RELOAD_SPEED; the first volley after a
    *     reload follows FIRERATE later (cooldown doesn't tick while reloading): period = AMMO*I + R.
    *   continuous (AMMO <= 0 or interval kinds): one volley every I.
-   *   hangar (Starfighter.TryFireCannons): cooldown keeps ticking during the reload: period = (AMMO-1)*I + max(I, R).
+   *   hangar (Starfighter.TryFireCannons): the cooldown keeps ticking during the reload and banks at most one shot
+   *     (it never drops below -I), so a reload of R >= 2I ends with two shots at once:
+   *     period = (AMMO-2)*I + max(2I, R) for AMMO >= 2, max(I, R) for AMMO = 1.
    */
   E.fireInterval = (st) => Math.max(MIN_FIRE_INTERVAL, st.FIRERATE);
   E.fireCycle = function (kind, st, opts) {
@@ -479,7 +481,7 @@
         period = perPeriod * I + R;
       } else if (kind === 'hangar' && A > 0 && R > 0) {
         perPeriod = Math.ceil(A);
-        period = (perPeriod - 1) * I + Math.max(I, R);
+        period = perPeriod >= 2 ? (perPeriod - 2) * I + Math.max(2 * I, R) : Math.max(I, R);
       }
       const rate = perPeriod / period;
       return { rate, first: 0, burstRate: 1 / I, frameLimited: false, never: rate <= 0, period, perPeriod,
@@ -494,6 +496,7 @@
     const I = E.fireInterval(st);
     const times = [], reloads = [];
     if (c.never) return { times, reloads };
+    if (kind === 'hangar') return hangarFireTimes(st, I, seconds);
     let t = 0;
     while (t <= seconds && times.length < 4000) {
       for (let k = 0; k < c.perPeriod && t <= seconds; k++) {
@@ -501,13 +504,33 @@
         if (k < c.perPeriod - 1) t += I;
       }
       if (c.perPeriod > 1 || c.period > I + 1e-9) {
-        const reloadEnd = kind === 'hangar' ? t + Math.max(I, st.RELOAD_SPEED) : t + st.RELOAD_SPEED;
+        const reloadEnd = t + st.RELOAD_SPEED;
         if (st.RELOAD_SPEED > 0) reloads.push([t, Math.min(seconds, reloadEnd)]);
-        t = kind === 'hangar' ? reloadEnd : reloadEnd + I;
+        t = reloadEnd + I;
       } else t += I;
     }
     return { times, reloads };
   };
+  // Starfighter.TryFireCannons / UpdateCannonCooldown replayed in continuous time (target always in the cone)
+  function hangarFireTimes(st, I, seconds) {
+    const A = Math.ceil(st.AMMO), R = Math.max(0, st.RELOAD_SPEED || 0);
+    const times = [], reloads = [];
+    let t = 0, cd = 0, mag = A;
+    while (t <= seconds && times.length < 4000) {
+      times.push(t);
+      cd += I;
+      if (--mag <= 0) {
+        mag = A;
+        if (R > 0) {
+          reloads.push([t, Math.min(seconds, t + R)]);
+          cd = Math.max(cd - R, -I);
+          t += R;
+        }
+      }
+      if (cd > 0) { t += cd; cd = 0; }
+    }
+    return { times, reloads };
+  }
 
   // ----------------------------------------------------------------------------------- hit chance
 
