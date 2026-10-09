@@ -44,6 +44,22 @@ Results:
 - EditMode 58/58, UIPlaytest 34/34.
 - UICapture screenshots are clean (no magenta, all TMP text visible; full-name subtitles show). Its log has the known NullReferenceException from the legacy "Minigun Tower" shooting points (see the Unity 6 upgrade notes).
 
+## Sprint 3: effects (`fix/review-s3`)
+Done (the perf parity pairing fix moved to sprint 1):
+- **Paused frames:** `FlightBatch.Update` with deltaTime 0 zeroes the follower deltas and scale ratios and still draws the trails.
+- **Glow lag:** fresh flights get `Delta = Position − Previous` (their distance stays 0).
+- **Trail length:** `TrailMesh.Writer.Add` compares with the last fixed point (head − 1) and fixes a point only after `minVertexDistance` and `trailTime / (PointsPerTrail − 2)`, so the 8-point ring always spans the authored trail time.
+- **Trail redraw:** built only up to the highest live or fading id (`FlightBatch.TrailTop`), skipped at 0; the unread `vertexCount` array is gone.
+- **BatchedEffect:** poses are stored inline in `Request`/`Stream`; the `plays` list is gone.
+- **Light budget:** `EffectPlayer` keeps a fixed array of `LightBudget` slots (free slot or steal the oldest ticket).
+- **Shared setup:** `Effects/ParticleBatching.cs` (`CanBatch`, `NeedsRotate3D`, `ConfigureShared`, `EnsureBuffer`) used by both backends; FlightBatch now also clamps particle lights to `MaxLightsPerSystem`.
+- **Dead code:** `ProjectileSystem.DefaultEnemyRadius` and `ProjectileArchetype.IsSimulated` removed; `UnityEngine.Object` qualified in `EffectPool` and `TrailMesh`.
+
+Results:
+- EditMode 58/58; the dev player builds.
+- `-perfSuite core` in the dev player ran while the machine was busy with other work (load average 18–23), so its numbers can't be compared with the baselines: S1-1x 8.3/13.1/16.6/361.8 ms, S1-5x 9.1/13.7/16.4/21.7, S2 11.5/13.5/14.6/29.7, S3 12.2/13.8/14.5/16.8 (p50/p95/p99/max). That is 2–3 ms slower at p50 than the projectile visuals baseline. Game speed held (0.99x/5.00x/1.00x/5.00x), and every projectile and effect played.
+- Not run (machine tests stopped because of other load): the `V` and `fx` screenshot suites, `-perfProfile` + `ProfileReport`, and a core rerun on an idle machine.
+
 # Handoff: performance overhaul (branch `perf/overhaul`)
 
 Started 2026-10-04. The plan is in `~/.claude/plans/analyze-the-codebase-and-dazzling-waterfall.md`.
