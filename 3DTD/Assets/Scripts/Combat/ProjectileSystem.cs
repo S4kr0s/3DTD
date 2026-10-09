@@ -694,7 +694,8 @@ public class ProjectileSystem : MonoBehaviour
                 {
                     if (Contains(ref tested, slot))
                         continue;
-                    if (tested.Length < tested.Capacity)
+                    bool testedFull = tested.Length >= tested.Capacity;
+                    if (!testedFull)
                         tested.Add(slot);
 
                     int serial = EnemySerials[slot];
@@ -705,6 +706,10 @@ public class ProjectileSystem : MonoBehaviour
                     float3 e0 = math.lerp(EnemyPrevious[slot], e1, windowStart);
                     float radius = s.Radius + EnemyRadii[slot];
                     if (!Sweep(back - e0, front - e1, radius, out float t))
+                        continue;
+
+                    // Past the tested list's capacity an enemy that spans several cells is met again
+                    if (testedFull && IsHit(baseIndex, found, slot))
                         continue;
 
                     // Insert sorted by time, keep the earliest MaxHitsPerStep
@@ -722,6 +727,16 @@ public class ProjectileSystem : MonoBehaviour
                 while (Grid.TryGetNextValue(out slot, ref iterator));
             }
             return found;
+        }
+
+        private bool IsHit(int baseIndex, int found, int slot)
+        {
+            for (int k = 0; k < found; k++)
+            {
+                if (Hits[baseIndex + k].Slot == slot)
+                    return true;
+            }
+            return false;
         }
 
         private static bool Contains(ref FixedList128Bytes<int> list, int value)
