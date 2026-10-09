@@ -14,7 +14,8 @@ public static class GameOptions
 
     public static readonly int[] FrameLimits = { 30, 60, 120, -1 };
     public static readonly int[] MsaaSamples = { 1, 2, 4 };
-    public static readonly float[] InterfaceScales = { 0.9f, 1f, 1.15f };
+    // Matches the Options labels 90 / 100 / 110 %
+    public static readonly float[] InterfaceScales = { 0.9f, 1f, 1.1f };
 
     [Serializable]
     public class Values
@@ -60,7 +61,7 @@ public static class GameOptions
             if (resolutionWidth != other.resolutionWidth || resolutionHeight != other.resolutionHeight) count++;
             if (frameLimit != other.frameLimit) count++;
             if (vSync != other.vSync) count++;
-            if (quality != other.quality) count++;
+            if (EffectiveQuality(quality) != EffectiveQuality(other.quality)) count++;
             if (!Mathf.Approximately(renderScale, other.renderScale)) count++;
             if (bloom != other.bloom) count++;
             if (antiAliasing != other.antiAliasing) count++;
@@ -94,10 +95,28 @@ public static class GameOptions
     public static bool RangeOnHover => Current.rangeOnHover;
     public static float InterfaceScale => InterfaceScales[Mathf.Clamp(Current.interfaceScale, 0, InterfaceScales.Length - 1)];
 
+    // Quality -1 means the project's own level. It is captured once, before any options are applied: reading the
+    // current level later would turn the player's choice into the "default" and Reset would never undo it.
+    private static int projectQuality = -1;
+
+    private static void CaptureProjectQuality()
+    {
+        if (projectQuality < 0)
+            projectQuality = QualitySettings.GetQualityLevel();
+    }
+
+    // The quality level a stored value stands for
+    public static int EffectiveQuality(int quality)
+    {
+        CaptureProjectQuality();
+        return quality >= 0 ? quality : projectQuality;
+    }
+
     public static Values Defaults()
     {
+        CaptureProjectQuality();
         Values values = new Values();
-        values.quality = QualitySettings.GetQualityLevel();
+        values.quality = -1;
         return values;
     }
 
@@ -153,15 +172,17 @@ public static class GameOptions
 
     public static void ApplyAll()
     {
+        CaptureProjectQuality();
         Values values = Current;
         ApplyDisplay(values);
 
-        if (values.quality >= 0 && values.quality < QualitySettings.names.Length && values.quality != QualitySettings.GetQualityLevel())
+        int quality = EffectiveQuality(values.quality);
+        if (quality >= 0 && quality < QualitySettings.names.Length && quality != QualitySettings.GetQualityLevel())
         {
 #if UNITY_EDITOR
             RememberEditorQuality();
 #endif
-            QualitySettings.SetQualityLevel(values.quality, true);
+            QualitySettings.SetQualityLevel(quality, true);
         }
 
         QualitySettings.vSyncCount = values.vSync ? 1 : 0;

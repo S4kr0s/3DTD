@@ -67,7 +67,7 @@ public class OptionRow : MonoBehaviour
             case OptionSetting.Resolution: BindResolution(values); break;
             case OptionSetting.FrameLimit: segmented.SetValue(values.frameLimit, false); break;
             case OptionSetting.VSync: toggle.SetIsOn(values.vSync, false); break;
-            case OptionSetting.Quality: segmented.SetValue(Mathf.Clamp(values.quality, 0, segmented.Count - 1), false); break;
+            case OptionSetting.Quality: segmented.SetValue(Mathf.Clamp(GameOptions.EffectiveQuality(values.quality), 0, segmented.Count - 1), false); break;
             case OptionSetting.RenderScale: slider.SetValueWithoutNotify(values.renderScale); break;
             case OptionSetting.Bloom: toggle.SetIsOn(values.bloom, false); break;
             case OptionSetting.AntiAliasing: segmented.SetValue(values.antiAliasing, false); break;
