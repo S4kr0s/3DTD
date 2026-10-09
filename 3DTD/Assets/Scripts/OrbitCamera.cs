@@ -161,7 +161,8 @@ public class OrbitCamera : MonoBehaviour
 			float t = 1f;
 			if (distance > 0.01f && focusCentering > 0f)
 			{
-				t = Mathf.Pow(1f - focusCentering, Time.deltaTime);
+				// Unscaled like the rest of the camera: with scaled time the focus froze while paused and jumped on resume
+				t = Mathf.Pow(1f - focusCentering, Time.unscaledDeltaTime);
 			}
 			if (distance > focusRadius)
 			{
