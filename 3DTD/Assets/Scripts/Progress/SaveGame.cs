@@ -21,6 +21,8 @@ public class SaveGame
         public List<int> pathTiers = new List<int>();
         public bool hasAim;
         public Quaternion aimRotation;
+        // The aim slider's value (Tower.AimAngle); -1 in saves from before it was stored
+        public float aimAngle = -1f;
     }
 
     public string sceneName;
@@ -124,6 +126,7 @@ public class SaveGame
                 {
                     saved.hasAim = true;
                     saved.aimRotation = tower.Rotationbase.transform.rotation;
+                    saved.aimAngle = tower.AimAngle;
                 }
             }
             save.buildings.Add(saved);
@@ -199,7 +202,12 @@ public class SaveGame
             }
             tower.UpgradeManager.CheckPathBlocking();
             if (saved.hasAim && tower.Rotationbase != null)
-                tower.Rotationbase.transform.rotation = saved.aimRotation;
+            {
+                if (saved.aimAngle >= 0f)
+                    tower.RotateTower(saved.aimAngle);
+                else
+                    tower.Rotationbase.transform.rotation = saved.aimRotation;
+            }
         }
     }
 }

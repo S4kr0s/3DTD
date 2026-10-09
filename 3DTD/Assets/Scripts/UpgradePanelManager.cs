@@ -153,7 +153,8 @@ public class UpgradePanelManager : MonoBehaviour
         {
             targetingStepper.SetIndex((int)shownTower.TargetBehaviour, false);
             if (aimRow.activeSelf)
-                aimSlider.SetValueWithoutNotify(shownTower.Rotationbase.transform.localEulerAngles.y);
+                // The euler angles of the rotation base only match the slider for towers on top faces
+                aimSlider.SetValueWithoutNotify(shownTower.AimAngle >= 0f ? shownTower.AimAngle : shownTower.Rotationbase.transform.localEulerAngles.y);
             BuildRows();
             for (int i = 0; i < statTiles.Length && i < TowerStatInfo.Grid.Length; i++)
                 statTiles[i].Set(TowerStatInfo.Grid[i], "");

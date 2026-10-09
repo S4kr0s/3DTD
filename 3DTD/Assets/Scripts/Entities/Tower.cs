@@ -103,9 +103,13 @@ public class Tower : Building
     }
     */
 
+    // The last value passed to RotateTower (the aim slider's value), -1 while the tower was never aimed
+    public float AimAngle { get; private set; } = -1f;
+
     // THIS NEEDS TO BE FIXED ASAP. Rotation way too hard. Can't get it to work on all placement directions for some reason..
     public void RotateTower(float rotationValue)
     {
+        AimAngle = rotationValue;
         Vector3 localUp = this.rotationBase.transform.up; 
         localUp.Normalize();
         localUp = GetNearestDirection(localUp);
